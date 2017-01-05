@@ -69,5 +69,5 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:ShiningDan/shiningdan.github.io.git
+  repo: https://github.com/ShiningDan/shiningdan.github.io.git
   branch: master
