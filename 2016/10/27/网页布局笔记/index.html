@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页布局笔记 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在该笔记中，将学到的是多种不同的网页风格的实现或者多种不同风格的组件实现方法
+网页布局基础使用 CSS 实现不同的网页布局，其中最重要的是理解 CSS 中的 3 种定位机制，分别是：
+
+标准文档流( Normal flow )：从左到右，从上到下，输出文档的内容。由块级元素和行级元素组成
+浮动( Floats )
+绝对定位( Absolute position )
+
+块级元素：从左到右撑满页面，独">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页布局笔记">
+<meta property="og:url" content="http://yoursite.com/2016/10/27/网页布局笔记/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在该笔记中，将学到的是多种不同的网页风格的实现或者多种不同风格的组件实现方法
+网页布局基础使用 CSS 实现不同的网页布局，其中最重要的是理解 CSS 中的 3 种定位机制，分别是：
+
+标准文档流( Normal flow )：从左到右，从上到下，输出文档的内容。由块级元素和行级元素组成
+浮动( Floats )
+绝对定位( Absolute position )
+
+块级元素：从左到右撑满页面，独">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/gif/%E7%9B%92%E6%A8%A1%E5%9E%8B.gif">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img3.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img2.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img4.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img5.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img6.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img7.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img8.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img9.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img10.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img11.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img12.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img13.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img14.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img15.PNG">
+<meta property="og:updated_time" content="2016-10-27T09:09:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页布局笔记">
+<meta name="twitter:description" content="在该笔记中，将学到的是多种不同的网页风格的实现或者多种不同风格的组件实现方法
+网页布局基础使用 CSS 实现不同的网页布局，其中最重要的是理解 CSS 中的 3 种定位机制，分别是：
+
+标准文档流( Normal flow )：从左到右，从上到下，输出文档的内容。由块级元素和行级元素组成
+浮动( Floats )
+绝对定位( Absolute position )
+
+块级元素：从左到右撑满页面，独">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/gif/%E7%9B%92%E6%A8%A1%E5%9E%8B.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页布局笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/27/网页布局笔记/" class="article-date">
+  <time datetime="2016-10-27T08:52:54.000Z" itemprop="datePublished">2016-10-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页布局笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中，将学到的是多种不同的网页风格的实现或者多种不同风格的组件实现方法</strong></p>
+<h2 id="网页布局基础"><a href="#网页布局基础" class="headerlink" title="网页布局基础"></a>网页布局基础</h2><p>使用 CSS 实现不同的网页布局，其中最重要的是理解 CSS 中的 3 种定位机制，分别是：</p>
+<ol>
+<li>标准文档流( Normal flow )：从左到右，从上到下，输出文档的内容。由块级元素和行级元素组成</li>
+<li>浮动( Floats )</li>
+<li>绝对定位( Absolute position )</li>
+</ol>
+<p><strong>块级元素</strong>：从左到右撑满页面，独占一行，碰到页面边缘会自动换行。(div, ul, li, dl, dt, p …)</p>
+<p><strong>行级元素</strong>：在同一行内显示，不会独占一行，不会改变文档的结构。(span, strong, img, input …)</p>
+<p><strong>块级元素和行级元素都是盒子模型的基础</strong></p>
+<p><strong>盒(框)模型示意</strong>：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/gif/%E7%9B%92%E6%A8%A1%E5%9E%8B.gif" alt=""></p>
+<a id="more"></a>
+<h2 id="自动居中一列布局"><a href="#自动居中一列布局" class="headerlink" title="自动居中一列布局"></a>自动居中一列布局</h2><p>实现方法：标准文档流，块级元素，margin 属性</p>
+<p>首先定义网页的一列布局：比如网页的布局是 header，mainbody 和 footer，则定义代码与显示如下：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;盒模型练习&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            #header{
+                height:120px;
+                width:100%;
+                border:2px solid red;
+            }
+            #mainbody{
+                height:120px;
+                width:100%;
+                border:2px solid blue;
+            }
+            #footer{
+                height:120px;
+                width:100%;
+                border:2px solid green;
+            }
+            .content{
+                border:4px solid #badbdb;
+            }
+            img{
+                margin:10px 18px;
+                width:80px;
+                height:80px;
+                border:1px solid gray; 
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;header&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;mainbody&quot;&gt;
+            &lt;div class=&quot;content&quot;&gt;
+                &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img3.PNG" alt=""></p>
+<p><strong>当需要把一列布局自动居中，则需要使用一个包裹 div 将需要居中的内容进行包裹，然后设置 div#wrap 的 width 和左右的 margin auto：</strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;盒模型练习&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            #wrap{
+                width:770px;
+                margin:0 auto;
+            }
+            #header{
+                height:120px;
+                width:100%;
+                border:2px solid red;
+            }
+            #mainbody{
+                height:120px;
+                width:100%;
+                border:2px solid blue;
+            }
+            #footer{
+                height:120px;
+                width:100%;
+                border:2px solid green;
+            }
+            .content{
+                border:4px solid #badbdb;
+            }
+            img{
+                margin:10px 18px;
+                width:80px;
+                height:80px;
+                border:1px solid gray; 
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;wrap&quot;&gt;
+            &lt;div id=&quot;header&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;mainbody&quot;&gt;
+                &lt;div class=&quot;content&quot;&gt;
+                    &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                    &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                    &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                    &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                    &lt;img src=&quot;./images/image1.jpg&quot;&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>这个时候，被 wrap 框住的内容的 width 被设置成 770px，并且被自动居中。<strong>如果不设置 wrap 的 width，则默认的宽度为 100%，则自动居中没有效果。</strong></p>
+<p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img2.PNG" alt=""></p>
+<p><strong>解释：当 margin 被设置成 auto 的时候，它的宽度的就会根据浏览器的宽度进行自动的计算，计算原理为              (浏览器的宽度-外包含层的宽度)/2=外边距</strong></p>
+<p>但是如果 wrap 设置了浮动(float)或者定位属性(position)，或者则自动居中将没有效果。</p>
+<hr>
+<h2 id="横向两列布局"><a href="#横向两列布局" class="headerlink" title="横向两列布局"></a>横向两列布局</h2><h3 id="浮动属性-float-的一些表现"><a href="#浮动属性-float-的一些表现" class="headerlink" title="浮动属性 float 的一些表现"></a>浮动属性 float 的一些表现</h3><p><strong>使用浮动属性(float)可以实现块级元素的横向多列布局</strong></p>
+<p>float 可以设置的属性值有 left，right 和 none。设置的 float 的块元素的特点是元素会左移或者右移，直到触碰到其他的容器为止。<strong>设置了浮动属性的元素，仍处于标准文档流之中，并且会对紧邻它的元素位置产生影响(如果紧邻元素也是块元素，则该块元素不会独占一行，而是与前一元素合并为同一行)。</strong></p>
+<p>例如：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;float测试&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            #box1{
+                background-color:red;
+                height:50px;
+                float:left;
+                width:200px;
+            }
+            #box2{
+                background-color:blue;
+                height:50px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;box1&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;box2&quot;&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img4.PNG" alt=""></p>
+<p><strong>注意</strong>：设置的 float 属性的元素，会自动压缩元素的宽度。如果元素中没有内容或者元素没有设置宽度，则元素会被自动压缩成一个小圆点。<strong>也就是浮动元素的宽度随着内容的变化而变化</strong>。</p>
+<p>例如：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;float测试&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            #box1{
+                background-color:red;
+                height:50px;
+                float:left;
+            }
+            #box2{
+                background-color:green;
+                height:50px;
+                float:right;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;this is a para&lt;/p&gt;
+        &lt;div id=&quot;box1&quot;&gt;box1box1box1&lt;/div&gt;
+        &lt;div id=&quot;box2&quot;&gt;box2box2&lt;/div&gt;
+        &lt;p&gt;this is a para&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img5.PNG" alt=""></p>
+<p>为了消除上一个元素的浮动属性对下一个元素造成影响的情况出现，我们需要清除浮动。</p>
+<h3 id="清除浮动的方法"><a href="#清除浮动的方法" class="headerlink" title="清除浮动的方法"></a>清除浮动的方法</h3><p>为了消除上一个元素的浮动属性对下一个元素造成影响的情况出现，我们需要清除浮动。<strong>下面有两种清除浮动的方法</strong>：</p>
+<ol>
+<li><strong>可以设置clean属性</strong>：通过 clear:both 命令可以清除受到影响的元素的浮动，如果明确地知道浮动受到影响的方向，也可以使用 clear:left 或者 clear:right</li>
+<li>可以同时设置 <strong>width:100%(或者固定宽度) + overflow:hidden</strong></li>
+</ol>
+<p>下面演示的是使用 clear:both 来清除浮动：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;float测试&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            #box1{
+                background-color:red;
+                height:50px;
+                float:left;
+            }
+            #box2{
+                background-color:green;
+                height:50px;
+                float:right;
+            }
+            #secondp{
+                clear:both;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;this is a para&lt;/p&gt;
+        &lt;div id=&quot;box1&quot;&gt;box1box1box1&lt;/div&gt;
+        &lt;div id=&quot;box2&quot;&gt;box2box2&lt;/div&gt;
+        &lt;p id=&quot;secondp&quot;&gt;this is a para&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img6.PNG" alt=""></p>
+<h3 id="两种清除浮动方法的选择"><a href="#两种清除浮动方法的选择" class="headerlink" title="两种清除浮动方法的选择"></a>两种清除浮动方法的选择</h3><p><strong>如果浮动元素没有紧邻的下一个元素，则需要对包裹该浮动元素的父元素清除浮动，否则会发生父元素崩塌的情况出现(父元素的范围无法包裹子元素)。</strong></p>
+<p>如果在父元素上使用 clear:both 清除浮动，结果无效！：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;横向两列布局&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            #wrap{
+                margin:0 auto;
+                width:540px;
+                border:2px solid black;
+            }
+            #header{
+                height:100px;
+                background-color:red;
+            }
+            #footer{
+                height:100px;
+                background-color:green;
+            }
+            #mainbody{
+                clear:both;
+                border:2px solid blue;
+            }
+            #mainleft{
+                height:200px;
+                width:400px;
+                float:left;
+                background-color:red;
+            }
+            #mainright{
+                height:200px;
+                width:100px;
+                float:left;
+                background-color:green;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;wrap&quot;&gt;
+            &lt;div id=&quot;header&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;mainbody&quot;&gt;
+                &lt;div id=&quot;mainleft&quot;&gt;&lt;/div&gt;
+                &lt;div id=&quot;mainright&quot;&gt;&lt;/div&gt;            
+            &lt;/div&gt;
+            &lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img7.PNG" alt=""></p>
+<p>如图所示，父元素并没有成功地包裹住子元素。</p>
+<p>所以在这时，只能使用 overflow:hidden 来对父元素清除浮动：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;横向两列布局&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            #wrap{
+                margin:0 auto;
+                width:540px;
+                border:2px solid black;
+            }
+            #header{
+                height:100px;
+                background-color:red;
+            }
+            #footer{
+                height:100px;
+                background-color:green;
+            }
+            #mainbody{
+                clear:both;
+                border:2px solid blue;
+                overflow:hidden;
+            }
+            #mainleft{
+                height:200px;
+                width:400px;
+                float:left;
+                background-color:red;
+            }
+            #mainright{
+                height:200px;
+                width:100px;
+                float:left;
+                background-color:green;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;wrap&quot;&gt;
+            &lt;div id=&quot;header&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;mainbody&quot;&gt;
+                &lt;div id=&quot;mainleft&quot;&gt;&lt;/div&gt;
+                &lt;div id=&quot;mainright&quot;&gt;&lt;/div&gt;            
+            &lt;/div&gt;
+            &lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img8.PNG" alt=""></p>
+<p>如图所示，父元素 mainbody 成功地包裹住了子元素 mainleft 和 mainright。</p>
+<h3 id="横向两列布局的实现"><a href="#横向两列布局的实现" class="headerlink" title="横向两列布局的实现"></a>横向两列布局的实现</h3><p>实现方法：float，margin</p>
+<p><strong>使用 float 属性使纵向排列的块级元素横向排列</strong></p>
+<p><strong>使用 margin 属性设置两列之间的距离</strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;横向两列布局&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            #wrap{
+                margin:0 auto;
+                width:540px;
+                border:2px solid black;
+            }
+            #header{
+                height:100px;
+                background-color:red;
+            }
+            #footer{
+                height:100px;
+                background-color:green;
+            }
+            #mainbody{
+                clear:both;
+                border:2px solid blue;
+                overflow:hidden;
+            }
+            #mainleft{
+                height:200px;
+                width:400px;
+                float:left;
+                background-color:red;
+                margin-right:36px;
+            }
+            #mainright{
+                height:200px;
+                width:100px;
+                float:right;
+                background-color:green;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;wrap&quot;&gt;
+            &lt;div id=&quot;header&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;mainbody&quot;&gt;
+                &lt;div id=&quot;mainleft&quot;&gt;&lt;/div&gt;
+                &lt;div id=&quot;mainright&quot;&gt;&lt;/div&gt;            
+            &lt;/div&gt;
+            &lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img9.PNG" alt=""></p>
+<p><strong>比较推荐 mainleft 和 mainright 不设置 height，这样可以根据内容高度的大小进行自动包裹内容。</strong></p>
+<p><strong>一些可以参考的使用横向两列布局的网站：</strong><a href="http://pc.qq.com/" target="_blank" rel="external">腾讯软件中心</a></p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img10.PNG" alt=""></p>
+<hr>
+<h2 id="使用绝对定位实现横向两列布局"><a href="#使用绝对定位实现横向两列布局" class="headerlink" title="使用绝对定位实现横向两列布局"></a>使用绝对定位实现横向两列布局</h2><p>使用 position 属性实现定位，可以实现很多复杂的定位效果</p>
+<p><strong>position 的定位效果有三种：静态定位，相对定位和绝对定位。</strong></p>
+<p><strong>静态定位</strong>：元素任然处于标准文档流中<br><strong>相对定位</strong>：相对于自身原有的位置进行偏移，元素任然处于标准文档流中，当设置了相对属性，元素即拥有偏移属性(top，bottom，left，right)和 z-index 属性(空间位置的堆叠)<br><strong>绝对定位</strong>：建立了以包含快为基准的定位，完全脱离了标准文档流，元素即拥有偏移属性(top，bottom，left，right)和 z-index 属性(空间位置的堆叠)</p>
+<p>position 的属性可以是：</p>
+<ol>
+<li>static(静态定位，默认值)</li>
+<li>relative(相对定位)</li>
+<li>absolute(绝对定位)</li>
+<li>fixed(固定定位)，也属于绝对定位</li>
+</ol>
+<h3 id="position-relative-的显示效果"><a href="#position-relative-的显示效果" class="headerlink" title="position:relative 的显示效果"></a>position:relative 的显示效果</h3><ol>
+<li>相对于自身原有的位置进行偏移</li>
+<li>元素任然处于标准文档流中</li>
+<li>当设置了相对属性，元素即拥有偏移属性(top，bottom，left，right)和 z-index 属性(空间位置的堆叠)</li>
+</ol>
+<p><strong>一般使用相对定位 position:relative 作为父包含块的定位基准属性</strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Position Relative演示&lt;/title&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            #box1{
+                background-color: red;
+                height:100px;
+                position:relative;
+                top:25px;
+                left:25px;
+            }
+            #box2{
+                background-color: green;
+                height:100px;
+            }
+            #box3{
+                background-color: blue;
+                height:100px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;box1&quot;&gt;box1&lt;/div&gt;
+        &lt;div id=&quot;box2&quot;&gt;box2&lt;/div&gt;
+        &lt;div id=&quot;box3&quot;&gt;box3&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img11.PNG" alt=""></p>
+<h3 id="position-absolute-的显示效果"><a href="#position-absolute-的显示效果" class="headerlink" title="position:absolute 的显示效果"></a>position:absolute 的显示效果</h3><ol>
+<li>建立了以包含快为基准的定位</li>
+<li>完全脱离了标准文档流</li>
+<li>元素即拥有偏移属性(top，bottom，left，right)和 z-index 属性(空间位置的堆叠)</li>
+</ol>
+<h4 id="当元素没有设置偏移量的时候"><a href="#当元素没有设置偏移量的时候" class="headerlink" title="当元素没有设置偏移量的时候"></a>当元素没有设置偏移量的时候</h4><p><strong>无论是否存在已经定位了的祖先元素，该元素都会保持在元素的初始位置。并且宽度随着内容的变化而变化。</strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Position Relative演示&lt;/title&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            #box1{
+                background-color: red;
+                height:50px;
+                position:absolute;
+            }
+            #box2{
+                background-color: green;
+                height:100px;
+            }
+            #box3{
+                background-color: blue;
+                height:100px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;box1&quot;&gt;box1&lt;/div&gt;
+        &lt;div id=&quot;box2&quot;&gt;box2&lt;/div&gt;
+        &lt;div id=&quot;box3&quot;&gt;box3&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img12.PNG" alt=""></p>
+<h4 id="当元素设置了偏移量的时候"><a href="#当元素设置了偏移量的时候" class="headerlink" title="当元素设置了偏移量的时候"></a>当元素设置了偏移量的时候</h4><h5 id="如果没有已经定位的祖先元素"><a href="#如果没有已经定位的祖先元素" class="headerlink" title="如果没有已经定位的祖先元素"></a>如果没有已经定位的祖先元素</h5><p><strong>会以 html 为偏移参照的基准。</strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Position Relative演示&lt;/title&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            #box1{
+                background-color: red;
+                height:100px;
+            }
+            #wrap{
+                height:100px;
+                border:1px solid black;
+            }
+            #box2{
+                background-color: green;
+                height:50px;
+                width:50px;
+                position:absolute;
+                top:20px;
+            }
+            #box3{
+                background-color: blue;
+                height:100px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;box1&quot;&gt;box1&lt;/div&gt;
+        &lt;div id=&quot;wrap&quot;&gt;
+            &lt;div id=&quot;box2&quot;&gt;box2&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;box3&quot;&gt;box3&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img13.PNG" alt=""></p>
+<h5 id="如果有已经定位的祖先元素"><a href="#如果有已经定位的祖先元素" class="headerlink" title="如果有已经定位的祖先元素"></a>如果有已经定位的祖先元素</h5><p><strong>会以距离其最近的已经定位的祖先元素为偏移参照的基准。</strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Position Relative演示&lt;/title&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            #box1{
+                background-color: red;
+                height:100px;
+            }
+            #wrap{
+                height:100px;
+                border:1px solid black;
+                position:relative;
+            }
+            #box2{
+                background-color: green;
+                height:50px;
+                width:50px;
+                position:absolute;
+                top:20px;
+            }
+            #box3{
+                background-color: blue;
+                height:100px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;box1&quot;&gt;box1&lt;/div&gt;
+        &lt;div id=&quot;wrap&quot;&gt;
+            &lt;div id=&quot;box2&quot;&gt;box2&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;box3&quot;&gt;box3&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img14.PNG" alt=""></p>
+<h3 id="横向两列布局的实现-1"><a href="#横向两列布局的实现-1" class="headerlink" title="横向两列布局的实现"></a>横向两列布局的实现</h3><p>使用绝对定位进行横向两列布局，使用的频率比较少，但是有合适的应用场合：<strong>常用于一列固定宽度，另一列自适应宽度的情况。</strong></p>
+<p>实现方法：</p>
+<ol>
+<li>relative：父元素相对定位</li>
+<li>absolute：自适应宽度的元素进行绝对定位</li>
+</ol>
+<p><strong>注意点：固定宽度的列的高度 &gt; 自适应宽度的列的高度</strong>。因为使用绝对定位的元素，脱离了文档流，无法撑开父元素，所以需要在父元素中有一个相同高度，或者更高的元素撑开父元素。</p>
+<p>在下面的例子中，sidebar 的宽度是绝对的，然后 content 是自适应宽度。需要给父元素 mainbody 设置 position:relative，然后 content 设置 position:absolute，并且使用 top:0，将 content 和 sidebar 放置在统一高度。最后给 content 设置 margin-left = sidebar的宽度，就完成了横向两列布局的实现：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;使用绝对定位实现横向两列式布局&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            #wrap{
+                margin:0 auto;
+                width:540px;
+                border:2px solid black;
+            }
+            #header{
+                height:100px;
+                background-color:red;
+            }
+            #footer{
+                height:100px;
+                background-color:green;
+            }
+            #mainbody{
+                clear:both;
+                border:2px solid blue;
+                position:relative;
+                width:100%;
+            }
+            #sidebar{
+                height:200px;
+                width:100px;
+                background-color:red;
+            }
+            #content{
+                height:200px;
+                width:428px;
+                background-color:green;
+                position:absolute;
+                top:0;
+                margin-left:110px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;wrap&quot;&gt;
+            &lt;div id=&quot;header&quot;&gt;&lt;/div&gt;
+            &lt;div id=&quot;mainbody&quot;&gt;
+                &lt;div id=&quot;sidebar&quot;&gt;sidebar&lt;/div&gt;
+                &lt;div id=&quot;content&quot;&gt;content&lt;/div&gt;            
+            &lt;/div&gt;
+            &lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img15.PNG" alt=""></p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/27/网页布局笔记/" data-id="cixkcmb2w000b54wlij07c680" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/28/网页结构与表现原则/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页结构与表现原则
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/24/使用 OpenVPN 搭建翻墙服务器/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用 OpenVPN 搭建翻墙服务器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

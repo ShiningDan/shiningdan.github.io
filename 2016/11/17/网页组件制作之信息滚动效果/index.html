@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页组件制作之信息滚动效果 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在该笔记中将学到列表展示中信息滚动效果的方法与展示效果
+本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+原来 HTML 中提供了一个专门用来做信息滚动的标签叫 marquee，但是这个标签将要被禁止使用了，所以不建议继续使用这个标签做信息滚动。
+无缝滚动的制作无缝滚动的原理：想要实现内容的无缝滚动，可以在显示内容下面再拷贝一次显示内容，即有两个包含相同内容的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页组件制作之信息滚动效果">
+<meta property="og:url" content="http://yoursite.com/2016/11/17/网页组件制作之信息滚动效果/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在该笔记中将学到列表展示中信息滚动效果的方法与展示效果
+本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+原来 HTML 中提供了一个专门用来做信息滚动的标签叫 marquee，但是这个标签将要被禁止使用了，所以不建议继续使用这个标签做信息滚动。
+无缝滚动的制作无缝滚动的原理：想要实现内容的无缝滚动，可以在显示内容下面再拷贝一次显示内容，即有两个包含相同内容的">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img56.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img57.PNG">
+<meta property="og:updated_time" content="2016-11-17T09:00:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页组件制作之信息滚动效果">
+<meta name="twitter:description" content="在该笔记中将学到列表展示中信息滚动效果的方法与展示效果
+本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+原来 HTML 中提供了一个专门用来做信息滚动的标签叫 marquee，但是这个标签将要被禁止使用了，所以不建议继续使用这个标签做信息滚动。
+无缝滚动的制作无缝滚动的原理：想要实现内容的无缝滚动，可以在显示内容下面再拷贝一次显示内容，即有两个包含相同内容的">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img56.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页组件制作之信息滚动效果" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/17/网页组件制作之信息滚动效果/" class="article-date">
+  <time datetime="2016-11-17T08:59:50.000Z" itemprop="datePublished">2016-11-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页组件制作之信息滚动效果
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中将学到列表展示中信息滚动效果的方法与展示效果</strong></p>
+<p>本系列的是参考<a href="http://www.imooc.com/u/100329/courses?sort=publish" target="_blank" rel="external">慕课网 vivian</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
+<p><strong>原来 HTML 中提供了一个专门用来做信息滚动的标签叫 marquee，但是这个标签将要被禁止使用了，所以不建议继续使用这个标签做信息滚动。</strong></p>
+<h3 id="无缝滚动的制作"><a href="#无缝滚动的制作" class="headerlink" title="无缝滚动的制作"></a>无缝滚动的制作</h3><p><strong>无缝滚动的原理：</strong>想要实现内容的无缝滚动，可以在显示内容下面再拷贝一次显示内容，即有两个包含相同内容的容器实现滚动的衔接，就可以实现无缝滚动的效果。</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img56.PNG" alt=""></p>
+<a id="more"></a>
+<p>制作效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img57.PNG" alt=""><br>参考代码如下：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;滚动效果制作&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8 &quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{margin: 0;padding: 0;}
+            .wrap{border: 1px solid #ccc;width: 300px;height: 100px;margin: 100px auto;overflow: hidden;font-size: 12px;}
+            .wrap ul{margin-left: 40px;list-style: none;}
+            .wrap li{margin: 5px;}
+        &lt;/style&gt;
+        &lt;script&gt;
+            window.onload = function(){
+            let col1 = document.getElementById(&quot;col1&quot;);
+            let col2 = document.getElementById(&quot;col2&quot;);
+            let scrollWrap = document.getElementById(&quot;scroll-wrap&quot;);
+            col2.innerHTML = col1.innerHTML;
+
+            let tmp = setInterval(function(){
+                if(scrollWrap.scrollTop &gt;= col1.scrollHeight){
+                    scrollWrap.scrollTop = 0;
+                }
+                scrollWrap.scrollTop++;
+            }, 50);
+
+            scrollWrap.onmouseover = function(){
+                clearInterval(tmp);
+            }
+            scrollWrap.onmouseout =function(){
+                tmp = setInterval(function(){
+                    if(scrollWrap.scrollTop &gt;= col1.scrollHeight){
+                        scrollWrap.scrollTop = 0;
+                    }
+                    scrollWrap.scrollTop++;
+                }, 50);
+            }
+        }
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;wrap&quot; id=&quot;scroll-wrap&quot;&gt;
+            &lt;ul id=&quot;col1&quot;&gt;
+                &lt;li&gt;这是滚动展示第一行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第二行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第三行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第四行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第五行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第六行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第七行&lt;/li&gt;          
+            &lt;/ul&gt;
+            &lt;ul id=&quot;col2&quot;&gt;
+
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="间歇滚动的制作"><a href="#间歇滚动的制作" class="headerlink" title="间歇滚动的制作"></a>间歇滚动的制作</h3><p><strong>实现效果</strong>：当滚动条中有多个信息进行滚动时，间歇滚动可以每滚动过一条信息以后，停留一段时间，然后再滚动过下一条信息。</p>
+<p><strong>实现方法</strong>：每次完成一次滚动以后，使用 setTimeout 激活下一次滚动。</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;滚动效果制作&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8 &quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{margin: 0;padding: 0;}
+            .wrap{border: 1px solid #ccc;width: 300px;height: 100px;margin: 100px auto;overflow: hidden;font-size: 12px;}
+            .wrap ul{margin-left: 40px;list-style: none;}
+            .wrap li{height: 20px;line-height: 20px;display: block;}
+        &lt;/style&gt;
+        &lt;script&gt;
+            window.onload = function(){
+            let col1 = document.getElementById(&quot;col1&quot;);
+            let col2 = document.getElementById(&quot;col2&quot;);
+            let scrollWrap = document.getElementById(&quot;scroll-wrap&quot;);
+            col2.innerHTML = col1.innerHTML;
+            scrollWrap.scrollTop = 0;
+            let tmp;
+
+            function scrollOneRow(){
+                tmp = setInterval(function(){
+                    scrollWrap.scrollTop++;
+                    console.log(scrollWrap.scrollTop)
+                    if(parseInt(scrollWrap.scrollTop) % 20 == 0) {
+                        clearInterval(tmp);
+                        setTimeout(startMove, 2000);
+                    }else{
+                        if(scrollWrap.scrollTop &gt;= col1.scrollHeight){
+                            scrollWrap.scrollTop = 0;
+                        }
+                    }
+                }, 100);
+            }
+            function startMove(){
+                scrollOneRow();
+            }
+
+            scrollWrap.onmouseover = function(){
+                clearInterval(tmp);
+            }
+            scrollWrap.onmouseout = function(event){
+                if(event.target.tagName.toLowerCase() == &quot;div&quot;) {
+                    startMove();
+                }
+            };
+            startMove();
+        }
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;wrap&quot; id=&quot;scroll-wrap&quot;&gt;
+            &lt;ul id=&quot;col1&quot;&gt;
+                &lt;li&gt;这是滚动展示第一行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第二行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第三行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第四行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第五行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第六行&lt;/li&gt;
+                &lt;li&gt;这是滚动展示第七行&lt;/li&gt;          
+            &lt;/ul&gt;
+            &lt;ul id=&quot;col2&quot;&gt;
+
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/17/网页组件制作之信息滚动效果/" data-id="cixkcmb33000h54wlzr1h2i79" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/18/网页组件制作之焦点图轮播特效/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页组件制作之焦点图轮播特效
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/15/网页组件制作之带预览图幻灯片效果/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页组件制作之带预览图幻灯片效果</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

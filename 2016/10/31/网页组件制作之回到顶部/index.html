@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页组件制作之回到顶部 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在该笔记中将学到一些常用的回到顶部的制作方法与展示效果
+可以使用锚链接实现回到顶部，使用锚链接进行跳转到页面的位置上的方法有一下优缺点：
+
+优点：简单快速，没有兼容性问题
+缺点：视觉上不够直观，直接就跳转到指定位置，用户视觉体验不够好
+
+主要知识点：
+
+使用 document.documentElement.scrollTop 来读写滚动条数值
+使用 window.onscroll 在滚动的时候触">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页组件制作之回到顶部">
+<meta property="og:url" content="http://yoursite.com/2016/10/31/网页组件制作之回到顶部/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在该笔记中将学到一些常用的回到顶部的制作方法与展示效果
+可以使用锚链接实现回到顶部，使用锚链接进行跳转到页面的位置上的方法有一下优缺点：
+
+优点：简单快速，没有兼容性问题
+缺点：视觉上不够直观，直接就跳转到指定位置，用户视觉体验不够好
+
+主要知识点：
+
+使用 document.documentElement.scrollTop 来读写滚动条数值
+使用 window.onscroll 在滚动的时候触">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img28.PNG">
+<meta property="og:updated_time" content="2016-11-10T03:03:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页组件制作之回到顶部">
+<meta name="twitter:description" content="在该笔记中将学到一些常用的回到顶部的制作方法与展示效果
+可以使用锚链接实现回到顶部，使用锚链接进行跳转到页面的位置上的方法有一下优缺点：
+
+优点：简单快速，没有兼容性问题
+缺点：视觉上不够直观，直接就跳转到指定位置，用户视觉体验不够好
+
+主要知识点：
+
+使用 document.documentElement.scrollTop 来读写滚动条数值
+使用 window.onscroll 在滚动的时候触">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img28.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页组件制作之回到顶部" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/31/网页组件制作之回到顶部/" class="article-date">
+  <time datetime="2016-10-31T14:23:30.000Z" itemprop="datePublished">2016-10-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页组件制作之回到顶部
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中将学到一些常用的回到顶部的制作方法与展示效果</strong></p>
+<p><strong>可以使用锚链接实现回到顶部，使用锚链接进行跳转到页面的位置上的方法有一下优缺点：</strong></p>
+<ul>
+<li>优点：简单快速，没有兼容性问题</li>
+<li>缺点：视觉上不够直观，直接就跳转到指定位置，用户视觉体验不够好</li>
+</ul>
+<p><strong>主要知识点：</strong></p>
+<ol>
+<li>使用 document.documentElement.scrollTop 来读写滚动条数值</li>
+<li>使用 window.onscroll 在滚动的时候触发事件</li>
+<li>使用 setInterval() 函数来决定页面滚动的快慢</li>
+</ol>
+<p>使用 btn.onclick，在点击按钮的时候，配合 setInterval 事件，使页面回到顶部，并且可以控制速度来使回去的速度由快变慢。在 window.onscroll 事件中监听用户在回到顶部的动作中是否滑动了滚轮，如果滑动了滚轮，则停止用户回到顶部的动作。</p>
+<p>显示效果如下，可以根据需要修改 CSS 样式：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img28.PNG" alt=""></p>
+<a id="more"></a>
+<h3 id="使用-position-fixed-和-bottom、right-进行定位"><a href="#使用-position-fixed-和-bottom、right-进行定位" class="headerlink" title="使用 position:fixed 和 bottom、right 进行定位"></a>使用 position:fixed 和 bottom、right 进行定位</h3><p><strong>使用 position:fixed 和 top、left、bottom、right 来进行定位，兼容性不是很好</strong>：当页面的大小发生变化的时候，如果定位的距离是固定值，则定位标签不会随着页面大小的变化而变化。</p>
+<p>代码如下：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;JavaScript 回到顶部&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            .wrap{
+                width:500px;
+                height:2000px;
+                margin:0 auto;
+                background-color:#eee;
+            }
+            #btn{
+                position:fixed;
+                bottom: 20px;
+                right:100px;
+                text-decoration:none;
+                color:#888;
+                background-color:#ccc;
+            }
+            #btn img{
+                width:24px;
+                height:26px;
+            }
+        &lt;/style&gt;
+        &lt;script&gt;
+            window.onload = function() {
+                var btn = document.getElementById(&quot;btn&quot;);
+                var isMyRoll = false;
+                var timer = null;
+                //中断滚动
+                window.onscroll = function() {
+                    if(isMyRoll){
+                        clearInterval(timer);
+                    }
+                    isMyRoll = true;
+                };
+                btn.onclick = function() {
+                    timer = setInterval(function(){
+                        var disTop = document.body.scrollTop || document.documentElement.scrollTop,
+                        speed = Math.ceil(disTop/5);
+                        document.body.scrollTop = document.documentElement.scrollTop = disTop - speed;
+                        isMyRoll = false;
+                        if(disTop == 0) {
+                            clearInterval(timer);
+                        }
+                    }, 30);
+                };
+            };
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;wrap&quot;&gt;
+            &lt;a href=&quot;JavaScript:;&quot; id=&quot;btn&quot;&gt;&lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img27.png&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="使用-position-fixed-和-text-align-进行定位"><a href="#使用-position-fixed-和-text-align-进行定位" class="headerlink" title="使用 position:fixed 和 text-align 进行定位"></a>使用 position:fixed 和 text-align 进行定位</h3><p><strong>使用 text-align 进行定位比较推荐，因为定位标签的位置可以随着页面大小的变化而变化：</strong>使用 position:ficed 的标签放在一个文本之后(例如：$nbsp )，此时使用 text-align 进行定位的时候，会为该文本进行自动的定位，例如使用 text-align: right 时，文本会被定位到页面的右边，此时 position:fixed 的标签也会被文本推到页面的右边，然后在页面右边的位置脱离文档流。</p>
+<p>如果页面的大小发生变化，被 text-align: right 的文本标签也会相对页面的变化而自动改变，则 position:fixed 标签也会相对页面的变化而改变，不需要重新计算绝对定位的距离</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;JavaScript 回到顶部&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            .wrap{
+                width:500px;
+                height:2000px;
+                margin:0 auto;
+                background-color:#eee;
+                text-align:right;
+                padding-top:400px;
+            }
+            #btn{
+                position:fixed;
+                text-decoration:none;
+                color:#888;
+                background-color:#ccc;
+            }
+            #btn img{
+                width:24px;
+                height:26px;
+            }
+        &lt;/style&gt;
+        &lt;script&gt;
+            window.onload = function() {
+                var btn = document.getElementById(&quot;btn&quot;);
+                var isMyRoll = false;
+                var timer = null;
+                //中断滚动
+                window.onscroll = function() {
+                    if(isMyRoll){
+                        clearInterval(timer);
+                    }
+                    isMyRoll = true;
+                };
+                btn.onclick = function() {
+                    timer = setInterval(function(){
+                        var disTop = document.body.scrollTop || document.documentElement.scrollTop,
+                        speed = Math.ceil(disTop/5);
+                        document.body.scrollTop = document.documentElement.scrollTop = disTop - speed;
+                        isMyRoll = false;
+                        if(disTop == 0) {
+                            clearInterval(timer);
+                        }
+                    }, 30);
+                };
+            };
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;wrap&quot;&gt;
+            &amp;nbsp;
+            &lt;a href=&quot;JavaScript:;&quot; id=&quot;btn&quot;&gt;&lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img27.png&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/31/网页组件制作之回到顶部/" data-id="cixkcmb36000n54wlvizzy8me" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/02/网页组件制作之表单美化/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页组件制作之表单美化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/31/网页组件制作笔记之分页码/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页组件制作之分页码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

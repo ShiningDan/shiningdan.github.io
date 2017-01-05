@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页组件制作之表单美化 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
+单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
+但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页组件制作之表单美化">
+<meta property="og:url" content="http://yoursite.com/2016/11/02/网页组件制作之表单美化/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
+单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
+但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img32.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img33.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img34.PNG">
+<meta property="og:updated_time" content="2016-11-06T04:59:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页组件制作之表单美化">
+<meta name="twitter:description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
+单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
+但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页组件制作之表单美化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/02/网页组件制作之表单美化/" class="article-date">
+  <time datetime="2016-11-02T14:23:47.000Z" itemprop="datePublished">2016-11-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页组件制作之表单美化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中将学到一些常用的表单美化的方法与展示效果</strong></p>
+<h2 id="单选按钮美化"><a href="#单选按钮美化" class="headerlink" title="单选按钮美化"></a>单选按钮美化</h2><p>在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。</p>
+<p><strong>但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是使用 dl + dt + dd(或者使用 ul + li 和 ol + li ) 来实现。这样更加方便添加需要的 CSS 效果。 </strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;单选按钮的美化&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            * {
+                margin:0;
+                padding:0;
+            }
+            body{
+                font-size: 12px;
+            }
+            .type {
+                width: 400px;
+                height: 32px;
+                margin: 30px auto;
+                border: 1px solid #DFDFDF;
+            }
+            .type dl{
+                margin-left: 15px;
+                height: 32px;
+                line-height: 32px;
+            }
+            .type dd{
+                float: left;
+                margin: 0 10px 0 8px;
+            }
+            .type dt{
+                float: left;
+            }
+            .type dd a{
+                text-decoration: none;
+                color: black;
+                margin-left: 5px;
+            }
+            .type dd a:hover{
+                color: #CC0000;
+                text-decoration: underline;
+            }
+            .type dd a:hover i,.type .selected i{
+                background-position:-1px -108px;
+            }
+            .type dd i{
+                display: inline-block;
+                width: 12px;
+                height: 10px;
+                float: left;
+                margin-top: 10px;
+                border: 1px solid #DFDFDF;
+                background: url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img29.png&quot;) no-repeat;
+                background-position: 0 -7px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;type&quot;&gt;
+            &lt;!--&lt;form action=&quot;#&quot; method=&quot;POST&quot; name=&quot;formType&quot;&gt;
+                &lt;label&gt;配送类型：&lt;/label&gt;
+                &lt;input type=&quot;radio&quot; name=&quot;type&quot; checked&gt;&lt;label&gt;全部&lt;/label&gt;
+                &lt;input type=&quot;radio&quot; name=&quot;type&quot;&gt;&lt;label&gt;京东配送&lt;/label&gt;
+                &lt;input type=&quot;radio&quot; name=&quot;type&quot;&gt;&lt;label&gt;第三方配送&lt;/label&gt;
+            &lt;/form&gt;--&gt;
+            &lt;dl id=&quot;sendType&quot;&gt;
+                &lt;dt &gt;配送类型：&lt;/dt&gt;
+                &lt;dd class=&quot;selected&quot; onclick=&quot;show(0)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;全部&lt;/a&gt;&lt;/dd&gt;
+                &lt;dd onclick=&quot;show(1)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;京东配送&lt;/a&gt;&lt;/dd&gt;
+                &lt;dd onclick=&quot;show(2)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;第三方配送&lt;/a&gt;&lt;/dd&gt;
+            &lt;/dl&gt;
+        &lt;/div&gt;
+        &lt;script&gt;
+        function show(index){
+            var dd = document.getElementById(&quot;sendType&quot;).getElementsByTagName(&quot;dd&quot;),
+            len, i;
+            for(i=0, len=dd.length; i&lt;len; i++){
+                if(i === index) {
+                    dd[i].className = &quot;selected&quot;;
+                } else{
+                    dd[i].className = null;
+                }
+            }
+        }
+    &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果为：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG" alt=""></p>
+<a id="more"></a>
+<h2 id="复选按钮的美化"><a href="#复选按钮的美化" class="headerlink" title="复选按钮的美化"></a>复选按钮的美化</h2><p><strong>因为不同浏览器对复选框的默认样式都不一样，所以如果想要使得所有的浏览器对复选框的显示效果都相同，则使用图片等元素来替代复选框的默认样式。</strong></p>
+<p><strong>可以对 input 元素设置 display:none 来删除表单元素的默认显示效果。</strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;多选按钮美化&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            body{
+                font-size: 13px;
+            }
+            .typeList{
+                width: 370px;
+                height: 30px;
+                margin: 50px auto;
+                border: 1px solid #DFDFDF;
+                border-width: 1px 0px;
+            }
+            .typeList ul {
+                list-style: none;
+                height: 30px;
+                line-height:30px;
+                text-align: center;
+                padding-left: 20px;
+            }
+            .typeList ul li {
+                float: left;
+                margin-right: 20px;
+            }
+            .typeList ul li:hover i,.typeList ul li.selected i{
+                background-position:-1px -108px;
+            }
+            .typeList ul li input {
+                display: none;
+            }
+            .typeList ul li i{
+                background: url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img29.png&quot;) no-repeat;
+                display: inline-block;
+                width: 12px;
+                height: 10px;
+                border: 1px solid #DFDFDF;
+                background-position: 0 -7px;
+                float: left;
+                margin: 10px 2px 0 0;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;typeList&quot;&gt;
+            &lt;form action=&quot;#&quot; method=&quot;POST&quot; name=&quot;typeList&quot;&gt;
+                &lt;ul id=&quot;checkedList&quot;&gt;
+                    &lt;li class=&quot;selected&quot;&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;bao&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;bao&quot;&gt;包邮&lt;/label&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;xiao&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;xiao&quot;&gt;消费者保障&lt;/label&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;huo&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;huo&quot;&gt;货到付款&lt;/label&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;hai&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;hai&quot;&gt;海外商品&lt;/label&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+        &lt;script&gt;
+            window.onload = function(){
+                var lis = document.getElementById(&quot;checkedList&quot;).getElementsByTagName(&quot;li&quot;),
+                i, len;
+                for(i=0, len = lis.length; i&lt;len; i++) {
+                    lis[i].onclick = function() {
+                        if(this.className == &quot;selected&quot;) {
+                            console.log( &quot;not selected&quot;);
+                            this.className = null;
+                        } else {
+                            console.log(&quot;selected&quot;);
+                            this.className = &quot;selected&quot;;
+                        }
+                    }
+                }
+            }
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><strong>小bug：</strong>如果鼠标点击在文字上的时候，li 会被判定为点击了两次(一次是点击 li ，另一次是出发 lable 点击了 input，此时勾选的显示效果就会变成：勾选-&gt;不勾选)</p>
+<p>显示效果为：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img32.PNG" alt=""></p>
+<h2 id="文本框的美化"><a href="#文本框的美化" class="headerlink" title="文本框的美化"></a>文本框的美化</h2><p>文本框 input[type-text] 的美化，可以使用 placeholder 来替换 value 属性，从而达到提示是灰色，当有输入的时候，提示的文字不显示的效果。</p>
+<p>也可以在文本框中调用 CSS3 的 transition 属性，设置属性的过度，使得当文本框获得焦点的时候，显示效果有过渡的改变。</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;text&lt;/title&gt;
+        &lt;meta charset=&quot;uft-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin: 0;
+                padding: 0;
+            }
+
+            .content{
+                width: 700px;
+                height: auto;
+                background-color: #F6F6F6;
+                padding: 10px;
+                margin: 40px auto;
+            }
+            .content *:focus{
+                outline: none;
+            }
+            .content ul {
+                list-style: none;
+            }
+            .content ul li{
+                font-size: 14px;
+                margin-left: 20px;
+                border-bottom: 1px solid #DFDFDF;
+                padding: 12px;
+            }
+            .content ul li label{
+                width: 100px;
+                display: inline-block;
+                float: left;
+            }
+            .content ul li input[type=text]{
+                padding: 3px 8px;
+                height: 20px;
+                width: 220px;
+                border: 1px solid green;
+                border-radius: 4px;
+            }
+            .content ul li input:focus{
+                border: 1px solid red;
+            }
+            .content ul li input[type=text]{
+                transition: width .25s;
+                -moz-transition: width .25s; /* Firefox 4 */
+                -webkit-transition: width .25s; /* Safari 和 Chrome */
+                -o-transition: width .25s; /* Opera */
+            }
+            .content ul li input:focus{
+                width: 250px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;content&quot;&gt;
+            &lt;form action=&quot;#&quot; method=&quot;POST&quot;&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;
+                        &lt;label for=&quot;name&quot;&gt;姓名:&lt;/label&gt;
+                        &lt;input type=&quot;text&quot; name=&quot;yourname&quot; placeholder=&quot;姓名&quot; id=&quot;name&quot;&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;label for=&quot;name2&quot;&gt;姓名:&lt;/label&gt;
+                        &lt;input type=&quot;text&quot; name=&quot;yourname&quot; placeholder=&quot;姓名&quot; id=&quot;name2&quot;&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img33.PNG" alt=""></p>
+<h2 id="下拉列表的美化"><a href="#下拉列表的美化" class="headerlink" title="下拉列表的美化"></a>下拉列表的美化</h2><p>原来自带的下拉列表是 select ，但是由于 select 带有的浏览器自定义渲染格式，使得对下拉列表的美化比较困难，所以使用 ul + li 来构造下拉列表：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;select 演示&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            body{
+                font: 13px/24px &quot;微软雅黑&quot;;
+                background-color: #333;
+            }
+            #box{
+                width: 500px;
+                height: 326px;
+                position: absolute;
+                left: 50%;
+                top:50%;
+                background-color: white;
+                margin: -163px 0 0 -250px;
+            }
+            .province{
+                width: 320px;
+                height: 42px;
+                background-color:#C00;
+                margin: 80px auto;
+            }
+            .province strong{
+                color: white;
+                width: 64px;
+                height: 42px;
+                line-height: 42px;
+                text-align: center;
+                display: inline-block;
+                font-weight: normal;
+                float: left;
+            }
+            .province #selectProvince{
+                width: 200px;
+                height: 28px;
+                display: block;
+                background-color: white;
+                margin-top: 7px;
+                float: left;
+                padding-left: 8px;
+                color: #CCC;
+                cursor: pointer;
+            }
+            #allprovince{
+                width: 318px;
+                height: auto;
+                border: 1px solid #DFDFDF;
+                clear: both;
+                list-style: none;
+                line-height: 30px;
+            }
+            #allprovince li{
+                height: 30px;
+                border-bottom: 1px solid #DFDFDF;
+                cursor: pointer;
+            }
+            #allprovince li b{
+                display: inline-block;
+                width: 40px;
+                font-size: bold;
+                text-align: center;
+            }
+            #allprovince li span{
+                font-weight: bold;
+            }
+            #allprovince li span:hover{
+                color: #C00;
+            }
+        &lt;/style&gt;    
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;box&quot;&gt;
+            &lt;div class=&quot;province&quot;&gt;
+                &lt;strong&gt;送货至：&lt;/strong&gt;
+                &lt;span id=&quot;selectProvince&quot;&gt;北京&lt;/span&gt;
+                &lt;ul id=&quot;allprovince&quot;&gt;
+                    &lt;li&gt;&lt;b&gt;A&lt;/b&gt;&lt;span&gt;安徽&lt;/span&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;b&gt;B&lt;/b&gt;&lt;span&gt;北京&lt;/span&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;b&gt;C&lt;/b&gt;&lt;span&gt;重庆&lt;/span&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;b&gt;F&lt;/b&gt;&lt;span&gt;福建&lt;/span&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img34.PNG" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/02/网页组件制作之表单美化/" data-id="cixkcmb3w001j54wlqygftbg0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/07/网页组件制作之手风琴效果/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页组件制作之手风琴效果
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/31/网页组件制作之回到顶部/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页组件制作之回到顶部</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-网页组件制作之字体图标" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/31/网页组件制作之字体图标/" class="article-date">
+  <time datetime="2016-10-31T08:43:35.000Z" itemprop="datePublished">2016-10-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/31/网页组件制作之字体图标/">网页组件制作之字体图标</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中将学到一些常用的网页字体图标的制作方法与展示效果</strong></p>
+<h2 id="小图标-icon-的制作"><a href="#小图标-icon-的制作" class="headerlink" title="小图标(icon)的制作"></a>小图标(icon)的制作</h2><h3 id="使用-CSS-Sprite-在网页中画-Icon-小图标"><a href="#使用-CSS-Sprite-在网页中画-Icon-小图标" class="headerlink" title="使用 CSS Sprite 在网页中画 Icon 小图标"></a>使用 CSS Sprite 在网页中画 Icon 小图标</h3><p><strong>CSS Sprite</strong>：把网页中零星的背景图片整合到一张图片文件中，再利用 CSS 的背景图片定位到要显示的位置，因此也叫”图片拼合“技术，<strong>这样做的好处是可以减少文件的体积和服务器的请求次数，提高效率。</strong></p>
+<p><strong>非常重要的一点是，背景图片中小图标的排列一定要有规律，这样在添加和修改背景图片的时候，方便计算得到 background-position 的坐标值</strong></p>
+<p>要使用的知识点：</p>
+<ol>
+<li>background-image(整合好的背景图片)</li>
+<li>background-position(用来定位每个小图标的位置)</li>
+</ol>
+<p>同样，可以在鼠标放在每个 li 上的时候，添加 onmouseover 和 onmouseout 动作，来修改背景的颜色和背景的图片。</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;icon 案例演示&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            ul{
+                list-style:none;
+            }
+            .sprite li{
+                width:110px;
+                height:30px;
+                background-color: #F06;
+                margin-top:1px; 
+                list-style:none;
+            }
+            .sprite li a{
+                text-decoration:none;
+                line-height:30px;
+                font-size:14px;
+                color:white;
+                font-weight:bold;
+            }
+            .i-icon{
+                height:17px;
+                width:17px;
+                display:block;
+                background-image:url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/icon-sprite.png&quot;);
+                float:left;
+                margin:6px 6px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;ul class=&quot;sprite&quot;&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -16px -127px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项1&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -33px -127px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项2&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -50px -128px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项3&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -67px -128px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项4&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -84px -128px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项5&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -101px -128px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项6&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -118px -128px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项7&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -135px -128px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项8&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -153px -128px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项9&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;i class=&quot;i-icon&quot; style=&quot;background-position: -0px -128px&quot;&gt;&lt;/i&gt;&lt;a href=&quot;&quot;&gt;菜单选项10&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img23.PNG" alt=""></p>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/31/网页组件制作之字体图标/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/31/网页组件制作之字体图标/" data-id="cixkcmb3e000v54wlbgg5slap" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-网页组件制作之导航菜单" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/31/网页组件制作之导航菜单/" class="article-date">
+  <time datetime="2016-10-31T08:39:51.000Z" itemprop="datePublished">2016-10-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/31/网页组件制作之导航菜单/">网页组件制作之导航菜单</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中将学到一些常用的网页导航菜单的制作方法与展示效果</strong></p>
+<h2 id="导航菜单的制作"><a href="#导航菜单的制作" class="headerlink" title="导航菜单的制作"></a>导航菜单的制作</h2><h3 id="导航菜单的特点"><a href="#导航菜单的特点" class="headerlink" title="导航菜单的特点"></a>导航菜单的特点</h3><p><strong>门户类网站的导航特点：导航在上方平铺展示(因为不需要展开)</strong></p>
+<p><strong>商城类网站的导航特点：竖向列表，横向伸缩</strong></p>
+<h3 id="垂直菜单的制作"><a href="#垂直菜单的制作" class="headerlink" title="垂直菜单的制作"></a>垂直菜单的制作</h3><h4 id="用无序列表构建垂直菜单"><a href="#用无序列表构建垂直菜单" class="headerlink" title="用无序列表构建垂直菜单"></a>用无序列表构建垂直菜单</h4><p><strong>因为在点击菜单的时候，要实现跳转功能，所以在 li 里面包裹 a 标签来实现跳转。同时，li 是块级元素，可以设置 width，height 属性，但是 a 不是块级元素无法设置这些属性，我们可以使用 display:block 将 a 设置为块元素，从而将 li 里面的属性都放在 a 之中，不会影响显示效果。</strong></p>
+<p>使用了 a:hover 设置了鼠标进入的样式：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;导航菜单制作&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            ul {
+                list-style:none;
+                width:none;
+                font-size:14px;
+            }
+            a{
+                text-decoration:none;
+                display:block;
+                height:30px;
+                line-height:30px;
+                background-color:#ccc;
+                width:100px;
+                margin-top:1px;
+                text-indent:10px;
+            }
+            a:hover{
+                background-color:#f60;
+                color:#fff;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;首  页&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;新闻快讯&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;
+            产品展示&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;售后服务&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;联系我们&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img18.PNG" alt=""></p>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/31/网页组件制作之导航菜单/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/31/网页组件制作之导航菜单/" data-id="cixkcmb3l001154wlqraflel5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-网页结构与表现原则" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/28/网页结构与表现原则/" class="article-date">
+  <time datetime="2016-10-28T03:03:35.000Z" itemprop="datePublished">2016-10-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/28/网页结构与表现原则/">网页结构与表现原则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中，介绍的是网页制作中，如何从更深层次上理解结构(HTML)与表现(CSS)之间的关系。</strong></p>
+<h2 id="结构-HTML-与表现-CSS-相分离的思想"><a href="#结构-HTML-与表现-CSS-相分离的思想" class="headerlink" title="结构(HTML)与表现(CSS)相分离的思想"></a>结构(HTML)与表现(CSS)相分离的思想</h2><p><strong>当我们拿到一个网页的设计图的时候，首先观察网页的文字内容和内容模块之间的关系，将重点放在语义化的 HTML 代码上，而不要过多考虑设计图上的样式。当把 HTML 内容编写完成之后，再考虑样式如何实现(增加 div span 等操作)，力求在不改变现有结构的基础上，完成现有设计图的效果。</strong></p>
+<p>下面的例子是对该思想的具体阐述：</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/28/网页结构与表现原则/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/28/网页结构与表现原则/" data-id="cixkcmb46001x54wlbiex23x7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-网页布局笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/27/网页布局笔记/" class="article-date">
+  <time datetime="2016-10-27T08:52:54.000Z" itemprop="datePublished">2016-10-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/27/网页布局笔记/">网页布局笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中，将学到的是多种不同的网页风格的实现或者多种不同风格的组件实现方法</strong></p>
+<h2 id="网页布局基础"><a href="#网页布局基础" class="headerlink" title="网页布局基础"></a>网页布局基础</h2><p>使用 CSS 实现不同的网页布局，其中最重要的是理解 CSS 中的 3 种定位机制，分别是：</p>
+<ol>
+<li>标准文档流( Normal flow )：从左到右，从上到下，输出文档的内容。由块级元素和行级元素组成</li>
+<li>浮动( Floats )</li>
+<li>绝对定位( Absolute position )</li>
+</ol>
+<p><strong>块级元素</strong>：从左到右撑满页面，独占一行，碰到页面边缘会自动换行。(div, ul, li, dl, dt, p …)</p>
+<p><strong>行级元素</strong>：在同一行内显示，不会独占一行，不会改变文档的结构。(span, strong, img, input …)</p>
+<p><strong>块级元素和行级元素都是盒子模型的基础</strong></p>
+<p><strong>盒(框)模型示意</strong>：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/gif/%E7%9B%92%E6%A8%A1%E5%9E%8B.gif" alt=""></p>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/27/网页布局笔记/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/27/网页布局笔记/" data-id="cixkcmb2w000b54wlij07c680" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用 OpenVPN 搭建翻墙服务器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/24/使用 OpenVPN 搭建翻墙服务器/" class="article-date">
+  <time datetime="2016-10-24T13:40:00.000Z" itemprop="datePublished">2016-10-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/24/使用 OpenVPN 搭建翻墙服务器/">使用 OpenVPN 搭建翻墙服务器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="已有教程"><a href="#已有教程" class="headerlink" title="已有教程"></a>已有教程</h2><p>网上教程上介绍的均为使用国外的 vps (Ubuntu) 搭建的 OpenVPN Server，按照教程上一步步进行即可，故不再赘述。本教程所介绍的内容，<strong>针对网上教程中的一些错误点。进行改成，并且提供了在 windows、Ubuntu和 MAC 上搭建 OpenVPN Client 的方法，亲测可用。</strong></p>
+<p>在使用 OpenVPN 创建翻墙服务器的时候，可以使用 ipv4 和 ipv6（需要网络支持 ipv6） 模式。一般 <a href="https://www.vultr.com/">vultr</a> 的 ipv4 地址没有被墙，<a href="https://www.digitalocean.com/">digital ocean</a> 要看脸。</p>
+<p><strong>下面两篇教程是使用 ipv6 网络来翻墙的教程，如果需要使用 ipv4 来翻墙，只需要添加 ipv4 地址，并且保证 ipv4 地址没有没墙即可。</strong></p>
+<p><a href="http://ofjld69e3.bkt.clouddn.com/doc/pdf/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E6%B5%81%E9%87%8F%E4%B9%8B%E5%9F%BA%E4%BA%8EIPV6%E7%9A%84OPENVPN%E6%90%AD%E5%BB%BA%20_%20Timothy%27s%20Blog.pdf">校园网免流量之基于IPV6的OPENVPN搭建 _ Timothy’s Blog.pdf</a></p>
+<p><a href="http://ofjld69e3.bkt.clouddn.com/doc/pdf/%E3%80%90%E6%95%99%E7%A8%8B%E3%80%91%E4%BD%BF%E7%94%A8IPv6%20Openvpn%E5%8A%A0%E9%80%9F%E8%AE%BF%E9%97%AE%E5%A4%96%E5%9B%BD%E7%BD%91%E7%AB%99_pt%E5%90%A7_%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7.pdf">【教程】使用IPv6 Openvpn加速访问外国网站<em>pt吧</em>百度贴吧.pdf</a></p>
+<p><strong>上面提供的教程，在一些地方已经无法配置成功。所以在按照上面的教程配置的时候，需要参考下面的修改点，对其中的一些步骤进行修改。</strong></p>
+<h2 id="修改点与注意点"><a href="#修改点与注意点" class="headerlink" title="修改点与注意点"></a>修改点与注意点</h2>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/24/使用 OpenVPN 搭建翻墙服务器/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/24/使用 OpenVPN 搭建翻墙服务器/" data-id="cixkcmb2t000954wlnje21c7b" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页组件制作之固定边栏滚动特效 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果
+本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页组件制作之固定边栏滚动特效">
+<meta property="og:url" content="http://yoursite.com/2016/12/17/网页组件制作之固定边栏滚动特效/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果
+本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img73.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img74.PNG">
+<meta property="og:updated_time" content="2016-12-17T13:39:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页组件制作之固定边栏滚动特效">
+<meta name="twitter:description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果
+本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img73.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页组件制作之固定边栏滚动特效" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/17/网页组件制作之固定边栏滚动特效/" class="article-date">
+  <time datetime="2016-12-17T13:38:21.000Z" itemprop="datePublished">2016-12-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页组件制作之固定边栏滚动特效
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="网页组件制作之固定边栏滚动特效"><a href="#网页组件制作之固定边栏滚动特效" class="headerlink" title="网页组件制作之固定边栏滚动特效"></a>网页组件制作之固定边栏滚动特效</h1><p><strong>在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果</strong></p>
+<p>本系列的是参考<a href="http://www.imooc.com/u/101686/courses?sort=publish" target="_blank" rel="external">慕课网 远人</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
+<h2 id="实现的效果"><a href="#实现的效果" class="headerlink" title="实现的效果"></a>实现的效果</h2><p>如果页面是多栏布局，并且多个栏的高度不一致，<strong>在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空白页面。</strong></p>
+<p>没有设置固定边栏的效果：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img73.PNG" alt=""></p>
+<p>设置了固定边栏的效果：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img74.PNG" alt=""></p>
+<a id="more"></a>
+<h2 id="技术关键点"><a href="#技术关键点" class="headerlink" title="技术关键点"></a>技术关键点</h2><ul>
+<li>position:fixed</li>
+<li>监听 window 的滚动事件</li>
+<li>设置 position:fixed 的条件判断：滚动高度 + 屏幕高度 &gt; 边栏高度</li>
+</ul>
+<p>几个关于 <code>Height</code>的总结</p>
+<p><code>offsetHeight、offsetWidth</code>表示的是元素在垂直(水平)方向上所占用的空间的大小，包括<strong>边框+内边距+内容</strong></p>
+<p><code>clientWidth、clientHeight</code>表示的是元素内容在垂直(水平)方向上所占用的空间的大小，包括<strong>内边距+内容</strong></p>
+<p><code>scrollWidth、scrollHeight</code>表示的是包含滚动隐藏的内容元素在垂直(水平)方向上所占用的空间的大小</p>
+<p><strong>窗口大小</strong>：(outerWidth、outerHeight、innerWidth、innerHeight)</p>
+<p><strong>在获得屏幕显示区域的高度的时候，在 chrome 下使用 <code>$(window).height()</code> 没有得到显示区域的高度，得到的是 HTML 文档的高度，但是宽度获得没有问题。在 IE 下使用上述方法可以正确获得显示区域的高度</strong>。所以解决方法是使用原生 JavaScript 的  <code>window.innerHeight</code> 获得的高度。</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;固定侧边栏滚动特效&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+            body{margin: 0; padding: 0;}
+            #left{width: 39%; float: left;height: 1800px;background: linear-gradient(red, blue);}
+            #right{width: 60%; position: absolute;top: 0; right: 0;height: 1000px;background: linear-gradient(blue, green);}
+        &lt;/style&gt;
+        &lt;script src=&quot;http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+            $(document).ready(function () {
+            $(window).bind(&quot;scroll&quot;, function (e) {
+                let screenHeight = window.innerHeight, scrollHeight = $(window).scrollTop(), sidebarHeight = document.getElementById(&quot;right&quot;).clientHeight;
+                console.log(screenHeight + &quot; &quot; + scrollHeight + &quot; &quot; + sidebarHeight);
+                if(screenHeight + scrollHeight &gt; sidebarHeight) {
+                    $(&quot;#right&quot;).css({
+                        &quot;position&quot; : &quot;fixed&quot;,
+                        &quot;top&quot; : -(sidebarHeight - screenHeight)
+                    })
+                } else  {
+                    $(&quot;#right&quot;).css({
+                        &quot;position&quot;:&quot;absolute&quot;,
+                        &quot;top&quot; : 0
+                    })
+                }
+            });
+        });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;left&quot;&gt;
+
+        &lt;/div&gt;
+        &lt;div id=&quot;right&quot;&gt;
+
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/17/网页组件制作之固定边栏滚动特效/" data-id="cixkcmb39000q54wlqnd03w77" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/18/网页组件制作之图片剪切效果/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页组件制作之图片剪切效果
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/16/网页组件制作之弹出层/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页组件制作之弹出层</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

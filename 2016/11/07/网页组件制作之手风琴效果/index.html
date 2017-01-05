@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页组件制作之手风琴效果 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在该笔记中将学到列表展示中手风琴效果的方法与展示效果
+效果介绍手风琴效果的显示效果是，在多项列表进行展示的时候，当鼠标悬停在其中一项上，对该项的显示效果进行凸显：比如字体放大，图片放大，亮度变高等。
+显示效果如下：
+
+当鼠标悬停在其他的项目时：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页组件制作之手风琴效果">
+<meta property="og:url" content="http://yoursite.com/2016/11/07/网页组件制作之手风琴效果/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在该笔记中将学到列表展示中手风琴效果的方法与展示效果
+效果介绍手风琴效果的显示效果是，在多项列表进行展示的时候，当鼠标悬停在其中一项上，对该项的显示效果进行凸显：比如字体放大，图片放大，亮度变高等。
+显示效果如下：
+
+当鼠标悬停在其他的项目时：">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img36.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img37.PNG">
+<meta property="og:updated_time" content="2016-11-07T12:26:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页组件制作之手风琴效果">
+<meta name="twitter:description" content="在该笔记中将学到列表展示中手风琴效果的方法与展示效果
+效果介绍手风琴效果的显示效果是，在多项列表进行展示的时候，当鼠标悬停在其中一项上，对该项的显示效果进行凸显：比如字体放大，图片放大，亮度变高等。
+显示效果如下：
+
+当鼠标悬停在其他的项目时：">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img36.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页组件制作之手风琴效果" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/07/网页组件制作之手风琴效果/" class="article-date">
+  <time datetime="2016-11-07T12:25:50.000Z" itemprop="datePublished">2016-11-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页组件制作之手风琴效果
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中将学到列表展示中手风琴效果的方法与展示效果</strong></p>
+<h2 id="效果介绍"><a href="#效果介绍" class="headerlink" title="效果介绍"></a>效果介绍</h2><p>手风琴效果的显示效果是，在多项列表进行展示的时候，当鼠标悬停在其中一项上，对该项的显示效果进行凸显：比如字体放大，图片放大，亮度变高等。</p>
+<p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img36.PNG" alt=""></p>
+<p>当鼠标悬停在其他的项目时：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img37.PNG" alt=""><br><a id="more"></a></p>
+<p><strong>实现方法</strong>：使用 transition 和 element.hover 结合，在鼠标悬停的项目上，进行 CSS 样式的修改，并且用 transition 添加效果渐变</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;手风琴效果&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            .wrap{
+                width: 480px;
+                height: 120px;
+                margin: 100px auto;
+                border: 1px solid #DFDFDF;
+            }
+            .wrap li {
+                width: 120px;
+                height: 120px;
+                float: left;
+                overflow: hidden;
+                position: relative;
+            }
+            .wrap li h3,p,.price{
+                width: 80px;
+            }
+            .wrap li a{
+                display: block;
+                padding: 4px 10px;
+                text-decoration: none;
+                width: 90px;
+            }
+            .wrap li h3{
+                font-size: 14px;
+                font-weight: 700;
+                color: #fa2a5d;
+            }
+            .wrap li p{
+                font-size: 12px;
+                color: #868686;
+            }
+            .wrap li .price{
+                font-size: 14px;
+                font-style: italic;
+                color: #fa2a5d;
+            }
+            .wrap li img{
+                width: 90px;
+                height: 90px;
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+            .wrap .line{
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 0;
+                height: 120px;
+                border: 1px dashed black;
+            }
+            .wrap .mask{
+                width: 120px;
+                height: 120px;
+                position: absolute;
+                top:0;
+                left: 0;
+                background-color: #333;
+                opacity: 0;
+            }
+            .wrap:hover .mask{
+                opacity: 0.15;
+            }
+            .wrap li.big:hover .mask{
+                opacity: 0;
+                width: 240px;
+            }
+            .wrap li.big{
+                width: 240px;
+            }
+            .wrap li.big h3{
+                font-size: 18px;
+            }
+            .wrap li.big p{
+                font-size: 14px;
+            }
+            .wrap li.big .price{
+                font-size: 18px;
+            }
+            .wrap li.big img{
+                width: 120px;
+                height: 120px;
+            }
+            .wrap ul *{
+                transition: all 0.25s;
+                -moz-transition: all 0.25s; /* Firefox 4 */
+                -webkit-transition:  0.25s; /* Safari 和 Chrome */
+                -o-transition: all 0.25s; /* Opera */
+            }
+        &lt;/style&gt;
+        &lt;script&gt;
+            window.onload = function() {
+                var wrap = document.getElementsByClassName(&quot;wrap&quot;)[0],
+                list = wrap.getElementsByTagName(&quot;li&quot;),
+                i, len;
+                for(i = 0, len=list.length; i&lt;len; i++) {
+                    list[i].addEventListener(&quot;mouseover&quot;, function(){
+                        var This = this;
+                        if(This.className !== &quot;big&quot;) {
+                            var wrap = document.getElementsByClassName(&quot;wrap&quot;)[0],
+                            list = wrap.getElementsByTagName(&quot;li&quot;),j;
+                            for (j = 0; j&lt;list.length; j++) {
+                                list[j].className = null;
+                            }
+                            This.className = &quot;big&quot;;
+                        }
+                    })
+                }
+            }
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;wrap&quot;&gt;
+            &lt;ul&gt;
+                &lt;li style=&quot;background-color: #cbb9f8&quot;&gt;
+                    &lt;a href=&quot;&quot;&gt;
+                        &lt;h3&gt;食品保健&lt;/h3&gt;
+                        &lt;p&gt;3碗仅98元&lt;/p&gt;
+                        &lt;p class=&quot;price&quot;&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;i&gt;折起&lt;/i&gt;&lt;/p&gt;
+                        &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img35.png&quot; alt=&quot;&quot;&gt;
+                        &lt;i class=&quot;line&quot;&gt;&lt;/i&gt;
+                        &lt;i class=&quot;mask&quot;&gt;&lt;/i&gt;
+                    &lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li style=&quot;background-color: #ede0e0&quot; &gt;
+                    &lt;a href=&quot;&quot;&gt;
+                        &lt;h3&gt;食品保健&lt;/h3&gt;
+                        &lt;p&gt;3碗仅98元&lt;/p&gt;
+                        &lt;p class=&quot;price&quot;&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;i&gt;折起&lt;/i&gt;&lt;/p&gt;
+                        &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img35.png&quot; alt=&quot;&quot;&gt;
+                        &lt;i class=&quot;line&quot;&gt;&lt;/i&gt;
+                        &lt;i class=&quot;mask&quot;&gt;&lt;/i&gt;
+                    &lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li style=&quot;background-color: #e2bfbf&quot; class=&quot;big&quot;&gt;
+                    &lt;a href=&quot;&quot;&gt;
+                        &lt;h3&gt;食品保健&lt;/h3&gt;
+                        &lt;p&gt;3碗仅98元&lt;/p&gt;
+                        &lt;p class=&quot;price&quot;&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;i&gt;折起&lt;/i&gt;&lt;/p&gt;
+                        &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img35.png&quot; alt=&quot;&quot;&gt;
+                        &lt;i class=&quot;mask&quot;&gt;&lt;/i&gt;
+                    &lt;/a&gt;
+                &lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/07/网页组件制作之手风琴效果/" data-id="cixkcmb3o001854wltwvwfpa7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/15/网页组件制作之倒计时效果/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页组件制作之倒计时效果
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/02/网页组件制作之表单美化/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页组件制作之表单美化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

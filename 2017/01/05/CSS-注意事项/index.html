@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CSS-注意事项 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
+设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS-注意事项">
+<meta property="og:url" content="http://yoursite.com/2017/01/05/CSS-注意事项/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
+设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
+<meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/23.PNG">
+<meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
+<meta property="og:updated_time" content="2017-01-05T12:27:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS-注意事项">
+<meta name="twitter:description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
+设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta name="twitter:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CSS-注意事项" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/05/CSS-注意事项/" class="article-date">
+  <time datetime="2017-01-05T12:26:33.000Z" itemprop="datePublished">2017-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CSS-注意事项
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="float-和-display-inline-block-的使用"><a href="#float-和-display-inline-block-的使用" class="headerlink" title="float 和 display:inline-block 的使用"></a>float 和 display:inline-block 的使用</h2><p><strong>float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。</strong></p>
+<p>设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的左边还是不允许存在任何元素与之同行显示，哪怕其它的元素的代码在前，除非也给前面的元素加上float:left后，才允许同行显示。</p>
+<p>设了display:inline的元素，允许它的前后存在其它的内联元素同行显示。关于代码在其前面的块元素之同行显示，则要让前面的元素浮动（不管是左还是右浮动）或设为display:inline，还有代码在后面的是块元素（管它有没有浮动，是左浮动还是右浮动），均不能与之同行，除非设为display:inline。</p>
+<h2 id="使用-overflow-hidden-清除浮动"><a href="#使用-overflow-hidden-清除浮动" class="headerlink" title="使用 overflow:hidden 清除浮动"></a>使用 overflow:hidden 清除浮动</h2><p>出现情况：<strong>父块没有设置指定的高宽，当子块设置为浮动后，原本包裹子块的父块的高度塌陷消失，这时给父块设置overflow:hidden就能清楚浮动造成的影响，使父块重新包裹子块。</strong></p>
+<a id="more"></a>
+<p><a href="https://www.zhihu.com/question/30938856" target="_blank" rel="external">知乎 overflow:hidden 能够清除浮动的解释</a></p>
+<p>相关知识：<a href="http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="external">BFC 的原理及其应用</a></p>
+<h2 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h2><p>可以对块添加 box-shadow 属性向框添加一个或多个阴影。</p>
+<h2 id="全字母大写，放大，加下划线"><a href="#全字母大写，放大，加下划线" class="headerlink" title="全字母大写，放大，加下划线"></a>全字母大写，放大，加下划线</h2><p>如果想实现全字母大写，放大，加下划线，如图下效果：</p>
+<p><img src="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG" alt=""></p>
+<p>直观想到的是全字母大写，然后首字母的 font-size 进行放大来进行是实现。</p>
+<pre><code>p {
+    font-variant:small-caps;
+    text-decoration: underline;
+}
+
+p:first-letter {
+    font-size: 30px;
+}
+</code></pre><p>但是这种实现效果如下图，首字母放大会影响到下划线的显示效果：</p>
+<p><img src="http://7xs2ra.com1.z0.glb.clouddn.com/23.PNG" alt=""></p>
+<hr>
+<p>所以我们的实现方法，是使用 font-variant:small-caps; 来代替 :first-letter 设置首字母大小，这样的显示效果就不会影响下划线。</p>
+<pre><code>p {
+    font-variant:small-caps;
+    text-decoration: underline;
+    text-transform: capitalize;
+}
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/05/CSS-注意事项/" data-id="cixkcmb2e000054wlf1re53o3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/02/CSS属性深入理解/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

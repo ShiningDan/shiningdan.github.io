@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页组件制作之导航菜单 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在该笔记中将学到一些常用的网页导航菜单的制作方法与展示效果
+导航菜单的制作导航菜单的特点门户类网站的导航特点：导航在上方平铺展示(因为不需要展开)
+商城类网站的导航特点：竖向列表，横向伸缩
+垂直菜单的制作用无序列表构建垂直菜单因为在点击菜单的时候，要实现跳转功能，所以在 li 里面包裹 a 标签来实现跳转。同时，li 是块级元素，可以设置 width，height 属性，但是 a 不是块级元素无法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页组件制作之导航菜单">
+<meta property="og:url" content="http://yoursite.com/2016/10/31/网页组件制作之导航菜单/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在该笔记中将学到一些常用的网页导航菜单的制作方法与展示效果
+导航菜单的制作导航菜单的特点门户类网站的导航特点：导航在上方平铺展示(因为不需要展开)
+商城类网站的导航特点：竖向列表，横向伸缩
+垂直菜单的制作用无序列表构建垂直菜单因为在点击菜单的时候，要实现跳转功能，所以在 li 里面包裹 a 标签来实现跳转。同时，li 是块级元素，可以设置 width，height 属性，但是 a 不是块级元素无法">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img18.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img19.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img20.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img21.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img22.PNG">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img49.PNG">
+<meta property="og:updated_time" content="2016-11-14T06:48:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页组件制作之导航菜单">
+<meta name="twitter:description" content="在该笔记中将学到一些常用的网页导航菜单的制作方法与展示效果
+导航菜单的制作导航菜单的特点门户类网站的导航特点：导航在上方平铺展示(因为不需要展开)
+商城类网站的导航特点：竖向列表，横向伸缩
+垂直菜单的制作用无序列表构建垂直菜单因为在点击菜单的时候，要实现跳转功能，所以在 li 里面包裹 a 标签来实现跳转。同时，li 是块级元素，可以设置 width，height 属性，但是 a 不是块级元素无法">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img18.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页组件制作之导航菜单" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/31/网页组件制作之导航菜单/" class="article-date">
+  <time datetime="2016-10-31T08:39:51.000Z" itemprop="datePublished">2016-10-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页组件制作之导航菜单
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>在该笔记中将学到一些常用的网页导航菜单的制作方法与展示效果</strong></p>
+<h2 id="导航菜单的制作"><a href="#导航菜单的制作" class="headerlink" title="导航菜单的制作"></a>导航菜单的制作</h2><h3 id="导航菜单的特点"><a href="#导航菜单的特点" class="headerlink" title="导航菜单的特点"></a>导航菜单的特点</h3><p><strong>门户类网站的导航特点：导航在上方平铺展示(因为不需要展开)</strong></p>
+<p><strong>商城类网站的导航特点：竖向列表，横向伸缩</strong></p>
+<h3 id="垂直菜单的制作"><a href="#垂直菜单的制作" class="headerlink" title="垂直菜单的制作"></a>垂直菜单的制作</h3><h4 id="用无序列表构建垂直菜单"><a href="#用无序列表构建垂直菜单" class="headerlink" title="用无序列表构建垂直菜单"></a>用无序列表构建垂直菜单</h4><p><strong>因为在点击菜单的时候，要实现跳转功能，所以在 li 里面包裹 a 标签来实现跳转。同时，li 是块级元素，可以设置 width，height 属性，但是 a 不是块级元素无法设置这些属性，我们可以使用 display:block 将 a 设置为块元素，从而将 li 里面的属性都放在 a 之中，不会影响显示效果。</strong></p>
+<p>使用了 a:hover 设置了鼠标进入的样式：</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;导航菜单制作&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            ul {
+                list-style:none;
+                width:none;
+                font-size:14px;
+            }
+            a{
+                text-decoration:none;
+                display:block;
+                height:30px;
+                line-height:30px;
+                background-color:#ccc;
+                width:100px;
+                margin-top:1px;
+                text-indent:10px;
+            }
+            a:hover{
+                background-color:#f60;
+                color:#fff;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;首  页&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;新闻快讯&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;
+            产品展示&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;售后服务&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;联系我们&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img18.PNG" alt=""></p>
+<a id="more"></a>
+<h3 id="水平菜单的设置"><a href="#水平菜单的设置" class="headerlink" title="水平菜单的设置"></a>水平菜单的设置</h3><p><strong>水平菜单的结构和垂直菜单一模一样，只需要在 CSS 样式中添加 float:left 就可以将菜单变成水平。</strong></p>
+<p>可以在 li 的父元素设置 overflow:hidden 来清除浮动，也可以在 a 中设置 text-align:center 将文字居中，以获得更好的显示效果。</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;导航菜单制作&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            ul {
+                list-style:none;
+                font-size:14px;
+                overflow:hidden;
+            }
+            li{
+                float:left;
+            }
+            a{
+                text-decoration:none;
+                display:block;
+                height:30px;
+                line-height:30px;
+                background-color:#ccc;
+                width:100px;
+                margin-right:1px;
+                margin-top:1px;
+                text-align:center;
+            }
+            a:hover{
+                background-color:#f60;
+                color:#fff;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;首  页&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;新闻快讯&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;产品展示&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;售后服务&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;联系我们&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img19.PNG" alt=""></p>
+<h3 id="圆角菜单的制作"><a href="#圆角菜单的制作" class="headerlink" title="圆角菜单的制作"></a>圆角菜单的制作</h3><p>通过设置背景来改变外观样式，通过 a:hover 为菜单添加交互效果。</p>
+<p>圆角菜单的制作，可以通过在 a:hover 设置背景来实现。</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;导航菜单制作&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            ul {
+                list-style:none;
+                font-size:14px;
+                overflow:hidden;
+                height:50px;
+                border-bottom:5px solid #f60;
+                padding-left:30px;
+            }
+            li{
+                float:left;
+                margin-top:20px;
+            }
+            a{
+                text-decoration:none;
+                display:block;
+                height:30px;
+                line-height:30px;
+                width:120px;
+                margin-right:1px;
+                text-align:center;
+                background:url(http://ofjjubwp5.bkt.clouddn.com/image/jpg/img20.jpg)
+            }
+            .on, a:hover{
+                color:#fff;
+                background-position:0 -30px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a class=&quot;on&quot; href=&quot;&quot;&gt;首  页&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;新闻快讯&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;产品展示&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;售后服务&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;联系我们&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img20.PNG" alt=""></p>
+<h3 id="改变高度的伸缩菜单"><a href="#改变高度的伸缩菜单" class="headerlink" title="改变高度的伸缩菜单"></a>改变高度的伸缩菜单</h3><p>通过设置 height 可以使得菜单的高度变得更高。但是伸缩的时候，菜单栏是向下伸缩的。这时需要重新设置 line-height=height 来修改居中的效果。</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;导航菜单制作&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            ul {
+                list-style:none;
+                font-size:14px;
+                overflow:hidden;
+                height:50px;
+                border-bottom:5px solid #f60;
+                padding-left:30px;
+            }
+            li{
+                float:left;
+                margin-top:20px;
+            }
+            a{
+                text-decoration:none;
+                display:block;
+                height:30px;
+                line-height:30px;
+                width:120px;
+                margin-right:1px;
+                text-align:center;
+            }
+            .on, a:hover{
+                color:#fff;
+                background-color:#f60;
+                height:40px;
+                margin-top:-10px;
+                line-height:40px;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a class=&quot;on&quot; href=&quot;&quot;&gt;首  页&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;新闻快讯&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;产品展示&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;售后服务&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;联系我们&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img21.PNG" alt=""></p>
+<h3 id="水平方向的伸缩菜单-带有-js-动画效果"><a href="#水平方向的伸缩菜单-带有-js-动画效果" class="headerlink" title="水平方向的伸缩菜单(带有 js 动画效果)"></a>水平方向的伸缩菜单(带有 js 动画效果)</h3><p>实现的效果为：当鼠标放在菜单的选项上的时候，菜单选项的长度从原来的 120px 扩展成 160px，当鼠标从菜单选项上移开的时候，菜单选项的长度又变回 120px。</p>
+<p><strong>要实现以上效果，可以使用 JavaScript 对菜单选项添加 onmouseover 和 onmouseout 事件，使用 setinterval 来逐渐改变菜单栏的长度。需要注意的是，在进入这两个事件后，首先要 使用 clearInterval 来清除其他的事件的动作，否则会对显示效果产生印象。</strong></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;导航菜单制作&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                margin:0;
+                padding:0;
+            }
+            ul {
+                list-style:none;
+                font-size:14px;
+                overflow:hidden;
+                height:50px;
+                border-bottom:5px solid #f60;
+                padding-left:30px;
+            }
+            li{
+                float:left;
+                margin-top:20px;
+            }
+            a{
+                text-decoration:none;
+                display:block;
+                height:30px;
+                line-height:30px;
+                width:120px;
+                margin-right:1px;
+                text-align:center;
+            }
+            .on, a:hover{
+                color:#fff;
+                background-color:#f60;
+            }
+        &lt;/style&gt;
+        &lt;script&gt;
+            window.onload=function(){
+                var as = document.getElementsByTagName(&quot;a&quot;),
+                a, i, len;
+                for(i=0, len=as.length; i&lt;len; i++) {
+                    a = as[i];
+                    a.onmouseover=function(){
+                        var This = this;
+                        clearInterval(This.time);
+                        This.time = setInterval(function(){
+                            This.style.width = This.offsetWidth + 4 + &quot;px&quot;;
+                            if(This.offsetWidth &gt;= 160) {
+                                This.style.width=&quot;160px&quot;;
+                                clearInterval(This.time);
+                            }
+                        }, 30);
+                    }
+                    a.onmouseout=function(){
+                        var This = this;
+                        clearInterval(This.time);
+                        This.time = setInterval(function(){
+                            This.style.width = This.offsetWidth - 4 + &quot;px&quot;;
+                            if(This.offsetWidth &lt;= 120) {
+                                This.style.width=&quot;120px&quot;;
+                                clearInterval(This.time);
+                            }
+                        }, 30);
+                    }
+                }
+
+            }
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a class=&quot;on&quot; href=&quot;&quot;&gt;首  页&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;新闻快讯&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;产品展示&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;售后服务&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;联系我们&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><strong>可以通过设置 setinterval 的时间间隔和每次宽度变化的长短，来使得动画效果更加流畅</strong></p>
+<p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img22.PNG" alt=""></p>
+<h2 id="京东商城的导航菜单的实现"><a href="#京东商城的导航菜单的实现" class="headerlink" title="京东商城的导航菜单的实现"></a>京东商城的导航菜单的实现</h2><h3 id="纯-CSS-实现商城导航菜单"><a href="#纯-CSS-实现商城导航菜单" class="headerlink" title="纯 CSS 实现商城导航菜单"></a>纯 CSS 实现商城导航菜单</h3><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img49.PNG" alt=""></p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;test&lt;/title&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .leftmenu{
+            display: block;
+            width: 220px;
+            border: 2px solid #e4393c;
+            margin-left: 20px;
+        }
+        .leftmenu-head{
+            background-color: #e4393c;
+            color: white;
+            font-size: 11pt;
+            font-weight: bold;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 20px;
+        }
+        .leftmenu-content li{
+            height: 30px;
+            line-height: 30px;
+            font-size: 11pt;
+            list-style: none;
+            padding-left: 8px;
+            background: url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img48.jpg&quot;) no-repeat;
+            background-position:right;
+        }
+        .leftmenu-content li:hover{
+            height: 28px;
+            line-height: 28px;
+            border: 1px solid #DDD;
+            border-right: none;
+            box-shadow: 0 0 8px #DDD;
+            background-image: none;
+            background-color: white;
+        }
+        .leftmenu-content li a {
+            text-decoration: none;
+            color: #313131
+        }
+        .leftmenu-content li a:hover{
+            text-decoration: underline;
+            font-weight: bold;
+            color: #e4393c;
+        }
+        .leftmenu-content .left-menu-line{
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #313131;
+            margin: 0 6px;
+        }
+        .leftmenu-content li:hover .submenu{
+            display: block;
+        }
+        .submenu{
+            display: none;
+            width: 715px;
+            height: 220px;
+            position: absolute;
+            border: 1px solid #DDD;
+            margin-left: 208px;
+            margin-top: -28px;
+            background-color: white;
+            box-shadow: 0 0 8px #DDD;
+        }
+        .submenu span{
+            display: block;
+            width: 4px;
+            height: 27px;
+            background-color: white;
+            float: left;
+            margin-left: -2px;
+            z-index: 1;
+
+        }
+        .submenu-left{
+            background-color: white;
+            width: 490px;
+            float: left;
+            margin: 5px;
+        }
+
+        .submenu-left dl{
+            border-bottom: 1px solid #aaa;
+            display: block;
+            overflow: hidden;
+        }
+        .submenu-left dl dt{
+            display: block;
+            height: 22px;
+            line-height: 22px;
+            width: 60px;
+            float: left;
+            text-align: right;
+            margin-top: 4px;
+            padding-right: 6px;
+        }
+        .submenu-left dl dt a{
+            color: #e4393c;
+            text-decoration: underline;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+        .submenu-left dl dd{
+            display: block;
+            float: left;
+            border-left: 1px solid #CCC;
+            color: #737373;
+            font-size: 9pt;
+            height: 14px;
+            line-height: 14px;
+            padding: 0 8px;
+            margin: 8px 0;
+        }
+        .submenu-right{
+            float: left;
+            margin: 5px;
+            width: 200px;
+            height: 200px;
+        }
+        .submenu-right a img{
+            display: block;
+            width: 150px;
+            height: 70px;
+            margin: 5px auto;
+        }
+
+    &lt;/style&gt;
+    &lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;leftmenu&quot;&gt;
+        &lt;ul class=&quot;leftmenu-content&quot;&gt;
+            &lt;div class=&quot;leftmenu-head&quot;&gt;全部商品分类&lt;/div&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;家用电器&lt;/a&gt;
+                &lt;div class=&quot;submenu&quot;&gt;
+                    &lt;span&gt;&lt;/span&gt;
+                    &lt;div class=&quot;submenu-left&quot;&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;电视&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;合资品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;国产品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;互联网品牌&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;空调&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;挂壁式空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;柜式空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;中央空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;空调配件&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;洗衣机&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;滚筒式洗衣机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;洗烘一体机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;迷你洗衣机&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;submenu-right&quot;&gt;
+                        &lt;a href=&quot;&quot;&gt;
+                            &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg&quot; alt=&quot;&quot;&gt;
+                        &lt;/a&gt;
+                        &lt;a href=&quot;&quot;&gt;
+                            &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg&quot; alt=&quot;&quot;&gt;
+                        &lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;手机&lt;/a&gt;&lt;span class=&quot;left-menu-line&quot;&gt;&lt;/span&gt;&lt;a href=&quot;&quot;&gt;运营商&lt;/a&gt;&lt;span class=&quot;left-menu-line&quot;&gt;&lt;/span&gt;&lt;a href=&quot;&quot;&gt;数码&lt;/a&gt;
+                &lt;div class=&quot;submenu&quot;&gt;
+                    &lt;span&gt;&lt;/span&gt;
+                    &lt;div class=&quot;submenu-left&quot;&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;电视&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;合资品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;国产品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;互联网品牌&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;空调&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;挂壁式空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;柜式空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;中央空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;空调配件&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;洗衣机&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;滚筒式洗衣机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;洗烘一体机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;迷你洗衣机&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;submenu-right&quot;&gt;
+                        右侧推荐品牌
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;电脑办公&lt;/a&gt;
+                &lt;div class=&quot;submenu&quot;&gt;
+                    &lt;span&gt;&lt;/span&gt;
+                    &lt;div class=&quot;submenu-left&quot;&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;电视&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;合资品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;国产品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;互联网品牌&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;空调&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;挂壁式空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;柜式空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;中央空调&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;空调配件&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                        &lt;dl&gt;
+                            &lt;dt&gt;&lt;a href=&quot;&quot;&gt;洗衣机&lt;/a&gt;&lt;/dt&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;滚筒式洗衣机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;洗烘一体机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;dd&gt;&lt;a href=&quot;&quot;&gt;迷你洗衣机&lt;/a&gt;&lt;/dd&gt;
+                        &lt;/dl&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;submenu-right&quot;&gt;
+                        右侧推荐品牌
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p></p>
+<h3 id="使用-JavaScript-修改鼠标悬浮的效果"><a href="#使用-JavaScript-修改鼠标悬浮的效果" class="headerlink" title="使用 JavaScript 修改鼠标悬浮的效果"></a>使用 JavaScript 修改鼠标悬浮的效果</h3><p><strong>实现方法是，将原来的 hover 修改的效果写在一个新类里面，在出发 mouseover 事件后，绑定该类以触发显示效果。</strong></p>
+<p>如下面代码所示，鼠标触发的效果在 lihover 这个类中，当 li 出发 mouseover 事件后，使用 className 动态添加样式类。</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;test&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            .leftmenu{
+                display: block;
+                width: 220px;
+                border: 2px solid #e4393c;
+                margin-left: 20px;
+            }
+            .leftmenu-head{
+                background-color: #e4393c;
+                color: white;
+                font-size: 11pt;
+                font-weight: bold;
+                height: 40px;
+                line-height: 40px;
+                padding-left: 20px;
+            }
+            .leftmenu-content li{
+                height: 30px;
+                line-height: 30px;
+                font-size: 11pt;
+                list-style: none;
+                padding-left: 8px;
+                background: url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img48.jpg&quot;) no-repeat;
+                background-position:right;
+            }
+            .leftmenu-content li a {
+                text-decoration: none;
+                color: #313131
+            }
+            .leftmenu-content li a:hover{
+                text-decoration: underline;
+                font-weight: bold;
+                color: #e4393c;
+            }
+            .leftmenu-content .left-menu-line{
+                height: 30px;
+                line-height: 30px;
+                border: 1px solid #313131;
+                margin: 0 6px;
+            }
+            .leftmenu-content .lihover .submenu{
+                display: block;
+            }
+            .leftmenu-content .lihover{
+                height: 28px;
+                line-height: 28px;
+                border: 1px solid #DDD;
+                border-right: none;
+                box-shadow: 0 0 8px #DDD;
+                background-image: none;
+                background-color: white;
+            }
+            .submenu{
+                display: none;
+                width: 715px;
+                height: 220px;
+                position: absolute;
+                border: 1px solid #DDD;
+                margin-left: 208px;
+                margin-top: -28px;
+                background-color: white;
+                box-shadow: 0 0 8px #DDD;
+            }
+            .submenu span{
+                display: block;
+                width: 4px;
+                height: 27px;
+                background-color: white;
+                float: left;
+                margin-left: -2px;
+                z-index: 1;
+
+            }
+            .submenu-left{
+                background-color: white;
+                width: 490px;
+                float: left;
+                margin: 5px;
+            }
+
+            .submenu-left dl{
+                border-bottom: 1px solid #aaa;
+                display: block;
+                overflow: hidden;
+            }
+            .submenu-left dl dt{
+                display: block;
+                height: 22px;
+                line-height: 22px;
+                width: 60px;
+                float: left;
+                text-align: right;
+                margin-top: 4px;
+                padding-right: 6px;
+            }
+            .submenu-left dl dt a{
+                color: #e4393c;
+                text-decoration: underline;
+                font-size: 10pt;
+                font-weight: bold;
+            }
+            .submenu-left dl dd{
+                display: block;
+                float: left;
+                border-left: 1px solid #CCC;
+                color: #737373;
+                font-size: 9pt;
+                height: 14px;
+                line-height: 14px;
+                padding: 0 8px;
+                margin: 8px 0;
+            }
+            .submenu-right{
+                float: left;
+                margin: 5px;
+                width: 200px;
+                height: 200px;
+            }
+            .submenu-right a img{
+                display: block;
+                width: 150px;
+                height: 70px;
+                margin: 5px auto;
+            }
+        &lt;/style&gt;
+        &lt;script&gt;
+            window.onload = function(){
+            var lists = document.getElementsByClassName(&quot;leftmenu-content&quot;)[0].getElementsByTagName(&quot;li&quot;),
+            i, len;
+            for(i=0,len = lists.length; i&lt;len; i++){
+                lists[i].onmouseover = function(){
+                    var This = this
+                    console.log(This.className);
+                    This.className = &quot;lihover&quot;;
+                }
+                lists[i].onmouseout = function(){
+                    var This = this;
+                    console.log(This.className);
+                    This.className = null;
+                }
+            }
+        }
+        &lt;/script&gt;
+        &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;leftmenu&quot;&gt;
+            &lt;ul class=&quot;leftmenu-content&quot;&gt;
+                &lt;div class=&quot;leftmenu-head&quot;&gt;全部商品分类&lt;/div&gt;
+                &lt;li&gt;&lt;a href=&quot;&quot;&gt;家用电器&lt;/a&gt;
+                    &lt;div class=&quot;submenu&quot;&gt;
+                        &lt;span&gt;&lt;/span&gt;
+                        &lt;div class=&quot;submenu-left&quot;&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;电视&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;合资品牌&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;国产品牌&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;互联网品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;空调&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;挂壁式空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;柜式空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;中央空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;空调配件&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;洗衣机&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;滚筒式洗衣机&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;洗烘一体机&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;迷你洗衣机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;submenu-right&quot;&gt;
+                            &lt;a href=&quot;&quot;&gt;
+                                &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg&quot; alt=&quot;&quot;&gt;
+                            &lt;/a&gt;
+                            &lt;a href=&quot;&quot;&gt;
+                                &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg&quot; alt=&quot;&quot;&gt;
+                            &lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;&quot;&gt;手机&lt;/a&gt;&lt;span class=&quot;left-menu-line&quot;&gt;&lt;/span&gt;&lt;a href=&quot;&quot;&gt;运营商&lt;/a&gt;&lt;span class=&quot;left-menu-line&quot;&gt;&lt;/span&gt;&lt;a href=&quot;&quot;&gt;数码&lt;/a&gt;
+                    &lt;div class=&quot;submenu&quot;&gt;
+                        &lt;span&gt;&lt;/span&gt;
+                        &lt;div class=&quot;submenu-left&quot;&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;电视&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;合资品牌&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;国产品牌&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;互联网品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;空调&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;挂壁式空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;柜式空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;中央空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;空调配件&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;洗衣机&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;滚筒式洗衣机&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;洗烘一体机&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;迷你洗衣机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;submenu-right&quot;&gt;
+                            右侧推荐品牌
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;&quot;&gt;电脑办公&lt;/a&gt;
+                    &lt;div class=&quot;submenu&quot;&gt;
+                        &lt;span&gt;&lt;/span&gt;
+                        &lt;div class=&quot;submenu-left&quot;&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;电视&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;合资品牌&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;国产品牌&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;互联网品牌&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;空调&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;挂壁式空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;柜式空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;中央空调&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;空调配件&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                            &lt;dl&gt;
+                                &lt;dt&gt;&lt;a href=&quot;&quot;&gt;洗衣机&lt;/a&gt;&lt;/dt&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;滚筒式洗衣机&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;洗烘一体机&lt;/a&gt;&lt;/dd&gt;
+                                &lt;dd&gt;&lt;a href=&quot;&quot;&gt;迷你洗衣机&lt;/a&gt;&lt;/dd&gt;
+                            &lt;/dl&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;submenu-right&quot;&gt;
+                            右侧推荐品牌
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/31/网页组件制作之导航菜单/" data-id="cixkcmb3l001154wlqraflel5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/31/网页组件制作之字体图标/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页组件制作之字体图标
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/28/网页结构与表现原则/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页结构与表现原则</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

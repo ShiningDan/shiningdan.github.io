@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页组件制作之分页码 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="网页组件制作笔记之分页码在该笔记中将学到一些常用的分页码的制作方法与展示效果
+使用 div + a 来制作分页码在网页中添加 &amp;lt; 和 &amp;gt; 等特殊符号的时候，不能直接在 HTML 代码里写 &amp;lt; 或 &amp;gt;，而是要通过 html 实体标签来代替该符号，如 &amp;lt; 的实体标签是 &amp;amp;lt; 而 &amp;gt; 的实体标签是 &amp;amp;gt;
+&amp;lt;html&amp;gt;
+    &amp;lt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页组件制作之分页码">
+<meta property="og:url" content="http://yoursite.com/2016/10/31/网页组件制作笔记之分页码/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="网页组件制作笔记之分页码在该笔记中将学到一些常用的分页码的制作方法与展示效果
+使用 div + a 来制作分页码在网页中添加 &amp;lt; 和 &amp;gt; 等特殊符号的时候，不能直接在 HTML 代码里写 &amp;lt; 或 &amp;gt;，而是要通过 html 实体标签来代替该符号，如 &amp;lt; 的实体标签是 &amp;amp;lt; 而 &amp;gt; 的实体标签是 &amp;amp;gt;
+&amp;lt;html&amp;gt;
+    &amp;lt">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img26.PNG">
+<meta property="og:updated_time" content="2016-10-31T12:17:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页组件制作之分页码">
+<meta name="twitter:description" content="网页组件制作笔记之分页码在该笔记中将学到一些常用的分页码的制作方法与展示效果
+使用 div + a 来制作分页码在网页中添加 &amp;lt; 和 &amp;gt; 等特殊符号的时候，不能直接在 HTML 代码里写 &amp;lt; 或 &amp;gt;，而是要通过 html 实体标签来代替该符号，如 &amp;lt; 的实体标签是 &amp;amp;lt; 而 &amp;gt; 的实体标签是 &amp;amp;gt;
+&amp;lt;html&amp;gt;
+    &amp;lt">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img26.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页组件制作笔记之分页码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/31/网页组件制作笔记之分页码/" class="article-date">
+  <time datetime="2016-10-31T12:17:17.000Z" itemprop="datePublished">2016-10-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页组件制作之分页码
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="网页组件制作笔记之分页码"><a href="#网页组件制作笔记之分页码" class="headerlink" title="网页组件制作笔记之分页码"></a>网页组件制作笔记之分页码</h1><p><strong>在该笔记中将学到一些常用的分页码的制作方法与展示效果</strong></p>
+<h2 id="使用-div-a-来制作分页码"><a href="#使用-div-a-来制作分页码" class="headerlink" title="使用 div + a 来制作分页码"></a>使用 div + a 来制作分页码</h2><p>在网页中添加 &lt; 和 &gt; 等特殊符号的时候，不能直接在 HTML 代码里写 &lt; 或 &gt;，而是要通过 html 实体标签来代替该符号，如 &lt; 的实体标签是 <code>&amp;lt;</code> 而 &gt; 的实体标签是 <code>&amp;gt;</code></p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Page 展示&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            .page-normal .page-prev{
+                padding:5px 7px;
+                border:1px solid #ffe3c6;
+                color:#ffe3c6;
+            }
+            .page-normal .page-curr{
+                border:1px solid #ff6500;
+                background-color:#ffbe94;
+                color:#ff6500;
+                padding:5px 7px;
+            }
+            .page-normal a{
+                text-decoration:none;
+                color:#ff6500;
+                border:1px solid #ff9600;
+                padding:5px 7px;
+            }
+            .page-normal a:hover{
+                border:1px solid #ff6500;
+                background-color:#ffbe94;
+            }
+            .page-normal{
+                color:#ff6500;
+                text-align:center;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;page-normal&quot;&gt;
+            &lt;span class=&quot;page-prev&quot;&gt;&amp;lt;&lt;/span&gt;
+            &lt;span class=&quot;page-curr&quot;&gt;1&lt;/span&gt;
+            &lt;a href=&quot;&quot;&gt;2&lt;/a&gt;
+            &lt;a href=&quot;&quot;&gt;3&lt;/a&gt;
+            &lt;a href=&quot;&quot;&gt;4&lt;/a&gt;
+            &lt;a href=&quot;&quot;&gt;5&lt;/a&gt;
+            ...
+            &lt;a href=&quot;&quot;&gt;99&lt;/a&gt;
+            &lt;a href=&quot;&quot;&gt;100&lt;/a&gt;
+            &lt;a href=&quot;&quot;&gt;&amp;gt;&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>显示效果如下：</p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img26.PNG" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/10/31/网页组件制作笔记之分页码/" data-id="cixkcmb41001t54wl9l3mue0j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/31/网页组件制作之回到顶部/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页组件制作之回到顶部
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/31/网页组件制作之字体图标/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页组件制作之字体图标</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

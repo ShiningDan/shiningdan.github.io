@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>网页组件制作之图片剪切效果 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="网页组件制作之图片剪切效果
+在该笔记中将学到列表展示中图片剪切效果的方法与展示效果
+本系列的是参考慕课网 Ben老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+实现效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页组件制作之图片剪切效果">
+<meta property="og:url" content="http://yoursite.com/2016/12/18/网页组件制作之图片剪切效果/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="网页组件制作之图片剪切效果
+在该笔记中将学到列表展示中图片剪切效果的方法与展示效果
+本系列的是参考慕课网 Ben老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+实现效果">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img76.PNG">
+<meta property="og:updated_time" content="2016-12-19T13:15:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页组件制作之图片剪切效果">
+<meta name="twitter:description" content="网页组件制作之图片剪切效果
+在该笔记中将学到列表展示中图片剪切效果的方法与展示效果
+本系列的是参考慕课网 Ben老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+实现效果">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img76.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-网页组件制作之图片剪切效果" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/18/网页组件制作之图片剪切效果/" class="article-date">
+  <time datetime="2016-12-18T12:22:37.000Z" itemprop="datePublished">2016-12-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      网页组件制作之图片剪切效果
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>网页组件制作之图片剪切效果</p>
+<p><strong>在该笔记中将学到列表展示中图片剪切效果的方法与展示效果</strong></p>
+<p>本系列的是参考<a href="http://www.imooc.com/u/110555/courses?sort=publish" target="_blank" rel="external">慕课网 Ben</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
+<h2 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h2><p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img76.PNG" alt=""></p>
+<a id="more"></a>
+<h2 id="技术关键点"><a href="#技术关键点" class="headerlink" title="技术关键点"></a>技术关键点</h2><p>CSS 中使用 clip 可以实现对图片的裁剪，如果要裁剪成矩形，则需要使用 <code>clip:rect(top, right, bottom, left)</code></p>
+<p>使用绝对定位来定位选取框的触点</p>
+<p>对于选取框的鼠标事件：按下，松开，拖动，同时要获得鼠标在选取框中的位置，根据鼠标的坐标来改变选取框的位置</p>
+<p><strong>拖动的实现：</strong>拖动的实现是分为鼠标的按下，移动和松开三个动作共同完成的。按下的时候，记录此时的裁剪框的位置以及大小，在 mousemove 的时候修改裁剪框的位置以及大小。</p>
+<p><strong>使用 jQuery 的 css()</strong>方法，可以获得外部样式文件的样式。</p>
+<p>代码如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;图片剪切效果&lt;/title&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;style&gt;
+            body{margin: 0;padding: 0;background-color: #666;}
+            #photo{height: 360px;width: 460px;position: absolute; top: 100px;left: 200px;}
+            #photo img{height: 360px;width: 460px;}
+            #img-back{opacity: 0.5;position: absolute;top:0;right: 0;}
+            #img-clip{position: absolute;top: 0;right: 0;clip: rect(0, 200px, 200px, 0)}
+            #clip-win{position: absolute;border: 1px solid white;height: 200px;width: 200px;left:0px; top: 0px;}
+            #clip-win .win-btn{position: absolute;height: 6px;width: 6px;background-color: white;margin-left: -3px;margin-top: -3px;}
+            #clip-win .left-l{left: 0px;}
+            #clip-win .left-m{left: 100px;}
+            #clip-win .left-r{left: 200px;}
+            #clip-win .top-t{top: 0px;}
+            #clip-win .top-m{top: 100px;}
+            #clip-win .top-b{top: 200px;}
+            #preview{position: absolute;height: 360px;width: 460px;top: 100px;left: 680px;}
+            #preview-img{height: 360px;width: 460px;position: absolute;}
+        &lt;/style&gt;
+        &lt;script src=&quot;https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js&quot;&gt;
+        &lt;/script&gt;
+        &lt;script&gt;
+            function updateClip($border) {
+                //更新选取区域高亮可见
+                document.getElementById(&quot;img-clip&quot;).style.clip = &quot;rect(&quot; + $border.css(&quot;top&quot;) + &quot;,&quot; + (parseFloat($border.css(&quot;left&quot;)) + parseFloat($border.width())) + &quot;px, &quot; + (parseFloat($border.css(&quot;top&quot;)) + parseFloat($border.height())) + &quot;px, &quot; + $border.css(&quot;left&quot;) + &quot;)&quot;;
+            }
+
+            function updatePreview($border) {  
+                let top = $border.css(&quot;top&quot;),
+                left = $border.css(&quot;left&quot;),
+                width = $border.width(),
+                height = $border.height();
+
+
+                $(&quot;#preview-img&quot;).css({
+                    &quot;clip&quot;: &quot;rect(&quot; + top + &quot;, &quot; + (parseFloat(left) +  width) + &quot;px, &quot; + (parseFloat(top) + height)+ &quot;px, &quot; + left +&quot;)&quot;,
+                    &quot;top&quot;: &quot;-&quot; + top,
+                    &quot;left&quot;: &quot;-&quot; + left
+                });
+            }
+
+            $(document).ready(function () {
+                // 设置鼠标在选取框边界点上的CSS效果
+                $(&quot;#clip-win div&quot;).each(function () {  
+                    $(this).css(&quot;cursor&quot;, this.id);
+                });
+
+                let isMouseDown = false;
+                let mouseDowntarget, mouseDownX, mouseDownY, btnDir, borderLeft;
+
+                updatePreview($(&quot;#clip-win&quot;));
+
+                // 鼠标是否按着选取框边界点
+                $(window).bind(&quot;mousedown&quot;, function () {  
+                    let $border  = $(&quot;#clip-win&quot;);
+                    isMouseDown = true;
+                    mouseDowntarget = event.target;
+                    mouseDownX = event.clientX;
+                    mouseDownY = event.clientY;
+                    borderLeft = parseFloat($border.css(&quot;left&quot;));
+                    borderTop = parseFloat($border.css(&quot;top&quot;));
+                    borderWidth = $border.width();
+                    borderHeight = $border.height();
+                }).bind(&quot;mouseup&quot;, function () {  
+                    isMouseDown = false;
+                }).bind(&quot;mousemove&quot;, function () {  
+                    if(isMouseDown &amp;&amp; $(mouseDowntarget).hasClass(&quot;win-btn&quot;)){
+                        let $t = $(mouseDowntarget);
+                        let $border  = $(&quot;#clip-win&quot;);
+                        if($t.hasClass(&quot;left-l&quot;)){
+                            //左边栏拉到右边栏上重合
+                            if((borderWidth - event.clientX + mouseDownX) &gt; 0) {
+                                //判断左边栏是否出界
+                                if((borderLeft + event.clientX - mouseDownX) &gt; 0) {
+                                    $border.css(&quot;left&quot;,borderLeft + event.clientX - mouseDownX + &quot;px&quot;);
+                                    $border.width(borderWidth - event.clientX + mouseDownX);
+                                    //修改裁剪框触点的定位
+                                    $(&quot;.left-m&quot;).each(function () {  
+                                        this.style.left = (borderWidth - event.clientX + mouseDownX)/2 + &quot;px&quot;;
+                                    });
+                                    $(&quot;.left-r&quot;).each(function () {  
+                                        this.style.left = borderWidth - event.clientX + mouseDownX + &quot;px&quot;;
+                                    })
+                                } else {
+                                    $border.css(&quot;left&quot;,&quot;0px&quot;);
+                                    $border.width(borderWidth + borderLeft);
+                                    //修改裁剪框触点的定位
+                                    $(&quot;.left-m&quot;).each(function () {  
+                                        this.style.left = (borderWidth + borderLeft)/2 + &quot;px&quot;;
+                                    });
+                                    $(&quot;.left-r&quot;).each(function () {  
+                                        this.style.left = borderWidth + borderLeft + &quot;px&quot;;
+                                    })
+                                }
+
+                            } else {
+                                $border.css(&quot;left&quot;, borderLeft + borderWidth + &quot;px&quot;);
+                                $border.width(0);
+                                $(&quot;.left-m&quot;).each(function () {  
+                                    this.style.left = &quot;0px&quot;;
+                                });
+                                $(&quot;.left-r&quot;).each(function () {  
+                                    this.style.left = &quot;0px&quot;;
+                                })
+                            }
+
+                        } else if($t.hasClass(&quot;left-r&quot;)){
+                            //判断右边栏是否拉到左边栏重合
+                            if((borderWidth + event.clientX - mouseDownX) &gt; 0) {
+                                //判断右边栏是否出界
+                                if((borderLeft + borderWidth + event.clientX - mouseDownX) &lt; $(&quot;#photo&quot;).width()){
+                                    $border.width(borderWidth + event.clientX - mouseDownX);
+                                    //修改裁剪框触点的定位
+                                    $(&quot;.left-m&quot;).each(function () {  
+                                        this.style.left = (borderWidth + event.clientX - mouseDownX)/2 + &quot;px&quot;;
+                                    });
+                                    $(&quot;.left-r&quot;).each(function () {  
+                                        this.style.left = borderWidth + event.clientX - mouseDownX + &quot;px&quot;;
+                                    })
+                                } else {
+                                    let widthLimit = $(&quot;#photo&quot;).width() - borderLeft;
+                                    $border.width(widthLimit);
+                                    //修改裁剪框触点的定位
+                                    $(&quot;.left-m&quot;).each(function () {  
+                                        this.style.left = (widthLimit)/2 + &quot;px&quot;;
+                                    });
+                                    $(&quot;.left-r&quot;).each(function () {  
+                                        this.style.left = widthLimit + &quot;px&quot;;
+                                    })
+                                }
+                            } else {
+                                $border.width(0);
+                                $(&quot;.left-m&quot;).each(function () {  
+                                    this.style.left = &quot;0px&quot;;
+                                });
+                                $(&quot;.left-r&quot;).each(function () {  
+                                    this.style.left = &quot;0px&quot;;
+                                })
+                            }
+
+                        }
+
+                        if($t.hasClass(&quot;top-t&quot;)){
+                            //上边栏拉到下边栏重合
+                            if((borderHeight - event.clientY + mouseDownY) &gt; 0) {
+                                //判断上边栏是否出界
+                                if((borderTop + event.clientY - mouseDownY) &gt; 0){
+                                    $border.css(&quot;top&quot;, borderTop + event.clientY - mouseDownY + &quot;px&quot;);
+                                    $border.height(borderHeight - event.clientY + mouseDownY);
+                                    //修改裁剪框触点的定位
+                                    $(&quot;.top-m&quot;).each(function () {  
+                                        this.style.top = (borderHeight - event.clientY + mouseDownY)/2 + &quot;px&quot;;
+                                    });
+                                    $(&quot;.top-b&quot;).each(function () {  
+                                        this.style.top = borderHeight - event.clientY + mouseDownY + &quot;px&quot;;
+                                    })
+                                } else {
+                                    $border.css(&quot;top&quot;,&quot;0px&quot;);
+                                    $border.height(borderHeight + borderTop);
+                                    //修改裁剪框触点的定位
+                                    $(&quot;.top-m&quot;).each(function () {  
+                                        this.style.top = (borderHeight + borderTop)/2 + &quot;px&quot;;
+                                    });
+                                    $(&quot;.top-b&quot;).each(function () {  
+                                        this.style.top = borderHeight + borderTop + &quot;px&quot;;
+                                    })
+                                }
+
+                            } else {
+                                $border.css(&quot;top&quot;, borderTop + borderHeight + &quot;px&quot;)
+                                $border.height(0);
+                                $(&quot;.top-m&quot;).each(function () {  
+                                    this.style.top = &quot;0px&quot;;
+                                });
+                                $(&quot;.top-b&quot;).each(function () {  
+                                    this.style.top = &quot;0px&quot;;
+                                })
+                            }
+
+                        } else if($t.hasClass(&quot;top-b&quot;)){
+                            //判断下边栏是否拉到上边栏重合
+                            if((borderHeight + event.clientY - mouseDownY) &gt; 0) {
+                                //判断右边栏是否出界
+                                if((borderTop + borderHeight + event.clientY - mouseDownY) &lt; $(&quot;#photo&quot;).height()){
+                                    $border.height(borderHeight + event.clientY - mouseDownY);
+                                    //修改裁剪框触点的定位
+                                    $(&quot;.top-m&quot;).each(function () {  
+                                        this.style.top = (borderHeight + event.clientY - mouseDownY)/2 + &quot;px&quot;;
+                                    });
+                                    $(&quot;.top-b&quot;).each(function () {  
+                                        this.style.top = borderHeight + event.clientY - mouseDownY + &quot;px&quot;;
+                                    })
+                                } else {
+                                    let heightLimit = $(&quot;#photo&quot;).height() - borderTop;
+                                    $border.height(heightLimit);
+                                    //修改裁剪框触点的定位
+                                    $(&quot;.top-m&quot;).each(function () {  
+                                        this.style.top = (heightLimit)/2 + &quot;px&quot;;
+                                    });
+                                    $(&quot;.top-b&quot;).each(function () {  
+                                        this.style.top = heightLimit + &quot;px&quot;;
+                                    })
+                                }
+                            } else {
+                                $border.height(0);
+                                $(&quot;.top-m&quot;).each(function () {  
+                                    this.style.top = &quot;0px&quot;;
+                                });
+                                $(&quot;.top-b&quot;).each(function () {  
+                                    this.style.top = &quot;0px&quot;;
+                                })
+                            }
+
+                        }
+                        updateClip($border);
+                        updatePreview($border);
+                    }
+                    return false;
+                })
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;photo&quot;&gt;
+            &lt;img id=&quot;img-back&quot; src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/13.jpg&quot; alt=&quot;&quot;&gt;
+            &lt;img id=&quot;img-clip&quot; src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/13.jpg&quot; alt=&quot;&quot;&gt;        
+            &lt;div id=&quot;clip-win&quot;&gt;
+                &lt;div class=&quot;win-btn left-l top-t&quot; id=&quot;nw-resize&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;win-btn left-l top-m&quot; id=&quot;e-resize&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;win-btn left-l top-b&quot; id=&quot;sw-resize&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;win-btn left-m top-t&quot; id=&quot;n-resize&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;win-btn left-m top-b&quot; id=&quot;s-resize&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;win-btn left-r top-t&quot; id=&quot;ne-resize&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;win-btn left-r top-m&quot; id=&quot;w-resize&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;win-btn left-r top-b&quot; id=&quot;se-resize&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;    
+        &lt;/div&gt;
+        &lt;div id=&quot;preview&quot;&gt;
+            &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/13.jpg&quot; id=&quot;preview-img&quot;&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/18/网页组件制作之图片剪切效果/" data-id="cixkcmb3b000t54wlf9jwpscj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/27/网页组件制作之购物车效果/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          网页组件制作之购物车效果
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/17/网页组件制作之固定边栏滚动特效/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页组件制作之固定边栏滚动特效</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

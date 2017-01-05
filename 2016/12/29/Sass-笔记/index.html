@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title> Sass 笔记 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Sass 笔记本系列的是参考慕课网 大漠老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+Sass 简介CSS 预处理器定义了一种新的语言，其基本思想是，用一种专门的编程语言，为 CSS 增加了一些编程的特性
+Sass 和 SCSS 的区别Sass 和 SCSS 其实是同一种东西，我们平时都称之为 Sass，两者之间不同之处有以下两点：
+
+文件扩展名不同，Sass 是以“.sass”后缀为扩展">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" Sass 笔记">
+<meta property="og:url" content="http://yoursite.com/2016/12/29/Sass-笔记/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Sass 笔记本系列的是参考慕课网 大漠老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+Sass 简介CSS 预处理器定义了一种新的语言，其基本思想是，用一种专门的编程语言，为 CSS 增加了一些编程的特性
+Sass 和 SCSS 的区别Sass 和 SCSS 其实是同一种东西，我们平时都称之为 Sass，两者之间不同之处有以下两点：
+
+文件扩展名不同，Sass 是以“.sass”后缀为扩展">
+<meta property="og:updated_time" content="2017-01-02T14:07:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content=" Sass 笔记">
+<meta name="twitter:description" content="Sass 笔记本系列的是参考慕课网 大漠老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+Sass 简介CSS 预处理器定义了一种新的语言，其基本思想是，用一种专门的编程语言，为 CSS 增加了一些编程的特性
+Sass 和 SCSS 的区别Sass 和 SCSS 其实是同一种东西，我们平时都称之为 Sass，两者之间不同之处有以下两点：
+
+文件扩展名不同，Sass 是以“.sass”后缀为扩展">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Sass-笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/29/Sass-笔记/" class="article-date">
+  <time datetime="2016-12-29T14:30:32.000Z" itemprop="datePublished">2016-12-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+       Sass 笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Sass-笔记"><a href="#Sass-笔记" class="headerlink" title="Sass 笔记"></a>Sass 笔记</h1><p>本系列的是参考<a href="http://www.imooc.com/u/104044/courses?sort=publish" target="_blank" rel="external">慕课网 大漠</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
+<h2 id="Sass-简介"><a href="#Sass-简介" class="headerlink" title="Sass 简介"></a>Sass 简介</h2><p><strong>CSS 预处理器</strong>定义了一种新的语言，其基本思想是，用一种专门的编程语言，为 CSS 增加了一些编程的特性</p>
+<h3 id="Sass-和-SCSS-的区别"><a href="#Sass-和-SCSS-的区别" class="headerlink" title="Sass 和 SCSS 的区别"></a>Sass 和 SCSS 的区别</h3><p>Sass 和 SCSS 其实是同一种东西，我们平时都称之为 Sass，两者之间不同之处有以下两点：</p>
+<ol>
+<li>文件扩展名不同，Sass 是以“.sass”后缀为扩展名，而 SCSS 是以“.scss”后缀为扩展名</li>
+<li>语法书写方式不同，<strong>Sass 是以严格的缩进式语法规则来书写，不带大括号({})和分号(;)，而 SCSS 的语法书写和我们的 CSS 语法书写方式非常类似</strong>。</li>
+</ol>
+<p><strong>Sass 是基于 Ruby 环境运行的，如要要运行 Sass，首先要安装 Ruby。</strong></p>
+<a id="more"></a>
+<h2 id="Sass-语法以及编译调试"><a href="#Sass-语法以及编译调试" class="headerlink" title="Sass 语法以及编译调试"></a>Sass 语法以及编译调试</h2><p><strong>Sass 的语法格式和 SCSS 的语法格式，他们的功能都是一样的，不同的是其书写格式和文件扩展名不同</strong></p>
+<h3 id="命令编译"><a href="#命令编译" class="headerlink" title="命令编译"></a>命令编译</h3><h4 id="单文件编译"><a href="#单文件编译" class="headerlink" title="单文件编译"></a>单文件编译</h4><pre><code>sass &lt;要编译的Sass文件路径&gt;/style.scss:&lt;要输出CSS文件路径&gt;/style.css
+</code></pre><p>例如：</p>
+<pre><code>sass test.scss:test.css
+</code></pre><h4 id="多文件编译"><a href="#多文件编译" class="headerlink" title="多文件编译"></a>多文件编译</h4><p>针对文件夹的编译：</p>
+<pre><code>sass sass/:css/
+</code></pre><h4 id="监控自动编译"><a href="#监控自动编译" class="headerlink" title="监控自动编译"></a>监控自动编译</h4><p><strong>重新保存了修改的文件，命令终端就能监测，并重新编译出文件</strong></p>
+<pre><code>sass --watch &lt;要编译的Sass文件路径&gt;/style.scss:&lt;要输出CSS文件路径&gt;/style.css
+</code></pre><p><strong>但是这种方法，如果文件夹或文件的名称里面有中文，会出现问题。</strong></p>
+<h3 id="输出样式风格"><a href="#输出样式风格" class="headerlink" title="输出样式风格"></a>输出样式风格</h3><h4 id="嵌套输出方式-nested"><a href="#嵌套输出方式-nested" class="headerlink" title="嵌套输出方式 nested"></a>嵌套输出方式 nested</h4><p>在编译的时候带上参数“ –style nested”</p>
+<pre><code>sass --watch test.scss:test.css --style nested
+</code></pre><p>风格为：</p>
+<pre><code>nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+nav li {
+  display: inline-block; }
+nav a {
+  display: block;
+  padding: 6px 12px;
+  text-decoration: none; }
+</code></pre><h4 id="展开输出方式-expanded"><a href="#展开输出方式-expanded" class="headerlink" title="展开输出方式 expanded"></a>展开输出方式 expanded</h4><p>在编译的时候带上参数“ –style expanded”</p>
+<pre><code>sass --watch test.scss:test.css --style expanded
+</code></pre><p>风格为：</p>
+<pre><code>nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+nav li {
+  display: inline-block;
+}
+nav a {
+  display: block;
+  padding: 6px 12px;
+  text-decoration: none;
+}
+</code></pre><h4 id="紧凑输出方式-compact"><a href="#紧凑输出方式-compact" class="headerlink" title="紧凑输出方式 compact"></a>紧凑输出方式 compact</h4><p>在编译的时候带上参数“ –style compact”</p>
+<pre><code>sass --watch test.scss:test.css --style compact
+</code></pre><p>风格为：</p>
+<pre><code>nav ul { margin: 0; padding: 0; list-style: none; }
+nav li { display: inline-block; }
+nav a { display: block; padding: 6px 12px; text-decoration: none; }
+</code></pre><h4 id="压缩输出方式-compressed"><a href="#压缩输出方式-compressed" class="headerlink" title="压缩输出方式 compressed"></a>压缩输出方式 compressed</h4><p>在编译的时候带上参数“ –style compressed”</p>
+<pre><code>sass --watch test.scss:test.css --style compressed
+</code></pre><p>风格为：</p>
+<pre><code>nav ul{margin:0;padding:0;list-style:none}nav li{display:inline-block}nav a{display:block;padding:6px 12px;text-decoration:none}
+</code></pre><h3 id="Sass-的调试"><a href="#Sass-的调试" class="headerlink" title="Sass 的调试"></a>Sass 的调试</h3><p><strong>可以使用流量器的 sourcemap 功能</strong></p>
+<h2 id="Sass-基础"><a href="#Sass-基础" class="headerlink" title="Sass 基础"></a>Sass 基础</h2><p><strong>普通变量：</strong>普通变量定义以后可以在全局范围内使用</p>
+<p><strong>默认变量：</strong>默认变量一般是用来设置默认值，然后根据需求来覆盖的，<strong>默认变量在组件化开发的时候非常有用。</strong></p>
+<pre><code>$baseLineHeight: 2;
+$baseLineHeight: 1.5 !default;
+body{
+    line-height: $baseLineHeight; 
+}
+</code></pre><p>编译后为：</p>
+<pre><code>body{
+    line-height:2;
+}
+</code></pre><h3 id="局部变量与全局变量"><a href="#局部变量与全局变量" class="headerlink" title="局部变量与全局变量"></a>局部变量与全局变量</h3><p><strong>在选择器、函数、混合宏…的外面定义的变量为全局变量</strong></p>
+<p><strong>定义在元素内部的变量，比如 $color:red; 是一个局部变量。</strong></p>
+<p>例如：</p>
+<pre><code>//SCSS
+$color: orange !default;//定义全局变量(在选择器、函数、混合宏...的外面定义的变量为全局变量)
+.block {
+  color: $color;//调用全局变量
+}
+em {
+  $color: red;//定义局部变量
+  a {
+    color: $color;//调用局部变量
+  }
+}
+span {
+  color: $color;//调用全局变量
+}
+</code></pre><p>编译的结果为：</p>
+<pre><code>//CSS
+.block {
+  color: orange;
+}
+em a {
+  color: red;
+}
+span {
+  color: orange;
+}
+</code></pre><h3 id="什么时候声明变量"><a href="#什么时候声明变量" class="headerlink" title="什么时候声明变量"></a>什么时候声明变量</h3><p>创建变量只适用于感觉确有必要的情况下。不要为了某些骇客行为而声明新变量，这丝毫没有作用。只有满足所有下述标准时方可创建新变量：</p>
+<ol>
+<li>该值至少重复出现了两次；</li>
+<li>该值至少可能会被更新一次；</li>
+<li>该值所有的表现都与变量有关（非巧合）。</li>
+</ol>
+<h3 id="选择器嵌套"><a href="#选择器嵌套" class="headerlink" title="选择器嵌套"></a>选择器嵌套</h3><p>Sass 的嵌套分为三种：</p>
+<ol>
+<li>选择器嵌套</li>
+<li>属性嵌套</li>
+<li>伪类嵌套</li>
+</ol>
+<h4 id="选择器嵌套的代词-amp"><a href="#选择器嵌套的代词-amp" class="headerlink" title="选择器嵌套的代词(&amp;)"></a>选择器嵌套的代词(<code>&amp;</code>)</h4><p><code>&amp;</code>：在选择器嵌套中代表当前所有祖先嵌套关系，如：</p>
+<pre><code>nav {
+    a{
+        color:red;
+        header &amp; {
+            color: green;
+        }
+    }
+}
+</code></pre><p>编译结果是：</p>
+<pre><code>nav a {
+   color: red;
+}
+
+header nav a {
+   color: green;
+}
+</code></pre><h4 id="属性嵌套"><a href="#属性嵌套" class="headerlink" title="属性嵌套"></a>属性嵌套</h4><p>CSS 有一些<strong>属性前缀相同，只是后缀不一样</strong>，比如：border-top/border-right，与这个类似的还有 margin、padding、font 等属性</p>
+<pre><code>.box {
+    border-top: 1px solid red;
+    border-bottom: 1px solid green;
+}
+</code></pre><p>编译出来是：</p>
+<pre><code>.box {
+  border: {
+   top: 1px solid red;
+   bottom: 1px solid green;
+  }
+}
+</code></pre><h4 id="伪类嵌套"><a href="#伪类嵌套" class="headerlink" title="伪类嵌套"></a>伪类嵌套</h4><p>其实伪类嵌套和属性嵌套非常类似，只不过他<strong>需要借助<code>&amp;</code>符号一起配合使用</strong></p>
+<pre><code>.clearfix{
+&amp;:before,
+&amp;:after {
+    content:&quot;&quot;;
+    display: table;
+  }
+&amp;:after {
+    clear:both;
+    overflow: hidden;
+  }
+}
+</code></pre><p>编译结果是：</p>
+<pre><code>clearfix:before, .clearfix:after {
+  content: &quot;&quot;;
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+  overflow: hidden;
+}
+</code></pre><p>选择器嵌套最大的问题是将使最终的代码难以阅读，我们应该尽可能<strong>避免选择器嵌套</strong></p>
+<h3 id="混合宏"><a href="#混合宏" class="headerlink" title="混合宏"></a>混合宏</h3><p>需要重复使用大段的样式时，使用变量就无法达到我们目的，此时需要使用宏</p>
+<h4 id="声明混合宏"><a href="#声明混合宏" class="headerlink" title="声明混合宏"></a>声明混合宏</h4><h5 id="不带参数的混合宏"><a href="#不带参数的混合宏" class="headerlink" title="不带参数的混合宏"></a>不带参数的混合宏</h5><pre><code>@mixin border-radius{
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+</code></pre><h5 id="带参数的混合宏"><a href="#带参数的混合宏" class="headerlink" title="带参数的混合宏"></a>带参数的混合宏</h5><p>参数中的 <code>:5px</code>是该参数的默认值</p>
+<pre><code>@mixin border-radius($radius:5px){
+    -webkit-border-radius: $radius;
+    border-radius: $radius;
+}
+</code></pre><p>可以是几个参数或者是不知道数量的参数：</p>
+<pre><code>@mixin center($width,$height){
+  width: $width;
+  height: $height;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -($height) / 2;
+  margin-left: -($width) / 2;
+}
+</code></pre><p>有一个特别的参数“…”。当混合宏传的参数过多之时，可以使用参数来替代</p>
+<h5 id="带有逻辑的混合宏"><a href="#带有逻辑的混合宏" class="headerlink" title="带有逻辑的混合宏"></a>带有逻辑的混合宏</h5><p><code>...</code>：代表有多个参数</p>
+<p><code>@include</code>：代表调用声明好的混合宏</p>
+<pre><code>@mixin box-shadow($shadows...){
+  @if length($shadows) &gt;= 1 {
+    -webkit-box-shadow: $shadows;
+    box-shadow: $shadows;
+  } @else {
+    $shadows: 0 0 2px rgba(#000,.25);
+    -webkit-box-shadow: $shadow;
+    box-shadow: $shadow;
+  }
+}
+</code></pre><p>调用方法为：</p>
+<pre><code>.box {
+  @include box-shadow(0 0 1px rgba(#000,.5),0 0 2px rgba(#000,.2));
+}
+</code></pre><p>编译结果为：</p>
+<pre><code>.box {
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 0, 0, 0.2);
+}
+</code></pre><h4 id="调用混合宏"><a href="#调用混合宏" class="headerlink" title="调用混合宏"></a>调用混合宏</h4><pre><code>@mixin border-radius($radius:6px) {
+    -webkit-border-radius: $radius;
+    border-radius: $radius;
+}
+
+body{
+    @include border-radius(20px);
+}
+</code></pre><p>编译的结果是：</p>
+<pre><code>body {
+  -webkit-border-radius: 20px;
+  border-radius: 20px; 
+}
+</code></pre><h4 id="混合宏的不足"><a href="#混合宏的不足" class="headerlink" title="混合宏的不足"></a>混合宏的不足</h4><p>混合宏在实际编码中给我们带来很多方便之处，特别是对于<strong>复用重复代码块</strong>。但其最大的<strong>不足之处</strong>是会<strong>生成冗余的代码块</strong>。</p>
+<pre><code>@mixin border-radius{
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.box {
+  @include border-radius;
+  margin-bottom: 5px;
+}
+
+.btn {
+  @include border-radius;
+}
+</code></pre><p>编译结果为：</p>
+<pre><code>.box {
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.btn {
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+</code></pre><p>Sass 在调用相同的混合宏时，<strong>并不能智能的将相同的样式代码块合并在一起</strong></p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>在 Sass 中也具有继承一说，也是继承类中的样式代码块。在 Sass 中是通过关键词 <code>@extend</code> 来继承已存在的类样式块，从而实现代码的继承。</p>
+<p><strong>使用继承可以实现将相同样式的代码块组合在一起</strong></p>
+<pre><code>.btn {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: #f36;
+  color: #fff;
+  @extend .btn;
+}
+
+.btn-second {
+  background-color: orange;
+  color: #fff;
+  @extend .btn;
+}
+</code></pre><p>编译后显示为：</p>
+<pre><code>.btn, .btn-primary, .btn-second {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: #f36;
+  color: #fff;
+}
+
+.btn-second {
+  background-clor: orange;
+  color: #fff;
+}
+</code></pre><h4 id="继承与占位符"><a href="#继承与占位符" class="headerlink" title="继承与占位符"></a>继承与占位符</h4><p> %placeholder 声明的代码，如果不被 @extend 调用的话，不会产生任何代码。</p>
+<p><strong>@extend 调用的占位符，编译出来的代码会将相同的代码合并在一起</strong></p>
+<p>使用占位符的方法，比直接继承其他选择符中所有的样式更加灵活。</p>
+<pre><code>%mt5 {
+  margin-top: 5px;
+}
+%pt5{
+  padding-top: 5px;
+}
+
+.btn {
+  @extend %mt5;
+  @extend %pt5;
+}
+
+.block {
+  @extend %mt5;
+
+  span {
+    @extend %pt5;
+  }
+}
+</code></pre><p>编译结果为：</p>
+<pre><code>.btn, .block {
+  margin-top: 5px;
+}
+
+.btn, .block span {
+  padding-top: 5px;
+}
+</code></pre><h3 id="混合宏-VS-继承-VS-占位符"><a href="#混合宏-VS-继承-VS-占位符" class="headerlink" title="混合宏 VS 继承 VS 占位符"></a>混合宏 VS 继承 VS 占位符</h3><p><strong>混合宏的优点</strong>：可以用来传递参数，如果你的代码块中涉及到变量，建议使用混合宏来创建相同的代码块。</p>
+<p><strong>混合宏的缺点</strong>：如果在样式文件中调用同一个混合宏，会产生多个对应的样式代码，造成代码的冗余</p>
+<p><strong>继承的优点</strong>： CSS 会将使用继承的代码块合并到一起，通过组合选择器的方式向大家展现，如果你的代码块不需要专任何变量参数，而且有一个基类已在文件中存在，那么建议使用 Sass 的继承。</p>
+<p><strong>继承的缺点</strong>：不能传变量参数，<strong>继承是首先有一个基类存在，不管调用与不调用，基类的样式都将会出现在编译出来的 CSS 代码中。</strong></p>
+<p><strong>占位符的优点</strong>：编译出来的 CSS 代码和使用继承基本上是相同，只是不会在代码中生成占位符 mt 的选择器。</p>
+<p><strong>占位符的缺点</strong>：不能传变量参数。</p>
+<p><strong>在占位符中也可以使用混合宏，用来解决不能传递参数的缺点。</strong></p>
+<h3 id="插值"><a href="#插值" class="headerlink" title="插值#{}"></a>插值#{}</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/29/Sass-笔记/" data-id="cixkcmb2m000354wlowx210w1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sass/">Sass</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/01/02/CSS属性深入理解/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/27/网页组件制作之购物车效果/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">网页组件制作之购物车效果</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/coding/">coding</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenVPN/">OpenVPN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sass/">Sass</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CSS/" style="font-size: 20px;">CSS</a> <a href="/tags/HTML/" style="font-size: 17.5px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/OpenVPN/" style="font-size: 10px;">OpenVPN</a> <a href="/tags/Sass/" style="font-size: 10px;">Sass</a> <a href="/tags/jQuery/" style="font-size: 12.5px;">jQuery</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/05/CSS-注意事项/">CSS-注意事项</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/02/CSS属性深入理解/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/29/Sass-笔记/"> Sass 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/网页组件制作之购物车效果/">网页组件制作之购物车效果</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/18/网页组件制作之图片剪切效果/">网页组件制作之图片剪切效果</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
