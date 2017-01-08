@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS,HTML,JavaScript," />
+  <meta name="keywords" content="CSS,HTML,Sass," />
 
 
 
@@ -84,27 +84,24 @@
 
 
 
-<meta name="description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
-单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
-但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
+<meta name="description" content="在该笔记中将学到列表展示中七色卡效果的方法与展示效果
+本系列的是参考慕课网 大漠老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+显示效果为：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网页组件制作之表单美化">
-<meta property="og:url" content="https://shiningdan.github.io/2016/11/02/网页组件制作之表单美化/index.html">
+<meta property="og:title" content="网页组件制作之七色卡">
+<meta property="og:url" content="https://shiningdan.github.io/2017/01/07/网页组件制作之七色卡/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
-单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
-但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img32.PNG">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img33.PNG">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img34.PNG">
-<meta property="og:updated_time" content="2016-11-06T04:59:02.000Z">
+<meta property="og:description" content="在该笔记中将学到列表展示中七色卡效果的方法与展示效果
+本系列的是参考慕课网 大漠老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+显示效果为：">
+<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img82.png">
+<meta property="og:updated_time" content="2017-01-08T12:03:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="网页组件制作之表单美化">
-<meta name="twitter:description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
-单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
-但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
-<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG">
+<meta name="twitter:title" content="网页组件制作之七色卡">
+<meta name="twitter:description" content="在该笔记中将学到列表展示中七色卡效果的方法与展示效果
+本系列的是参考慕课网 大漠老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
+显示效果为：">
+<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img82.png">
 
 
 
@@ -132,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2016/11/02/网页组件制作之表单美化/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2017/01/07/网页组件制作之七色卡/"/>
 
 
 
 
 
-  <title> 网页组件制作之表单美化 | ShiningDan的博客 </title>
+  <title> 网页组件制作之七色卡 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -294,7 +291,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2016/11/02/网页组件制作之表单美化/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/07/网页组件制作之七色卡/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -318,7 +315,7 @@
             
             
               
-                网页组件制作之表单美化
+                网页组件制作之七色卡
               
             
           </h2>
@@ -333,8 +330,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-02T22:23:47+08:00">
-                2016-11-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-07T17:55:31+08:00">
+                2017-01-07
               </time>
             
 
@@ -374,8 +371,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/11/02/网页组件制作之表单美化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/02/网页组件制作之表单美化/" itemprop="commentCount"></span>
+                <a href="/2017/01/07/网页组件制作之七色卡/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/07/网页组件制作之七色卡/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -385,7 +382,7 @@
 
           
           
-             <span id="/2016/11/02/网页组件制作之表单美化/" class="leancloud_visitors" data-flag-title="网页组件制作之表单美化">
+             <span id="/2017/01/07/网页组件制作之七色卡/" class="leancloud_visitors" data-flag-title="网页组件制作之七色卡">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -412,349 +409,21 @@
       
 
       
-        <p><strong>在该笔记中将学到一些常用的表单美化的方法与展示效果</strong></p>
-<h2 id="单选按钮美化"><a href="#单选按钮美化" class="headerlink" title="单选按钮美化"></a>单选按钮美化</h2><p>在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。</p>
-<p><strong>但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是使用 dl + dt + dd(或者使用 ul + li 和 ol + li ) 来实现。这样更加方便添加需要的 CSS 效果。 </strong></p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;单选按钮的美化&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            * {
-                margin:0;
-                padding:0;
-            }
-            body{
-                font-size: 12px;
-            }
-            .type {
-                width: 400px;
-                height: 32px;
-                margin: 30px auto;
-                border: 1px solid #DFDFDF;
-            }
-            .type dl{
-                margin-left: 15px;
-                height: 32px;
-                line-height: 32px;
-            }
-            .type dd{
-                float: left;
-                margin: 0 10px 0 8px;
-            }
-            .type dt{
-                float: left;
-            }
-            .type dd a{
-                text-decoration: none;
-                color: black;
-                margin-left: 5px;
-            }
-            .type dd a:hover{
-                color: #CC0000;
-                text-decoration: underline;
-            }
-            .type dd a:hover i,.type .selected i{
-                background-position:-1px -108px;
-            }
-            .type dd i{
-                display: inline-block;
-                width: 12px;
-                height: 10px;
-                float: left;
-                margin-top: 10px;
-                border: 1px solid #DFDFDF;
-                background: url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img29.png&quot;) no-repeat;
-                background-position: 0 -7px;
-            }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;type&quot;&gt;
-            &lt;!--&lt;form action=&quot;#&quot; method=&quot;POST&quot; name=&quot;formType&quot;&gt;
-                &lt;label&gt;配送类型：&lt;/label&gt;
-                &lt;input type=&quot;radio&quot; name=&quot;type&quot; checked&gt;&lt;label&gt;全部&lt;/label&gt;
-                &lt;input type=&quot;radio&quot; name=&quot;type&quot;&gt;&lt;label&gt;京东配送&lt;/label&gt;
-                &lt;input type=&quot;radio&quot; name=&quot;type&quot;&gt;&lt;label&gt;第三方配送&lt;/label&gt;
-            &lt;/form&gt;--&gt;
-            &lt;dl id=&quot;sendType&quot;&gt;
-                &lt;dt &gt;配送类型：&lt;/dt&gt;
-                &lt;dd class=&quot;selected&quot; onclick=&quot;show(0)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;全部&lt;/a&gt;&lt;/dd&gt;
-                &lt;dd onclick=&quot;show(1)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;京东配送&lt;/a&gt;&lt;/dd&gt;
-                &lt;dd onclick=&quot;show(2)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;第三方配送&lt;/a&gt;&lt;/dd&gt;
-            &lt;/dl&gt;
-        &lt;/div&gt;
-        &lt;script&gt;
-        function show(index){
-            var dd = document.getElementById(&quot;sendType&quot;).getElementsByTagName(&quot;dd&quot;),
-            len, i;
-            for(i=0, len=dd.length; i&lt;len; i++){
-                if(i === index) {
-                    dd[i].className = &quot;selected&quot;;
-                } else{
-                    dd[i].className = null;
-                }
-            }
-        }
-    &lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>显示效果为：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG" alt=""></p>
-<a id="more"></a>
-<h2 id="复选按钮的美化"><a href="#复选按钮的美化" class="headerlink" title="复选按钮的美化"></a>复选按钮的美化</h2><p><strong>因为不同浏览器对复选框的默认样式都不一样，所以如果想要使得所有的浏览器对复选框的显示效果都相同，则使用图片等元素来替代复选框的默认样式。</strong></p>
-<p><strong>可以对 input 元素设置 display:none 来删除表单元素的默认显示效果。</strong></p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;多选按钮美化&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            *{
-                margin: 0;
-                padding: 0;
-            }
-            body{
-                font-size: 13px;
-            }
-            .typeList{
-                width: 370px;
-                height: 30px;
-                margin: 50px auto;
-                border: 1px solid #DFDFDF;
-                border-width: 1px 0px;
-            }
-            .typeList ul {
-                list-style: none;
-                height: 30px;
-                line-height:30px;
-                text-align: center;
-                padding-left: 20px;
-            }
-            .typeList ul li {
-                float: left;
-                margin-right: 20px;
-            }
-            .typeList ul li:hover i,.typeList ul li.selected i{
-                background-position:-1px -108px;
-            }
-            .typeList ul li input {
-                display: none;
-            }
-            .typeList ul li i{
-                background: url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img29.png&quot;) no-repeat;
-                display: inline-block;
-                width: 12px;
-                height: 10px;
-                border: 1px solid #DFDFDF;
-                background-position: 0 -7px;
-                float: left;
-                margin: 10px 2px 0 0;
-            }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;typeList&quot;&gt;
-            &lt;form action=&quot;#&quot; method=&quot;POST&quot; name=&quot;typeList&quot;&gt;
-                &lt;ul id=&quot;checkedList&quot;&gt;
-                    &lt;li class=&quot;selected&quot;&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;bao&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;bao&quot;&gt;包邮&lt;/label&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;xiao&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;xiao&quot;&gt;消费者保障&lt;/label&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;huo&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;huo&quot;&gt;货到付款&lt;/label&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;hai&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;hai&quot;&gt;海外商品&lt;/label&gt;&lt;/li&gt;
-                &lt;/ul&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-        &lt;script&gt;
-            window.onload = function(){
-                var lis = document.getElementById(&quot;checkedList&quot;).getElementsByTagName(&quot;li&quot;),
-                i, len;
-                for(i=0, len = lis.length; i&lt;len; i++) {
-                    lis[i].onclick = function() {
-                        if(this.className == &quot;selected&quot;) {
-                            console.log( &quot;not selected&quot;);
-                            this.className = null;
-                        } else {
-                            console.log(&quot;selected&quot;);
-                            this.className = &quot;selected&quot;;
-                        }
-                    }
-                }
-            }
-        &lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p><strong>小bug：</strong>如果鼠标点击在文字上的时候，li 会被判定为点击了两次(一次是点击 li ，另一次是出发 lable 点击了 input，此时勾选的显示效果就会变成：勾选-&gt;不勾选)</p>
+        <p><strong>在该笔记中将学到列表展示中七色卡效果的方法与展示效果</strong></p>
+<p>本系列的是参考<a href="http://www.imooc.com/u/104044/courses?sort=publish" target="_blank" rel="external">慕课网 大漠</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
 <p>显示效果为：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img32.PNG" alt=""></p>
-<h2 id="文本框的美化"><a href="#文本框的美化" class="headerlink" title="文本框的美化"></a>文本框的美化</h2><p>文本框 input[type-text] 的美化，可以使用 placeholder 来替换 value 属性，从而达到提示是灰色，当有输入的时候，提示的文字不显示的效果。</p>
-<p>也可以在文本框中调用 CSS3 的 transition 属性，设置属性的过度，使得当文本框获得焦点的时候，显示效果有过渡的改变。</p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;text&lt;/title&gt;
-        &lt;meta charset=&quot;uft-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            *{
-                margin: 0;
-                padding: 0;
-            }
-
-            .content{
-                width: 700px;
-                height: auto;
-                background-color: #F6F6F6;
-                padding: 10px;
-                margin: 40px auto;
-            }
-            .content *:focus{
-                outline: none;
-            }
-            .content ul {
-                list-style: none;
-            }
-            .content ul li{
-                font-size: 14px;
-                margin-left: 20px;
-                border-bottom: 1px solid #DFDFDF;
-                padding: 12px;
-            }
-            .content ul li label{
-                width: 100px;
-                display: inline-block;
-                float: left;
-            }
-            .content ul li input[type=text]{
-                padding: 3px 8px;
-                height: 20px;
-                width: 220px;
-                border: 1px solid green;
-                border-radius: 4px;
-            }
-            .content ul li input:focus{
-                border: 1px solid red;
-            }
-            .content ul li input[type=text]{
-                transition: width .25s;
-                -moz-transition: width .25s; /* Firefox 4 */
-                -webkit-transition: width .25s; /* Safari 和 Chrome */
-                -o-transition: width .25s; /* Opera */
-            }
-            .content ul li input:focus{
-                width: 250px;
-            }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;content&quot;&gt;
-            &lt;form action=&quot;#&quot; method=&quot;POST&quot;&gt;
-                &lt;ul&gt;
-                    &lt;li&gt;
-                        &lt;label for=&quot;name&quot;&gt;姓名:&lt;/label&gt;
-                        &lt;input type=&quot;text&quot; name=&quot;yourname&quot; placeholder=&quot;姓名&quot; id=&quot;name&quot;&gt;
-                    &lt;/li&gt;
-                    &lt;li&gt;
-                        &lt;label for=&quot;name2&quot;&gt;姓名:&lt;/label&gt;
-                        &lt;input type=&quot;text&quot; name=&quot;yourname&quot; placeholder=&quot;姓名&quot; id=&quot;name2&quot;&gt;
-                    &lt;/li&gt;
-                &lt;/ul&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>显示效果如下：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img33.PNG" alt=""></p>
-<h2 id="下拉列表的美化"><a href="#下拉列表的美化" class="headerlink" title="下拉列表的美化"></a>下拉列表的美化</h2><p>原来自带的下拉列表是 select ，但是由于 select 带有的浏览器自定义渲染格式，使得对下拉列表的美化比较困难，所以使用 ul + li 来构造下拉列表：</p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;select 演示&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            *{
-                padding: 0;
-                margin: 0;
-            }
-            body{
-                font: 13px/24px &quot;微软雅黑&quot;;
-                background-color: #333;
-            }
-            #box{
-                width: 500px;
-                height: 326px;
-                position: absolute;
-                left: 50%;
-                top:50%;
-                background-color: white;
-                margin: -163px 0 0 -250px;
-            }
-            .province{
-                width: 320px;
-                height: 42px;
-                background-color:#C00;
-                margin: 80px auto;
-            }
-            .province strong{
-                color: white;
-                width: 64px;
-                height: 42px;
-                line-height: 42px;
-                text-align: center;
-                display: inline-block;
-                font-weight: normal;
-                float: left;
-            }
-            .province #selectProvince{
-                width: 200px;
-                height: 28px;
-                display: block;
-                background-color: white;
-                margin-top: 7px;
-                float: left;
-                padding-left: 8px;
-                color: #CCC;
-                cursor: pointer;
-            }
-            #allprovince{
-                width: 318px;
-                height: auto;
-                border: 1px solid #DFDFDF;
-                clear: both;
-                list-style: none;
-                line-height: 30px;
-            }
-            #allprovince li{
-                height: 30px;
-                border-bottom: 1px solid #DFDFDF;
-                cursor: pointer;
-            }
-            #allprovince li b{
-                display: inline-block;
-                width: 40px;
-                font-size: bold;
-                text-align: center;
-            }
-            #allprovince li span{
-                font-weight: bold;
-            }
-            #allprovince li span:hover{
-                color: #C00;
-            }
-        &lt;/style&gt;    
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div id=&quot;box&quot;&gt;
-            &lt;div class=&quot;province&quot;&gt;
-                &lt;strong&gt;送货至：&lt;/strong&gt;
-                &lt;span id=&quot;selectProvince&quot;&gt;北京&lt;/span&gt;
-                &lt;ul id=&quot;allprovince&quot;&gt;
-                    &lt;li&gt;&lt;b&gt;A&lt;/b&gt;&lt;span&gt;安徽&lt;/span&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;b&gt;B&lt;/b&gt;&lt;span&gt;北京&lt;/span&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;b&gt;C&lt;/b&gt;&lt;span&gt;重庆&lt;/span&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;b&gt;F&lt;/b&gt;&lt;span&gt;福建&lt;/span&gt;&lt;/li&gt;
-                &lt;/ul&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>显示效果如下：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img34.PNG" alt=""></p>
+<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img82.png" alt=""></p>
+<a id="more"></a>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>使用 CSS3 中的<code>elem.nth-child(n)</code> 函数来获得某元素父元素的第 n 个子元素。</p>
+<p>使用 Sass 的 HSL 颜色函数来获得颜色，并且改变亮度。</p>
+<p>使用 Sass 的 Map 来颜色名字和颜色的对应关系。</p>
+<p>使用 Sass 的 String 类型的时候需要注意，什么时候是 String 类型，什么时候是其他的类型。</p>
+<p>使用插值 <code>#{}</code> 的时候需要注意，插值一般用在<strong>将变量的值插入到某些属性名或属性值中，与其他的字符一起组成完整的属性名或变量名或CSS/CSS3函数</strong>。如果不是要和其他的字符一起组成属性名或变量名或CSS3函数，则不可以使用插值。</p>
+<p>代码如下：</p>
+<p>Sass 部分：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">$redBase: #DC143C;</div><div class="line">$orangeBase: saturate(lighten(adjust_hue($redBase, 39), 5), 7);//#f37a16</div><div class="line">$yellowBase: saturate(lighten(adjust_hue($redBase, 64), 6), 13);//#fbdc14</div><div class="line">$greenBase: desaturate(darken(adjust_hue($redBase, 102), 2), 11);//#73c620</div><div class="line">$blueBase: saturate(darken(adjust_hue($redBase, 201), 2), 1);//#12b7d4</div><div class="line">$purpleBase: saturate(darken(adjust_hue($redBase, 296), 2), 1);//#a012d4</div><div class="line">$blackBase: #777;</div><div class="line">$bgc: #fff;</div><div class="line"></div><div class="line">@mixin swatchesDarken($color) &#123;</div><div class="line">	@for $i from 1 through 10 &#123;</div><div class="line">		$x:$i+11;</div><div class="line">		li:nth-child(#&#123;$x&#125;) &#123;</div><div class="line">			$bgc:darken($color, $i*5);</div><div class="line">			background-color: $bgc;</div><div class="line">		&#125;;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">@mixin swatchesLighten($color) &#123;</div><div class="line">	@for $i from 1 through 10 &#123;</div><div class="line">		$x:11-$i;</div><div class="line">		li:nth-child(#&#123;$x&#125;) &#123;</div><div class="line">			$bgc:lighten($color, $i*5);</div><div class="line">			background-color: $bgc;</div><div class="line">		&#125;;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">body&#123;</div><div class="line">	margin: 0;</div><div class="line">	padding: 0;</div><div class="line">	background-color: #fff;</div><div class="line">	.wrap &#123;</div><div class="line">		width: 500px;</div><div class="line">		margin: 100px auto;</div><div class="line">		background-color: #000;</div><div class="line">		.swatches &#123;</div><div class="line">			width: 500px;</div><div class="line">			height: 60px;</div><div class="line">			margin: 0;</div><div class="line">			padding: 0;</div><div class="line">			li &#123;</div><div class="line">				list-style: none;</div><div class="line">				width: 4.7619047619%;</div><div class="line">				float: left;</div><div class="line">				height: 60px;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$list: (</div><div class="line">	red: $redBase, </div><div class="line">	orange: $orangeBase, </div><div class="line">	yellow: $yellowBase, </div><div class="line">	green: $greenBase, </div><div class="line">	blue: $blueBase, </div><div class="line">	purple: $purpleBase,</div><div class="line">	black: $blackBase</div><div class="line">);</div><div class="line"></div><div class="line">@each $name,$color in $list &#123;</div><div class="line">	ul.#&#123;$name&#125; &#123;</div><div class="line">    	@include swatchesDarken($color);</div><div class="line">    	@include swatchesLighten($color);</div><div class="line">    	li:nth-child(11) &#123;</div><div class="line">        	background-color: $color;</div><div class="line">    	&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>HTML部分：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>七色卡<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"test.css"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"swatches red"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            ...//一共21个 li</div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"swatches orange"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            ...</div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"swatches yellow"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            ...</div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"swatches green"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            ...</div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"swatches blue"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            ...</div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"swatches purple"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            ...</div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"swatches black"</span>&gt;</span></div><div class="line">        	<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        	...</div><div class="line">        	<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -782,7 +451,7 @@
           
             <a href="/tags/HTML/" rel="tag"># HTML</a>
           
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+            <a href="/tags/Sass/" rel="tag"># Sass</a>
           
         </div>
       
@@ -791,8 +460,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/31/网页组件制作之回到顶部/" rel="next" title="网页组件制作之回到顶部">
-                <i class="fa fa-chevron-left"></i> 网页组件制作之回到顶部
+              <a href="/2017/01/05/CSS-注意事项/" rel="next" title="CSS-注意事项">
+                <i class="fa fa-chevron-left"></i> CSS-注意事项
               </a>
             
           </div>
@@ -800,10 +469,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/07/网页组件制作之手风琴效果/" rel="prev" title="网页组件制作之手风琴效果">
-                网页组件制作之手风琴效果 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -829,8 +494,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/11/02/网页组件制作之表单美化/"
-           data-title="网页组件制作之表单美化" data-url="https://shiningdan.github.io/2016/11/02/网页组件制作之表单美化/">
+      <div class="ds-thread" data-thread-key="2017/01/07/网页组件制作之七色卡/"
+           data-title="网页组件制作之七色卡" data-url="https://shiningdan.github.io/2017/01/07/网页组件制作之七色卡/">
       </div>
     
   </div>
@@ -930,7 +595,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单选按钮美化"><span class="nav-number">1.</span> <span class="nav-text">单选按钮美化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复选按钮的美化"><span class="nav-number">2.</span> <span class="nav-text">复选按钮的美化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文本框的美化"><span class="nav-number">3.</span> <span class="nav-text">文本框的美化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下拉列表的美化"><span class="nav-number">4.</span> <span class="nav-text">下拉列表的美化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">1.</span> <span class="nav-text">注意点</span></a></li></ol></div>
             
 
           </div>

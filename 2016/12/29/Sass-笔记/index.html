@@ -98,7 +98,7 @@ Sass 简介CSS 预处理器定义了一种新的语言，其基本思想是，�
 Sass 和 SCSS 的区别Sass 和 SCSS 其实是同一种东西，我们平时都称之为 Sass，两者之间不同之处有以下两点：
 
 文件扩展名不同，Sass 是以“.sass”后缀为扩展">
-<meta property="og:updated_time" content="2017-01-07T09:50:54.000Z">
+<meta property="og:updated_time" content="2017-01-08T11:27:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content=" Sass 笔记">
 <meta name="twitter:description" content="Sass 笔记本系列的是参考慕课网 大漠老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
@@ -727,6 +727,7 @@ body{
 <p><strong>占位符的缺点</strong>：不能传变量参数。</p>
 <p><strong>在占位符中也可以使用混合宏，用来解决不能传递参数的缺点。</strong></p>
 <h3 id="插值"><a href="#插值" class="headerlink" title="插值#{}"></a>插值#{}</h3><p><strong>差值是很好用的一种传递字符串的方法，这种方法除了传递参数，还可以传递<code>CSS</code>属性名</strong></p>
+<p><strong>一般使用插值的时候，是要将变量的值插入到某些属性名或属性值中，与其他的字符一起组成完整的属性名或变量名</strong></p>
 <p>下面的例子中，除了使用差值<code>#{}</code>传递值以外，还传递了属性名<code>top</code>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$properties: (margin, padding);</div><div class="line">@mixin set-value($side, $value) &#123;</div><div class="line">	@each $prop in $properties &#123;</div><div class="line">		#&#123;$prop&#125;-#&#123;$side&#125;: $value;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.log-box &#123;</div><div class="line">	@include set-value(top, 14px);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>编译出来的结果为：</p>
@@ -746,7 +747,7 @@ body{
 <h3 id="Sass-数据类型"><a href="#Sass-数据类型" class="headerlink" title="Sass 数据类型"></a>Sass 数据类型</h3><p>在 Sass 中包含以下几种数据类型：</p>
 <ol>
 <li>数字: 如，1、 2、 13、 10px；</li>
-<li>字符串：有引号字符串或无引号字符串，如，”foo”、 ‘bar’、 baz；</li>
+<li>字符串：有引号字符串或无引号字符串，如，”foo”、 ‘bar’、 baz，<strong>在使用字符串类型的时候，一定要注意什么时候是字符串类型，什么时候是其他的类型，不能混用</strong>；</li>
 <li>颜色：如，blue、 #04a3f9、 rgba(255,0,0,0.5)；</li>
 <li>布尔型：如，true、 false；</li>
 <li>空值：如，null；</li>
@@ -1028,7 +1029,7 @@ body{
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
