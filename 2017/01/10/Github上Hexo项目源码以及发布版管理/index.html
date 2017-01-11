@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="前言在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。
 在我换电脑以后，需要在新的电脑上重新部署 hexo 的环境，由于原来 hexo 的源代码及文稿与发布的仓库位于两个不同的仓库中，导致我需要下载一个仓库，但是要 hexo deploy 到另一个仓库中，这是一个很不合理的">
-<meta property="og:updated_time" content="2017-01-10T12:58:13.000Z">
+<meta property="og:updated_time" content="2017-01-11T13:38:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Github上Hexo项目源码以及发布版管理">
 <meta name="twitter:description" content="前言在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。
@@ -407,6 +407,7 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。</p>
 <p>在我换电脑以后，需要在新的电脑上重新部署 hexo 的环境，由于原来 hexo 的源代码及文稿与发布的仓库位于两个不同的仓库中，导致我需要下载一个仓库，但是要 hexo deploy 到另一个仓库中，这是一个很不合理的项目规划方案。所以，在网上搜索了一些教程以后，我重新规划了 GitHub 上面的代码仓库，用一个仓库同时存放 hexo 项目的发布版和源文件，但是这两个部分位于一个仓库的不同分支中。在以后需要重新部署 hexo 环境的时候，只用从一个仓库中下载代码，就可以获得源代码和发布版。</p>
 <p>感谢<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo搭建博客/#more" target="_blank" rel="external">CrazyMilk</a>的文章，为我提供了使用一个仓库同时管理发布版和源代码的解决方案！</p>
+<a id="more"></a>
 <h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h3><p>首先点击 New Repository，创建一个新的代码仓库，在填写 Repository name 的时候，格式是 username.github.io (username 是你的 GitHub 账号用户名)。</p>
 <h3 id="本地安装环境配置"><a href="#本地安装环境配置" class="headerlink" title="本地安装环境配置"></a>本地安装环境配置</h3><p>需要下载的软件有 Git、node.js 和 Hexo ，下载及安装方法不再赘述。</p>
 <p><strong>注意，在配置 Git 的时候，最好使用 git config 进行配置</strong>，这与 GitHub 在计算 contributions 次数的有关，也是就 GitHub 个人首页上绿色小点，用来统计每个人每天 commit 的次数有关。</p>

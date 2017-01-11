@@ -403,57 +403,16 @@
 
       
         
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。</p>
 <p>在我换电脑以后，需要在新的电脑上重新部署 hexo 的环境，由于原来 hexo 的源代码及文稿与发布的仓库位于两个不同的仓库中，导致我需要下载一个仓库，但是要 hexo deploy 到另一个仓库中，这是一个很不合理的项目规划方案。所以，在网上搜索了一些教程以后，我重新规划了 GitHub 上面的代码仓库，用一个仓库同时存放 hexo 项目的发布版和源文件，但是这两个部分位于一个仓库的不同分支中。在以后需要重新部署 hexo 环境的时候，只用从一个仓库中下载代码，就可以获得源代码和发布版。</p>
-<p>感谢<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo搭建博客/#more" target="_blank" rel="external">CrazyMilk</a>的文章，为我提供了使用一个仓库同时管理发布版和源代码的解决方案！</p>
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h3><p>首先点击 New Repository，创建一个新的代码仓库，在填写 Repository name 的时候，格式是 username.github.io (username 是你的 GitHub 账号用户名)。</p>
-<h3 id="本地安装环境配置"><a href="#本地安装环境配置" class="headerlink" title="本地安装环境配置"></a>本地安装环境配置</h3><p>需要下载的软件有 Git、node.js 和 Hexo ，下载及安装方法不再赘述。</p>
-<p><strong>注意，在配置 Git 的时候，最好使用 git config 进行配置</strong>，这与 GitHub 在计算 contributions 次数的有关，也是就 GitHub 个人首页上绿色小点，用来统计每个人每天 commit 的次数有关。</p>
-<p>在 GitHub 上统计代码仓库 commit 的次数时候，需要同时满足以下三点，才可以记为一次 commit：</p>
-<ul>
-<li>The email address used for the commits is associated with your GitHub account.</li>
-<li>The commits were made in a standalone repository, not a fork.</li>
-<li>The commits were made:<ul>
-<li>In the repository’s default branch (usually master)</li>
-<li>In the gh-pages branch (for repositories with Project Pages sites)</li>
-</ul>
-</li>
-</ul>
-<p>也就是你的本地 Git 账号需要和 GitHub 账号一致。所以需要通过 git config 来配置本地 Git 的账号：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --global user.name &quot;username&quot;</div><div class="line">git config --global user.email &quot;username@example.com&quot;</div></pre></td></tr></table></figure>
-<h3 id="本地博客搭建流程"><a href="#本地博客搭建流程" class="headerlink" title="本地博客搭建流程"></a>本地博客搭建流程</h3><p>本流程与<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo搭建博客/#more" target="_blank" rel="external">CrazyMilk</a>的文章中的流程有所不同，如果是按照他的流程，在 <code>hexo init</code> 的时候，会删除本地的 .git 文件夹，所在流程上会略有不同。</p>
-<p>以我的博客搭建流程为例：</p>
-<ol>
-<li>在 GitHub 上创建 shiningdan.github.io 代码仓库</li>
-<li>本地下载和安装 git、node.js，并且使用 git config 配置本地 git 账号</li>
-<li>在本地合适的位置创建 shiningdan.github.io 文件夹，作为本地博客根目录</li>
-<li>在本地 shiningdan.github.io 依次执行：<code>npm install -g hexo
-hexo init
-npm install
-npm install hexo-deployer-git</code></li>
-<li>使用 GitHub 提示，将本地文件夹与远程代码仓库连接：<code>echo &quot;# shiningdan.github.io&quot; &gt;&gt; README.md
-git init
-git add README.md
-git commit -m &quot;first commit&quot;
-git remote add origin https://github.com/ShiningDan/shiningdan.github.io.git
-git push -u origin master</code></li>
-<li>创建 master 和 hexo 分支。因为创建的代码仓库是 User Page，所以 master 分支是作为 hexo deploy 的分支，而 hexo 分支是保存源代码的分支。在 terminal 下执行命令：<code>git branch hexo //创建 hexo 分支
-git push origin hexo //将本地分支 PUSH 到远端
-git checkout hexo //切换本地分支为 hexo</code></li>
-<li>修改_config.yml中的deploy参数，修改 deploy <code>type:git</code>、<code>repo:https://github.com/ShiningDan/shiningdan.github.io.git</code>、<code>branch: master</code>。注意，branch 一定要为 master，因为 User Page 的发布版必须位于 master 分支下。</li>
-<li>修改 GitHub 网页中的配置，将 hexo 分支设置为默认分支。</li>
-<li>依次执行<code>git add .</code>、<code>git commit -m “…”</code>、<code>git push origin hexo</code>提交网站相关的文件</li>
-<li>执行<code>hexo generate -d</code>生成网站并部署到GitHub上</li>
-</ol>
-<h3 id="日常发布以及备份"><a href="#日常发布以及备份" class="headerlink" title="日常发布以及备份"></a>日常发布以及备份</h3><p>在备份源代码和源文件的时候，依次执行<code>git add .</code>、<code>git commit -m “…”</code>、<code>git push origin hexo</code>指令将改动推送到GitHub，此时源代码和源文件是被备份在 hexo 分支上。</p>
-<p>再执行<code>hexo generate -d</code>发布网站到master分支上</p>
-<h3 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h3><ol>
-<li>使用<code>git clone https://github.com/ShiningDan/shiningdan.github.io.git</code>拷贝仓库（默认分支为hexo）</li>
-<li>在本地新拷贝的shiningdan.github.io文件夹下通过Git bash依次执行下列指令：<code>npm install -g hexo</code>、<code>npm install</code>、<code>npm install hexo-deployer-git</code>（记得，不需要hexo init这条指令）</li>
-</ol>
-
-          
+<p>感谢<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo搭建博客/#more">CrazyMilk</a>的文章，为我提供了使用一个仓库同时管理发布版和源代码的解决方案！</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/01/10/Github上Hexo项目源码以及发布版管理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
