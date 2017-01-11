@@ -15,6 +15,8 @@ tags:
 
 感谢[CrazyMilk](http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo搭建博客/#more)的文章，为我提供了使用一个仓库同时管理发布版和源代码的解决方案！
 
+<!--more-->
+
 ## 环境配置
 
 ### 创建 GitHub 仓库
