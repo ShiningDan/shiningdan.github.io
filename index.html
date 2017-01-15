@@ -281,6 +281,367 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/" itemprop="url">
+                  使用Alfred Workflow上传剪切板图片并导出到Markdown
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-15T13:32:37+08:00">
+                2017-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/" class="leancloud_visitors" data-flag-title="使用Alfred Workflow上传剪切板图片并导出到Markdown">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>感谢<a href="http://kchen.cc/2016/03/19/alfred-workflow-for-markdown-image-on-qiniu/" target="_blank" rel="external">K.Chen 的博客</a>为我提供了实现的方法。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>在我们使用 Markdown 做笔记的时候，经常遇到的一个很麻烦的问题就是如何将图片插入到 Markdown 笔记中。原有的 Markdown 笔记不支持将本地图片上传到笔记中，即使是马克飞象等编辑器支持将图片剪贴到 Markdown 笔记中进行预览，但是其图片链接是一个本地链接，若是将笔记本上传到网络中，图片则无法显示。所以，我在向 Markdown 笔记插入图片的时候，使用的是七牛云存储相关的图片，然后导出外链到本地笔记，这样，本地可以通过外链预览图片，即使是笔记上传到了网上也可以通过外链预览图片。</p>
+<p>但是，在本地剪切图片，上传到七牛云并且导出外链到 Markdown 笔记中是一个很复杂的过程。下面是一般情况下将图片插入 Markdown 笔记需要进行的步骤：</p>
+<ol>
+<li>使用截屏工具将截屏并且将截屏文件保存在本地桌面（Mac）</li>
+<li>为获得的截屏文件修改一个合适的名字</li>
+<li>打开七牛云存储，上传本体图片（可以设置前缀）</li>
+<li>退出上传页面，在网页中找到刚刚上传的图片，点击复制外链，获得图片的外链</li>
+<li>在 Markdown 笔记中使用 <code>![]()</code> 添加外链，可以实现图片预览</li>
+</ol>
+<p>由于其步骤繁琐并且消耗的时间很多，经常会打断我们的写作思路，所以我们需要一种快捷的方法将剪切板中的笔记上传到七牛云并导出链接。下面是本教程的实现目标：</p>
+<ol>
+<li>使用截屏工具截屏并保存到剪贴板</li>
+<li>使用 Alfred Workflow 将剪贴板内容上传到七牛云，并将该图片的外链自动保存到剪贴板</li>
+<li>使用<code>![]()</code>在 Markdown 笔记中插入图片。</li>
+</ol>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="七牛云准备工作"><a href="#七牛云准备工作" class="headerlink" title="七牛云准备工作"></a>七牛云准备工作</h3><p>首先需要在七牛开发者平台申请，并获得 AccessKey 和 SecretKey，用来支持上传本地文件到自己的存储空间。步骤如下：</p>
+<ol>
+<li>开通<a href="https://portal.qiniu.com/create" target="_blank" rel="external">七牛开发者账号</a></li>
+<li>登录七牛开发者平台，查看<a href="https://portal.qiniu.com/user/key" target="_blank" rel="external">Access Key 和 Secret Key</a></li>
+</ol>
+<p><a href="http://developer.qiniu.com/resource/official.html#tool" target="_blank" rel="external">七牛开发者工具</a>提供了很多的工具，其中可以实现上传本地文件的工具有两个，一个是<a href="http://developer.qiniu.com/code/v6/tool/qshell.html" target="_blank" rel="external">qshell</a>，另一个是<a href="http://developer.qiniu.com/code/v6/tool/qrsbox.html" target="_blank" rel="external">qrsbox</a>。他们的区别是 qshell 是使用命令行上传图片，除了上传图片以外，qshell 还支持很多其他的功能（虽然这些功能在本教程中不会使用），qshell 需要使用命令行来触发上传的动作。qrsbox 是一个带有图形界面的自动化上传工具，可以实现后台自动监听某个文件夹内部文件的增减，并且自动将本地文件同步到七牛云中。</p>
+<p>本文使用的是 qshell 来上传文件，因为我觉得这样灵活，当然使用 qrsbox 也是一个很好的选择，自动化同步本地文件夹也十分方便。</p>
+<h3 id="qshell-配置"><a href="#qshell-配置" class="headerlink" title="qshell 配置"></a>qshell 配置</h3><p>可以在<a href="http://developer.qiniu.com/code/v6/tool/qshell.html" target="_blank" rel="external">七牛云 qshell </a>工具中下载对应平台的 qshell 可执行文件，因为我使用的是 Mac 平台，所以是在 Mac 下进行配置。</p>
+<p>首先创建文件夹保存 qshell 执行文件和需要同步的图片和文件，我创建的目录为<code>/Users/yuchenzhang/Documents/hexo/qshell</code>，其中有两个文件夹：</p>
+<ol>
+<li>cli文件夹：用来放置 qshell 执行文件</li>
+<li>data文件夹：用来放置需要同步的图片和文件</li>
+</ol>
+<p>在创建完文件夹并且将 qshell 拷贝到 cli 以后，我们要配置 qshell API。</p>
+<p>首先要使用七牛的 API，必须先设置 AccessKey 和 SecretKey 。命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">qshell account ELUs327kxVPJrGCXqWae9yioc0xYZyrIpbM6Wh6o LVzZY2SqOQ_I_kM1n00ygACVBArDvOWtiLkDtKi_</div></pre></td></tr></table></figure></p>
+<p>上面的 <code>ELUs327kxVPJrGCXqWae9yioc0xYZyrIpbM6Wh6o</code> 是您的 AccessKey，而 <code>LVzZY2SqOQ_I_kM1n00ygACVBArDvOWtiLkDtKi_</code> 是您的 SecretKey。如果您想查看当前 AccessKey 和 SecretKey 设置，使用命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">qshell account</div></pre></td></tr></table></figure></p>
+<p>上面的命令会输出当前您设置好的 AccessKey 和 SecretKey。接下来，我们就可以放心地使用七牛的 API 功能了。</p>
+<p>我们需要使用 qshell 的 qupload 命令来同步本地文件。在该 cli 文件夹下新建数据同步的配置文件<code>conf.json</code>，配置文件中的内容可以参考<a href="https://github.com/qiniu/qshell/wiki/qupload" target="_blank" rel="external">qshell qupload 参考文档</a></p>
+<p>针对我的情况，我使用的配置文件 <code>conf.json</code> 中的内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	&quot;src_dir&quot;       :   &quot;/Users/yuchenzhang/Documents/hexo/qshell/data&quot;, //需要同步的文件夹</div><div class="line">    &quot;access_key&quot;    :   &quot;&lt;AccessKey&gt;&quot;, //我的 AccessKey</div><div class="line">    &quot;secret_key&quot;    :   &quot;&lt;SecretKey&gt;&quot;, //我的 SecretKey</div><div class="line">    &quot;bucket&quot;        :   &quot;myweb&quot;,  //需要同步到哪个存储空间中</div><div class="line">    &quot;zone&quot;			:	&quot;nb&quot;, //该存储空间在哪个片区（华东）</div><div class="line">    &quot;rescan_local&quot;	:	true //默认情况下，本地新增的文件不会被同步，需要手动设置为true才会去检测新增文件。</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在配置完成以后，就可以使用<code>./qshell qupload conf.json</code> 在 cli 文件夹路径下运行命令，将 data 文件夹中的数据同步到七牛云上。至此，qshell 配置的部分完成。本人测试的时候，成功将 data 文件夹下的 test.png 图片同步到七牛云上</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/test1.png" alt=""></p>
+<h3 id="Alfred-Workflow-准备工作"><a href="#Alfred-Workflow-准备工作" class="headerlink" title="Alfred Workflow 准备工作"></a>Alfred Workflow 准备工作</h3><p>首先创建一个空白的 Alfred Workflow，如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/2017:01:15:15:52:34.png" alt=""></p>
+<p>然后为这个空白的工作流创建一个引导，如何触发这个工作流，我选择的方法是使用 Keyword，也可以按照<a href="http://kchen.cc/2016/03/19/alfred-workflow-for-markdown-image-on-qiniu/" target="_blank" rel="external">K.chen</a>的方法，使用一个快捷键进行上传。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/a23ace591c850f4a5efdab45e2cf1b93.png" alt=""></p>
+<p>然后添加一个 action，使用/usr/bin/osascript(AS)作为脚本语言，如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/cdaa76e314749cb1d73676908d20cc3f.png" alt=""></p>
+<p>其中的内容是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">property fileTypes : &#123;¬</div><div class="line">	&#123;«class PNGf», &quot;.png&quot;&#125;, ¬</div><div class="line">	&#123;JPEG picture, &quot;.jpg&quot;&#125;&#125;</div><div class="line">on getType()</div><div class="line">	repeat with aType in fileTypes</div><div class="line">		repeat with theInfo in (clipboard info)</div><div class="line">			if (first item of theInfo) is equal to (first item of aType) then return aType</div><div class="line">		end repeat</div><div class="line">	end repeat</div><div class="line">	return missing value</div><div class="line">end getType</div><div class="line">set theType to getType()</div><div class="line">if theType is not missing value then</div><div class="line">	set filePath to &quot;/Users/yuchenzhang/Documents/hexo/qshell/data/&quot; --这里换成你自己放置图片的路径</div><div class="line">	set fileName to do shell script &quot;date \&quot;+%Y%m%d%H%M%S\&quot; | md5&quot; --用当前时间的md5值做文件名</div><div class="line">	if fileName does not end with (second item of theType) then set fileName to (fileName &amp; second item of theType as text)</div><div class="line">	set markdownUrl to &quot;![](http://ojt6zsxg2.bkt.clouddn.com/&quot; &amp; fileName &amp; &quot;)&quot; --这里是你的七牛域名</div><div class="line">	set filePath to filePath &amp; fileName</div><div class="line">	</div><div class="line">	try</div><div class="line">		set imageFile to (open for access filePath with write permission)</div><div class="line">		set eof imageFile to 0</div><div class="line">		write (the clipboard as (first item of theType)) to imageFile</div><div class="line">		close access imageFile</div><div class="line">		set the clipboard to markdownUrl</div><div class="line">		try</div><div class="line">			tell application &quot;System Events&quot;</div><div class="line">				keystroke &quot;v&quot; using command down</div><div class="line">			end tell</div><div class="line">		end try</div><div class="line">		do shell script &quot;/Users/yuchenzhang/Documents/hexo/qshell/cli/qshell qupload /Users/yuchenzhang/Documents/hexo/qshell/cli/conf.json&quot; --此处是你的qshell脚本目录和命令</div><div class="line">	on error</div><div class="line">		try</div><div class="line">			close access imageFile</div><div class="line">		end try</div><div class="line">		return &quot;&quot;</div><div class="line">	end try</div><div class="line">else</div><div class="line">	return &quot;&quot;</div><div class="line">end if</div></pre></td></tr></table></figure>
+<p>代码中需要替换的地方有三个，分别是：</p>
+<p>选择需要同步的路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set filePath to &quot;/Users/yuchenzhang/Documents/hexo/qshell/data/&quot; --这里换成你自己放置图片的路径</div></pre></td></tr></table></figure>
+<p>替换为自己的存储空间的域名，自己的域名可以在七牛云存储，空间的这个地方找到：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/298592f04f11443522b8d9643b21594d.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set markdownUrl to &quot;![](http://ojt6zsxg2.bkt.clouddn.com/&quot; &amp; fileName &amp; &quot;)&quot; --这里是你的七牛域名</div></pre></td></tr></table></figure>
+<p>最后要设置执行 qshell 的命令路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">do shell script &quot;/Users/yuchenzhang/Documents/hexo/qshell/cli/qshell qupload /Users/yuchenzhang/Documents/hexo/qshell/cli/conf.json&quot; --此处是你的qshell脚本目录和命令</div></pre></td></tr></table></figure>
+<p>在设置完脚本以后，可以设置一个提醒，在完成该 Alfred Workflow 动作以后，会收到什么样的提醒。我设置的是一个 Post Notification，如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/c76dff59aef025e6e16277773c7577b1.png" alt=""></p>
+<p>最后，用线将上面三个部分连接起来。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/7d8f735f08285050327401139d4134a7.png" alt=""></p>
+<p>此时，使用截屏软件截屏，图片保存在剪贴板里的时候，可以使用 Alfred Workflow 输入 qupload 上传剪贴板里的图片.</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/4160588386f9cae292e97f440ac8aea4.png" alt=""></p>
+<p>完成！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/14/Bootstrap-笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/14/Bootstrap-笔记/" itemprop="url">
+                  Bootstrap 笔记
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-14T14:52:11+08:00">
+                2017-01-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/14/Bootstrap-笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/14/Bootstrap-笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/14/Bootstrap-笔记/" class="leancloud_visitors" data-flag-title="Bootstrap 笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/13/用Sass实现新浪微博首页/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1601,355 +1962,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2016/12/17/网页组件制作之固定边栏滚动特效/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ShiningDan">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ShiningDan的博客">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/17/网页组件制作之固定边栏滚动特效/" itemprop="url">
-                  网页组件制作之固定边栏滚动特效
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-17T21:38:21+08:00">
-                2016-12-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/coding/" itemprop="url" rel="index">
-                    <span itemprop="name">coding</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/12/17/网页组件制作之固定边栏滚动特效/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/17/网页组件制作之固定边栏滚动特效/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/12/17/网页组件制作之固定边栏滚动特效/" class="leancloud_visitors" data-flag-title="网页组件制作之固定边栏滚动特效">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="网页组件制作之固定边栏滚动特效"><a href="#网页组件制作之固定边栏滚动特效" class="headerlink" title="网页组件制作之固定边栏滚动特效"></a>网页组件制作之固定边栏滚动特效</h1><p><strong>在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果</strong></p>
-<p>本系列的是参考<a href="http://www.imooc.com/u/101686/courses?sort=publish">慕课网 远人</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
-<h2 id="实现的效果"><a href="#实现的效果" class="headerlink" title="实现的效果"></a>实现的效果</h2><p>如果页面是多栏布局，并且多个栏的高度不一致，<strong>在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空白页面。</strong></p>
-<p>没有设置固定边栏的效果：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img73.PNG" alt=""></p>
-<p>设置了固定边栏的效果：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img74.PNG" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/12/17/网页组件制作之固定边栏滚动特效/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2016/12/16/网页组件制作之弹出层/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ShiningDan">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ShiningDan的博客">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/16/网页组件制作之弹出层/" itemprop="url">
-                  网页组件制作之弹出层
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-16T19:32:45+08:00">
-                2016-12-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/coding/" itemprop="url" rel="index">
-                    <span itemprop="name">coding</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/12/16/网页组件制作之弹出层/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/16/网页组件制作之弹出层/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/12/16/网页组件制作之弹出层/" class="leancloud_visitors" data-flag-title="网页组件制作之弹出层">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>网页组件制作之弹出层</p>
-<p><strong>在该笔记中将学到列表展示中弹出层特效的方法与展示效果</strong></p>
-<p>本系列的是参考<a href="http://www.imooc.com/u/105292/courses?sort=publish">慕课网 清风</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
-<h2 id="涉及的知识点"><a href="#涉及的知识点" class="headerlink" title="涉及的知识点"></a>涉及的知识点</h2><ul>
-<li>定位：absolute, relative, fixed</li>
-<li>事件：onload, onclick</li>
-<li>DOM操作：scrollHeight(), clientHeight()</li>
-<li>层级：z-index</li>
-</ul>
-<h3 id="遮罩层的实现"><a href="#遮罩层的实现" class="headerlink" title="遮罩层的实现"></a>遮罩层的实现</h3><p>遮罩层的长度和宽度，可以设置为 100%，或者使用 srcollHeight 计算高度。遮罩层使用 position:fixed，可以在滚动的时候也覆盖页面，用 z-index 设置遮罩层为最上层。</p>
-<p>实现效果如下：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img72.PNG" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/12/16/网页组件制作之弹出层/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1997,7 +2009,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2015,7 +2027,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

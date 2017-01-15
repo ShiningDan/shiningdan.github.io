@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="OpenVPN," />
+  <meta name="keywords" content="Alfred,七牛,Markdown," />
 
 
 
@@ -84,19 +84,28 @@
 
 
 
-<meta name="description" content="已有教程网上教程上介绍的均为使用国外的 vps (Ubuntu) 搭建的 OpenVPN Server，按照教程上一步步进行即可，故不再赘述。本教程所介绍的内容，针对网上教程中的一些错误点。进行改成，并且提供了在 windows、Ubuntu和 MAC 上搭建 OpenVPN Client 的方法，亲测可用。
-在使用 OpenVPN 创建翻墙服务器的时候，可以使用 ipv4 和 ipv6（需要网络">
+<meta name="description" content="感谢K.Chen 的博客为我提供了实现的方法。
+应用场景在我们使用 Markdown 做笔记的时候，经常遇到的一个很麻烦的问题就是如何将图片插入到 Markdown 笔记中。原有的 Markdown 笔记不支持将本地图片上传到笔记中，即使是马克飞象等编辑器支持将图片剪贴到 Markdown 笔记中进行预览，但是其图片链接是一个本地链接，若是将笔记本上传到网络中，图片则无法显示。所以，我在向 Mar">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用 OpenVPN 搭建翻墙服务器">
-<meta property="og:url" content="https://shiningdan.github.io/2016/10/24/使用 OpenVPN 搭建翻墙服务器/index.html">
+<meta property="og:title" content="使用Alfred Workflow上传剪切板图片并导出到Markdown">
+<meta property="og:url" content="https://shiningdan.github.io/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="已有教程网上教程上介绍的均为使用国外的 vps (Ubuntu) 搭建的 OpenVPN Server，按照教程上一步步进行即可，故不再赘述。本教程所介绍的内容，针对网上教程中的一些错误点。进行改成，并且提供了在 windows、Ubuntu和 MAC 上搭建 OpenVPN Client 的方法，亲测可用。
-在使用 OpenVPN 创建翻墙服务器的时候，可以使用 ipv4 和 ipv6（需要网络">
-<meta property="og:updated_time" content="2016-10-27T09:09:53.000Z">
+<meta property="og:description" content="感谢K.Chen 的博客为我提供了实现的方法。
+应用场景在我们使用 Markdown 做笔记的时候，经常遇到的一个很麻烦的问题就是如何将图片插入到 Markdown 笔记中。原有的 Markdown 笔记不支持将本地图片上传到笔记中，即使是马克飞象等编辑器支持将图片剪贴到 Markdown 笔记中进行预览，但是其图片链接是一个本地链接，若是将笔记本上传到网络中，图片则无法显示。所以，我在向 Mar">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/test1.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/2017:01:15:15:52:34.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/a23ace591c850f4a5efdab45e2cf1b93.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/cdaa76e314749cb1d73676908d20cc3f.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/298592f04f11443522b8d9643b21594d.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/c76dff59aef025e6e16277773c7577b1.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/7d8f735f08285050327401139d4134a7.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/4160588386f9cae292e97f440ac8aea4.png">
+<meta property="og:updated_time" content="2017-01-15T08:43:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用 OpenVPN 搭建翻墙服务器">
-<meta name="twitter:description" content="已有教程网上教程上介绍的均为使用国外的 vps (Ubuntu) 搭建的 OpenVPN Server，按照教程上一步步进行即可，故不再赘述。本教程所介绍的内容，针对网上教程中的一些错误点。进行改成，并且提供了在 windows、Ubuntu和 MAC 上搭建 OpenVPN Client 的方法，亲测可用。
-在使用 OpenVPN 创建翻墙服务器的时候，可以使用 ipv4 和 ipv6（需要网络">
+<meta name="twitter:title" content="使用Alfred Workflow上传剪切板图片并导出到Markdown">
+<meta name="twitter:description" content="感谢K.Chen 的博客为我提供了实现的方法。
+应用场景在我们使用 Markdown 做笔记的时候，经常遇到的一个很麻烦的问题就是如何将图片插入到 Markdown 笔记中。原有的 Markdown 笔记不支持将本地图片上传到笔记中，即使是马克飞象等编辑器支持将图片剪贴到 Markdown 笔记中进行预览，但是其图片链接是一个本地链接，若是将笔记本上传到网络中，图片则无法显示。所以，我在向 Mar">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/test1.png">
 
 
 
@@ -124,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2016/10/24/使用 OpenVPN 搭建翻墙服务器/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/"/>
 
 
 
 
 
-  <title> 使用 OpenVPN 搭建翻墙服务器 | ShiningDan的博客 </title>
+  <title> 使用Alfred Workflow上传剪切板图片并导出到Markdown | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -286,7 +295,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2016/10/24/使用 OpenVPN 搭建翻墙服务器/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -310,7 +319,7 @@
             
             
               
-                使用 OpenVPN 搭建翻墙服务器
+                使用Alfred Workflow上传剪切板图片并导出到Markdown
               
             
           </h2>
@@ -325,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-24T21:40:00+08:00">
-                2016-10-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-15T13:32:37+08:00">
+                2017-01-15
               </time>
             
 
@@ -366,8 +375,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/10/24/使用 OpenVPN 搭建翻墙服务器/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/24/使用 OpenVPN 搭建翻墙服务器/" itemprop="commentCount"></span>
+                <a href="/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -377,7 +386,7 @@
 
           
           
-             <span id="/2016/10/24/使用 OpenVPN 搭建翻墙服务器/" class="leancloud_visitors" data-flag-title="使用 OpenVPN 搭建翻墙服务器">
+             <span id="/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/" class="leancloud_visitors" data-flag-title="使用Alfred Workflow上传剪切板图片并导出到Markdown">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -404,54 +413,67 @@
       
 
       
-        <h2 id="已有教程"><a href="#已有教程" class="headerlink" title="已有教程"></a>已有教程</h2><p>网上教程上介绍的均为使用国外的 vps (Ubuntu) 搭建的 OpenVPN Server，按照教程上一步步进行即可，故不再赘述。本教程所介绍的内容，<strong>针对网上教程中的一些错误点。进行改成，并且提供了在 windows、Ubuntu和 MAC 上搭建 OpenVPN Client 的方法，亲测可用。</strong></p>
-<p>在使用 OpenVPN 创建翻墙服务器的时候，可以使用 ipv4 和 ipv6（需要网络支持 ipv6） 模式。一般 <a href="https://www.vultr.com/" target="_blank" rel="external">vultr</a> 的 ipv4 地址没有被墙，<a href="https://www.digitalocean.com/" target="_blank" rel="external">digital ocean</a> 要看脸。</p>
-<p><strong>下面两篇教程是使用 ipv6 网络来翻墙的教程，如果需要使用 ipv4 来翻墙，只需要添加 ipv4 地址，并且保证 ipv4 地址没有没墙即可。</strong></p>
-<p><a href="http://ofjld69e3.bkt.clouddn.com/doc/pdf/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E6%B5%81%E9%87%8F%E4%B9%8B%E5%9F%BA%E4%BA%8EIPV6%E7%9A%84OPENVPN%E6%90%AD%E5%BB%BA%20_%20Timothy%27s%20Blog.pdf" target="_blank" rel="external">校园网免流量之基于IPV6的OPENVPN搭建 _ Timothy’s Blog.pdf</a></p>
-<p><a href="http://ofjld69e3.bkt.clouddn.com/doc/pdf/%E3%80%90%E6%95%99%E7%A8%8B%E3%80%91%E4%BD%BF%E7%94%A8IPv6%20Openvpn%E5%8A%A0%E9%80%9F%E8%AE%BF%E9%97%AE%E5%A4%96%E5%9B%BD%E7%BD%91%E7%AB%99_pt%E5%90%A7_%E7%99%BE%E5%BA%A6%E8%B4%B4%E5%90%A7.pdf" target="_blank" rel="external">【教程】使用IPv6 Openvpn加速访问外国网站<em>pt吧</em>百度贴吧.pdf</a></p>
-<p><strong>上面提供的教程，在一些地方已经无法配置成功。所以在按照上面的教程配置的时候，需要参考下面的修改点，对其中的一些步骤进行修改。</strong></p>
-<h2 id="修改点与注意点"><a href="#修改点与注意点" class="headerlink" title="修改点与注意点"></a>修改点与注意点</h2><a id="more"></a>
-<h3 id="OpenVPN-Server-版本"><a href="#OpenVPN-Server-版本" class="headerlink" title="OpenVPN Server 版本"></a>OpenVPN Server 版本</h3><p>网上下载的 openvpn 版本无法使用，所以使用下面的 2.x.zip 中的 openvpn 版本，然后进行 unzip 2.x.zip 解压在/etc/下面，用来代替/etc/openvpn</p>
-<p><a href="http://ofjm4ift4.bkt.clouddn.com/app/zip/openvpn%202.x.zip" target="_blank" rel="external">openvpn 2.x.zip</a></p>
-<h3 id="开机启动-OpenVPN-Server"><a href="#开机启动-OpenVPN-Server" class="headerlink" title="开机启动 OpenVPN Server"></a>开机启动 OpenVPN Server</h3><p>在 vps 中设置开机启动 openvpn，需要在 /etc/rc.local 中添加 </p>
-<pre><code>/etc/init.d/openvpn start
-</code></pre><p>来进行开机启动</p>
-<h3 id="server-conf-修改"><a href="#server-conf-修改" class="headerlink" title="server.conf 修改"></a>server.conf 修改</h3><p>教程中使用的 openvpn 配置文件 server.conf 中有错误，要使用下面的server.conf，然后将 server.conf 放在 /etc/openvpn/下</p>
-<p><a href="http://ofjld69e3.bkt.clouddn.com/doc/conf/server.conf" target="_blank" rel="external">server.conf</a></p>
-<h3 id="配置-server"><a href="#配置-server" class="headerlink" title="配置 server"></a>配置 server</h3><p>在配置完 server.conf 后，需要将 /etc/openvpn/easy-rsa/2.0/key/下面的 server 的配置放在 server.conf 一样的位置。需要拷贝过来的配置有：ca.crt、server.crt、ta.key、dh2048.pem、server.key</p>
-<h3 id="添加-NAT-规则"><a href="#添加-NAT-规则" class="headerlink" title="添加 NAT 规则"></a>添加 NAT 规则</h3><p>在配置的过程中出现了以下问题：在 vps 开启的时候没有办法自动添加 iptables 中设置的 nat 规则，所以在 /etc/rc.local 中添加 iptables 规则：</p>
-<pre><code>iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o venet0 -j MASQUERADE
-</code></pre><h3 id="端口监听"><a href="#端口监听" class="headerlink" title="端口监听"></a>端口监听</h3><p>在 openvpn 中设置的端口 1194 作为 ipv4 的端口，ipv6 端口为 1195。但是收到的 ipv6 信息都从 1195 端口使用 socat 转到 1194 端口进行处理，在 /etc/rc.local 中添加开机启动命令：</p>
-<pre><code>socat UDP6-LISTEN:1195,reuseaddr,fork UDP4:127.0.0.1:1194 &amp;
-</code></pre><h3 id="用户创建与配置"><a href="#用户创建与配置" class="headerlink" title="用户创建与配置"></a>用户创建与配置</h3><p>在为一个新的用户创建了权限以后，将 用户名.crt、用户名.key、ca.crt、ta.key（传输加密） 添加到 config 目录下面，修改所有的 .ovpn 中对应的部分</p>
-<p>Windows OpenVPN Client 需要的 .opvn 文件可以从下面链接下载，根据你的 vps 和 创建的用户，将中文部分替换为你的信息。</p>
-<p><a href="http://ofjld69e3.bkt.clouddn.com/doc/opvn/DigitalOcean_ipv4.ovpn" target="_blank" rel="external">DigitalOcean_ipv4.ovpn</a></p>
-<p><a href="http://ofjld69e3.bkt.clouddn.com/doc/opvn/DigitalOcean_ipv6.ovpn" target="_blank" rel="external">DigitalOcean_ipv6.ovpn</a></p>
-<h3 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h3><p>如果要删除一个用户，可以使用 /etc/openvpn/easy-rsa/2.0/ 下面的 revoke-full username 来删除一个用户的连接权限</p>
-<h2 id="配置-OpenVPN-Client"><a href="#配置-OpenVPN-Client" class="headerlink" title="配置 OpenVPN Client"></a>配置 OpenVPN Client</h2><h3 id="安装与配置-Ubuntu-可用的-OpenVPN-Client"><a href="#安装与配置-Ubuntu-可用的-OpenVPN-Client" class="headerlink" title="安装与配置 Ubuntu 可用的 OpenVPN Client"></a>安装与配置 Ubuntu 可用的 OpenVPN Client</h3><p>安装 OpenVPN</p>
-<pre><code>sudo apt-get install openvpn
-</code></pre><p>然后把生成的秘钥等文件（.opvn 文件 ca.crt文件 .crt 文件 .key 文件 ta.key 文件）拷贝在 /etc/openvpn/config/ 目录下,在 ~/.zshrc 下添加alias命令，用来生成方便启动的命令。例如我的用户名为 Dane，则：</p>
-<pre><code>alias openvpnconn=&quot;sudo /usr/sbin/openvpn --config /etc/openvpn/config/DigitalOcean_ipv6.ovpn --ca /etc/openvpn/config/ca.crt --cert /etc/openvpn/config/Dane.crt --key /etc/openvpn/config/Dane.key --tls-auth /etc/openvpn/config/ta.key&quot;
-</code></pre><p>修改 /etc/rc.local ，添加</p>
-<pre><code>source ~/.zshrc
-</code></pre><p>添加开机启动命令</p>
-<p>修改 /etc/resolv.conf 添加 </p>
-<pre><code>nameserver 8.8.8.8 nameserver 8.8.4.4
-nameserver 4.2.2.1 nameserver 4.2.2.2
-</code></pre><p>并且将这个文件使用命令设置成只读 </p>
-<pre><code>sudo chattr +i /etc/resolv.conf
-</code></pre><p><strong>如果报错 chattr: Operation not supported while reading flags…</strong></p>
-<p>需要卸除resolvconf模块。卸除方法是执行：</p>
-<pre><code>apt-get remove resolvconf
-</code></pre><h3 id="配置-MAC-可用的-OpenVPN-Client"><a href="#配置-MAC-可用的-OpenVPN-Client" class="headerlink" title="配置 MAC 可用的 OpenVPN Client"></a>配置 MAC 可用的 OpenVPN Client</h3><p>MAC OpenVPN 的安装与密钥的拷贝与 Ubuntu 相同。</p>
-<p><strong>在MAC下使用openvpn的时候，会显示找不到 /etc/tun，这时候需要安装 tun。</strong></p>
-<p>由于不确定是使用哪种 tun 软件，所以全安装了。。。</p>
-<pre><code>brew install openvpn
-brew install utun
-brew install tun
-brew install tuntap
-</code></pre><h3 id="配置-Windows-可用的-OpenVPN-Client"><a href="#配置-Windows-可用的-OpenVPN-Client" class="headerlink" title="配置 Windows 可用的 OpenVPN Client"></a>配置 Windows 可用的 OpenVPN Client</h3><p>Windows 平台可用的 OpenVPN Client 可以在<a href="http://openvpn.ustc.edu.cn/" target="_blank" rel="external">国科学技术大学网络OpenVPN系统</a>，找到对应的版本进行下载安装。</p>
-<p>在下载 OpenVPN Client 并且完成安装之后，需要在 OpenVPN 安装的根目录创建一个叫做 config 文件夹，并且在文件夹中拷贝 Server 创建的密钥等文件，同时将 .opvn 文件也拷贝在 config 目录内，运行 OpenVPN 即可。</p>
+        <p>感谢<a href="http://kchen.cc/2016/03/19/alfred-workflow-for-markdown-image-on-qiniu/" target="_blank" rel="external">K.Chen 的博客</a>为我提供了实现的方法。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>在我们使用 Markdown 做笔记的时候，经常遇到的一个很麻烦的问题就是如何将图片插入到 Markdown 笔记中。原有的 Markdown 笔记不支持将本地图片上传到笔记中，即使是马克飞象等编辑器支持将图片剪贴到 Markdown 笔记中进行预览，但是其图片链接是一个本地链接，若是将笔记本上传到网络中，图片则无法显示。所以，我在向 Markdown 笔记插入图片的时候，使用的是七牛云存储相关的图片，然后导出外链到本地笔记，这样，本地可以通过外链预览图片，即使是笔记上传到了网上也可以通过外链预览图片。</p>
+<p>但是，在本地剪切图片，上传到七牛云并且导出外链到 Markdown 笔记中是一个很复杂的过程。下面是一般情况下将图片插入 Markdown 笔记需要进行的步骤：</p>
+<ol>
+<li>使用截屏工具将截屏并且将截屏文件保存在本地桌面（Mac）</li>
+<li>为获得的截屏文件修改一个合适的名字</li>
+<li>打开七牛云存储，上传本体图片（可以设置前缀）</li>
+<li>退出上传页面，在网页中找到刚刚上传的图片，点击复制外链，获得图片的外链</li>
+<li>在 Markdown 笔记中使用 <code>![]()</code> 添加外链，可以实现图片预览</li>
+</ol>
+<p>由于其步骤繁琐并且消耗的时间很多，经常会打断我们的写作思路，所以我们需要一种快捷的方法将剪切板中的笔记上传到七牛云并导出链接。下面是本教程的实现目标：</p>
+<ol>
+<li>使用截屏工具截屏并保存到剪贴板</li>
+<li>使用 Alfred Workflow 将剪贴板内容上传到七牛云，并将该图片的外链自动保存到剪贴板</li>
+<li>使用<code>![]()</code>在 Markdown 笔记中插入图片。</li>
+</ol>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="七牛云准备工作"><a href="#七牛云准备工作" class="headerlink" title="七牛云准备工作"></a>七牛云准备工作</h3><p>首先需要在七牛开发者平台申请，并获得 AccessKey 和 SecretKey，用来支持上传本地文件到自己的存储空间。步骤如下：</p>
+<ol>
+<li>开通<a href="https://portal.qiniu.com/create" target="_blank" rel="external">七牛开发者账号</a></li>
+<li>登录七牛开发者平台，查看<a href="https://portal.qiniu.com/user/key" target="_blank" rel="external">Access Key 和 Secret Key</a></li>
+</ol>
+<p><a href="http://developer.qiniu.com/resource/official.html#tool" target="_blank" rel="external">七牛开发者工具</a>提供了很多的工具，其中可以实现上传本地文件的工具有两个，一个是<a href="http://developer.qiniu.com/code/v6/tool/qshell.html" target="_blank" rel="external">qshell</a>，另一个是<a href="http://developer.qiniu.com/code/v6/tool/qrsbox.html" target="_blank" rel="external">qrsbox</a>。他们的区别是 qshell 是使用命令行上传图片，除了上传图片以外，qshell 还支持很多其他的功能（虽然这些功能在本教程中不会使用），qshell 需要使用命令行来触发上传的动作。qrsbox 是一个带有图形界面的自动化上传工具，可以实现后台自动监听某个文件夹内部文件的增减，并且自动将本地文件同步到七牛云中。</p>
+<p>本文使用的是 qshell 来上传文件，因为我觉得这样灵活，当然使用 qrsbox 也是一个很好的选择，自动化同步本地文件夹也十分方便。</p>
+<h3 id="qshell-配置"><a href="#qshell-配置" class="headerlink" title="qshell 配置"></a>qshell 配置</h3><p>可以在<a href="http://developer.qiniu.com/code/v6/tool/qshell.html" target="_blank" rel="external">七牛云 qshell </a>工具中下载对应平台的 qshell 可执行文件，因为我使用的是 Mac 平台，所以是在 Mac 下进行配置。</p>
+<p>首先创建文件夹保存 qshell 执行文件和需要同步的图片和文件，我创建的目录为<code>/Users/yuchenzhang/Documents/hexo/qshell</code>，其中有两个文件夹：</p>
+<ol>
+<li>cli文件夹：用来放置 qshell 执行文件</li>
+<li>data文件夹：用来放置需要同步的图片和文件</li>
+</ol>
+<p>在创建完文件夹并且将 qshell 拷贝到 cli 以后，我们要配置 qshell API。</p>
+<p>首先要使用七牛的 API，必须先设置 AccessKey 和 SecretKey 。命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">qshell account ELUs327kxVPJrGCXqWae9yioc0xYZyrIpbM6Wh6o LVzZY2SqOQ_I_kM1n00ygACVBArDvOWtiLkDtKi_</div></pre></td></tr></table></figure></p>
+<p>上面的 <code>ELUs327kxVPJrGCXqWae9yioc0xYZyrIpbM6Wh6o</code> 是您的 AccessKey，而 <code>LVzZY2SqOQ_I_kM1n00ygACVBArDvOWtiLkDtKi_</code> 是您的 SecretKey。如果您想查看当前 AccessKey 和 SecretKey 设置，使用命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">qshell account</div></pre></td></tr></table></figure></p>
+<p>上面的命令会输出当前您设置好的 AccessKey 和 SecretKey。接下来，我们就可以放心地使用七牛的 API 功能了。</p>
+<p>我们需要使用 qshell 的 qupload 命令来同步本地文件。在该 cli 文件夹下新建数据同步的配置文件<code>conf.json</code>，配置文件中的内容可以参考<a href="https://github.com/qiniu/qshell/wiki/qupload" target="_blank" rel="external">qshell qupload 参考文档</a></p>
+<p>针对我的情况，我使用的配置文件 <code>conf.json</code> 中的内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	&quot;src_dir&quot;       :   &quot;/Users/yuchenzhang/Documents/hexo/qshell/data&quot;, //需要同步的文件夹</div><div class="line">    &quot;access_key&quot;    :   &quot;&lt;AccessKey&gt;&quot;, //我的 AccessKey</div><div class="line">    &quot;secret_key&quot;    :   &quot;&lt;SecretKey&gt;&quot;, //我的 SecretKey</div><div class="line">    &quot;bucket&quot;        :   &quot;myweb&quot;,  //需要同步到哪个存储空间中</div><div class="line">    &quot;zone&quot;			:	&quot;nb&quot;, //该存储空间在哪个片区（华东）</div><div class="line">    &quot;rescan_local&quot;	:	true //默认情况下，本地新增的文件不会被同步，需要手动设置为true才会去检测新增文件。</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在配置完成以后，就可以使用<code>./qshell qupload conf.json</code> 在 cli 文件夹路径下运行命令，将 data 文件夹中的数据同步到七牛云上。至此，qshell 配置的部分完成。本人测试的时候，成功将 data 文件夹下的 test.png 图片同步到七牛云上</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/test1.png" alt=""></p>
+<h3 id="Alfred-Workflow-准备工作"><a href="#Alfred-Workflow-准备工作" class="headerlink" title="Alfred Workflow 准备工作"></a>Alfred Workflow 准备工作</h3><p>首先创建一个空白的 Alfred Workflow，如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/2017:01:15:15:52:34.png" alt=""></p>
+<p>然后为这个空白的工作流创建一个引导，如何触发这个工作流，我选择的方法是使用 Keyword，也可以按照<a href="http://kchen.cc/2016/03/19/alfred-workflow-for-markdown-image-on-qiniu/" target="_blank" rel="external">K.chen</a>的方法，使用一个快捷键进行上传。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/a23ace591c850f4a5efdab45e2cf1b93.png" alt=""></p>
+<p>然后添加一个 action，使用/usr/bin/osascript(AS)作为脚本语言，如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/cdaa76e314749cb1d73676908d20cc3f.png" alt=""></p>
+<p>其中的内容是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">property fileTypes : &#123;¬</div><div class="line">	&#123;«class PNGf», &quot;.png&quot;&#125;, ¬</div><div class="line">	&#123;JPEG picture, &quot;.jpg&quot;&#125;&#125;</div><div class="line">on getType()</div><div class="line">	repeat with aType in fileTypes</div><div class="line">		repeat with theInfo in (clipboard info)</div><div class="line">			if (first item of theInfo) is equal to (first item of aType) then return aType</div><div class="line">		end repeat</div><div class="line">	end repeat</div><div class="line">	return missing value</div><div class="line">end getType</div><div class="line">set theType to getType()</div><div class="line">if theType is not missing value then</div><div class="line">	set filePath to &quot;/Users/yuchenzhang/Documents/hexo/qshell/data/&quot; --这里换成你自己放置图片的路径</div><div class="line">	set fileName to do shell script &quot;date \&quot;+%Y%m%d%H%M%S\&quot; | md5&quot; --用当前时间的md5值做文件名</div><div class="line">	if fileName does not end with (second item of theType) then set fileName to (fileName &amp; second item of theType as text)</div><div class="line">	set markdownUrl to &quot;![](http://ojt6zsxg2.bkt.clouddn.com/&quot; &amp; fileName &amp; &quot;)&quot; --这里是你的七牛域名</div><div class="line">	set filePath to filePath &amp; fileName</div><div class="line">	</div><div class="line">	try</div><div class="line">		set imageFile to (open for access filePath with write permission)</div><div class="line">		set eof imageFile to 0</div><div class="line">		write (the clipboard as (first item of theType)) to imageFile</div><div class="line">		close access imageFile</div><div class="line">		set the clipboard to markdownUrl</div><div class="line">		try</div><div class="line">			tell application &quot;System Events&quot;</div><div class="line">				keystroke &quot;v&quot; using command down</div><div class="line">			end tell</div><div class="line">		end try</div><div class="line">		do shell script &quot;/Users/yuchenzhang/Documents/hexo/qshell/cli/qshell qupload /Users/yuchenzhang/Documents/hexo/qshell/cli/conf.json&quot; --此处是你的qshell脚本目录和命令</div><div class="line">	on error</div><div class="line">		try</div><div class="line">			close access imageFile</div><div class="line">		end try</div><div class="line">		return &quot;&quot;</div><div class="line">	end try</div><div class="line">else</div><div class="line">	return &quot;&quot;</div><div class="line">end if</div></pre></td></tr></table></figure>
+<p>代码中需要替换的地方有三个，分别是：</p>
+<p>选择需要同步的路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set filePath to &quot;/Users/yuchenzhang/Documents/hexo/qshell/data/&quot; --这里换成你自己放置图片的路径</div></pre></td></tr></table></figure>
+<p>替换为自己的存储空间的域名，自己的域名可以在七牛云存储，空间的这个地方找到：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/298592f04f11443522b8d9643b21594d.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set markdownUrl to &quot;![](http://ojt6zsxg2.bkt.clouddn.com/&quot; &amp; fileName &amp; &quot;)&quot; --这里是你的七牛域名</div></pre></td></tr></table></figure>
+<p>最后要设置执行 qshell 的命令路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">do shell script &quot;/Users/yuchenzhang/Documents/hexo/qshell/cli/qshell qupload /Users/yuchenzhang/Documents/hexo/qshell/cli/conf.json&quot; --此处是你的qshell脚本目录和命令</div></pre></td></tr></table></figure>
+<p>在设置完脚本以后，可以设置一个提醒，在完成该 Alfred Workflow 动作以后，会收到什么样的提醒。我设置的是一个 Post Notification，如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/c76dff59aef025e6e16277773c7577b1.png" alt=""></p>
+<p>最后，用线将上面三个部分连接起来。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/7d8f735f08285050327401139d4134a7.png" alt=""></p>
+<p>此时，使用截屏软件截屏，图片保存在剪贴板里的时候，可以使用 Alfred Workflow 输入 qupload 上传剪贴板里的图片.</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/4160588386f9cae292e97f440ac8aea4.png" alt=""></p>
+<p>完成！</p>
 
       
     </div>
@@ -475,7 +497,11 @@ brew install tuntap
       
         <div class="post-tags">
           
-            <a href="/tags/OpenVPN/" rel="tag"># OpenVPN</a>
+            <a href="/tags/Alfred/" rel="tag"># Alfred</a>
+          
+            <a href="/tags/七牛/" rel="tag"># 七牛</a>
+          
+            <a href="/tags/Markdown/" rel="tag"># Markdown</a>
           
         </div>
       
@@ -484,15 +510,15 @@ brew install tuntap
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/01/14/Bootstrap-笔记/" rel="next" title="Bootstrap 笔记">
+                <i class="fa fa-chevron-left"></i> Bootstrap 笔记
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/27/网页布局笔记/" rel="prev" title="网页布局笔记">
-                网页布局笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -518,8 +544,8 @@ brew install tuntap
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/10/24/使用 OpenVPN 搭建翻墙服务器/"
-           data-title="使用 OpenVPN 搭建翻墙服务器" data-url="https://shiningdan.github.io/2016/10/24/使用 OpenVPN 搭建翻墙服务器/">
+      <div class="ds-thread" data-thread-key="2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/"
+           data-title="使用Alfred Workflow上传剪切板图片并导出到Markdown" data-url="https://shiningdan.github.io/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/">
       </div>
     
   </div>
@@ -619,7 +645,7 @@ brew install tuntap
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#已有教程"><span class="nav-number">1.</span> <span class="nav-text">已有教程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改点与注意点"><span class="nav-number">2.</span> <span class="nav-text">修改点与注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenVPN-Server-版本"><span class="nav-number">2.1.</span> <span class="nav-text">OpenVPN Server 版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开机启动-OpenVPN-Server"><span class="nav-number">2.2.</span> <span class="nav-text">开机启动 OpenVPN Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#server-conf-修改"><span class="nav-number">2.3.</span> <span class="nav-text">server.conf 修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-server"><span class="nav-number">2.4.</span> <span class="nav-text">配置 server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加-NAT-规则"><span class="nav-number">2.5.</span> <span class="nav-text">添加 NAT 规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#端口监听"><span class="nav-number">2.6.</span> <span class="nav-text">端口监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户创建与配置"><span class="nav-number">2.7.</span> <span class="nav-text">用户创建与配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除用户"><span class="nav-number">2.8.</span> <span class="nav-text">删除用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-OpenVPN-Client"><span class="nav-number">3.</span> <span class="nav-text">配置 OpenVPN Client</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装与配置-Ubuntu-可用的-OpenVPN-Client"><span class="nav-number">3.1.</span> <span class="nav-text">安装与配置 Ubuntu 可用的 OpenVPN Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-MAC-可用的-OpenVPN-Client"><span class="nav-number">3.2.</span> <span class="nav-text">配置 MAC 可用的 OpenVPN Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-Windows-可用的-OpenVPN-Client"><span class="nav-number">3.3.</span> <span class="nav-text">配置 Windows 可用的 OpenVPN Client</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景"><span class="nav-number">1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#七牛云准备工作"><span class="nav-number">2.1.</span> <span class="nav-text">七牛云准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#qshell-配置"><span class="nav-number">2.2.</span> <span class="nav-text">qshell 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alfred-Workflow-准备工作"><span class="nav-number">2.3.</span> <span class="nav-text">Alfred Workflow 准备工作</span></a></li></ol></li></ol></div>
             
 
           </div>
