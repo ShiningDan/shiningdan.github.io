@@ -515,6 +515,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -562,9 +584,21 @@
 
       
         
-          
-            
-          
+          <h1 id="Bootstrap-笔记"><a href="#Bootstrap-笔记" class="headerlink" title="Bootstrap 笔记"></a>Bootstrap 笔记</h1><p>本系列的是参考<a href="http://www.imooc.com/u/104044/courses?sort=publish">慕课网 大漠</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
+<p>在 Bootstrap 的发展中，有一些样式发生了改变，在本文中分析的是较新的 Bootstrap 样式。</p>
+<h2 id="使用-Bootstrap"><a href="#使用-Bootstrap" class="headerlink" title="使用 Bootstrap"></a>使用 Bootstrap</h2><p>使用 Bootstrap，可以将文件下载到本地使用，或者使用 Bootstrap 提供的 CDN。</p>
+<p>下面是 Bootstrap 的 CDN，最新的 CDN 可以在 <a href="http://getbootstrap.com">Bootstrap 官网</a> 上下载。：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- Latest compiled and minified CSS --&gt;</div><div class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot; integrity=&quot;sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u&quot; crossorigin=&quot;anonymous&quot;&gt;</div><div class="line"></div><div class="line">&lt;!-- Optional theme --&gt;</div><div class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css&quot; integrity=&quot;sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp&quot; crossorigin=&quot;anonymous&quot;&gt;</div><div class="line"></div><div class="line">&lt;!-- Latest compiled and minified JavaScript --&gt;</div><div class="line">&lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot; integrity=&quot;sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>下载的 Bootstrap 的内容格式如下，包括一些 CSS 样式和 js 文件，和一些字体文件。：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">bootstrap/</div><div class="line">├── css/</div><div class="line">│   ├── bootstrap.css</div><div class="line">│   ├── bootstrap.css.map</div><div class="line">│   ├── bootstrap.min.css</div><div class="line">│   ├── bootstrap.min.css.map</div><div class="line">│   ├── bootstrap-theme.css</div><div class="line">│   ├── bootstrap-theme.css.map</div><div class="line">│   ├── bootstrap-theme.min.css</div><div class="line">│   └── bootstrap-theme.min.css.map</div><div class="line">├── js/</div><div class="line">│   ├── bootstrap.js</div><div class="line">│   └── bootstrap.min.js</div><div class="line">└── fonts/</div><div class="line">    ├── glyphicons-halflings-regular.eot</div><div class="line">    ├── glyphicons-halflings-regular.svg</div><div class="line">    ├── glyphicons-halflings-regular.ttf</div><div class="line">    ├── glyphicons-halflings-regular.woff</div><div class="line">    └── glyphicons-halflings-regular.woff2</div></pre></td></tr></table></figure>
+<p><strong> Bootstrap所有的 JS 插件都依赖于 jQuery，因此 jQuery 要在 Bootstrap 之前使用</strong>，下面为使用 Bootstrap 的一个模板：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/01/14/Bootstrap-笔记/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1986,7 +2020,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
