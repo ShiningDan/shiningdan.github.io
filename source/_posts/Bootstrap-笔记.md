@@ -1558,9 +1558,13 @@ select[size] {
 </form>
 ```
 
-### 单选按钮和复选按钮
+### 单选按钮和复选按钮(checkbox、radio)
 
 #### 使用方法
+
+![](http://ojt6zsxg2.bkt.clouddn.com/8482332185719b98381b2eee952c97e5.png)
+
+显示效果是 checkbox 和 radio 都是竖直排列。
 
 Bootstrap框架中checkbox和radio有点特殊，Bootstrap针对他们做了一些特殊化处理，主要是checkbox和radio与label标签配合使用会出现一些小问题（最头痛的是对齐问题）。使用Bootstrap框架，开发人员无需考虑太多，只需要按照下面的方法使用即可。
 
@@ -1625,7 +1629,101 @@ Bootstrap框架中checkbox和radio有点特殊，Bootstrap针对他们做了一�
 }
 ```
 
-### 表单控件
+#### checkbox 和 radio 水平排列
+
+##### 使用方法
+
+![](http://ojt6zsxg2.bkt.clouddn.com/059be45d1dc0a08186bccefc74d470e4.png)
+
+将复选框和单选按钮需要水平排列。Bootstrap框架也做了这方面的考虑：
+1. 如果checkbox需要水平排列，只需要在label标签上添加类名“checkbox-inline”
+2. 如果radio需要水平排列，只需要在label标签上添加类名“radio-inline”
+
+**注意，如果是水平排列 checkbox 和 radio，则外层不用嵌套 div.checkbox 或 div.radio，而是使用 div.form-group**
+
+```css
+<form role="form">
+  <div class="form-group">
+    <label class="checkbox-inline">
+      <input type="checkbox"  value="option1">游戏
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox"  value="option2">摄影
+    </label>
+    <label class="checkbox-inline">
+    <input type="checkbox"  value="option3">旅游
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="radio-inline">
+      <input type="radio"  value="option1" name="sex">男性
+    </label>
+    <label class="radio-inline">
+      <input type="radio"  value="option2" name="sex">女性
+    </label>
+    <label class="radio-inline">
+      <input type="radio"  value="option3" name="sex">中性
+    </label>
+  </div>
+</form>
+```
+
+##### CSS 分析
+
+```css
+.radio-inline,
+.checkbox-inline {
+  position: relative;
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  font-weight: normal;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.radio-inline + .radio-inline,
+.checkbox-inline + .checkbox-inline {
+  margin-top: 0;
+  margin-left: 10px;
+}
+```
+
+### 表单控件（按钮）
+
+按钮也是表单重要控件之一,制作按钮通常使用下面代码来实现：
+1. `input[type=“submit”]`
+2. `input[type=“button”]`
+3. `input[type=“reset”]`
+4. `<button>`
+
+**在Bootstrap框架中的按钮都是采用`<button>`来实现。**
+
+所有的按钮显示效果如下：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/3468353145788a309a05c857a49d4940.png)
+
+#### 使用方法
+
+```css
+<button class="btn" href="#">Default</button>
+```
+
+#### CSS 分析
+
+```css
+.btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+```
+
+显示效果都是通过设置字体颜色，背景及边框颜色来实现的。
+
+### 表单控件大小
+
+
+
 
 
 
