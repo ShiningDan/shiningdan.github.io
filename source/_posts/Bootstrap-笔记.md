@@ -1703,12 +1703,70 @@ Bootstrap框架中checkbox和radio有点特殊，Bootstrap针对他们做了一�
 ![](http://ojt6zsxg2.bkt.clouddn.com/3468353145788a309a05c857a49d4940.png)
 
 #### 使用方法
+可以使用 `<button>`标签或者 `<a>` 标签作为按钮，其他的方法，比如 input.btn、div.btn、span.btn 不推荐。
 
 ```css
-<button class="btn" href="#">Default</button>
+<button class="btn btn-default" href="#">Default</button>
+a href="##" class="btn btn-default">a标签按钮</a>
 ```
 
 #### CSS 分析
+
+```
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus,
+.btn.focus {
+  color: #333;
+  text-decoration: none;
+}
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  opacity: .65;
+}
+
+```
 
 ```css
 .btn-default {
@@ -1720,11 +1778,792 @@ Bootstrap框架中checkbox和radio有点特殊，Bootstrap针对他们做了一�
 
 显示效果都是通过设置字体颜色，背景及边框颜色来实现的。
 
+#### 按钮大小
+
+##### 使用方法
+
+使用 .btn-lg、btn-sm、btn-xs来控制按键的大小
+
+```
+<button class="btn btn-primary btn-lg" type="button">大型按钮.btn-lg</button>
+    <button class="btn btn-primary" type="button">正常按钮</button>
+    <button class="btn btn-primary btn-sm" type="button">小型按钮.btn-sm</button>
+    <button class="btn btn-primary btn-xs" type="button">超小型按钮.btn-xs</button>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/67aac03db1ed3c15b03d43941d28a8c9.png)
+
+##### CSS 分析
+
+```
+.btn-lg,
+.btn-group-lg > .btn {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-xs,
+.btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+```
+在Bootstrap框架中控制按钮的大小都是通过修改按钮的padding、line-height、font-size和border-radius几个属性
+
+#### 块状按钮
+
+每个示例中的按钮宽度都是依靠按钮文本和padding的值来决定。但有时候在制作按钮的时候需要按钮宽度充满整个父容器（width:100%），特别是在移动端的制作中。
+
+##### 使用方法
+
+添加 .btn-block
+
+```
+<button class="btn btn-primary btn-lg btn-block" type="button">大型按钮.btn-lg</button>
+<button class="btn btn-primary btn-block" type="button">正常按钮</button>
+<button class="btn btn-primary btn-sm btn-block" type="button">小型按钮.btn-sm</button>
+<button class="btn btn-primary btn-xs btn-block" type="button">超小型按钮.btn-xs</button>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/0d46e8f4bd4669155c6d957817c111a2.png)
+
+##### CSS 分析
+
+```
+.btn-block {
+  display: block;
+  width: 100%;
+}
+.btn-block + .btn-block {
+  margin-top: 5px;
+}
+input[type="submit"].btn-block,
+input[type="reset"].btn-block,
+input[type="button"].btn-block {
+  width: 100%;
+}
+```
+
+#### 按钮状态
+
+Bootstrap按钮的活动状态主要包括按钮的悬浮状态(:hover)，点击状态(:active)、焦点状态（:focus）和 disabled
+
+##### disabled 使用方法
+
+在Bootstrap框架中，要禁用按钮有两种实现方式：
+1. 在标签中添加disabled属性
+2. 在元素标签中添加类名“disabled”
+
+```
+<button class="btn btn-primary btn-lg btn-block" type="button" disabled="disabled">通过disabled属性禁用按钮</button> 
+	<button class="btn btn-primary btn-block disabled" type="button">通过添加类名disabled禁用按钮</button>
+	<button class="btn btn-primary btn-sm btn-block" type="button">未禁用的按钮</button>
+```
+
+同样的，其他风格按钮也具有这样的效果，只是颜色做了一定的调整
+
+##### CSS 分析
+
+```
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus,
+.btn.focus {
+  color: #333;
+  text-decoration: none;
+}
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+```
+
+```
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  opacity: .65;
+}
+```
+
 ### 表单控件大小
 
+#### 控制表单控件的高度
+
+Bootstrap框架还提供了两个不同的类名，用来控制表单控件的高度。这两个类名是：
+1. input-sm:让控件比正常大小更小
+2. input-lg:让控件比正常大小更大
+
+两个类适用于表单中的**input，textarea和select**控件
+
+##### 使用方法
+
+```css
+<input class="form-control input-lg" type="text" placeholder="添加.input-lg，控件变大">
+<input class="form-control" type="text" placeholder="正常大小">
+<input class="form-control input-sm" type="text" placeholder="添加.input-sm，控件变小">
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/9acbe051a7628e9b59a13d9e1fa74b4c.png)
+
+##### css 分析
+
+```css
+.input-sm {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+select.input-sm {
+  height: 30px;
+  line-height: 30px;
+}
+textarea.input-sm,
+select[multiple].input-sm {
+  height: auto;
+}
+.input-lg {
+  height: 46px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+select.input-lg {
+  height: 46px;
+  line-height: 46px;
+}
+textarea.input-lg,
+select[multiple].input-lg {
+  height: auto;
+}
+```
+修改了 height、line-height、padding、font-size。
+不管是“input-sm”还是“input-lg”仅对控件高度做了处理。
+
+#### 控制表单空间的高度
+
+需要控件宽度也要做一定的变化处理。这个时候就要借住Bootstrap框架的网格系统
+
+##### 使用方法
+
+```css
+<form role="form" class="form-horizontal">
+  <div class="form-group">
+  <div class="col-xs-4">
+    <input class="form-control input-lg" type="text" placeholder=".col-xs-4">
+  </div>
+  <div class="col-xs-4">
+    <input class="form-control input-lg" type="text" placeholder=".col-xs-4">
+  </div>
+  <div class="col-xs-4">
+    <input class="form-control input-lg" type="text" placeholder=".col-xs-4">
+  </div>
+  </div>
+    …
+</form>
+```
+
+### 表单控件状态
+
+**表单有焦点的状态可以告诉用户可以输入或选择东西，禁用状态可以告诉用户不可以输入或选择东西，还有就是表单控件验证状态，可以告诉用户的操作是否正确等。**
+
+#### 焦点状态
+
+焦点状态是通过伪类“:focus”来实现。Bootstrap框架中表单控件的焦点状态删除了outline的默认样式，重新添加阴影效果。
+
+#### 使用方法
+
+要让控件在焦点状态下有上面样式效果，需要给控件添加类名“form-control”，这种方法适合 input、select、textarea 使用：
+
+```css
+<form role="form" class="form-horizontal">
+  <div class="form-group">
+    <div class="col-xs-6">
+      <input class="form-control input-lg" type="text" placeholder="不是焦点状态下效果">
+    </div>
+    <div class="col-xs-6">
+      <input class="form-control input-lg" type="text" placeholder="焦点点状态下效果">
+    </div>
+  </div>
+</form>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/2124de1bab751578cff1fd353867aaf5.png)
+
+file、radio和checkbox控件在焦点状态下的效果也与普通的input控件不太一样，不过不用添加类来添加 focus 效果。
 
 
 
+##### css 分析
+
+```css
+.form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+```
+file、radio、checkbox 的 focus 效果：
+```css
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+```
+#### 禁用状态
+
+Bootstrap框架的表单控件的禁用状态和普通的表单禁用状态实现方法是一样的，在相应的表单控件上添加属性“disabled”。
+
+##### 使用方法
+
+需要在需要禁用的表单控件上加上“disabled”即可：
+
+```css
+<input class="form-control" type="text" placeholder="表单已禁用，不能输入" disabled>
+```
+
+##### css 分析
+
+```css
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: #eee;
+  opacity: 1;
+}
+.form-control[disabled],
+fieldset[disabled] .form-control {
+  cursor: not-allowed;
+}
+```
+
+```css
+input[type="radio"][disabled],
+input[type="checkbox"][disabled],
+input[type="radio"].disabled,
+input[type="checkbox"].disabled,
+fieldset[disabled] input[type="radio"],
+fieldset[disabled] input[type="checkbox"] {
+  cursor: not-allowed;
+}
+```
+
+#### 验证状态
+
+在Bootstrap框架中同样提供这几种效果。
+1. .has-warning:警告状态（黄色）
+2. .has-error：错误状态（红色）
+3. .has-success：成功状态（绿色）
+使用的时候只需要在form-group容器上对应添加状态类名。
+
+##### 使用方法
+
+```css
+<form role="form">
+<div class="form-group has-success">
+  <label class="control-label" for="inputSuccess1">成功状态</label>
+  <input type="text" class="form-control" id="inputSuccess1" placeholder="成功状态" >
+</div>
+<div class="form-group has-warning">
+  <label class="control-label" for="inputWarning1">警告状态</label>
+  <input type="text" class="form-control" id="inputWarning1" placeholder="警告状态">
+</div>
+<div class="form-group has-error">
+  <label class="control-label" for="inputError1">错误状态</label>
+  <input type="text" class="form-control" id="inputError1" placeholder="错误状态">
+</div>
+</form>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/5d880e8eb7c8914024a73926f434447f.png)
+
+在表单验证的时候，不同的状态会提供不同的 icon，比如成功是一个对号（√），错误是一个叉号（×）等。在Bootstrap框中也提供了这样的效果。如果你想让表单在对应的状态下显示 icon 出来，只需要在对应的状态下添加类名“has-feedback”。请注意，此类名要与“has-error”、“has-warning”和“has-success”在一起
+
+使用方法如下：
+
+```css
+<form role="form">
+  <div class="form-group has-success has-feedback">
+    <label class="control-label" for="inputSuccess1">成功状态</label>
+    <input type="text" class="form-control" id="inputSuccess1" placeholder="成功状态" >
+    <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+  </div>
+  <div class="form-group has-warning has-feedback">
+    <label class="control-label" for="inputWarning1">警告状态</label>
+    <input type="text" class="form-control" id="inputWarning1" placeholder="警告状态">
+    <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+  </div>
+  <div class="form-group has-error has-feedback">
+    <label class="control-label" for="inputError1">错误状态</label>
+    <input type="text" class="form-control" id="inputError1" placeholder="错误状态">
+    <span class="glyphicon glyphicon-remove form-control-feedback"></span>  
+  </div>
+</form>
+```
+
+**在 Bootstrap 的小图标都是使用@font-face来制作（后面的内容中将会着重用一节内容来介绍）。而且必须在表单中添加了一个 span 元素：**
+
+![](http://ojt6zsxg2.bkt.clouddn.com/7431975a289976c22c691d15ad5274b6.png)
+
+##### css 分析
+
+```css
+.has-success .help-block,
+.has-success .control-label,
+.has-success .radio,
+.has-success .checkbox,
+.has-success .radio-inline,
+.has-success .checkbox-inline,
+.has-success.radio label,
+.has-success.checkbox label,
+.has-success.radio-inline label,
+.has-success.checkbox-inline label {
+  color: #3c763d;
+}
+.has-success .form-control {
+  border-color: #3c763d;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-success .form-control:focus {
+  border-color: #2b542c;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+}
+.has-success .input-group-addon {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #3c763d;
+}
+.has-success .form-control-feedback {
+  color: #3c763d;
+}
+```
+主要是修改了 color、background-color和 border-color。
+
+### 表单提示信息
+
+#### 使用方法
+
+使用了一个"help-block"样式，将提示信息以块状显示，并且显示在控件底部。
+
+```html
+<form role="form">
+<div class="form-group has-success has-feedback">
+  <label class="control-label" for="inputSuccess1">成功状态</label>
+  <input type="text" class="form-control" id="inputSuccess1" placeholder="成功状态" >
+  <span class="help-block">你输入的信息是正确的</span>
+  <span class="glyphiconglyphicon-ok form-control-feedback"></span>
+</div>
+</form>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/e333b203d6a7d1357365ad9f65a0ae71.png)
+
+或者使用了类名“help-inline”。一般让提示信息显示在控件的后面，也就是同一水平显示。但是这个类是在Bootstrap V2.x版本中才有。如果你想在BootstrapV3.x版本也有这样的效果，你可以添加这段代码：
+
+```
+.help-inline{
+  display:inline-block;
+  padding-left:5px;
+  color: #737373;
+}
+```
+ 也可以使用 Bootstrap 的网格系统
+ 
+```
+<form role="form">
+    <div class="form-group has-success">
+        <label class="control-label" for="inputSuccess1">成功状态</label>
+        <div class="row">
+            <div class="col-xs-6">
+                <input type="text" class="form-control" id="inputSuccess1" placeholder="成功状态">
+            </div>
+            <span class="col-xs-6 help-block">你输入的信息是正确的</span>
+        </div>
+    </div>
+</form>
+```
+ 
+ ![](http://ojt6zsxg2.bkt.clouddn.com/cba154406f73590c611038c174f7097b.png)
+
+### 图像
+
+在Bootstrap框架中对于图像的样式风格提供以下几种风格：
+
+1.  img-responsive：响应式图片，主要针对于响应式设计
+2.  img-rounded：圆角图片
+3.  img-circle：圆形图片
+4.  img-thumbnail：缩略图片
+
+#### 使用方法
+
+```
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <img   alt="140x140" src="http://placehold.it/140x140">
+        <div>默认图片</div>
+    </div>
+    <div class="col-sm-4">
+      <img  class="img-rounded" alt="140x140" src="http://placehold.it/140x140"> 
+        <div>圆角图片</div>
+    </div>
+    <div class="col-sm-4">
+      <img  class="img-circle" alt="140x140" src="http://placehold.it/140x140">
+        <div>圆形图片</div>
+    </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <img  class="img-thumbnail" alt="140x140" src="http://placehold.it/140x140"> 
+            <div>缩略图</div>
+        </div>
+        <div class="col-sm-6">
+          <img  class="img-responsive" alt="140x140" src="http://placehold.it/140x140" /> 
+          <div>响应式图片</div>
+        </div>
+      </div>
+  </div>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/c5419c2a91dc19d384e86148d228a7b8.png)
+
+#### css 分析
+
+```
+img {
+  vertical-align: middle;
+}
+.img-responsive,
+.thumbnail > img,
+.thumbnail a > img,
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.img-rounded {
+  border-radius: 6px;
+}
+.img-thumbnail {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  padding: 4px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: all .2s ease-in-out;
+       -o-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
+}
+.img-circle {
+  border-radius: 50%;
+}
+```
+
+对于圆角图片和圆形图片效果，因为是使用了CSS3的圆角样式来实现的，所以注意对于IE8以及其以下版本不支持，是没有圆角效果的。
+
+### 字体图标(font-face)
+
+#### 使用方法
+
+自定义完字体之后，需要对icon设置一个默认样式，在Bootstrap框架中是通过给元素添加“glyphicon”类名来实现，然后通过伪元素“:before”的“content”属性调取对应的icon编码。所有icon都是以”glyphicon-”前缀的类名开始，然后后缀表示图标的名称。
+
+**所有图标可以在[这个链接](http://getbootstrap.com/components/#glyphicons)**
+
+```
+<span class="glyphicon glyphicon-search"></span>
+<span class="glyphicon glyphicon-asterisk"></span>
+<span class="glyphicon glyphicon-plus"></span>
+<span class="glyphicon glyphicon-cloud"></span>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/5c45b6615fab0b56cca12a15ba3ec3ef.png)
+
+#### css 分析
+
+```
+@font-face {
+  font-family: 'Glyphicons Halflings';
+
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+```
+
+## 网格系统
+
+### 工作原理
+
+首先：数据行(.row)必须包含在容器（.container）中，以便为其赋予合适的对齐方式和内距(padding)。如：
+
+```
+<div class="container">
+<div class="row"></div>
+</div>
+```
+
+其次：在行(.row)中可以添加列(.column)，但列数之和不能超过平分的总列数，比如12
+
+```
+<div class="container">
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-8"></div>
+```
+
+然后：具体内容应当放置在列容器（column）之内，而且只有列（column）才可以作为行容器(.row)的直接子元素
+
+最后：通过设置内距（padding）从而创建列与列之间的间距。然后通过为第一列和最后一列设置负值的外距（margin）来抵消内距(padding)的影响
+
+
+![](http://img.mukewang.com/53b0f9c000018b9305540282.jpg)
+
+上面这张图显示的是 Bootstrap 网格系统的工作原理，一共分为5步。
+
+#### 第一步
+
+最外边框，带有一大片白色区域，就是相当于浏览器的可视区域。在Bootstrap框架的网格系统中带有响应式效果，其带有四种类型的浏览器（超小屏(xs)，小屏(sm)，中屏(md)和大屏(lg)），其断点（像素的分界点）是768px、992px和1220px。
+
+#### 第二步
+
+第二个边框(1)相当于容器(.container)。针对不同的浏览器分辨率，其宽度也不一样：自动、750px、970px和1170px
+
+```
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+```
+
+#### 第三步
+
+２号横条阐述的是，将容器的行（.row）平分了12等份，也就是列。每个列都有一个“padding-left:15px”(图中粉红色部分)和一个“padding-right:15px”(图中紫色部分)。这样也导致了第一个列的padding-left和最后一列的padding-right占据了总宽度的30px，从而致使页面不美观，当然，如果你需要留有一定的间距，这个做法是不错的
+
+```
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+```
+
+#### 第四步
+
+３号横条就是行容器(.row),其定义了“margin-left”和”margin-right”值为”-15px”，用来抵消第一个列的左内距和最后一列的右内距。
+
+```
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+```
+
+#### 第五步
+
+将行与列给合在一起就能看到横条4的效果。也就是我们期望看到的效果，第一列和最后一列与容器（.container）之间没有间距。
+
+### 基本用法
+
+![](http://img.mukewang.com/53e483500001c7f408770494.jpg)
+
+上图是不同的网格大小之间的区别。
+
+#### 使用方法
+
+列组合简单理解就是更改数字来合并列（原则：列总和数不能超12）
+
+```
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-8">.col-md-8</div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-4">.col-md-4</div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">.col-md-3</div>
+    <div class="col-md-6">.col-md-6</div>
+    <div class="col-md-3">.col-md-3</div>
+ </div>
+</div>
+```
+
+#### css 分析
+
+实现列组合方式非常简单，只涉及两个CSS两个特性：浮动与宽度百分比。
+
+```
+.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    float: left;
+ }
+ .col-md-12 {
+    width: 100%;
+  }
+  .col-md-11 {
+    width: 91.66666667%;
+  }
+  .col-md-10 {
+    width: 83.33333333%;
+  }
+  .col-md-9 {
+    width: 75%;
+  }
+  .col-md-8 {
+    width: 66.66666667%;
+  }
+  .col-md-7 {
+    width: 58.33333333%;
+  }
+  .col-md-6 {
+    width: 50%;
+  }
+  .col-md-5 {
+    width: 41.66666667%;
+  }
+  .col-md-4 {
+    width: 33.33333333%;
+  }
+  .col-md-3 {
+    width: 25%;
+  }
+  .col-md-2 {
+    width: 16.66666667%;
+  }
+  .col-md-1 {
+    width: 8.33333333%;
+  }
+```
+
+### 列偏移
+
+我们不希望相邻的两个列紧靠在一起，但又不想使用margin或者其他的技术手段来。这个时候就可以使用列偏移（offset）功能来实现。
+
+#### 使用方法
+
+需要在列元素上添加类名“col-md-offset-*”(其中星号代表要偏移的列组合数)，那么具有这个类名的列就会向右偏移。例如，你在列元素上添加“col-md-offset-4”，表示该列向右移动4个列的宽度。
+
+```
+<h4>列向右移动四列的间距</h4>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-2 col-md-offset-4">列向右移动四列</div>
+    <div class="col-md-2">.col-md-3</div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-4 col-md-offset-4">列向右移动四列</div>
+  </div>
+</div>
+<br />
+<h4>发生行断裂</h4>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-2 col-md-offset-4">列向右移动四列</div>
+    <div class="col-md-2">.col-md-3</div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-4 col-md-offset-4">列向右移动四列</div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">.col-md-3</div>
+    <div class="col-md-3 col-md-offset-3">col-md-offset-3</div>
+    <div class="col-md-4">col-md-4</div>
+  </div>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/76565b67a3141c8042fbb2f62510c024.png)
+
+**使用”col-md-offset-*”对列进行向右偏移时，要保证列与偏移列的总数不超过12，不然会致列断行显示**
+
+#### css 分析
+
+```
+.col-md-offset-12 {
+   margin-left: 100%;
+}
+  .col-md-offset-11 {
+    margin-left: 91.66666667%;
+  }
+  .col-md-offset-10 {
+    margin-left: 83.33333333%;
+...
+  .col-md-offset-2 {
+    margin-left: 16.66666667%;
+  }
+  .col-md-offset-1 {
+    margin-left: 8.33333333%;
+  }
+  .col-md-offset-0 {
+    margin-left: 0;
+  }
+```
 
 
 
