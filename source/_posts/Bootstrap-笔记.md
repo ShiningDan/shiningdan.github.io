@@ -1910,6 +1910,388 @@ fieldset[disabled] .btn {
 }
 ```
 
+#### 按钮（按钮组）
+
+##### 使用方法
+
+按钮组和下拉菜单组件一样，需要依赖于button.js插件才能正常运行。不过我们同样可以直接只调用bootstrap.js文件。因为这个文件已集成了button.js插件功能。
+
+使用一个名为“btn-group”的容器，把多个按钮放到这个容器中。
+
+```
+<div class="btn-group">
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-backward"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-fast-backward"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-backward"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-forward "></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-fast-forward"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-step-forward"></span></button>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/c540c9146a1b2ff1d8d9f059b8fcb891.png)
+
+除了可以使用`<button>`元素之外，还可以使用其他标签元素，比如`<a>`标签。唯一要保证的是：不管使用什么标签，“.btn-group”容器里的标签元素需要带有类名“.btn”。
+
+##### css 分析
+
+```
+.btn-group,
+.btn-group-vertical {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+.btn-group > .btn,
+.btn-group-vertical > .btn {
+  position: relative;
+  float: left;
+}
+.btn-group > .btn:hover,
+.btn-group-vertical > .btn:hover,
+.btn-group > .btn:focus,
+.btn-group-vertical > .btn:focus,
+.btn-group > .btn:active,
+.btn-group-vertical > .btn:active,
+.btn-group > .btn.active,
+.btn-group-vertical > .btn.active {
+  z-index: 2;
+}
+.btn-group .btn + .btn,
+.btn-group .btn + .btn-group,
+.btn-group .btn-group + .btn,
+.btn-group .btn-group + .btn-group {
+  margin-left: -1px;
+}
+```
+
+从效果图上我们可以看出，按钮组四个角都是圆角，实现方法如下：
+1. 默认所有按钮都有圆角
+2. 除第一个按钮和最后一个按钮（下拉按钮除外），其他的按钮都取消圆角效果
+3. 第一个按钮只留左上角和左下角是圆角
+4. 最后一个按钮只留右上角和右下角是圆角
+
+
+```
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+  border-radius: 0;
+}
+.btn-group > .btn:first-child {
+  margin-left: 0;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn:last-child:not(:first-child),
+.btn-group > .dropdown-toggle:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-group > .btn-group {
+  float: left;
+}
+.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
+  border-radius: 0;
+}
+.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
+.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+```
+
+#### 按钮（按钮工具栏）
+
+在富文本编辑器中，将按钮组分组排列在一起，比如说复制、剪切和粘贴一组；左对齐、中间对齐、右对齐和两端对齐一组，如下图所示：
+
+![](http://img.mukewang.com/53e45edc00019ad308600101.jpg)
+
+那么Bootstrap框架按钮工具栏也提供了这样的制作方法，你只需要将按钮组“btn-group”按组放在一个大的容器“btn-toolbar”中。
+
+##### 使用方法
+
+```
+<div class="btn-toolbar">
+  <div class="btn-group btn-group-lg">
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-left"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-center"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-right"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-align-justify"></span></button>
+  </div>
+  <div class="btn-group">
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-indent-left"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-indent-right"></span></button>
+  </div>
+  <div class="btn-group btn-group-sm">
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-font"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-bold"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-italic"></span></button>
+  </div>
+  <div class="btn-group btn-group-xs">
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-text-height"></span></button>
+    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-text-width"></span></button>
+  </div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/2555c89d65c66e8a40a4c2df5c088ef9.png)
+
+按钮组的大小也可以进行修改：
+
+1. .btn-group-lg:大按钮组
+2. .btn-group-sm:小按钮组
+3. .btn-group-xs:超小按钮组
+
+##### css 分析
+
+```
+.btn-toolbar {
+  margin-left: -5px;
+}
+.btn-toolbar .btn,
+.btn-toolbar .btn-group,
+.btn-toolbar .input-group {
+  float: left;
+}
+.btn-toolbar > .btn,
+.btn-toolbar > .btn-group,
+.btn-toolbar > .input-group {
+  margin-left: 5px;
+}
+```
+实现原理主要是让容器的多个分组“btn-group”元素进行浮动，并且组与组之前保持5px的左外距。
+
+```
+.btn-toolbar:before,
+.btn-toolbar:after｛
+　display: table;
+content: " ";
+｝
+.btn-toolbar:after{
+  clear: both;
+}
+```
+
+注意在”btn-toolbar”上清除浮动。
+
+```
+.btn-lg,
+.btn-group-lg > .btn {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-xs,
+.btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+```
+
+#### 按钮（嵌套分组）
+
+##### 使用方法
+
+使用的时候，只需要把制作下拉菜单的“dropdown”的容器换成“btn-group”，并且和普通的按钮放在同一级。
+
+```
+<div class="btn-group">
+  <button class="btn btn-default" type="button">首页</button>
+  <button class="btn btn-default" type="button">产品展示</button>
+  <button class="btn btn-default" type="button">案例分析</button>
+  <button class="btn btn-default" type="button">联系我们</button>
+  <div class="btn-group">
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">关于我们<span class="caret"></span></button>
+    <ul class="dropdown-menu">
+    	<li><a href="##">公司简介</a></li>
+    	<li><a href="##">企业文化</a></li>
+    	<li><a href="##">组织结构</a></li>
+    	<li><a href="##">客服服务</a></li>
+    </ul>
+  </div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/919f580009ab56b9af43d26669ff3d2b.png)
+
+##### css 分析
+
+```
+.btn-group > .btn-group {
+  float: left;
+}
+.btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
+  border-radius: 0;
+}
+.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
+.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-group .dropdown-toggle:active,
+.btn-group.open .dropdown-toggle {
+  outline: 0;
+}
+.btn-group > .btn + .dropdown-toggle {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.btn-group > .btn-lg + .dropdown-toggle {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+.btn-group.open .dropdown-toggle {
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+.btn-group.open .dropdown-toggle.btn-link {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+```
+
+#### 按钮（垂直分组）
+
+我们只需要把水平分组的“btn-group”类名换成“btn-group-vertical”即可。
+
+#### 按钮（等分按钮）
+
+等分按钮的效果在移动端上特别的实用。整个按钮组宽度是容器的100%，而按钮组里面的每个按钮平分整个容器宽度。
+
+##### 使用方法
+
+需要在按钮组“btn-group”上追加一个“btn-group-justified”类名
+
+```
+<div class="btn-wrap">
+<div class="btn-group btn-group-justified">
+  <a class="btn btn-default" href="#">首页</a>
+  <a class="btn btn-default" href="#">产品展示</a>
+  <a class="btn btn-default" href="#">案例分析</a>
+  <a class="btn btn-default" href="#">联系我们</a>
+</div>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/9c8db632e8b3303c1b5fde76237a83f7.png)
+
+##### css 分析
+
+```
+.btn-group-justified {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+}
+.btn-group-justified > .btn,
+.btn-group-justified > .btn-group {
+  display: table-cell;
+  float: none;
+  width: 1%;
+}
+.btn-group-justified > .btn-group .btn {
+  width: 100%;
+}
+.btn-group-justified > .btn-group .dropdown-menu {
+  left: auto;
+}
+```
+
+实现原理非常简单，把“btn-group-justified”模拟成表格（display:table），而且把里面的按钮模拟成表格单元格（display:table-cell）。
+
+**特别声明**：在制作等分按钮组时，请尽量使用`<a>`标签元素来制作按钮，因为使用`<button>`标签元素时，使用display:table在部分浏览器下支持并不友好。
+
+#### 钮的向下向上三角形
+
+##### 使用方法
+
+按钮的向下三角形，我们是通过在`<button>`标签中添加一个“`<span>`”标签元素，并且命名为“caret”
+
+```
+<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">按钮下拉菜单<span class="caret"></span></button>
+```
+
+##### css 分析
+
+```
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-top: 4px solid \9;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+```
+这个三角形完全是通过CSS代码来实现的
+
+如果要三角方向需要朝上显示，使用 .dropup 类（下一节会讲）
+
+```
+.dropup .caret,
+.navbar-fixed-bottom .dropdown .caret {
+  content: "";
+  border-top: 0;
+  border-bottom: 4px solid;
+}
+```
+向上三角与向下三角的区别：其实就是改变了一个border-bottom的值。
+
+#### 向上弹起的下拉菜单
+
+在Bootstrap框架中专门为这种效果提代了一个类名“dropup”。使用方法正如前面所示，只需要在“btn-group”上添加这个类名（当然，如果是普通向上弹出下拉菜单，你只需要在“dropdown”类名基础上追加“dropup”类名即可）
+
+##### 使用方法
+
+```
+<div class="btn-group dropup">
+    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">按钮下拉菜单<span class="caret"></span></button>
+    <ul class="dropdown-menu">
+         <li><a href="##">按钮下拉菜单项</a></li>
+         <li><a href="##">按钮下拉菜单项</a></li>
+         <li><a href="##">按钮下拉菜单项</a></li>
+         <li><a href="##">按钮下拉菜单项</a></li>
+    </ul>
+</div>
+```
+
+##### css 分析
+
+```
+.dropup .dropdown-menu,
+.navbar-fixed-bottom .dropdown .dropdown-menu {
+  top: auto;
+  bottom: 100%;
+  margin-bottom: 2px;
+}
+```
+实现方法为：主要将“dropdown-menu”的top值变成了auto，而把bottom值换成了100%
+
+
 ### 表单控件大小
 
 #### 控制表单控件的高度
@@ -2564,12 +2946,342 @@ img {
     margin-left: 0;
   }
 ```
+### 列排序
+
+列排序其实就是改变列的方向，就是改变左右浮动，并且设置浮动的距离。在Bootstrap框架的网格系统中是通过添加类名“col-md-push-*”和“col-md-pull-*”
+
+#### 使用方法
+
+```
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-push-8">.col-md-4</div>
+    <div class="col-md-8 col-md-pull-4">.col-md-8</div>
+  </div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/9a4c9d5d466ed9a0927c400db0774dd9.png)
+
+将左边的列右移到8个位置（col-md-push-8），同时将右边的列左移到4个位置（col-md-pull-4）。如果只移动一个列而不移动另一个列，则会导致位置的重叠而成为两行。
+
+#### css 分析
+
+```
+  .col-sm-pull-2 {
+    right: 16.66666667%;
+  }
+  .col-sm-pull-1 {
+    right: 8.33333333%;
+  }
+  .col-sm-pull-0 {
+    right: auto;
+  }
+  ...
+    .col-sm-push-2 {
+    left: 16.66666667%;
+  }
+  .col-sm-push-1 {
+    left: 8.33333333%;
+  }
+  .col-sm-push-0 {
+    left: auto;
+  }
+```
+
+### 列的嵌套
+
+Bootstrap框架的网格系统还支持列的嵌套。你可以在一个列中添加一个或者多个行（row）容器，然后在这个行容器中插入列（像前面介绍的一样使用列）。但在列容器中的行容器（row），宽度为100%时，就是当前外部列的宽度。
+
+注意：嵌套的列总数也需要遵循不超过12列。不然会造成末位列换行显示。
+
+#### 使用方法
+
+```
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      我的里面嵌套了一个网格
+      <div class="row">
+        <div class="col-md-6">col-md-6</div>
+        <div class="col-md-6">col-md-6</div>
+      </div>
+    </div>
+    <div class="col-md-4">col-md-4</div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-8">
+      我的里面嵌套了一个网格
+      <div class="row">
+        <div class="col-md-4">col-md-4</div>
+        <div class="col-md-4">col-md-4</div>
+        <div class="col-md-4">col-md-4</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/720dd563a4271d42612b02b680de309e.png)
+
+### 下拉菜单
+
+在使用Bootstrap框架的下拉菜单时，必须调用Bootstrap框架提供的bootstrap.js文件。
+
+注意：因为Bootstrap的组件交互效果都是依赖于jQuery库写的插件，所以在使用bootstrap.min.js之前一定要先加载jquery.min.js才会生效果。
+
+```
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+```
+
+#### 基本用法
+
+```
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+    下拉菜单
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+  </ul>
+</div> 
+```
+**`<li>`标签中一定要包裹 `<a>`  标签**
+
+首先：使用一个名为“dropdown”的容器包裹了整个下拉菜单元素:
+
+```
+<div class="dropdown"></div>
+```
+
+其次：使用了一个`<button>`按钮做为父菜单，并且定义类名“dropdown-toggle”和自定义“data-toggle”属性，且值必须和最外容器类名一致
+
+```
+<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+```
+
+最后：下拉菜单项使用一个ul列表，并且定义一个类名为“dropdown-menu”
+
+```
+<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+```
+
+#### 原理分析
+
+下拉菜单项默认是**隐藏**的：
+
+```
+.dropdown-menu {
+  position: absolute; /*设置绝对定位，相对于父元素div.dropdown*/
+  top: 100%; /*让下拉菜单项在父菜单项底部，如果父元素不设置相对定位，该元素相对于body元素*/
+  left: 0;
+  z-index: 1000;/*让下拉菜单项不被其他元素遮盖住*/
+  display: none;/*默认隐藏下拉菜单项*/
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+```
+
+通过js技术手段，给父容器“div.dropdown”添加或移除类名“open”来控制下拉菜单显示或隐藏。也就是说，默认情况，“div.dropdown”没有类名“open”，当用户第一次点击时，“div.dropdown”会添加类名“open”；当用户再次点击时，“div.dropdown”容器中的类名“open”又会被移除。open 可以控制下拉菜单的显示。
+
+```
+.open > .dropdown-menu {
+  display: block;
+}
+```
+
+#### 下拉菜单（下拉分隔线）
+
+在Bootstrap框架中的下拉菜单还提供了下拉分隔线，假设下拉菜单有两个组，那么组与组之间可以通过添加一个空的`<li>`，并且给这个`<li>`添加类名“divider”来实现添加下拉分隔线的功能。
+
+##### 使用方法
+
+```
+ <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+    下拉菜单
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li class="divider"></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+  </ul>
+</div> 
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/c19ebabaaf55c3e11f52e1944c6113d6.png)
+
+##### css 分析
+
+```
+.dropdown-menu .divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+```
+
+#### 下拉菜单（菜单标题）
 
 
+##### 使用方法
 
+通过 li.dropdown-header 来添加菜单头部
 
+```
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+    下拉菜单
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation" class="dropdown-header">第一部分菜单头部</li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation" class="divider"></li>
+    <li role="presentation" class="dropdown-header">第二部分菜单头部</li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+  </ul>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/275161340348be49f9d6e8d17e84be61.png)
 
+##### css 分析
 
+```
+.dropdown-header {
+  display: block;
+  padding: 3px 20px;
+  font-size: 12px;
+  line-height: 1.42857143;
+  color: #777;
+  white-space: nowrap;
+}
+```
+
+#### 下拉菜单（对齐方式）
+
+##### 使用方法
+
+Bootstrap框架中下拉菜单默认是左对齐，如果你想让下拉菜单相对于父容器右对齐时，可以在“dropdown-menu”上添加一个“pull-right”或者“dropdown-menu-right”类名
+
+同时一定要为.dropdown添加float:leftcss样式。
+
+```
+.dropdown{
+  float: left;
+}
+```
+
+```
+<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    <li role="presentation" class="divider"></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+  </ul>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/17d2810d3f9456a8d6e38fbd0565b1e2.png)
+
+##### css 分析
+
+```
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu-left {
+  right: auto;
+  left: 0;
+}
+```
+
+#### 下拉菜单（菜单项状态）
+
+下拉菜单项的默认的状态（不用设置）有悬浮状态（:hover）和焦点状态（:focus)
+
+```
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #262626;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+```
+
+下拉菜单项除了上面两种状态，还有当前状态（.active）和禁用状态（.disabled）。这两种状态使用方法只需要在对应的菜单项上添加对应的类名
+
+##### 使用方法
+
+```
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+  下拉菜单
+  <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation" class="active"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+    ….
+    <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">下拉菜单项</a></li>
+  </ul>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/faaff4d29d07e5f0651541e6a9d1c41b.png)
+
+##### css 分析
+
+```
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #337ab7;
+  outline: 0;
+}
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  color: #777;
+}
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+```
 
 
 
