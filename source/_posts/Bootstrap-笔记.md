@@ -3283,6 +3283,363 @@ Bootstrap框架中下拉菜单默认是左对齐，如果你想让下拉菜单�
 }
 ```
 
+### 导航
+
+Bootstrap框架中制作导航条主要通过“.nav”样式。默认的“.nav”样式不提供默认的导航样式，必须附加另外一个样式才会有效，比如“nav-tabs”、“nav-pills”之类。
+
+#### 导航（基础样式）
+
+##### 使用方法
+
+为ul标签加入.nav和nav-tabs两个类样式。
+
+```
+<ul class="nav nav-tabs">
+    <li><a href="##">Home</a></li>
+    <li><a href="##">CSS3</a></li>
+ 	<li><a href="##">Sass</a></li>
+ 	<li><a href="##">jQuery</a></li>
+ 	<li class="disabled"><a href="##">Responsive</a></li>
+</ul>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/aab5bff0f3480978a343259974d21ef6.png)
+
+##### css 分析
+
+```
+.nav {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+.nav > li {
+  position: relative;
+  display: block;
+}
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: #eee;
+}
+.nav > li.disabled > a {
+  color: #777;
+}
+.nav > li.disabled > a:hover,
+.nav > li.disabled > a:focus {
+  color: #777;
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background-color: #eee;
+  border-color: #337ab7;
+}
+.nav .nav-divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+.nav > li > a > img {
+  max-width: none;
+}
+```
+
+
+.nav-tabs 的样式如下：
+
+```
+.nav-tabs {
+  border-bottom: 1px solid #ddd;
+}
+.nav-tabs > li {
+  float: left;
+  margin-bottom: -1px;
+}
+.nav-tabs > li > a {
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+}
+.nav-tabs > li > a:hover {
+  border-color: #eee #eee #ddd;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+}
+```
+
+实现原理是：菜单项（li）按块显示，并且让他们在同一水平上排列，然后定义非高亮菜单的样式和鼠标悬浮效果。
+
+#### 导航（胶囊形(pills)导航）
+
+当前项高亮显示，并带有圆角效果。并且在导航栏下部没有横线。
+
+##### 使用方法
+
+```
+<ul class="nav nav-pills">
+    <li class="active"><a href="##">Home</a></li>
+ 	<li><a href="##">CSS3</a></li>
+ 	<li><a href="##">Sass</a></li>
+ 	<li><a href="##">jQuery</a></li>
+ 	<li class="disabled"><a href="##">Responsive</a></li>
+</ul>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/67408f21974791ce1b13d43f9c3cae33.png)
+
+##### css 分析
+
+```
+.nav-pills > li {
+  float: left;
+}
+.nav-pills > li > a {
+  border-radius: 4px;
+}
+.nav-pills > li + li {
+  margin-left: 2px;
+}
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  color: #fff;
+  background-color: #337ab7;
+}
+```
+
+#### 导航（垂直堆叠的导航）
+
+##### 使用方法
+
+在实际运用当中，除了水平导航之外，还有垂直导航，就类似前面介绍的垂直排列按钮一样。制作垂直堆叠导航只需要在“nav-pills”的基础上添加一个“nav-stacked”类名即可
+
+```
+<ul class="nav nav-pills nav-stacked">
+    <li class="active"><a href="##">Home</a></li>
+ 	<li><a href="##">CSS3</a></li>
+ 	<li><a href="##">Sass</a></li>
+ 	<li><a href="##">jQuery</a></li>
+    <li class="nav-divider"></li>
+ 	<li class="disabled"><a href="##">Responsive</a></li>
+</ul>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/4596333ed5d2cdba7b66e49aa93f6e39.png)
+
+**nav-stacked 最好不要和 nav-tabs 一起使用，效果不好。**
+
+也可以使用 nav-devider 添加一个分割线。
+
+##### css 分析
+
+```
+.nav-stacked > li {
+  float: none;
+}
+.nav-stacked > li + li {
+  margin-top: 2px;
+  margin-left: 0;
+}
+```
+因为 li 默认就是竖直排列的，所以只需要将原有的 float:left 删除即可。
+
+```
+.nav .nav-divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+```
+
+分界线就是一个高度为1px，带有背景颜色的li。分界线在横向排列的导航栏中没有显示效果。
+
+#### 自适应导航（使用）
+
+自适应导航指的是导航占据容器全部宽度，而且菜单项可以像表格的单元格一样自适应宽度。自适应导航和前面使用“btn-group-justified”制作的自适应按钮组是一样的。只不过在制作自适应导航时更换了另一个类名“nav-justified”。当然他需要和“nav-tabs”或者“nav-pills”配合在一起使用。
+
+##### 使用方法
+
+```
+<ul class="nav nav-tabs nav-justified">
+  <li class="active"><a href="##">Home</a></li>
+  <li><a href="##">CSS3</a></li>
+  <li><a href="##">Sass</a></li>
+  <li><a href="##">jQuery</a></li>
+  <li><a href="##">Responsive</a></li>
+</ul>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/02ed771ade8a34785b71494e392e8723.png)
+
+##### css 分析
+
+实现原理并不难，列表（`<ul>`）上设置宽度为“100%”，然后每个菜单项(`<li>`)设置了“display:table-cell”，让列表项以模拟表格单元格的形式显示
+
+```
+.nav-tabs.nav-justified {
+  width: 100%;
+  border-bottom: 0;
+}
+.nav-tabs.nav-justified > li {
+  float: none;
+}
+.nav-tabs.nav-justified > li > a {
+  margin-bottom: 5px;
+  text-align: center;
+}
+.nav-tabs.nav-justified > .dropdown .dropdown-menu {
+  top: auto;
+  left: auto;
+}
+@media (min-width: 768px) {
+  .nav-tabs.nav-justified > li {
+    display: table-cell;
+    width: 1%;
+  }
+  .nav-tabs.nav-justified > li > a {
+    margin-bottom: 0;
+  }
+}
+.nav-tabs.nav-justified > li > a {
+  margin-right: 0;
+  border-radius: 4px;
+}
+.nav-tabs.nav-justified > .active > a,
+.nav-tabs.nav-justified > .active > a:hover,
+.nav-tabs.nav-justified > .active > a:focus {
+  border: 1px solid #ddd;
+}
+@media (min-width: 768px) {
+  .nav-tabs.nav-justified > li > a {
+    border-bottom: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+  }
+  .nav-tabs.nav-justified > .active > a,
+  .nav-tabs.nav-justified > .active > a:hover,
+  .nav-tabs.nav-justified > .active > a:focus {
+    border-bottom-color: #fff;
+  }
+}
+.nav-tabs.nav-justified > li > a {
+  margin-right: 0;
+  border-radius: 4px;
+}
+.nav-tabs.nav-justified > .active > a,
+.nav-tabs.nav-justified > .active > a:hover,
+.nav-tabs.nav-justified > .active > a:focus {
+  border: 1px solid #ddd;
+}
+@media (min-width: 768px) {
+  .nav-tabs.nav-justified > li > a {
+    border-bottom: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+  }
+  .nav-tabs.nav-justified > .active > a,
+  .nav-tabs.nav-justified > .active > a:hover,
+  .nav-tabs.nav-justified > .active > a:focus {
+    border-bottom-color: #fff;
+  }
+}
+```
+
+这里有一个媒体查询条件：“@media (min-width:768px){…}”表示自适应导航仅在浏览器视窗宽度大于768px才能按上图风格显示。
+
+#### 导航加下拉菜单（二级导航）
+
+##### 使用方法
+
+```
+<ul class="nav nav-pills">
+  <li class="active"><a href="##">首页</a></li>
+  <li class="dropdown">
+      <a href="##" class="dropdown-toggle" data-toggle="dropdown">教程<span class="caret"></span></a>
+      <ul class="dropdown-menu">
+          <li><a href="##">CSS3</a></li>
+        <li><a href="##">Sass</a></li>
+        <li><a href="##">jQuery</a></li>
+        <li><a href="##">Responsive</a></li>
+      </ul>
+  </li>
+ <li><a href="##">关于我们</a></li>
+</ul>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/4bf8a8e79319e7f1063df139d34a61a4.png)
+
+##### css 分析
+
+```
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background-color: #eee;
+  border-color: #337ab7;
+}
+```
+
+#### 面包屑式导航
+
+##### 使用方法
+为ul加入breadcrumb类
+```
+<ul class="breadcrumb">
+  <li><a href="#">首页</a></li>
+  <li><a href="#">我的书</a></li>
+  <li class="active">《图解CSS3》</li>
+</ul> 
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/6fd1b9027245cda754ca736968634afe.png)
+
+##### css 分析
+
+```
+.breadcrumb {
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+.breadcrumb > li {
+  display: inline-block;
+}
+.breadcrumb > li + li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "/\00a0";
+}
+.breadcrumb > .active {
+  color: #777;
+}
+```
+作者是使用li+li:before实现li与li之间的分隔符。使用 li+li:before 可以实现从第二个li 开始起作用。
+
+## 导航条
+
+导航条（navbar）和上一节介绍的导航（nav），就相差一个字，多了一个“条”字。其实在Bootstrap框架中他们还是明显的区别。**在导航条(navbar)中有一个背景色、而且导航条可以是纯链接（类似导航），也可以是表单，还有就是表单和导航一起结合等多种形式**。
+
+
+
+
 
 
 
