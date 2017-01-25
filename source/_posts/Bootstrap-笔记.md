@@ -3637,6 +3637,867 @@ Bootstrap框架中制作导航条主要通过“.nav”样式。默认的“.nav
 
 导航条（navbar）和上一节介绍的导航（nav），就相差一个字，多了一个“条”字。其实在Bootstrap框架中他们还是明显的区别。**在导航条(navbar)中有一个背景色、而且导航条可以是纯链接（类似导航），也可以是表单，还有就是表单和导航一起结合等多种形式**。
 
+### 使用方法
+
+```
+<div class="navbar navbar-default" role="navigation">
+     <ul class="nav navbar-nav">
+     	<li class="active"><a href="##">网站首页</a></li>
+        <li><a href="##">系列教程</a></li>
+        <li><a href="##">名师介绍</a></li>
+        <li><a href="##">成功案例</a></li>
+        <li><a href="##">关于我们</a></li>
+	 </ul>
+</div>
+<div class="navbar navbar-default" role="navigation">
+  　<div class="navbar-header">
+  　    <a href="##" class="navbar-brand">慕课网</a>
+  　</div>
+     <ul class="nav navbar-nav">
+	 	<li class="active"><a href="##">网站首页</a></li>
+      <li class="dropdown">
+        <a href="##" data-toggle="dropdown" class="dropdown-toggle">系列教程<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+        	<li><a href="##">CSS3</a></li>
+        	<li><a href="##">JavaScript</a></li>
+        	<li class="disabled"><a href="##">PHP</a></li>
+        </ul>
+     </li>
+      <li><a href="##">名师介绍</a></li>
+      <li><a href="##">成功案例</a></li>
+      <li><a href="##">关于我们</a></li>
+	 </ul>
+  <form action="##" class="navbar-form navbar-left" rol="search">
+   	<div class="form-group">
+   		<input type="text" class="form-control" placeholder="请输入关键词" />
+   	</div>
+     <button type="submit" class="btn btn-default">搜索</button>
+   </form>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/0b80714252dcbe76ada61cb29e4e1924.png)
+
+### 基础导航条
+
+#### 使用方法
+
+1. 首先在制作导航的列表(`<ul class=”nav”>`)基础上添加类名“navbar-nav”
+2. 在列表外部添加一个容器（div），并且使用类名“navbar”和“navbar-default”
+
+```
+<div class="navbar navbar-default" role="navigation">
+     <ul class="nav navbar-nav">
+	 	<li class="active"><a href="##">网站首页</a></li>
+        <li><a href="##">系列教程</a></li>
+        <li><a href="##">名师介绍</a></li>
+        <li><a href="##">成功案例</a></li>
+        <li><a href="##">关于我们</a></li>
+	 </ul>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/edee21a16de54929f9c413ca7e5f1a92.png)
+
+#### css 分析
+
+```
+.navbar {
+  position: relative;
+  min-height: 50px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+}
+@media (min-width: 768px) {
+  .navbar {
+    border-radius: 4px;
+  }
+}
+```
+
+主要功能就是设置左右padding和圆角等效果，但他和颜色相关的样式没有进行任何的设置。
+
+```
+.navbar-default {
+  background-color: #f8f8f8;
+  border-color: #e7e7e7;
+}
+```
+导航条的颜色都是通过“.navbar-default”来进行控制
+
+navbar-nav样式是在导航.nav的基础上重新调整了菜单项的浮动与内外边距。同时也不包括颜色等样式设置
+
+```
+.navbar-nav {
+  margin: 7.5px -15px;
+}
+.navbar-nav > li > a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 20px;
+}
+@media (max-width: 767px) {
+  .navbar-nav .open .dropdown-menu {
+    position: static;
+    float: none;
+    width: auto;
+    margin-top: 0;
+    background-color: transparent;
+    border: 0;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+  }
+  .navbar-nav .open .dropdown-menu > li > a,
+  .navbar-nav .open .dropdown-menu .dropdown-header {
+    padding: 5px 15px 5px 25px;
+  }
+  .navbar-nav .open .dropdown-menu > li > a {
+    line-height: 20px;
+  }
+  .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-nav .open .dropdown-menu > li > a:focus {
+    background-image: none;
+  }
+}
+@media (min-width: 768px) {
+  .navbar-nav {
+    float: left;
+    margin: 0;
+  }
+  .navbar-nav > li {
+    float: left;
+  }
+  .navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+.navbar-default .navbar-nav > li > a {
+  color: #777;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #333;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #555;
+  background-color: #e7e7e7;
+}
+.navbar-default .navbar-nav > .disabled > a,
+.navbar-default .navbar-nav > .disabled > a:hover,
+.navbar-default .navbar-nav > .disabled > a:focus {
+  color: #ccc;
+  background-color: transparent;
+}
+```
+
+### 为导航条添加标题、二级菜单及状态
+
+在Web页面制作中，常常在菜单前面都会有一个标题（文字字号比其它文字稍大一些），其实在Bootstrap框架也为大家做了这方面考虑，其通过“navbar-header”和“navbar-brand”来实现
+
+#### 使用方法
+
+```
+<!--导航条状态及二级菜单-->
+<div class="navbar navbar-default" role="navigation">
+  　<div class="navbar-header">
+  　    <a href="##" class="navbar-brand">慕课网</a>
+  　</div>
+	<ul class="nav navbar-nav">
+	 	<li class="active"><a href="##">网站首页</a></li>
+        <li class="dropdown">
+          <a href="##" data-toggle="dropdown" class="dropdown-toggle">系列教程<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+        	<li><a href="##">CSS3</a></li>
+        	<li><a href="##">JavaScript</a></li>
+        	<li class="disabled"><a href="##">PHP</a></li>
+          </ul>
+       </li>
+       <li><a href="##">名师介绍</a></li>
+       <li><a href="##">成功案例</a></li>
+       <li><a href="##">关于我们</a></li>
+	</ul>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/b51ca45835a02edaf02635a4b4ddc5d8.png)
+
+#### css 分析
+
+```
+.navbar-header:before,
+.navbar-header:after{
+  display: table;
+  content: " ";
+}
+.navbar-header:after{
+ clear: both;
+}
+@media (min-width: 768px) {
+  .navbar-header {
+    float: left;
+  }
+}
+```
+清除了浮动。
+
+```
+.navbar-brand {
+  float: left;
+  height: 50px;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+}
+.navbar-brand:hover,
+.navbar-brand:focus {
+  text-decoration: none;
+}
+.navbar-brand > img {
+  display: block;
+}
+.navbar-default .navbar-brand {
+  color: #777;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #5e5e5e;
+  background-color: transparent;
+}
+```
+其样式主要是加大了字体设置。
+
+### 带表单的导航条
+
+有的导航条中会带有搜索表单，比如新浪微博的导航条：
+![](http://img.mukewang.com/53edcf9d00013cf506950056.jpg)
+
+在Bootstrap框架中提供了一个“navbar-form”，使用方法很简单，在navbar容器中放置一个带有navbar-form类名的表单
+
+#### 使用方法
+
+```
+<div class="navbar navbar-default" role="navigation">
+  　<div class="navbar-header">
+  　    <a href="##" class="navbar-brand">慕课网</a>
+  　</div>
+    <ul class="nav navbar-nav">
+       <li class="active"><a href="##">网站首页</a></li>
+       <li class="dropdown">
+          <a href="##" data-toggle="dropdown" class="dropdown-toggle">系列教程<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+        	<li><a href="##">CSS3</a></li>
+        	<li><a href="##">JavaScript</a></li>
+        	<li class="disabled"><a href="##">PHP</a></li>
+          </ul>
+      </li>
+      <li><a href="##">名师介绍</a></li>
+      <li><a href="##">成功案例</a></li>
+      <li><a href="##">关于我们</a></li>
+	 </ul>
+     <form action="##" class="navbar-form navbar-left" role="search">
+   	    <div class="form-group">
+   		   <input type="text" class="form-control" placeholder="请输入关键词" />
+   	    </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+     </form>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/f66e7f62869a9af532bcee1085fa2463.png)
+
+“navbar-left”让表单左浮动，更好实现对齐。在Bootstrap框架中，还提供了“navbar-right”样式，让元素在导航条靠右对齐。
+
+#### css 分析
+
+```
+@media (min-width: 768px) {
+  .navbar-left {
+    float: left !important;
+  }
+  .navbar-right {
+    float: right !important;
+    margin-right: -15px;
+  }
+  .navbar-right ~ .navbar-right {
+    margin-right: 0;
+  }
+}
+```
+
+这里有一个条件，只有当浏览器视窗宽度大于768px生效。
+
+### 导航条中的按钮、文本和链接
+
+Bootstrap框架的导航条中除了使用navbar-brand中的a元素和navbar-nav的ul和navbar-form之外，还可以使用其他元素。框架提供了三种其他样式：
+
+1. 导航条中的按钮navbar-btn
+2. 导航条中的文本navbar-text
+3. 导航条中的普通链接navbar-link
+
+但这三种样式在框架中使用时受到一定的限制，需要和navbar-brand、navbar-nav配合起来使用。而且对数量也有一定的限制，一般情况在使用一到两个不会有问题，超过两个就会有问题。
+
+#### 使用方法
+
+使用 navbar-text 的时候要使用 div 包裹 a 标签，而不是使用 ul 包裹 a 标签。
+
+```
+<--错误的写法-->
+<div class="navbar navbar-default" role="navigation">
+  　<div class="navbar-header">
+  　    <a href="##" class="navbar-brand">慕课网</a>
+  　</div>
+	 <ul class="nav navbar-nav">
+	 	<li><a href="##" class="navbar-text">Navbar Text</a></li>
+	 	<li><a href="##" class="navbar-text">Navbar Text</a></li>
+	 	<li><a href="##" class="navbar-text">Navbar Text</a></li>
+	 </ul>
+</div>
+<--正确的写法-->
+<div class="navbar navbar-default" role="navigation">
+  　<div class="navbar-header">
+  　    <a href="##" class="navbar-brand">慕课网</a>
+  　</div>
+	 <div class="nav navbar-nav">
+	 	<a href="##" class="navbar-text">Navbar Text</a>
+	 	<a href="##" class="navbar-text">Navbar Text</a>
+	 	<a href="##" class="navbar-text">Navbar Text</a>
+	 </div>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/f8eb4d5473f25487abd04a0d382e83b7.png)
+
+#### css 分析
+
+```
+.navbar-btn {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.navbar-btn.btn-sm {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.navbar-btn.btn-xs {
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+.navbar-text {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (min-width: 768px) {
+  .navbar-text {
+    float: left;
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+}
+.navbar-default .navbar-link {
+  color: #777;
+}
+.navbar-default .navbar-link:hover {
+  color: #333;
+}
+```
+
+### 固定导航条
+
+很多情况之一，设计师希望导航条固定在浏览器顶部或底部，这种固定式导航条的应用在移动端开发中更为常见。Bootstrap框架提供了两种固定导航条的方式：
+
+1. .navbar-fixed-top：导航条固定在浏览器窗口顶部
+2. .navbar-fixed-bottom：导航条固定在浏览器窗口底部
+
+#### 使用方法
+
+使用方法很简单，只需要在制作导航条最外部容器navbar上追加对应的类名即可
+
+```
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  　<div class="navbar-header">
+  　    <a href="##" class="navbar-brand">慕课网</a>
+  　</div>
+	 <ul class="nav navbar-nav">
+	 	<li class="active"><a href="##">网站首页</a></li>
+        <li><a href="##">系列教程</a></li>
+        <li><a href="##">名师介绍</a></li>
+        <li><a href="##">成功案例</a></li>
+        <li><a href="##">关于我们</a></li>
+	 </ul>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/7b00b05b5a8382500dcd0cb5ac6674a3.png)
+
+#### css 分析
+
+```
+  .navbar-fixed-top .navbar-collapse,
+  .navbar-static-top .navbar-collapse,
+  .navbar-fixed-bottom .navbar-collapse {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+.navbar-fixed-top .navbar-collapse,
+.navbar-fixed-bottom .navbar-collapse {
+  max-height: 340px;
+}
+@media (max-device-width: 480px) and (orientation: landscape) {
+  .navbar-fixed-top .navbar-collapse,
+  .navbar-fixed-bottom .navbar-collapse {
+    max-height: 200px;
+  }
+}
+.navbar-fixed-top,
+.navbar-fixed-bottom {
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+@media (min-width: 768px) {
+  .navbar-fixed-top,
+  .navbar-fixed-bottom {
+    border-radius: 0;
+  }
+}
+.navbar-fixed-top {
+  top: 0;
+  border-width: 0 0 1px;
+}
+.navbar-fixed-bottom {
+  bottom: 0;
+  margin-bottom: 0;
+  border-width: 1px 0 0;
+}
+```
+在navbar-fixed-top和navbar-fixed-bottom使用了position：fixed属性，并且设置navbar-fixed-top的top值为0,而navbar-fixed-bottom的bottom值为0。
+
+**从运行效果中大家不难发现，页面主内容顶部和底部都被固定导航条给遮住了。为了避免固定导航条遮盖内容，我们需要在body上做一些处理：**
+
+```
+body {
+  padding-top: 70px;/*有顶部固定导航条时设置*/
+  padding-bottom: 70px;/*有底部固定导航条时设置*/
+}
+```
+
+**第二种解决方法：**
+
+把固定导航条都放在页面内容前面：
+
+```
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+　…
+</div>
+<div class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+　…
+</div>
+<div class="content">我是内容</div>
+```
+
+在文件中添加下列样式代码：
+
+```
+.navbar-fixed-top ~ .content {
+   padding-top: 70px;
+}
+.navbar-fixed-bottom ~ .content {
+  padding-bottom: 70px;
+}
+```
+
+### 响应式导航条
+
+#### 使用方法
+
+1、 保证在窄屏时需要折叠的内容必须包裹在带一个div内，并且为这个div加入collapse、navbar-collapse两个类名。最后为这个div添加一个class类名或者id名。
+
+2、 保证在窄屏时要显示的图标样式（固定写法）：
+
+```
+<button class="navbar-toggle" type="button" data-toggle="collapse">
+  <span class="sr-only">Toggle Navigation</span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+  <span class="icon-bar"></span>
+</button>
+```
+
+3、 为button添加data-target=".类名/#id名"，究竞是类名还是id名呢？由需要折叠的div来决定。如：
+
+需要折叠的div代码段：
+
+```
+<div class="collapse navbar-collapse" id="example">
+      <ul class="nav navbar-nav">
+      …
+      </ul>
+</div>
+```
+
+窄屏时显示的图标代码段：
+
+```
+<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#example">
+  ...
+</button>
+```
+
+也可以这么写，需要折叠的div代码段：
+
+```
+<div class="collapse navbar-collapse example" >
+      <ul class="nav navbar-nav">
+      …
+      </ul>
+</div>
+```
+窄屏时要显示的图标：
+
+```
+<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".example">
+  ...
+</button>
+```
+
+下面是一个完整的案例：
+
+```
+<div class="navbar navbar-default" role="navigation">
+  <div class="navbar-header">
+     　<!-- .navbar-toggle样式用于toggle收缩的内容，即nav-collapse collapse样式所在元素 -->
+       <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+         <span class="sr-only">Toggle Navigation</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <!-- 确保无论是宽屏还是窄屏，navbar-brand都显示 -->
+       <a href="##" class="navbar-brand">慕课网</a>
+  </div>
+  <!-- 屏幕宽度小于768px时，div.navbar-responsive-collapse容器里的内容都会隐藏，显示icon-bar图标，当点击icon-bar图标时，再展开。屏幕大于768px时，默认显示。 -->
+  <div class="collapse navbar-collapse navbar-responsive-collapse">
+    	<ul class="nav navbar-nav">
+      		<li class="active"><a href="##">网站首页</a></li>
+      		<li><a href="##">系列教程</a></li>
+      		<li><a href="##">名师介绍</a></li>
+      		<li><a href="##">成功案例</a></li>
+      		<li><a href="##">关于我们</a></li>
+	 	</ul>
+  </div>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/692ebe815164e2d08e88b1b707e07a4c.png)
+
+折叠后的显示效果是：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/5cb8ae9ab727b281867cb6e9c066f285.png)
+
+### 反色导航条
+
+#### 使用方法
+
+使用方法并无区别，只是将navbar-deafult类名换成navbar-inverse。其变化只是导航条的背景色和文本做了修改。
+
+```
+<div class="navbar navbar-inverse" role="navigation">
+  <div class="navbar-header">
+     <a href="##" class="navbar-brand">慕课网</a>
+  </div>
+  <ul class="nav navbar-nav">
+      <li class="active"><a href="">首页</a></li>
+    <li><a href="">教程</a></li>
+    <li><a href="">关于我们</a></li>
+  </ul>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/b19b4598d9a201f9ea228a8815319205.png)
+
+### 分页导航（带页码的分页导航）
+
+
+分页导航几乎在哪个网站都可见。好的分页导航能给用户带来更好的用户体验。在Bootstrap框架中提供了两种分页导航：
+1. 带页码的分页导航
+2. 带翻页的分页导航
+
+#### 带页码的分页导航
+
+平时很多同学喜欢用div>a和div>span结构来制作带页码的分页导航。不过，在Bootstrap框架中使用的是ul>li>a这样的结构，在ul标签上加入pagination方法。
+
+在Bootstrap框架中，也可以通过几个不同的情况来设置其大小。类似于按钮一样：
+1. 通过“pagination-lg”让分页导航变大；
+2. 通过“pagination-sm”让分页导航变小：
+
+```
+<ul class="pagination pagination-lg">
+  <li><a href="#">&laquo;第一页</a></li>
+  <li><a href="#">11</a></li>
+  <li><a href="#">12</a></li>
+  <li class="active"><a href="#">13</a></li>
+  <li><a href="#">14</a></li>
+  <li><a href="#">15</a></li>
+  <li class="disabled"><a href="#">最后一页&raquo;</a></li>
+</ul> 
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/4fcf9513dd76c49b01038dae04f0a803.png)
+
+从效果中可以看出，当前状态页码会高亮显示，而且不能点击。而最后一页是禁用状态，也不能点击。
+
+##### css 分析
+
+```
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 3;
+  color: #fff;
+  cursor: default;
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #777;
+  cursor: not-allowed;
+  background-color: #fff;
+  border-color: #ddd;
+}
+```
+要禁用当前状态和禁用状态不能点击，我们还要依靠js来实现，或者将这两状态下的a标签换成span标签。
+
+#### 分页导航（翻页分页导航）
+
+Bootstrap框架除了提供带页码的分页导航之外还提供了翻页导航。这种分页导航常常在一些简单的网站上看到，比如说个人博客，杂志网站等。这种分页导航是看不到具体的页码，只会提供一个“上一页”和“下一页”的按钮。
+
+##### 使用方法
+
+在实际使用中，翻页分页导航和带页码的分页导航类似，为ul标签加入pager类
+
+```
+<ul class="pager">
+  <li><a href="#">&laquo;上一页</a></li>
+  <li><a href="#">下一页&raquo;</a></li>
+</ul> 
+<!--左右对齐-->
+<ul class="pager">
+  <li class="previous"><a href="#">&laquo;上一页</a></li>
+  <li class="next"><a href="#">下一页&raquo;</a></li>
+</ul> 
+<!--禁止状态-->
+<ul class="pager">
+  <li class="disabled"><span>&laquo;上一页</span></li>
+  <li><a href="#">下一页&raquo;</a></li>
+</ul>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/167c183fcb42bce72812ab559b4c2394.png)
+
+##### css 分析
+
+```
+.pager {
+  padding-left: 0;
+  margin: 20px 0;
+  text-align: center;
+  list-style: none;
+}
+.pager li {
+  display: inline;
+}
+.pager li > a,
+.pager li > span {
+  display: inline-block;
+  padding: 5px 14px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+}
+.pager li > a:hover,
+.pager li > a:focus {
+  text-decoration: none;
+  background-color: #eee;
+}
+.pager .next > a,
+.pager .next > span {
+  float: right;
+}
+.pager .previous > a,
+.pager .previous > span {
+  float: left;
+}
+.pager .disabled > a,
+.pager .disabled > a:hover,
+.pager .disabled > a:focus,
+.pager .disabled > span {
+  color: #777;
+  cursor: not-allowed;
+  background-color: #fff;
+}
+```
+
+## 标签
+
+### 使用方法
+
+```
+<h3>Example heading <span class="label label-default">New</span></h3>  
+<!--代码-->
+<span class="label label-default">默认标签</span>
+<span class="label label-primary">主要标签</span>
+<span class="label label-success">成功标签</span>
+<span class="label label-info">信息标签</span>
+<span class="label label-warning">警告标签</span>
+<span class="label label-danger">错误标签</span>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/cde4ac54f17463f3c926446a8479d02f.png)
+
+### css 分析
+
+```
+.label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+a.label:hover,
+a.label:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.label:empty {
+  display: none;
+}
+```
+
+## 徽章
+
+### 使用方法
+
+可以像标签一样，使用span标签来制作，然后为他加入badge类：
+
+```
+<a href="#">Inbox <span class="badge">42</span></a> 
+<!--navbar-default导航条勋章-->
+<div class="navbar navbar-default" role="navigation">
+  　<div class="navbar-header">
+  　    <a href="##" class="navbar-brand">慕课网</a>
+  　</div>
+	<ul class="nav navbar-nav">
+	 	<li class="active"><a href="##">网站首页</a></li>
+        <li><a href="##">系列教程</a></li>
+        <li><a href="##">名师介绍</a></li>
+        <li><a href="##">成功案例<span class="badge">23</span></a></li>
+        <li><a href="##">关于我们</a></li>
+	</ul>
+</div>
+<!--nav-pills导航条勋章-->
+<ul class="nav nav-pills">
+  <li class="active"><a href="#">Home <span class="badge">42</span></a></li>
+  <li><a href="#">Profile</a></li>
+  <li><a href="#">Messages <span class="badge">3</span></a></li>
+</ul>
+<br /> 
+<ul class="nav nav-pills nav-stacked" style="max-width: 260px;">
+      <li class="active">
+        <a href="#">
+          <span class="badge pull-right">42</span>
+          Home
+        </a>
+      </li>
+      <li><a href="#">Profile</a></li>
+      <li>
+        <a href="#">
+          <span class="badge pull-right">3</span>
+          Messages
+        </a>
+      </li>
+</ul>
+<br />
+<!--按钮勋章-->
+<button class="btn btn-primary" type="button">
+      Messages <span class="badge">4</span>
+</button>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/d3ee6e4dea19368b98352950bb345df4.png)
+
+### css 分析
+
+```
+.badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: #777;
+  border-radius: 10px;
+}
+.badge:empty {
+  display: none;
+}
+```
+
+除了基本的徽章样式以外，还有针对不同的徽章位置定义了不同的样式：
+```
+.btn .badge {
+  position: relative;
+  top: -1px;
+}
+.btn-xs .badge,
+.btn-group-xs > .btn .badge {
+  top: 0;
+  padding: 1px 5px;
+}
+a.badge:hover,
+a.badge:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+.list-group-item > .badge {
+  float: right;
+}
+.list-group-item > .badge + .badge {
+  margin-right: 5px;
+}
+.nav-pills > li > a > .badge {
+  margin-left: 3px;
+}
+```
+
+
 
 
 
