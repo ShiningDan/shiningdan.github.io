@@ -4497,8 +4497,925 @@ a.badge:focus {
 }
 ```
 
+## 缩略图
+
+缩略图在网站中最常用的地方就是产品列表页面，一行显示几张图片，有的在图片底下（左侧或右侧）带有标题、描述等信息。Bootstrap框架将这一部独立成一个模块组件。并通过“thumbnail”样式配合bootstrap的网格系统来实现。可以将产品列表页变得更好看。
+
+### 使用方法
+
+```
+<div class="container">
+    <div class="row">
+		<div class="col-xs-6 col-md-3">
+			<a href="#" class="thumbnail">
+				<img alt="100%x180" src="http://img.mukewang.com/5434eba100014fe906000338.png" style="height: 180px; width: 100%; display: block;" >
+			</a>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<a href="#" class="thumbnail">
+				<img alt="100%x180" src="http://img.mukewang.com/5434eba100014fe906000338.png" style="height: 180px; width: 100%; display: block;">
+			</a>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<a href="#" class="thumbnail">
+				<img alt="100%x180" src="http://img.mukewang.com/5434eba100014fe906000338.png" style="height: 180px; width: 100%; display: block;">
+			</a>
+		</div>
+		<div class="col-xs-6 col-md-3">
+			<a href="#" class="thumbnail">
+				<img alt="100%x180" src="http://img.mukewang.com/5434eba100014fe906000338.png" style="height: 180px; width: 100%; display: block;">
+			</a>
+		</div>
+	</div>
+</div>
+```
+
+配合着网格系统进行显示。
+
+这是小于 768px 的界面显示效果。
+
+![](http://ojt6zsxg2.bkt.clouddn.com/f3665f4abd4603c26eca628a796192d3.png)
+
+大于 768px 界面显示效果。
+
+![](http://ojt6zsxg2.bkt.clouddn.com/3ca4aabd94e2d0f6b263f9fdcd90530a.png)
+
+除了这种方式之外，还可以让缩略图配合标题、描述内容，按钮等
+
+```
+<div class="container">
+    <div class="row">
+		<div class="col-xs-6 col-md-3">
+			<a href="#" class="thumbnail">
+				<img src="http://img.mukewang.com/5434eba100014fe906000338.png" style="height: 180px; width: 100%; display: block;" alt="">
+			</a>
+			<div class="caption">
+				<h3>Bootstrap框架系列教程</h3>
+				<p>Bootstrap框架是一个优秀的前端框，就算您是一位后端程序员或者你是一位不懂设计的前端人员，你也能依赖于Bootstrap制作做优美的网站...</p>
+				<p>
+					<a href="##" class="btn btn-primary">开始学习</a>
+					<a href="##" class="btn btn-info">正在学习</a>
+				</p>
+			</div>  
+		</div>
+	...
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/fad464d845d80deb0e26960effd289a5.png)
+
+### css 分析
+
+```
+.thumbnail {
+  display: block;
+  padding: 4px;
+  margin-bottom: 20px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-transition: border .2s ease-in-out;
+       -o-transition: border .2s ease-in-out;
+          transition: border .2s ease-in-out;
+}
+.thumbnail > img,
+.thumbnail a > img {
+  margin-right: auto;
+  margin-left: auto;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  border-color: #337ab7;
+}
+.thumbnail .caption {
+  padding: 9px;
+  color: #333;
+}
+```
+
+## 警告框
 
 
+
+### 使用方法
+
+```
+<h2>默认警示框</h2>
+<div class="alert alert-success" role="alert">恭喜您操作成功！</div>
+<div class="alert alert-info" role="alert">请输入正确的密码</div>
+<div class="alert alert-warning" role="alert">您已操作失败两次，还有最后一次机会</div>
+<div class="alert alert-danger" role="alert">对不起，您输入的密码有误</div> 
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/f04241cff82ef52ac047e041e7c4e979.png)
+
+使用可关闭的警世框，只需要在默认的警示框里面添加一个关闭按钮。然后进行三个步骤：
+
+  1、需要在基本警示框“alert”的基础上添加“alert-dismissable”样式。
+
+  2、在button标签中加入class="close"类，实现警示框关闭按钮的样式。
+
+  3、要确保关闭按钮元素上设置了自定义属性：“data-dismiss="alert"”（因为可关闭警示框需要借助于Javascript来检测该属性，从而控制警示框的关闭）
+
+```
+<h2>可关闭的警示框</h2>
+<div class="alert alert-success alert-dismissable" role="alert">
+    <button class="close" type="button" data-dismiss="alert">&times;</button>
+    恭喜您操作成功！
+</div>
+<div class="alert alert-info alert-dismissable" role="alert">
+	<button class="close" type="button" data-dismiss="alert">&times;</button>
+	请输入正确的密码
+</div>
+<div class="alert alert-warning alert-dismissable" role="alert">
+	<button class="close" type="button" data-dismiss="alert">&times;</button>
+	您已操作失败两次，还有最后一次机会
+</div>
+<div class="alert alert-danger alert-dismissable" role="alert">
+	<button class="close" type="button" data-dismiss="alert">&times;</button>
+	对不起，您输入的密码有误
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/eae4e8c5e87a9fd052beb921a5c9640c.png)
+
+在Bootstrap框架中对警示框里的**链接样式**做了一个高亮显示处理。为不同类型的警示框内的链接进行了加粗处理，并且颜色相应加深。
+
+```
+<h2>警示框的链接</h2>
+<div class="alert alert-success" role="alert">
+    <strong>Well done!</strong> 
+    You successfully read 
+	<a href="#" class="alert-link">this important alert message</a>
+	.
+</div>
+<div class="alert alert-info" role="alert">
+	<strong>Heads up!</strong>
+	 This 
+	 <a href="#" class="alert-link">alert needs your attention</a>
+	 , but it's not super important.
+</div>
+<div class="alert alert-warning" role="alert">
+	<strong>Warning!</strong>
+	 Better check yourself, you're 
+	 <a href="#" class="alert-link">not looking too good</a>
+	 .
+</div>
+<div class="alert alert-danger" role="alert">
+	<strong>Oh snap!</strong>
+	<a href="#" class="alert-link">Change a few things up</a>
+	 and try submitting again.
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/f8fa496279673f989d322dfa417fdecd.png)
+
+### css 分析
+
+```
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.alert h4 {
+  margin-top: 0;
+  color: inherit;
+}
+.alert .alert-link {
+  font-weight: bold;
+}
+.alert > p,
+.alert > ul {
+  margin-bottom: 0;
+}
+.alert > p + p {
+  margin-top: 5px;
+}
+.alert-dismissable,
+.alert-dismissible {
+  padding-right: 35px;
+}
+.alert-dismissable .close,
+.alert-dismissible .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  color: inherit;
+}
+.alert-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.alert-success hr {
+  border-top-color: #c9e2b3;
+}
+.alert-success .alert-link {
+  color: #2b542c;
+}
+```
+
+## 进度条
+
+### 使用方法
+
+```
+<h2>基本进度条</h2>
+<div class="progress">
+     <div class="progress-bar" style="width:40%">
+    </div>
+</div> 
+<h2>彩色进度条</h2>
+<div class="progress">
+    <div class="progress-bar progress-bar-success" style="width:40%"></div>
+</div> 
+<div class="progress">
+     <div class="progress-bar progress-bar-info" style="width:60%"></div>
+</div> 
+<div class="progress">
+ 	<div class="progress-bar progress-bar-warning" style="width:80%"></div>
+</div> 
+<div class="progress">
+ 	<div class="progress-bar progress-bar-danger" style="width:50%"></div>
+</div> 
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/c23a2631c8146393095c0d9d7c1f3a12.png)
+
+虽然这样实现了基本进度条效果，但对于残障人员浏览网页有点困难，所以我们可以将结构做得更好些（语义化更友好些）：
+
+```
+<div class="progress">
+    <div class="progress-bar" style="width:40%;" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+        <span class="sr-only">40% Complete</span>
+    </div>
+</div>
+```
+
+1. role属性作用：告诉搜索引擎这个div的作用是进度条。
+2. aria-valuenow="40"属性作用：当前进度条的进度为40%。
+3. aria-valuemin="0"属性作用：进度条的最小值为0%。
+4. aria-valuemax="100"属性作用：进度条的最大值为100%。
+
+```
+<h2>条纹进度条</h2>
+<div class="progress progress-striped">
+    <div class="progress-bar progress-bar-success" style="width:40%"></div>
+</div>
+<div class="progress progress-striped">
+    <div class="progress-bar progress-bar-info" style="width:60%"></div>
+</div>
+<div class="progress progress-striped">
+	<div class="progress-bar progress-bar-warning" style="width:80%"></div>
+</div>
+<div class="progress progress-striped">
+	<div class="progress-bar progress-bar-danger" style="width:50%"></div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/49bb8f8118070a1295d1c87e8d1db6b9.png)
+
+```
+<h2>动态条纹进度条</h2>
+<div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-success" style="width:40%"></div>
+</div> 
+<div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-info" style="width:60%"></div>
+</div> 
+<div class="progress progress-striped active">
+	<div class="progress-bar progress-bar-warning" style="width:80%"></div>
+</div> 
+<div class="progress progress-striped active">
+	<div class="progress-bar progress-bar-danger" style="width:50%"></div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/image/gif/Kapture%202017-01-26%20at%2016.03.45.gif)
+
+```
+<h2>层叠进度条</h2>
+<h5>正常层叠进度条</h5>
+<div class="progress">
+    <div class="progress-bar progress-bar-success" style="width:20%"></div>
+    <div class="progress-bar progress-bar-info" style="width:10%"></div>
+    <div class="progress-bar progress-bar-warning" style="width:30%"></div>
+    <div class="progress-bar progress-bar-danger" style="width:15%"></div>
+</div> 
+<h5>不良效果层叠进度条</h5> 
+<div class="progress">
+    <div class="progress-bar progress-bar-success" style="width:20%"></div>
+	<div class="progress-bar progress-bar-info" style="width:40%"></div>
+	<div class="progress-bar progress-bar-warning" style="width:30%"></div>
+	<div class="progress-bar progress-bar-danger" style="width:45%"></div>
+</div> 
+<h5>层叠条纹进度条</h5>
+<div class="progress">
+	<div class="progress-bar progress-bar-success" style="width:20%"></div>
+	<div class="progress-bar progress-bar-info" style="width:20%"></div>
+	<div class="progress-bar progress-bar-warning" style="width:30%"></div>
+	<div class="progress-bar progress-bar-danger" style="width:15%"></div>
+</div>  
+<div class="progress">
+	<div class="progress-bar progress-bar-success progress-bar-striped" style="width:20%"></div>
+	<div class="progress-bar progress-bar-info progress-bar-striped" style="width:20%"></div>
+	<div class="progress-bar progress-bar-striped progress-bar-warning" style="width:30%"></div>
+	<div class="progress-bar progress-bar-danger progress-bar-striped" style="width:15%"></div>
+</div> 
+<div class="progress">
+	<div class="progress-bar progress-bar-success" style="width:20%"></div>
+	<div class="progress-bar progress-bar-info progress-bar-striped" style="width:20%"></div>
+	<div class="progress-bar progress-bar-warning" style="width:30%"></div>
+	<div class="progress-bar progress-bar-danger progress-bar-striped" style="width:15%"></div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/b08f4603c875cf60730220f36e2fe205.png)
+
+```
+<h2>带Label的进度条</h2>
+<h5>进度条1</h5>
+<div class="progress">
+    <div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:20%">20%</div>  
+</div>  
+<div class="progress">
+    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"   style="width:70%">70%</div>
+</div>
+<div class="progress">
+	<div class="progress-bar progress-bar-warning"  role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:30%">30%</div>
+</div>
+<div class="progress">
+	<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width:15%">15%</div>
+</div>
+
+<h5>进度条2</h5> 
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/41786c7ddc55828c41fd4cfb62002daf.png)
+
+### css 分析
+
+```
+.progress {
+  height: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+.progress-bar {
+  float: left;
+  width: 0;
+  height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  color: #fff;
+  text-align: center;
+  background-color: #337ab7;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+          box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+  -webkit-transition: width .6s ease;
+       -o-transition: width .6s ease;
+          transition: width .6s ease;
+}
+.progress-bar-success {
+  background-color: #5cb85c;
+}
+```
+
+progres样式主要设置进度条容器的背景色，容器高度、间距等。而progress-bar样式在设置进度方向，重要的是设置了进度条的背景颜色和过渡效果。
+
+
+```
+.progress-striped .progress-bar,
+.progress-bar-striped {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  -webkit-background-size: 40px 40px;
+          background-size: 40px 40px;
+}
+```
+实现条纹进度条，主要使用的是CSS3的线性渐变
+
+```
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+.progress.active .progress-bar,
+.progress-bar.active {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+       -o-animation: progress-bar-stripes 2s linear infinite;
+          animation: progress-bar-stripes 2s linear infinite;
+}
+```
+为了让条纹进度条动起来，Bootstrap框架还提供了一种动态条纹进度条。其实现原理主要通过CSS3的animation来完成。首先通过@keyframes创建了一个progress-bar-stripes的动画，这个动画主要做了一件事，就是改变背景图像的位置，也就是background-position的值。因为条纹进度条是通过CSS3的线性渐变来制作的，而linear-gradient实现的正是对应背景中的背景图片。
+@keyframes仅仅是创建了一个动画效果，如果要让进度条真正的动起来，我们需要通过一定的方式调用@keyframes创建的动画“progress-bar-stripes”，并且通过一个事件触发动画生效。在Bootstrap框架中，通过给进度条容器“progress”添加一个类名“active”，并让文档加载完成就触“progress-bar-stripes”动画生效。
+
+## 媒体对象
+
+媒体对象一般是成组出现，而一组媒体对象常常包括以下几个部分：
+1. 媒体对像的容器：常使用“media”类名表示，用来容纳媒体对象的所有内容
+2. 媒体对像的对象：常使用“media-object”表示，就是媒体对象中的对象，常常是图片
+3. 媒体对象的主体：常使用“media-body”表示，就是媒体对像中的主体内容，可以是任何元素，常常是图片侧边内容
+4. 媒体对象的标题：常使用“media-heading”表示，就是用来描述对象的一个标题，此部分可选
+
+如图所示：
+
+![](http://img.mukewang.com/54192bd200016f6306660264.jpg)
+
+除了上面四个部分之外，在Bootstrap框架中还常常使用“pull-left”或者“pull-right”来控制媒体对象中的对象浮动方式。
+
+### 使用方法
+
+```
+<div class="media">
+    <a class="pull-left" href="#">
+    	<img class="media-object" src="http://img.mukewang.com/52e1d29d000161fe06000338-300-170.jpg" alt="...">
+  	</a>
+  	<div class="media-body">
+    	<h4 class="media-heading">系列：十天精通CSS3</h4>
+    	<div>全方位深刻详解CSS3模块知识，经典案例分析，代码同步调试，让网页穿上绚丽装备！</div>
+  	</div>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/e79af5cff9d0593da014d746e774b047.png)
+
+```
+<h3>媒体对象的嵌套</h3>
+<div class="media">
+    <a class="pull-left" href="#">
+    	<img class="media-object" src="http://a.disquscdn.com/uploads/users/3740/2069/avatar92.jpg?1406972031" alt="...">
+	</a>
+	<div class="media-body">
+		<h4 class="media-heading">我是大漠</h4>
+		<div>我是W3cplus站长大漠，我在写Bootstrap框中的媒体对象测试用例</div>
+		<div class="media">
+			<a class="pull-left" href="#">
+				<img class="media-object" src="http://tp2.sinaimg.cn/3306361973/50/22875318196/0" alt="...">
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">慕课网</h4>
+				<div>大漠写的《玩转Bootstrap》系列教程即将会在慕课网上发布</div>
+				<div class="media">
+					<a class="pull-left" href="#">
+						<img class="media-object" src="http://tp4.sinaimg.cn/1167075935/50/22838101204/1" alt="...">
+					</a>
+					<div class="media-body">
+						<h4 class="media-heading">W3cplus</h4>
+						<div>W3cplus站上还有很多教程....</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/53fff3478820ad0ca6c75134c2de732a.png)
+
+```
+<h3>媒体对象列表</h3>
+<ul class="media-list">
+    <li class="media">
+        <a class="pull-left" href="#">
+            <img class="media-object" src="http://a.disquscdn.com/uploads/users/3740/2069/avatar92.jpg?1406972031" alt="...">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">我是大漠</h4>
+            <div>我是W3cplus站长大漠，我在写Bootstrap框中的媒体对象测试用例</div>
+        </div>
+    </li>
+    <li class="media">
+        <a class="pull-left" href="#">
+            <img class="media-object" src="http://tp2.sinaimg.cn/3306361973/50/22875318196/0" alt="...">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">慕课网</h4>
+            <div>大漠写的《玩转Bootstrap》系列教程即将会在慕课网上发布</div>
+        </div>
+    </li>
+    <li class="media">
+        <a class="pull-left" href="#">
+            <img class="media-object" src="http://tp4.sinaimg.cn/1167075935/50/22838101204/1" alt="...">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">W3cplus</h4>
+            <div>W3cplus站上还有很多教程....</div>
+        </div>
+    </li>
+</ul>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/5fefbeedd21a649aa81044d2766891e3.png)
+
+### css 分析
+
+```
+.media {
+  margin-top: 15px;
+}
+.media:first-child {
+  margin-top: 0;
+}
+.media,
+.media-body {
+  overflow: hidden;
+  zoom: 1;
+}
+.media-body {
+  width: 10000px;
+}
+.media-object {
+  display: block;
+}
+.media-object.img-thumbnail {
+  max-width: none;
+}
+.media-right,
+.media > .pull-right {
+  padding-left: 10px;
+}
+.media-left,
+.media > .pull-left {
+  padding-right: 10px;
+}
+.media-left,
+.media-right,
+.media-body {
+  display: table-cell;
+  vertical-align: top;
+}
+.media-middle {
+  vertical-align: middle;
+}
+.media-bottom {
+  vertical-align: bottom;
+}
+.media-heading {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.media-list {
+  padding-left: 0;
+  list-style: none;
+}
+```
+媒体对象样式相对来说比较简单，只是设置他们之间的间距
+
+## 列表组
+
+相比于列表有了更多的显示效果。
+
+### 使用方法
+
+```
+<h3>基础列表组</h3>
+<ul class="list-group">
+    <li class="list-group-item">揭开CSS3的面纱</li>
+    <li class="list-group-item">CSS3选择器</li>
+	<li class="list-group-item">CSS3边框</li>
+	<li class="list-group-item">CSS3背景</li>
+	<li class="list-group-item">CSS3文本</li>
+</ul>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/1de7a10c51f3d1348c0e86b03b3c567b.png)
+
+```
+<h3>带徽章的列表组</h3>
+<ul class="list-group">
+    <li class="list-group-item">
+    	<span class="badge">13</span>揭开CSS3的面
+	</li>
+	<li class="list-group-item">
+		<span class="badge">456</span>CSS3选择器
+	</li>
+	<li class="list-group-item">
+		<span class="badge">892</span>CSS3边框
+	</li>
+	<li class="list-group-item">
+		<span class="badge">90</span>CSS3背景
+	</li>
+	<li class="list-group-item">
+		<span class="badge">1290</span>CSS3文本
+	</li>
+</ul>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/e980ef6a953516a5acafacbadb4608a3.png)
+
+```
+<h3>带链接的列表组</h3>
+<ul class="list-group">
+    <li class="list-group-item">
+    	<a href="##">揭开CSS3的面</a>
+	</li>
+	<li class="list-group-item">
+		<a href="##">CSS3选择器</a>
+	</li>
+	<li class="list-group-item">
+		<a href="##">CSS3边框</a>
+	</li>
+	<li class="list-group-item">
+		<a href="##">CSS3背景</a>
+	</li>
+	<li class="list-group-item">
+		<a href="##">CSS3文本</a>
+	</li>
+</ul>
+<div class="list-group">
+	<a href="##" class="list-group-item">图解CSS3</a>
+	<a href="##" class="list-group-item"><span class="badge">220</span>Sass教程</a>
+	<a href="##" class="list-group-item">玩转Bootstrap</a>
+</div>
+```
+这样做有一个不足之处，就是链接的点击区域只在文本上有效，但很多时候，都希望在列表项的任何区域都具备可点击。这个时候就需要在链接标签上增加额外的样式：“display:block”。虽然这样能解决问题，达到需求。但在Bootstrap框架中，还是采用了另一种实现方式。就是将ul.list-group使用div.list-group来替换，而li.list-group-item直接用a.list-group-item来替换。这样就可以达到需要的效果
+
+![](http://ojt6zsxg2.bkt.clouddn.com/ee7cc45aac2b473e7831b9554af4f6d2.png)
+
+```
+<h3>自定义列表组</h3>
+<div class="list-group">
+    <a href="##" class="list-group-item">
+    	<h4 class="list-group-item-heading">图解CSS3</h4>
+		<p class="list-group-item-text">详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性...</p>
+	</a>
+	<a href="##" class="list-group-item">
+		<h4 class="list-group-item-heading">Sass中国</h4>
+		<p class="list-group-item-text">致力于为中国开发者提供最全面，最具影响力，最前沿的Sass相关技术与教程...</p>
+	</a>
+</div>
+```
+Bootstrap框加在链接列表组的基础上新增了两个样式：
+1. list-group-item-heading：用来定义列表项头部样式
+2. list-group-item-text：用来定义列表项主要内容
+
+![](http://ojt6zsxg2.bkt.clouddn.com/2f3637e36c14a41d9804591863073977.png)
+
+```
+<h3>组合列表项的状态</h3>
+<div class="list-group">
+    <a href="##" class="list-group-item active"><span class="badge">5902</span>图解CSS3</a>
+    <a href="##" class="list-group-item"><span class="badge">15902</span>W3cplus</a>
+	<a href="##" class="list-group-item"><span class="badge">59020</span>慕课网</a>
+	<a href="##" class="list-group-item disabled"><span class="badge">0</span>Sass中国</a>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/e0d4b1ec6ed6eda66438c4f3952b678c.png)
+
+```
+<h3>多彩列表组</h3>
+<div class="list-group">
+    <a href="##" class="list-group-item active"><span class="badge">5902</span>图解CSS3</a>
+    <a href="##" class="list-group-item list-group-item-success"><span class="badge">15902</span>W3cplus</a>
+	<a href="##" class="list-group-item list-group-item-info"><span class="badge">59020</span>慕课网</a>
+	<a href="##" class="list-group-item list-group-item-warning"><span class="badge">0</span>Sass中国</a>
+	<a href="##" class="list-group-item list-group-item-danger"><span class="badge">10</span>Mobile教程</a>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/6a1d9189c5177109083c8186724ab345.png)
+
+### css 分析
+
+```
+.list-group {
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.list-group-item:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.list-group-item:last-child {
+  margin-bottom: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+```
+对于基础列表组并没有做过多的样式设置，主要设置了其间距，边框和圆角等
+
+```
+a.list-group-item .list-group-item-heading,
+button.list-group-item .list-group-item-heading {
+  color: #333;
+}
+.list-group-item.disabled .list-group-item-text,
+.list-group-item.disabled:hover .list-group-item-text,
+.list-group-item.disabled:focus .list-group-item-text {
+  color: #777;
+}
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+  color: #c7ddef;
+}
+```
+这两个样式主要控制不同状态下的文本颜色
+
+```
+.list-group-item-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+}
+a.list-group-item-success,
+button.list-group-item-success {
+  color: #3c763d;
+}
+a.list-group-item-success .list-group-item-heading,
+button.list-group-item-success .list-group-item-heading {
+  color: inherit;
+}
+a.list-group-item-success:hover,
+button.list-group-item-success:hover,
+a.list-group-item-success:focus,
+button.list-group-item-success:focus {
+  color: #3c763d;
+  background-color: #d0e9c6;
+}
+a.list-group-item-success.active,
+button.list-group-item-success.active,
+a.list-group-item-success.active:hover,
+button.list-group-item-success.active:hover,
+a.list-group-item-success.active:focus,
+button.list-group-item-success.active:focus {
+  color: #fff;
+  background-color: #3c763d;
+  border-color: #3c763d;
+}
+```
+仅修改了背景色和文本色
+
+## 面板
+
+### 使用方法
+
+```
+<h3>基础面板</h3>
+<div class="panel panel-default">
+    <div class="panel-body">我是一个基础面板，带有默认主题样式风格</div>
+</div>
+<h3>带有头和尾的面板</h3>
+<div class="panel panel-default">
+    <div class="panel-heading">图解CSS3</div>
+    <div class="panel-body">详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性
+	</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+<h3>彩色面板</h3>
+<div class="panel panel-default">
+    <div class="panel-heading">图解CSS3</div>
+    <div class="panel-body">			详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性
+	</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+<div class="panel panel-primary">
+	<div class="panel-heading">图解CSS3</div>
+	<div class="panel-body">详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+<div class="panel panel-success">
+	<div class="panel-heading">图解CSS3</div>
+	<div class="panel-body">详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+<div class="panel panel-info">
+	<div class="panel-heading">图解CSS3</div>
+	<div class="panel-body">详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+<div class="panel panel-warning">
+	<div class="panel-heading">图解CSS3</div>
+	<div class="panel-body">详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+<div class="panel panel-danger">
+	<div class="panel-heading">图解CSS3</div>
+	<div class="panel-body">详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+```
+
+![](http://ojt6zsxg2.bkt.clouddn.com/fa0c6f287a2dc81bf12179fb0e3aab14.png)
+
+![](http://ojt6zsxg2.bkt.clouddn.com/d18691752f36d570025350ae840f6fad.png)
+
+![](http://ojt6zsxg2.bkt.clouddn.com/7c3dac651e23d1460bb34db0931ef57d.png)
+
+一般情况下可以把面板理解为一个区域，在使用面板的时候，都会在panel-body放置需要的内容，可能是图片、表格或者列表等。来看看面板中嵌套表格和列表组的一个效果。
+
+```
+<h3>面板中嵌套表格</h3>
+<div class="panel panel-default">
+    <div class="panel-heading">图解CSS3</div>
+    <div class="panel-body">
+		<p>详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性
+		</p>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>＃</th>
+					<th>我的书</th>
+					<th>发布时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>《图解CSS3》</td>
+					<td>2014-07-10</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/2ea399e06455ae499769f6627a2af2fc.png)
+
+在实际应用运中，你或许希望表格和面板边缘不需要有任何的间距。但由于panel-body设置了一个padding：15px的值，为了实现这样的效果。我们在实际使用的时候需要把table提取到panel-body外面
+
+![](http://ojt6zsxg2.bkt.clouddn.com/08c4f599b72d296a83ce4f9de0caea3f.png)
+
+```
+<h3>面板中嵌套列表组（一）</h3>
+<div class="panel panel-default">
+    <div class="panel-heading">图解CSS3</div>
+	<div class="panel-body">
+		<p>详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性
+		</p>
+		<ul class="list-group">
+			<li class="list-group-item">我是列表项</li>
+			<li class="list-group-item">我是列表项</li>
+			<li class="list-group-item">我是列表项</li>
+		</ul>
+	</div>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+
+<h3>面板中嵌套列表组（二）</h3>
+<div class="panel panel-default">
+	<div class="panel-heading">图解CSS3</div>
+	<div class="panel-body">
+		<p>详细讲解了选择器、边框、背景、文本、颜色、盒模型、伸缩布局盒模型、多列布局、渐变、过渡、动画、媒体、响应Web设计、Web字体等主题下涵盖的所有CSS3新特性
+		</p>
+	</div>
+	<ul class="list-group">
+		<li class="list-group-item">我是列表项</li>
+		<li class="list-group-item">我是列表项</li>
+		<li class="list-group-item">我是列表项</li>
+	</ul>
+	<div class="panel-footer">作者：大漠</div>
+</div>
+```
+![](http://ojt6zsxg2.bkt.clouddn.com/3a56296daa8d1465ed50d89678b1ab37.png)
+
+### css 分析
+
+```
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+.panel-body {
+  padding: 15px;
+}
+.panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.panel-heading > .dropdown .dropdown-toggle {
+  color: inherit;
+}
+```
+“panel“主要对边框，间距和圆角做了一定的设置
+
+## Bootstrap 支持的 JavaScript 插件
 
 
 
