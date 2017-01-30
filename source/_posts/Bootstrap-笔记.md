@@ -67,6 +67,7 @@ bootstrap/
     <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -84,8 +85,10 @@ bootstrap/
     <h1>Hello, world!</h1>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> // jquery 在 Bootstrap 之前加载
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
@@ -5417,7 +5420,35 @@ button.list-group-item-success.active:focus {
 
 ## Bootstrap 支持的 JavaScript 插件
 
+Bootstrap的JavaScript插件可以单独导入到页面中，也可以一次性导入到页面中。因为在Bootstrap中的JavaScript插件都是依赖于jQuery库，所以不论是单独导入还一次性导入之前必须先导入jQuery库。
 
+### 一次性导入
 
+Bootstrap提供了一个单一的文件，这个文件包含了Bootstrap的所有JavaScript插件，即bootstrap.js（压缩版本：bootstrap.min.js）
 
+###  单独导入
 
+1. 动画过渡（Transitions）:对应的插件文件“transition.js”
+2. 模态弹窗（Modal）:对应的插件文件“modal.js”
+3. 下拉菜单（Dropdown）：对应的插件文件“dropdown.js”
+4. 滚动侦测（Scrollspy）：对应的插件文件“scrollspy.js”
+5. 选项卡（Tab）：对应的插件文件“tab.js”
+6. 提示框（Tooltips）：对应的插件文件“tooltop.js”
+7. 弹出框（Popover）：对应的插件文件“popover.js”
+8. 警告框（Alert）：对应的插件文件“alert.js”
+9. 按钮（Buttons）：对应的插件文件“button.js”
+10. 折叠/手风琴（Collapse）：对应的插件文件“collapse.js”
+11. 图片轮播Carousel：对应的插件文件“carousel.js”
+12. 自动定位浮标Affix：对应的插件文件“affix.js”
+
+上述单独插件的下载可到github去下载（https://github.com/twbs/bootstrap）
+
+## 自定义Bootstrap
+
+在Bootstrap框架的官网为大家提供了一个在线自定义 Bootstrap 框架的配置页面 http://getbootstrap.com/customize/　，可以通过这里进行配置。
+
+在线自定义设置主要包括三个部分：
+
+1. Bootstrap 组件
+2. Bootstrap 插件
+3. Bootstrap 的 LESS 版本变量设置
