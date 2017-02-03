@@ -84,20 +84,20 @@
 
 
 
-<meta name="description" content="下面所记录的是我在刷 LeetCode Array 相关的题目自己的想法。
+<meta name="description" content="下面所记录的是我在刷 LeetCode Array 相关的题目自己的解法。
 1. Two Sum EasyGiven an array of integers, return indices of the two numbers such that they add up to a specific target.
 You may assume that each input would have">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode-Array题集">
 <meta property="og:url" content="https://shiningdan.github.io/2017/02/03/LeetCode-Array题集/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="下面所记录的是我在刷 LeetCode Array 相关的题目自己的想法。
+<meta property="og:description" content="下面所记录的是我在刷 LeetCode Array 相关的题目自己的解法。
 1. Two Sum EasyGiven an array of integers, return indices of the two numbers such that they add up to a specific target.
 You may assume that each input would have">
-<meta property="og:updated_time" content="2017-02-03T11:35:08.000Z">
+<meta property="og:updated_time" content="2017-02-03T12:40:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode-Array题集">
-<meta name="twitter:description" content="下面所记录的是我在刷 LeetCode Array 相关的题目自己的想法。
+<meta name="twitter:description" content="下面所记录的是我在刷 LeetCode Array 相关的题目自己的解法。
 1. Two Sum EasyGiven an array of integers, return indices of the two numbers such that they add up to a specific target.
 You may assume that each input would have">
 
@@ -407,7 +407,7 @@ You may assume that each input would have">
       
 
       
-        <p>下面所记录的是我在刷 <a href="https://leetcode.com" target="_blank" rel="external">LeetCode</a> Array 相关的题目自己的想法。</p>
+        <p>下面所记录的是我在刷 <a href="https://leetcode.com" target="_blank" rel="external">LeetCode</a> Array 相关的题目自己的解法。</p>
 <h2 id="1-Two-Sum-Easy"><a href="#1-Two-Sum-Easy" class="headerlink" title="1. Two Sum Easy"></a><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="external">1. Two Sum Easy</a></h2><p>Given an array of integers, return <strong>indices</strong> of the two numbers such that they add up to a specific target.</p>
 <p>You may assume that each input would have <strong>exactly</strong> one solution, and you may not use the same element twice.</p>
 <p><strong>Example:</strong></p>
@@ -416,7 +416,14 @@ You may assume that each input would have">
 <h3 id="JavaScript-Solution"><a href="#JavaScript-Solution" class="headerlink" title="JavaScript Solution"></a>JavaScript Solution</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var twoSum = function(nums, target) &#123;</div><div class="line">	var tmp =  new Map();</div><div class="line">	for (var i=0; i&lt; nums.length; i++) &#123;</div><div class="line">		var another = target - nums[i];</div><div class="line">		if(tmp.has(another)) &#123;</div><div class="line">			return [tmp.get(another), i];</div><div class="line">		&#125; else &#123;</div><div class="line">			tmp.set(nums[i], i)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return null;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">twoSum([2, 7, 11, 15], 9);</div></pre></td></tr></table></figure>
 <h3 id="Java-Solution"><a href="#Java-Solution" class="headerlink" title="Java Solution"></a>Java Solution</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public int[] twoSum(int[] nums, int target) &#123;</div><div class="line">        Map&lt;Integer, Integer&gt; tmp = new HashMap&lt;Integer, Integer&gt;();</div><div class="line">        for(int i =0; i&lt;nums.length; i++) &#123;</div><div class="line">            int another = target - nums[i];</div><div class="line">            if(tmp.containsKey(another)) &#123;</div><div class="line">                int[] result = new int[2];</div><div class="line">                result[0] = tmp.get(another);</div><div class="line">                result[1] = i;</div><div class="line">                return result;</div><div class="line">            &#125; else &#123;</div><div class="line">                tmp.put(nums[i], i);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return null;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <a id="more"></a>
-<h2 id="26-Remove-Duplicates-from-Sorted-Array"><a href="#26-Remove-Duplicates-from-Sorted-Array" class="headerlink" title="26. Remove Duplicates from Sorted Array"></a><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="external">26. Remove Duplicates from Sorted Array</a></h2><h3 id="JavaScript-Solution-1"><a href="#JavaScript-Solution-1" class="headerlink" title="JavaScript Solution"></a>JavaScript Solution</h3><h3 id="Java-Solution-1"><a href="#Java-Solution-1" class="headerlink" title="Java Solution"></a>Java Solution</h3>
+<h2 id="26-Remove-Duplicates-from-Sorted-Array"><a href="#26-Remove-Duplicates-from-Sorted-Array" class="headerlink" title="26. Remove Duplicates from Sorted Array"></a><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="external">26. Remove Duplicates from Sorted Array</a></h2><p>en a sorted array, remove the duplicates in place such that each element appear only once and return the new length.</p>
+<p>Do not allocate extra space for another array, you must do this in place with constant memory.</p>
+<p>For example,<br>Given input array nums = <code>[1,1,2]</code>,</p>
+<p>Your function should return length = <code>2</code>, with the first two elements of nums being 1 and 2 respectively. It doesn’t matter what you leave beyond the new length.</p>
+<p>这个问题要考虑的地方在于，不仅需要知道一个数组中不重复的项有多少个，还需要对输入的排序数组 nums 进行重新排序，将重复的项放在数组后面，不重复的项放在数组前面，所以在遍历的时候还需要进行元素的拷贝。</p>
+<h3 id="JavaScript-Solution-1"><a href="#JavaScript-Solution-1" class="headerlink" title="JavaScript Solution"></a>JavaScript Solution</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var removeDuplicates = function(nums) &#123;</div><div class="line">	if(nums.length === 0) &#123;</div><div class="line">		return 0;</div><div class="line">	&#125;</div><div class="line">    let length = 0;</div><div class="line">    for(let i=0; i&lt;nums.length; i++) &#123;</div><div class="line">    	if(nums[length] !== nums[i]) &#123;</div><div class="line">    		nums[++length] = nums[i];</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    return ++length;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">removeDuplicates([1, 2, 3, 4, 4, 4, 5, 5, 5, 6]);</div></pre></td></tr></table></figure>
+<h3 id="Java-Solution-1"><a href="#Java-Solution-1" class="headerlink" title="Java Solution"></a>Java Solution</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public int removeDuplicates(int[] nums) &#123;</div><div class="line">        if(nums.length == 0) &#123;</div><div class="line">            return 0;</div><div class="line">        &#125;</div><div class="line">        int length = 0;</div><div class="line">        for (int i=0; i&lt;nums.length; i++) &#123;</div><div class="line">            if(nums[length] != nums[i]) &#123;</div><div class="line">                nums[++length] = nums[i];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return ++length;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+
       
     </div>
 
