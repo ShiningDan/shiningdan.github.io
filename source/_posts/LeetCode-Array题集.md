@@ -9,7 +9,7 @@ tags:
   - JavaScript
 ---
 
-下面所记录的是我在刷 [LeetCode](https://leetcode.com) Array 相关的题目自己的想法。
+下面所记录的是我在刷 [LeetCode](https://leetcode.com) Array 相关的题目自己的解法。
 
 ## [1. Two Sum Easy](https://leetcode.com/problems/two-sum/)
 
@@ -72,12 +72,51 @@ public int[] twoSum(int[] nums, int target) {
 
 ## [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
 
+en a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
+
+Do not allocate extra space for another array, you must do this in place with constant memory.
+
+For example,
+Given input array nums = `[1,1,2]`,
+
+Your function should return length = `2`, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length.
+
+这个问题要考虑的地方在于，不仅需要知道一个数组中不重复的项有多少个，还需要对输入的排序数组 nums 进行重新排序，将重复的项放在数组后面，不重复的项放在数组前面，所以在遍历的时候还需要进行元素的拷贝。
 
 ### JavaScript Solution
 
+```
+var removeDuplicates = function(nums) {
+	if(nums.length === 0) {
+		return 0;
+	}
+    let length = 0;
+    for(let i=0; i<nums.length; i++) {
+    	if(nums[length] !== nums[i]) {
+    		nums[++length] = nums[i];
+    	}
+    }
+    return ++length;
+};
+
+removeDuplicates([1, 2, 3, 4, 4, 4, 5, 5, 5, 6]);
+```
 
 ### Java Solution
 
-
+```
+public int removeDuplicates(int[] nums) {
+        if(nums.length == 0) {
+            return 0;
+        }
+        int length = 0;
+        for (int i=0; i<nums.length; i++) {
+            if(nums[length] != nums[i]) {
+                nums[++length] = nums[i];
+            }
+        }
+        return ++length;
+    }
+```
 
 
