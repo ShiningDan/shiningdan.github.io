@@ -121,6 +121,8 @@ JSX 是一个看起来很像 XML 的 JavaScript 语法扩展。
 
 ![](http://ojt6zsxg2.bkt.clouddn.com/1357ca55f1ceb1b5b8e380f33a2ca82f.png)
 
+页面中，只有`<div id='example'>`这里的内容是使用react渲染出来的，代码中这里是空的，依赖下面的js进行渲染页面中，只有`<div id='example'>`这里的内容是使用React渲染出来的，代码中这里是空的，依赖下面的js进行渲染
+
 ##### 使用独立文件
 
 ```
@@ -205,6 +207,8 @@ ReactDOM.render(
 
 React 允许将代码封装成组件（component），然后像插入普通 HTML 标签一样，在网页中插入这个组件。`React.createClass` 方法就用于生成一个组件类
 
+创建组件的时候，其中参数有很多，但都可以省略，唯有render不可以省略，因为这是用来表述这个插件被加载后，显示的是什么样子，它的返回结果，就是加载在页面上最终的样式。
+
 ```
 var HelloMessage = React.createClass({
   render: function() {
@@ -213,12 +217,14 @@ var HelloMessage = React.createClass({
 });
 
 ReactDOM.render(
-  <HelloMessage name="John" />,
+  <HelloMessage name="John" age={24} />,
   document.getElementById('example')
 );
 ```
 
 变量 HelloMessage 就是一个组件类。模板插入 `<HelloMessage />` 时，会自动生成 HelloMessage 的一个实例（下文的"组件"都指组件类的实例）。所有组件类都必须有自己的 render 方法，用于输出组件。
+
+当我们传递参数时，写了两种方式，一种是 `name="John"` 另一种是 `age={24}`，这两种写法是有区别的，并不仅仅因为一个是str，一个是int。如果是str这种类型，写成 `name="xxx"` 或者 `name={"xxx"}` 都是可以的，加了 `{}` 的意思就是js中的变量，更加精确了。而后者 `age={24}` 是不可以去掉 `{}` 的，这样会引起异常，所以这里要注意下，并且建议任何类型都加上 `{}` 来确保统一
 
 **组件类的第一个字母必须大写，否则会报错，比如HelloMessage不能写成helloMessage。另外，组件类只能包含一个顶层标签，否则也会报错。**
 
@@ -387,6 +393,7 @@ ReactDOM.render(
 
 上面的实例中创建了 `LikeButton` 组件，`getInitialState` 方法用于定义初始状态，也就是一个对象，这个对象可以通过 `this.state` 属性读取。当用户点击组件，导致状态变化，`this.setState` 方法就修改状态值，每次修改以后，**自动调用** `this.render` 方法，再次渲染组件。
 
+`getInitialState`这个函数在组件初始化的时候执行，必需返回NULL或者一个对象
 
 ##### state 和 props
 
@@ -449,6 +456,7 @@ var Input = React.createClass({
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
+    console.log(this.state.value);
   },
   render: function () {
     var value = this.state.value;
@@ -466,6 +474,15 @@ ReactDOM.render(<Input/>, document.body);
 
 上面代码中，文本输入框的值，不能用 `this.props.value` 读取，而要定义一个 onChange 事件的回调函数，通过 `event.target.value` 读取用户输入的值。textarea 元素、select元素、radio元素都属于这种情况，更多介绍请参考[官方文档](https://facebook.github.io/react/docs/forms.html)。
 
+我们在 `setState` 下面加了一个 `console`，通过控制台可以发现，每次打印的值并不是当前输入的值，而是上一次输入的值，这是怎么回事呢？在 `setState` 中，这是一个异步处理的函数，并不是同步的，`console` 在 `setState` 后立刻执行了，所以这时候状态还没有真正变更完，所以这里取到的状态仍旧是更新前的。这里要特殊注意下。如果需要在更新状态后，再执行操作怎么办呢，`setState` 还有第二个参数，接受一个 `callback`，我们尝试将 `handleChange` 中代码改成这样
+
+```
+handleChange: function(event) {
+    this.setState({value: event.target.value}, function() {
+    	console.log(this.state.value);
+    });
+  },
+```
 
 当你需要从子组件中更新父组件的 state 时，你需要在父组件通过创建事件句柄 (handleChange) ，并作为 prop (updateStateProp) 传递到你的子组件上。
 
@@ -499,6 +516,112 @@ ReactDOM.render(
 );
 
 ```
+
+在封装React时，我们往往按照最小单位封装，例如封装一个通用的div，一个通用的span，或者一个通用的table等，所以各自组件对应的方法都会随着组件封装起来，例如div有自己的方法可以更改背景色，span可以有自己的方法更改字体大小，或者table有自己的方法来更新table的内容等
+
+这里我们用一个div相互嵌套的例子来查看父子组件如何相互嵌套及调用各自的方法。在下面的例子中，父组件与子组件都有一个方法，来改变自身的背景色，我们实现父子组件相互调用对方的方法，来改变对方的背景色。
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Hello React!</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!--uncomment bellow when you need jQuery-->
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="build/react.js"></script>
+	<script src="build/react-dom.js"></script>
+	<script src="build/browser.min.js"></script>
+</head>
+<body>
+	
+	<h1><span class="label label-info">DEMO 5</span></h1>
+    <br><br><br>
+    <div id="well">
+    </div>
+	
+	<script type="text/babel" >
+		var Child = React.createClass({
+            getInitialState: function() {
+                return {color: ""};
+            },
+            changeColor: function(e) {
+                this.setState({color: e.target.getAttribute("data-color")});
+            },
+            render: function() {
+                return (
+                    <div style={{backgroundColor: this.state.color}} className="col-xs-5 col-xs-offset-1 child">
+                        <br/>
+                        <ul className="list-inline">
+                            <li><a href="#" data-color="#286090" className="btn btn-primary" onClick={this.props.parentChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#31b0d5" className="btn btn-info" onClick={this.props.parentChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#c9302c" className="btn btn-danger" onClick={this.props.parentChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#ec971f" className="btn btn-warning" onClick={this.props.parentChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#e6e6e6" className="btn btn-default" onClick={this.props.parentChangeColor}>&nbsp;</a></li>
+                        </ul>
+                    </div>
+                );
+            }
+        });
+
+        var Parent = React.createClass({
+            getInitialState: function() {
+                return {color: ""};
+            },
+            changeColor: function(e) {
+                this.setState({color: e.target.getAttribute("data-color")});
+            },
+            child1ChangeColor: function(e) {
+                this.refs["child1"].changeColor(e);
+            },
+            child2ChangeColor: function(e) {
+                this.refs["child2"].changeColor(e);
+            },
+            render: function() {
+                return (
+                    <div style={{backgroundColor: this.state.color}} className="col-xs-10 col-xs-offset-1 parent">
+                        <br/>
+                        <ul className="list-inline">
+                            <li>对应第一个child</li>
+                            <li><a href="#" data-color="#286090" className="btn btn-primary" onClick={this.child1ChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#31b0d5" className="btn btn-info" onClick={this.child1ChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#c9302c" className="btn btn-danger" onClick={this.child1ChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#ec971f" className="btn btn-warning" onClick={this.child1ChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#e6e6e6" className="btn btn-default" onClick={this.child1ChangeColor}>&nbsp;</a></li>
+                        </ul>
+                        <ul className="list-inline">
+                            <li>对应第二个child</li>
+                            <li><a href="#" data-color="#286090" className="btn btn-primary" onClick={this.child2ChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#31b0d5" className="btn btn-info" onClick={this.child2ChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#c9302c" className="btn btn-danger" onClick={this.child2ChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#ec971f" className="btn btn-warning" onClick={this.child2ChangeColor}>&nbsp;</a></li>
+                            <li><a href="#" data-color="#e6e6e6" className="btn btn-default" onClick={this.child2ChangeColor}>&nbsp;</a></li>
+                        </ul>
+                        <hr/>
+
+                        <Child ref="child1" parentChangeColor={this.changeColor} />  // 在父组件中调用子组件
+                        <Child ref="child2" parentChangeColor={this.changeColor} />
+                    </div>
+                );
+            }
+        });
+
+
+        ReactDOM.render(
+            <Parent/>,
+            document.getElementById('well')
+        );
+	</script>
+</body>
+</html>
+```
+
+* 父组件如何调用子组件：代码中，子组件里面定义了changeColor函数，用来接收onClick事件，并将点击的按钮的data-color属性值作为色值，更改到state中的color属性中，然后触发render来更新背景色。在父组件调用子组件时，我们写了，里面的ref=”child1”就是react中提供的一个属性标签，它与普通的props不同，这里写上ref=”xxx”后，在父组件中，使用this.refs[“child1”]就可以引用对应的子组件，当然这里的ref的值是可以随意定义，只要不重复就好。这样就可以实现组组件引用子组件，然后直接调用里面的方法就好，例如child1ChangeColor中就有this.refs["child1"].changeColor(e);的使用。连起来说下逻辑，在点击父组件中第一列中的按钮后，触发onClick事件，然后onClick事件后，传递到child1ChangeColor后，将事件传递进入，然后再次传递给子组件的changeColor中，因为子组件的changeColor是更改子组件自身的state，所以这时候子组件再次渲染，于是改变了颜色。这就是父组件调用子组件的逻辑。
+* 再说下子组件何如调用父组件的方法，父组件自身也有一个changeColor函数，用来改变自身的背景色。当父组件调用子组件时，通过props，也就是第二个例子中讲的那样，通过参数的方式传递给子组件，这样子组件中就可以使用this.props.parentChangeColor，来把子组件的onClick事件传递给父组件的changeColor方法中，来改变父组件的背景色。这就是子组件调用父组件函数的方法。
+* 还有一种情况，就是一个父组件下有多个子组件，但是子组件中并没有直接的关系，这时候如果一个子组件调用另一个子组件的方法，就得通过他们共同的父组件来作为中转，在父组件中增加函数来作为中转的函数，来实现子组件间的调用。
+
 
 #### 组件 API
 
@@ -624,6 +747,8 @@ bool isMounted()
 
 #### 复合组件
 
+React是基于组件化的开发，那么组件化开发最大的优点是什么？毫无疑问，当然是复用，下面我们来看看React中到底是如何实现组件的复用的
+
 我们可以通过创建多个组件来合成一个组件，即把组件的不同功能点进行分离。
 
 ```
@@ -704,7 +829,7 @@ var Hello = React.createClass({
       this.setState({
         opacity: opacity
       });
-    }.bind(this), 100);
+    }.bind(this), 100); // 如果不 bind，这里的 this 就是 window
   },
 
   render: function () {
@@ -785,7 +910,78 @@ ReactDOM.render(
 
 上面代码使用 jQuery 完成 Ajax 请求，这是为了便于说明。React 本身没有任何依赖，完全可以不用jQuery，而使用其他库。
 
+**第二个例子**
 
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Hello React!</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!--uncomment bellow when you need jQuery-->
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="build/react.js"></script>
+	<script src="build/react-dom.js"></script>
+	<script src="build/browser.min.js"></script>
+</head>
+<body>
+	<h1><span class="label label-info">DEMO 4</span></h1>
+        <br><br><br>
+        <div class="well div" id="well">
+        </div>
+	<script type="text/babel" >
+		var Text = React.createClass({
+            getInitialState: function() {
+                return {cur_time: 0};
+            },
+            request: function() {
+                $.ajax({
+                    type: "GET",
+                    url: "http://xxx",
+                    success: function(data){
+                        this.setState({cur_time: data.timestamp});
+                    }.bind(this),
+                    complete: function(){
+                        this.setState({cur_time: Date.parse(new Date()) / 1000});
+                    }.bind(this)
+                });
+            },
+            componentDidMount: function(){
+                setInterval(this.request, 1000);
+            },
+            render: function() {
+                return (
+                    <div className="col-xs-12">
+                        当前时间{this.state.cur_time}
+                        <div className={ this.state.cur_time % 2 == 0?"hidden": "col-xs-6 alert alert-success"}>
+                            <span>最后一位奇数</span>
+                        </div>
+                        <div className={ this.state.cur_time % 2 != 0?"hidden": "col-xs-6 alert alert-danger"}>
+                            <span>最后一位偶数</span>
+                        </div>
+                    </div>
+                );
+            }
+        });
+
+        ReactDOM.render(
+            <Text></Text>,
+            document.getElementById('well')
+        );
+	</script>
+</body>
+</html>
+```
+
+* 这个例子中，页面每秒会请求一次网络，将请求到的数据中时间戳更新到状态中。但是这个例子中实际上并没有使用服务返回的时间戳，因为我在公司使用测试网的接口拿数据，但是开放给大家要换一个公网能拿到时间戳的api，简单的找了下没找到，也不想用公司的接口试，所以算是mock了下~，在 `complete` 中每次都取浏览器时间来更新。
+* 仍旧是先看代码，相比于上一个例子，这里多了两个函数 `request` 和 `componentDidMount` ，其中 `request` 是请求网络的函数，`componentDidMount` 是react内部的函数，也是react生命周期的一部分，它会在render第一次渲染后执行，而且只会执行一次。
+* 先看 `request`，一个普通的ajax请求，在 `success` 回调中，假设服务器返回的json为{“timestamp”: 1467425645}，那 `data.timestamp` 就取得是1467425645，然后将值赋给 `state` 中的 `cur_time` 属性。这时状态发生了变化，render函数会重新渲染。当然例子中 `success` 不会被访问到，因为那个url根本不存在，所以我在complete回调中来写了一个状态变化，模拟success成功。
+* **为什么success回调函数最后会加一个 `bind(this)`**？因为这个函数已经不是react内部的函数了，它是一个外部函数，它里面的this并不是react组件中的this，所以要将外部函数绑定到react中，并能使用react内部的方法，例如 `setState` ，就要在函数最后 `bind(this)` ，这样就完成了绑定。
+* 再看下 `componentDidMount` 函数，这个函数在render渲染前会执行，里面的代码也很简单，增加了一个定时器，1秒钟执行一次request。
+这里应该在加一个回调，就是定时器在初始化时创建，却没有对应的销毁，所以在组件销毁的时候，应该在这个生命周期中销毁定时器。
 
 
 

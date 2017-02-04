@@ -119,4 +119,70 @@ public int removeDuplicates(int[] nums) {
     }
 ```
 
+### [27. Remove Element](https://leetcode.com/problems/remove-element/)
+
+
+Given an array and a value, remove all instances of that value in place and return the new length.
+
+Do not allocate extra space for another array, you must do this in place with constant memory.
+
+The order of elements can be changed. It doesn't matter what you leave beyond the new length.
+
+**Example:**
+Given input array nums = `[3,2,2,3]`, val = `3`
+
+Your function should return length = 2, with the first two elements of nums being 2.
+
+**Hint:**
+
+1. Try two pointers.
+2. Did you use the property of "the order of elements can be changed"?
+3. What happens when the elements to remove are rare?
+
+在做这道题的想法，是从前向后遍历，如果 nums[i] === val，则从后面选取一个不等于 val 的值替代当前位置。
+
+**这个想法需要注意的地方是，一个指针从前向后，另一个指针从后向前，需要注意前指针和后指针重合的临界位置判断。**
+
+#### JavaScript Solution
+
+```
+var removeElement = function(nums, val) {
+	let len = nums.length;
+    for (let i = 0; i < nums.length; i++) {
+    	while (nums[i] === val && i < len) {
+    		nums[i] = nums[--len];
+    	}
+    }
+    return len;
+};
+removeElement([3,2, 2, 3], 3);
+```
+
+
+#### Java Solution
+
+```
+public int removeElement(int[] nums, int val) {
+        int back = nums.length;
+        for(int i = 0; i < nums.length; i++) {
+            while (nums[i] == val && i < back) {
+                nums[i] = nums[--back];
+            }
+            if (i >= back) break;
+        }
+        return back;
+    }
+```
+
+#### Best Solution
+
+最好的想法是从前往后遍历，将遇到的所有不等于 val 的项从第一个开始写。
+
+```
+int removeElement(int A[], int n, int elem) {
+    int begin=0;
+    for(int i=0;i<n;i++) if(A[i]!=elem) A[begin++]=A[i];
+    return begin;
+}
+```
 
