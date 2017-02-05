@@ -468,8 +468,221 @@ var merge = function(nums1, m, nums2, n) {
 merge([], 0, [7, 8], 2);
 ```
 
+### [118. Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/)
+
+Given numRows, generate the first numRows of Pascal's triangle.
+
+For example, given numRows = 5,
+Return
+
+```
+[
+     [1],
+    [1,1],
+   [1,2,1],
+  [1,3,3,1],
+ [1,4,6,4,1]
+]
+```
+
+#### JavaScript Solution
+
+```
+/**
+ * @param {number} numRows
+ * @return {number[][]}
+ */
+var generate = function(numRows) {
+    var pt = [];
+    var row = [];
+    for (let i = 0; i < numRows; i++) {
+    	for (let j = row.length-1; j >0; j--) {
+    		row[j] = row[j] + row[j-1]
+    	}
+    	row.push(1);
+    	pt.push(row.concat());
+    }
+    return pt;
+};
+generate(5);
+```
+
+#### Java Solution
+
+```
+public class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> pt = new ArrayList<List<Integer>>();
+        List<Integer> row = new ArrayList<Integer>();
+        for(int i = 0; i < numRows; i++) {
+            for(int j = row.size() - 1; j > 0; j--) {
+                row.set(j, row.get(j) + row.get(j-1));
+            }
+            row.add(1);
+            pt.add(new ArrayList<>(row));
+        }
+        return pt;
+    }
+}
+```
+
+### [119. Pascal's Triangle II](https://leetcode.com/problems/pascals-triangle-ii/)
 
 
+Given an index k, return the kth row of the Pascal's triangle.
+
+For example, given k = 3,
+Return `[1,3,3,1]`.
+
+Note:
+Could you optimize your algorithm to use only O(k) extra space?
+
+#### JavaScript Solution
+
+```
+/**
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
+var getRow = function(rowIndex) {
+    let row = [];
+    for (let i = 0; i <= rowIndex; i++) {
+    	for (let j = row.length - 1; j > 0; j--) 
+    		row[j] = row[j-1] + row[j];
+    	row.push(1);
+    }
+    return row;
+};
+
+getRow(3);
+```
+
+#### Java Solution
+
+```
+public class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> row = new ArrayList<>();
+        for (int i = 0; i <= rowIndex; i++) {
+            for(int j = row.size() - 1; j > 0; j--) {
+                row.set(j, row.get(j) + row.get(j-1));
+            }
+            row.add(1);
+        }
+        return row;
+    }
+}
+```
+
+### [121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+If you were only permitted to complete at most one transaction (ie, buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+
+**Example 1:**
+
+```
+Input: [7, 1, 5, 3, 6, 4]
+Output: 5
+
+max. difference = 6-1 = 5 (not 7-1 = 6, as selling price needs to be larger than buying price
+```
+
+**Example 2:**
+
+```
+Input: [7, 6, 4, 3, 1]
+Output: 0
+
+In this case, no transaction is done, i.e. max profit = 0.
+```
+
+#### JavaScript Solution
+
+```
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+    let min = prices[0], maxProfit = 0, profit;
+    for (let i = 1; i < prices.length; i++) {
+    	profit = prices[i] - min;
+    	maxProfit = profit > maxProfit ? profit : maxProfit;
+    	min = prices[i] < min ? prices[i] : min;
+    }
+    return maxProfit;
+};
+
+maxProfit([7, 1, 5, 3, 6, 4]);
+```
+
+#### Java Solution
+
+```
+public class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length == 0) return 0;
+        int min = prices[0], maxProfit = 0, profit;
+        for (int i = 1; i < prices.length; i++) {
+            profit = prices[i] - min;
+            maxProfit = maxProfit > profit ? maxProfit : profit;
+            min = prices[i] < min ? prices[i] : min;
+        }
+        return maxProfit;
+    }
+}
+```
+
+### [122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)
+
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+Design an algorithm to find the maximum profit. You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times). However, you may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+
+其实这个问题的解法就是把每天赚的钱都累计起来即可。如果当天没赚钱，则当天的累计为0（解法见 Java Solution）；
+
+#### JavaScript Solution
+
+```
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+    let min = prices[0], profit = 0, tmp = 0;
+    for (let i = 1; i < prices.length; i++) {
+    	if (prices[i] > prices[i-1]) {
+    		tmp = prices[i] - min;
+    	} else {
+    		profit += tmp;
+    		tmp = 0;
+    		min = prices[i];
+    	}
+    }
+    profit += tmp;
+    return profit;
+};
+
+maxProfit([7, 1, 5, 3, 6, 4]);
+```
+
+#### Java Solution
+
+```
+public class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices.length == 0) return 0;
+        int profit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i-1])
+                profit += (prices[i] - prices[i-1]);
+        }
+        return profit;
+    }
+}
+```
 
 
 
