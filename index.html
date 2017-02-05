@@ -281,6 +281,455 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/02/05/Webpack入门/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/05/Webpack入门/" itemprop="url">
+                  Webpack入门
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-05T16:56:42+08:00">
+                2017-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/05/Webpack入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/05/Webpack入门/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/02/05/Webpack入门/" class="leancloud_visitors" data-flag-title="Webpack入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文是我在学习 Webpack 时的记录，用于个人查询总结。在学习的过程中参考过很多别人的文章，如有需要，可以根据链接详细学习：</p>
+<ul>
+<li><a href="http://webpackdoc.com" target="_blank" rel="external">Webpack 中文指南</a></li>
+<li><a href="http://www.w2bc.com/Article/50764" target="_blank" rel="external">一小时包教会 —— webpack 入门指南</a></li>
+<li><a href="http://webpack.github.io/docs/" target="_blank" rel="external">Webpack 官网</a></li>
+<li><a href="https://github.com/ruanyf/webpack-demos" target="_blank" rel="external">阮一峰 Webpack demos</a></li>
+</ul>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Webpack 是当下最热门的前端资源模块化管理和打包工具。它可以将许多松散的模块按照依赖和规则打包成符合生产环境部署的前端资源。还可以将按需加载的模块进行代码分隔，等到实际需要的时候再异步加载。通过 <code>loader</code> 的转换，任何形式的资源都可以视作模块，比如 CommonJs 模块、 AMD 模块、 ES6 模块、CSS、图片、 JSON、Coffeescript、 LESS 等。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="模块系统"><a href="#模块系统" class="headerlink" title="模块系统"></a>模块系统</h3><h4 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h4><p>伴随着移动互联的大潮，当今越来越多的网站已经从网页模式进化到了 Webapp 模式。它们运行在现代的高级浏览器里，使用 HTML5、 CSS3、 ES6 等更新的技术来开发丰富的功能，网页已经不仅仅是完成浏览的基本需求，并且webapp通常是一个单页面应用，每一个视图通过异步的方式加载，这导致页面初始化和使用过程中会加载越来越多的 JavaScript 代码，这给前端开发的流程和资源组织带来了巨大的挑战。</p>
+<p>前端开发和其他开发工作的主要区别，首先是前端是基于多语言、多层次的编码和组织工作，其次前端产品的交付是基于浏览器，这些资源是通过增量加载的方式运行到浏览器端，如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器端快速、优雅的加载和更新，就需要一个模块化系统，这个理想中的模块化系统是前端工程师多年来一直探索的难题。</p>
+<h4 id="模块系统的演进"><a href="#模块系统的演进" class="headerlink" title="模块系统的演进"></a>模块系统的演进</h4><p>模块系统主要解决模块的定义、依赖和导出，先来看看已经存在的模块系统。</p>
+<h5 id="lt-script-gt-标签"><a href="#lt-script-gt-标签" class="headerlink" title="&lt;script&gt;标签"></a><code>&lt;script&gt;</code>标签</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;script src=&quot;module1.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;module2.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;libraryA.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;module3.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>这是最原始的 JavaScript 文件加载方式，如果把每一个文件看做是一个模块，那么他们的接口通常是暴露在全局作用域下，也就是定义在 <code>window</code> 对象中，不同模块的接口调用都是一个作用域中，一些复杂的框架，会使用命名空间的概念来组织这些模块的接口，典型的例子如 YUI 库。</p>
+<p>这种原始的加载方式暴露了一些显而易见的弊端：</p>
+<ul>
+<li>全局作用域下容易造成变量冲突</li>
+<li>文件只能按照 <code>&lt;script&gt;</code> 的书写顺序进行加载</li>
+<li>开发人员必须主观解决模块和代码库的依赖关系</li>
+<li>在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪</li>
+</ul>
+<h5 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h5><p>服务器端的 <a href="http://wiki.commonjs.org/wiki/CommonJS" target="_blank" rel="external">Node.js</a> 遵循 CommonJS规范，该规范的核心思想是允许模块通过 require 方法来同步加载所要依赖的其他模块，然后通过 exports 或 module.exports 来导出需要暴露的接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">require(&quot;module&quot;);</div><div class="line">require(&quot;../file.js&quot;);</div><div class="line">exports.doStuff = function() &#123;&#125;;</div><div class="line">module.exports = someValue;</div></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>服务器端模块便于重用</li>
+<li>NPM 中已经有将近20万个可以使用模块包</li>
+<li>简单并容易使用</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>同步的模块加载方式不适合在浏览器环境中，同步意味着阻塞加载，浏览器资源是异步加载的</li>
+<li>不能非阻塞的并行加载多个模块</li>
+</ul>
+<p>实现：</p>
+<ul>
+<li>服务器端的 Node.js</li>
+<li>Browserify，浏览器端的 CommonJS 实现，可以使用 NPM 的模块，但是编译打包后的文件体积可能很大</li>
+<li>modules-webmake，类似Browserify，还不如 Browserify 灵活<br>wreq，Browserify 的前身</li>
+</ul>
+<h5 id="AMD"><a href="#AMD" class="headerlink" title="AMD"></a>AMD</h5><p>Asynchronous Module Definition 规范其实只有一个主要接口 <code>define(id?, dependencies?, factory)</code>，它要在声明模块的时候指定所有的依赖 <code>dependencies</code>，并且还要当做形参传到 <code>factory</code> 中，对于依赖的模块提前执行，依赖前置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">define(&quot;module&quot;, [&quot;dep1&quot;, &quot;dep2&quot;], function(d1, d2) &#123;</div><div class="line">  return someExportedValue;</div><div class="line">&#125;);</div><div class="line">require([&quot;module&quot;, &quot;../file&quot;], function(module, file) &#123; /* ... */ &#125;);</div></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>适合在浏览器环境中异步加载模块</li>
+<li>可以并行加载多个模块</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>提高了开发成本，代码的阅读和书写比较困难，模块定义方式的语义不顺畅</li>
+<li>不符合通用的模块化思维方式，是一种妥协的实现</li>
+</ul>
+<p>实现：</p>
+<ul>
+<li>RequireJS</li>
+<li>curl</li>
+</ul>
+<h5 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h5><p>Common Module Definition 规范和 AMD 很相似，尽量保持简单，并与 CommonJS 和 Node.js 的 Modules 规范保持了很大的兼容性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) &#123;</div><div class="line">  var $ = require(&apos;jquery&apos;);</div><div class="line">  var Spinning = require(&apos;./spinning&apos;);</div><div class="line">  exports.doSomething = ...</div><div class="line">  module.exports = ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>依赖就近，延迟执行</li>
+<li>可以很容易在 Node.js 中运行</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>依赖 SPM 打包，模块的加载逻辑偏重</li>
+</ul>
+<p>实现：</p>
+<ul>
+<li>Sea.js<br>coolie</li>
+</ul>
+<h5 id="ES6-模块"><a href="#ES6-模块" class="headerlink" title="ES6 模块"></a>ES6 模块</h5><p>EcmaScript6 标准增加了 JavaScript 语言层面的模块体系定义。ES6 模块的设计思想，是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">import &quot;jquery&quot;;</div><div class="line">export function doStuff() &#123;&#125;</div><div class="line">module &quot;localModule&quot; &#123;&#125;</div></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>容易进行静态分析</li>
+<li>面向未来的 EcmaScript 标准</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>原生浏览器端还没有实现该标准</li>
+<li>全新的命令字，新版的 Node.js才支持</li>
+</ul>
+<p>实现：</p>
+<ul>
+<li>Babel</li>
+</ul>
+<h5 id="期望的模块系统"><a href="#期望的模块系统" class="headerlink" title="期望的模块系统"></a>期望的模块系统</h5><p>可以兼容多种模块风格，尽量可以利用已有的代码，不仅仅只是 JavaScript 模块化，还有 CSS、图片、字体等资源也需要模块化。</p>
+<h4 id="前端模块加载"><a href="#前端模块加载" class="headerlink" title="前端模块加载"></a>前端模块加载</h4><p>前端模块要在客户端中执行，所以他们需要增量加载到浏览器中。</p>
+<p>模块的加载和传输，我们首先能想到两种极端的方式，一种是每个模块文件都单独请求，另一种是把所有模块打包成一个文件然后只请求一次。显而易见，每个模块都发起单独的请求造成了请求次数过多，导致应用启动速度慢；一次请求加载所有模块导致流量浪费、初始化过程慢。这两种方式都不是好的解决方案，它们过于简单粗暴。</p>
+<p><strong>分块传输</strong>，按需进行懒加载，在实际用到某些模块的时候再增量更新，才是较为合理的模块加载方案。</p>
+<p>要实现模块的按需加载，就需要一个对整个代码库中的模块进行静态分析、编译打包的过程。</p>
+<h4 id="所有资源都是模块"><a href="#所有资源都是模块" class="headerlink" title="所有资源都是模块"></a>所有资源都是模块</h4><p>在上面的分析过程中，我们提到的模块仅仅是指JavaScript模块文件。然而，在前端开发过程中还涉及到样式、图片、字体、HTML 模板等等众多的资源。这些资源还会以各种方言的形式存在，比如 coffeescript、 less、 sass、众多的模板库、多语言系统（i18n）等等。</p>
+<p>如果他们都可以视作模块，并且都可以通过 <code>require</code> 的方式来加载，将带来优雅的开发体验，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">require(&quot;./style.css&quot;);</div><div class="line">require(&quot;./style.less&quot;);</div><div class="line">require(&quot;./template.jade&quot;);</div><div class="line">require(&quot;./image.png&quot;);</div></pre></td></tr></table></figure>
+<p>那么如何做到让 <code>require</code> 能加载各种资源呢？</p>
+<h4 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h4><p>在编译的时候，要对整个代码进行静态分析，分析出各个模块的类型和它们依赖关系，然后将不同类型的模块提交给适配的加载器来处理。比如一个用 LESS 写的样式模块，可以先用 LESS 加载器将它转成一个CSS 模块，在通过 CSS 模块把他插入到页面的 <code>&lt;style&gt;</code> 标签中执行。Webpack 就是在这样的需求中应运而生。</p>
+<p>同时，为了能利用已经存在的各种框架、库和已经写好的文件，我们还需要一个模块加载的兼容策略，来避免重写所有的模块。</p>
+<h3 id="重复的轮子"><a href="#重复的轮子" class="headerlink" title="重复的轮子"></a>重复的轮子</h3><h4 id="什么是-Webpack"><a href="#什么是-Webpack" class="headerlink" title="什么是 Webpack"></a>什么是 Webpack</h4><p>Webpack 是一个模块打包器。它将根据模块的依赖关系进行静态分析，然后将这些模块按照指定的规则生成对应的静态资源。</p>
+<p><img src="http://webpackdoc.com/images/what-is-webpack.png" alt=""></p>
+<h4 id="为什么重复造轮子"><a href="#为什么重复造轮子" class="headerlink" title="为什么重复造轮子"></a>为什么重复造轮子</h4><p>市面上已经存在的模块管理和打包工具并不适合大型的项目，尤其单页面 Web 应用程序。最紧迫的原因是如何在一个大规模的代码库中，维护各种模块资源的分割和存放，维护它们之间的依赖关系，并且无缝的将它们整合到一起生成适合浏览器端请求加载的静态资源。</p>
+<p>这些已有的模块化工具并不能很好的完成如下的目标：</p>
+<ul>
+<li>将依赖树拆分成按需加载的块</li>
+<li>初始化加载的耗时尽量少</li>
+<li>各种静态资源都可以视作模块</li>
+<li>将第三方库整合成模块的能力</li>
+<li>可以自定义打包逻辑的能力</li>
+<li>适合大项目，无论是单页还是多页的 Web 应用</li>
+</ul>
+<h4 id="Webpack-的特点"><a href="#Webpack-的特点" class="headerlink" title="Webpack 的特点"></a>Webpack 的特点</h4><p>Webpack 和其他模块化工具有什么区别呢？</p>
+<h5 id="代码拆分"><a href="#代码拆分" class="headerlink" title="代码拆分"></a>代码拆分</h5><p>Webpack 有两种组织模块依赖的方式，同步和异步。异步依赖作为分割点，形成一个新的块。在优化了依赖树后，每一个异步区块都作为一个文件被打包。</p>
+<h5 id="Loader"><a href="#Loader" class="headerlink" title="Loader"></a>Loader</h5><p>Webpack 本身只能处理原生的 JavaScript 模块，但是 loader 转换器可以将各种类型的资源转换成 JavaScript 模块。这样，任何资源都可以成为 Webpack 可以处理的模块。</p>
+<h5 id="智能解析"><a href="#智能解析" class="headerlink" title="智能解析"></a>智能解析</h5><p>Webpack 有一个智能解析器，几乎可以处理任何第三方库，无论它们的模块形式是 CommonJS、 AMD 还是普通的 JS 文件。甚至在加载依赖的时候，允许使用动态表达式 <code>require(&quot;./templates/&quot; + name + &quot;.jade&quot;)</code>。</p>
+<h5 id="插件系统"><a href="#插件系统" class="headerlink" title="插件系统"></a>插件系统</h5><p>Webpack 还有一个功能丰富的插件系统。大多数内容功能都是基于这个插件系统运行的，还可以开发和使用开源的 Webpack 插件，来满足各式各样的需求。</p>
+<h5 id="快速运行"><a href="#快速运行" class="headerlink" title="快速运行"></a>快速运行</h5><p>Webpack 使用异步 I/O 和多级缓存提高运行效率，这使得 Webpack 能够以令人难以置信的速度快速增量编译。</p>
+<h2 id="准备开始"><a href="#准备开始" class="headerlink" title="准备开始"></a>准备开始</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先要安装 Node.js， Node.js 自带了软件包管理器 npm，Webpack 需要 Node.js v0.6 以上支持，建议使用最新版 Node.js。</p>
+<p>用 npm 安装 Webpack：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install webpack -g</div></pre></td></tr></table></figure>
+<p>此时 Webpack 已经安装到了全局环境下，可以通过命令行 <code>webpack -h</code> 试试。</p>
+<p>通常我们会将 Webpack 安装到项目的依赖中，这样就可以使用项目本地版本的 Webpack。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 进入项目目录</div><div class="line"># 确定已经有 package.json，没有就通过 npm init 创建</div><div class="line"># 安装 webpack 依赖</div><div class="line">npm install webpack --save-dev</div></pre></td></tr></table></figure>
+<p>Webpack 目前有两个主版本，一个是在 master 主干的稳定版，一个是在 webpack-2 分支的测试版，测试版拥有一些实验性功能并且和稳定版不兼容，在正式项目中应该使用稳定版。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 查看 webpack 版本信息</div><div class="line">$ npm info webpack</div><div class="line"></div><div class="line"># 安装指定版本的 webpack</div><div class="line">$ npm install webpack@1.12.x --save-dev</div></pre></td></tr></table></figure>
+<p>如果需要使用 Webpack 开发工具，要单独安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install webpack-dev-server --save-dev</div></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/02/05/使用-React-和-Webpack-来创建Hacker-News-页面/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/05/使用-React-和-Webpack-来创建Hacker-News-页面/" itemprop="url">
+                  使用 React 和 Webpack 来创建Hacker News 页面
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-05T16:50:27+08:00">
+                2017-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/05/使用-React-和-Webpack-来创建Hacker-News-页面/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/05/使用-React-和-Webpack-来创建Hacker-News-页面/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/02/05/使用-React-和-Webpack-来创建Hacker-News-页面/" class="leancloud_visitors" data-flag-title="使用 React 和 Webpack 来创建Hacker News 页面">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文是在学习 React 的时候，根据 <a href="https://github.com/theJian/build-a-hn-front-page#learn-react--webpack-by-building-the-hacker-news-front-page" target="_blank" rel="external">Learn React &amp; Webpack by building the Hacker News front page</a> 这篇教程来进行联系的记录，详细文章请阅读原文。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/02/03/LeetCode-Array题集/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1662,314 +2111,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/05/CSS-注意事项/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ShiningDan">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ShiningDan的博客">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/05/CSS-注意事项/" itemprop="url">
-                  CSS-注意事项
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-05T20:26:33+08:00">
-                2017-01-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/05/CSS-注意事项/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/05/CSS-注意事项/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/05/CSS-注意事项/" class="leancloud_visitors" data-flag-title="CSS-注意事项">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="float-和-display-inline-block-的使用"><a href="#float-和-display-inline-block-的使用" class="headerlink" title="float 和 display:inline-block 的使用"></a>float 和 display:inline-block 的使用</h2><p><strong>float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。</strong></p>
-<p>设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的左边还是不允许存在任何元素与之同行显示，哪怕其它的元素的代码在前，除非也给前面的元素加上float:left后，才允许同行显示。</p>
-<p>设了display:inline的元素，允许它的前后存在其它的内联元素同行显示。关于代码在其前面的块元素之同行显示，则要让前面的元素浮动（不管是左还是右浮动）或设为display:inline，还有代码在后面的是块元素（管它有没有浮动，是左浮动还是右浮动），均不能与之同行，除非设为display:inline。</p>
-<h2 id="使用-overflow-hidden-清除浮动"><a href="#使用-overflow-hidden-清除浮动" class="headerlink" title="使用 overflow:hidden 清除浮动"></a>使用 overflow:hidden 清除浮动</h2><p>出现情况：<strong>父块没有设置指定的高宽，当子块设置为浮动后，原本包裹子块的父块的高度塌陷消失，这时给父块设置overflow:hidden就能清楚浮动造成的影响，使父块重新包裹子块。</strong></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/05/CSS-注意事项/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/02/CSS属性深入理解/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="ShiningDan">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ShiningDan的博客">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/02/CSS属性深入理解/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-02T22:08:53+08:00">
-                2017-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/02/CSS属性深入理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/02/CSS属性深入理解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/01/02/CSS属性深入理解/" class="leancloud_visitors" data-flag-title="">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="JavaScript-笔记"><a href="#JavaScript-笔记" class="headerlink" title="JavaScript 笔记"></a>JavaScript 笔记</h1><h2 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h2><h3 id="DOM-级别"><a href="#DOM-级别" class="headerlink" title="DOM 级别"></a>DOM 级别</h3><p><strong>DOM0</strong>是不存在的，DOM0 只是 DOM 历史中一个参照点而已，一般是指最初支持的 DHTML。</p>
-<p><strong>DOM1</strong>是 1998 年被推荐称为 W3C 的推荐标准，DOM1 被分为两个模块组成的：DOM Core 和 DOM HTML。</p>
-<ol>
-<li>DOM Core：如何映射基于 XML 的文档结构，以便简化为文档中任意部分的访问和操作。DOM Core 有几个相关的方法，如：getElementById、getElementsByTagName、getAttribute、setAttribute，它们并不属于 JavaScript。</li>
-<li>DOM HTML：在 DOM Core 的基础上加以扩展，增加了针对 HTML 的对象和方法。比如 onclick 属性，比如 src 属性等。</li>
-</ol>
-<p><strong>DOM2</strong>在 DOM1 的基础上扩展了鼠标和用户界面事件、范围、遍历迭代 DOM 文档的方法，也增加了对 CSS 的支持。DOM2 引入下列新模块：</p>
-<ol>
-<li>DOM 视图(DOM View)：定义了跟踪不同文档(例如：应用了 CSS 之前和之后的文档)视图的接口</li>
-<li>DOM 事件(DOM Event)：定义了事件和事件处理的接口</li>
-<li>DOM 样式(DOM Style)：定义了基于 CSS 为元素应用样式的接口</li>
-<li>DOM 遍历和范围(DOM Traversal and Range)：定义了遍历和操作文档树的接口</li>
-</ol>
-<p><strong>DOM3</strong>进一步扩展了 DOM，引入了以统一方式加载和保存文档的方法，也对 DOM Core 进行了扩展，开始支持 XML 1.0，设计 XPath 和 XML Base：</p>
-<ol>
-<li>DOM 加载和保存(DOM Load and Save)</li>
-<li>DOM 验证(DOM Validation)：DOM 验证</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/02/CSS属性深入理解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2017,7 +2158,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2035,7 +2176,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
