@@ -683,12 +683,198 @@ public class Solution {
     }
 }
 ```
+### [167. Two Sum II - Input array is sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/)
 
+Given an array of integers that is already **sorted in ascending order**, find two numbers such that they add up to a specific target number.
 
+The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.
 
+You may assume that each input would have exactly one solution and you may not use the same element twice.
 
+**Input**: numbers={2, 7, 11, 15}, target=9
+**Output**: index1=1, index2=2
 
+我的解法是将 numbers 的数值作为 key，将数值对应数组的下标作为 value，放在 Hashmap 中
 
+#### JavaScript Solution
+
+```
+var map = new Map();
+    for(let i = 0; i < numbers.length; i++) {
+    	if(map.has(target-numbers[i])) {
+    		return [map.get(target-numbers[i]), i+1];
+    	} else {
+    		map.set(numbers[i], i+1)
+    	}
+    }
+```
+
+#### Java Solution
+
+```
+public class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for(int i = 0; i < numbers.length; i++) {
+            if(map.containsKey(target-numbers[i])) {
+                return new int[]{map.get(target-numbers[i]), i+1};
+            } else {
+                map.put(numbers[i], i+1);
+            }
+        }
+        return null;
+    }
+}
+```
+
+#### Best Solution
+
+最优解没有使用 HashMap。而是利用了数组是一个有序数组的条件，从数组前后使用指针分别遍历数组，找到相加等于 target 的两个数。
+
+```
+/**
+ * @param {number[]} numbers
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(numbers, target) {
+    let start = 0, end = numbers.length-1;
+    while(start < end) {
+    	sum = numbers[start] + numbers[end];
+    	if(sum == target) {
+    		return [start+1, end+1];
+    	} else if(sum < target) {
+    		start ++;
+    	} else {
+    		end --;
+    	}
+    }
+};
+```
+
+### [169. Majority Element](https://leetcode.com/problems/majority-element/)
+
+Given an array of size n, find the majority element. The majority element is the element that appears **more than `[ n/2 ]` times**.
+
+You may assume that the array is non-empty and the majority element always exist in the array.
+
+解决这个问题的想法，就是利用大多数的值大于一半这个条件。
+
+#### JavaScript Solution
+
+```
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function(nums) {
+    let count = 1, major = nums[0];
+    for(let i = 1; i < nums.length; i++) {
+    	if(count === 0) {
+    		count++;
+    		major = nums[i];
+    	} else if(major === nums[i]) {
+    		count++;
+    	} else {
+    		count--;
+    	}
+    }
+    return major;
+};
+
+majorityElement([3, 2, 3])
+```
+
+#### Java Solution
+
+```
+public class Solution {
+    public int majorityElement(int[] nums) {
+        int count = 1, major = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if(count == 0) {
+                count++;
+                major = nums[i];
+            } else if(major == nums[i]) {
+                count++;
+            } else count--;
+        }
+        return major;
+    }
+}
+```
+
+### [189. Rotate Array](https://leetcode.com/problems/rotate-array/)
+
+Rotate an array of n elements to the right by k steps.
+
+For example, with n = 7 and k = 3, the array `[1,2,3,4,5,6,7]` is rotated to `[5,6,7,1,2,3,4]`.
+
+**Note:**
+Try to come up as many solutions as you can, there are at least 3 different ways to solve this problem.
+
+**Hint:**
+Could you do it in-place with O(1) extra space?
+
+**如果是每次挪一个数，一共挪 k 次，会超时**
+
+#### JavaScript Solutio
+
+这个方法是我的方法，想法就是 nums[index + k] = nums[index]，然后加上边界条件得到的。
+
+```
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var rotate = function(nums, k) {
+	k = k % nums.length;
+	let tmp1 = nums[0], tmp2 = nums[0], step = nums.length;
+	let start = 0, s = 0;
+	while (step > 0) {	
+		s += k;
+		step--;
+		if(s >= nums.length) s %= nums.length;
+		tmp1 = nums[s];
+		nums[s] = tmp2;
+		tmp2 = tmp1;
+		if(s === start) {
+			start++;
+			s = start;
+			tmp2 = nums[s];
+		}
+	}
+};
+
+rotate([1, 2, 3, 4, 5, 6], 3)
+```
+
+#### Java Solution
+
+这个是最优解
+
+```
+public void rotate(int[] nums, int k) {
+        k %= nums.length;
+        reverse(nums, 0, nums.length - 1);
+        System.out.println(Arrays.toString(nums));
+        reverse(nums, 0, k - 1);
+        System.out.println(Arrays.toString(nums));
+        reverse(nums, k, nums.length - 1);
+        System.out.println(Arrays.toString(nums));
+    }
+
+    public void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+```
 
 
 
