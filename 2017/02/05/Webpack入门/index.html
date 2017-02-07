@@ -106,7 +106,7 @@ Webpack 官网
 介绍Webpack 是当下最热门的前端资源模块化管理和打包工具。它可以将许多松散的模块按照依赖和规则打包成符合生产环境部署的前端资源。还">
 <meta property="og:image" content="http://webpackdoc.com/images/what-is-webpack.png">
 <meta property="og:image" content="http://pic.w2bc.com/upload/201507/16/201507161700552446.png">
-<meta property="og:updated_time" content="2017-02-06T09:21:11.000Z">
+<meta property="og:updated_time" content="2017-02-07T05:52:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webpack入门">
 <meta name="twitter:description" content="本文是我在学习 Webpack 时的记录，用于个人查询总结。在学习的过程中参考过很多别人的文章，如有需要，可以根据链接详细学习：
@@ -434,6 +434,7 @@ Webpack 官网
 </ul>
 <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Webpack 是当下最热门的前端资源模块化管理和打包工具。它可以将许多松散的模块按照依赖和规则打包成符合生产环境部署的前端资源。还可以将按需加载的模块进行代码分隔，等到实际需要的时候再异步加载。通过 <code>loader</code> 的转换，任何形式的资源都可以视作模块，比如 CommonJs 模块、 AMD 模块、 ES6 模块、CSS、图片、 JSON、Coffeescript、 LESS 等。</p>
 <p>我们可以直接使用 require(XXX) 的形式来引入各模块，即使它们可能需要经过编译（比如JSX和sass），但我们无须在上面花费太多心思，因为 webpack 有着各种健全的加载器（loader）在默默处理这些事情，这块我们后续会提到。</p>
+<a id="more"></a>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="模块系统"><a href="#模块系统" class="headerlink" title="模块系统"></a>模块系统</h3><h4 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h4><p>伴随着移动互联的大潮，当今越来越多的网站已经从网页模式进化到了 Webapp 模式。它们运行在现代的高级浏览器里，使用 HTML5、 CSS3、 ES6 等更新的技术来开发丰富的功能，网页已经不仅仅是完成浏览的基本需求，并且webapp通常是一个单页面应用，每一个视图通过异步的方式加载，这导致页面初始化和使用过程中会加载越来越多的 JavaScript 代码，这给前端开发的流程和资源组织带来了巨大的挑战。</p>
 <p>前端开发和其他开发工作的主要区别，首先是前端是基于多语言、多层次的编码和组织工作，其次前端产品的交付是基于浏览器，这些资源是通过增量加载的方式运行到浏览器端，如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器端快速、优雅的加载和更新，就需要一个模块化系统，这个理想中的模块化系统是前端工程师多年来一直探索的难题。</p>
 <h4 id="模块系统的演进"><a href="#模块系统的演进" class="headerlink" title="模块系统的演进"></a>模块系统的演进</h4><p>模块系统主要解决模块的定义、依赖和导出，先来看看已经存在的模块系统。</p>
@@ -663,6 +664,7 @@ Webpack 官网
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --progress --colors --watch</div></pre></td></tr></table></figure>
 <p>当然，使用 <code>webpack-dev-server</code> 开发服务是一个更好的选择。它将在 localhost:8080 启动一个 express 静态资源 web 服务器，并且会以监听模式自动运行 webpack，在浏览器打开 <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 或 <a href="http://localhost:8080/webpack-dev-server/" target="_blank" rel="external">http://localhost:8080/webpack-dev-server/</a> 可以浏览项目中的页面和编译后的资源输出，并且通过一个 socket.io 服务实时监听它们的变化并自动刷新页面。</p>
 <p><strong>能够在上面的链接中输出编译后的 HTML 页面效果。如果修改了项目的代码并且保存，则会自动进行编译，并且在页面中输出新的效果。</strong></p>
+<p><strong>css 等需要 loader 进行处理的文件，在修改保存后可以自动编译，但是 entry.js 修改后保存没有进行自动编译</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># 安装</div><div class="line">$ npm install webpack-dev-server -g</div><div class="line"></div><div class="line"># 运行</div><div class="line">$ webpack-dev-server --progress --colors</div></pre></td></tr></table></figure>
 <p>其他主要的参数有：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">webpack --config XXX.js   //使用另一份配置文件（比如webpack.config2.js）来打包</div><div class="line"> </div><div class="line">webpack --watch   //监听变动并自动打包</div><div class="line"> </div><div class="line">webpack -p    //压缩混淆脚本，这个非常非常重要！</div><div class="line"> </div><div class="line">webpack -d    //生成map映射文件，告知哪些模块被最终打包到哪里了</div></pre></td></tr></table></figure>
