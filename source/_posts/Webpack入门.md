@@ -19,6 +19,8 @@ Webpack 是当下最热门的前端资源模块化管理和打包工具。它可
 
 我们可以直接使用 require(XXX) 的形式来引入各模块，即使它们可能需要经过编译（比如JSX和sass），但我们无须在上面花费太多心思，因为 webpack 有着各种健全的加载器（loader）在默默处理这些事情，这块我们后续会提到。
 
+<!--more-->
+
 ## 前言
 
 ### 模块系统
@@ -730,6 +732,8 @@ webpack --progress --colors --watch
 当然，使用 `webpack-dev-server` 开发服务是一个更好的选择。它将在 localhost:8080 启动一个 express 静态资源 web 服务器，并且会以监听模式自动运行 webpack，在浏览器打开 http://localhost:8080/ 或 http://localhost:8080/webpack-dev-server/ 可以浏览项目中的页面和编译后的资源输出，并且通过一个 socket.io 服务实时监听它们的变化并自动刷新页面。
 
 **能够在上面的链接中输出编译后的 HTML 页面效果。如果修改了项目的代码并且保存，则会自动进行编译，并且在页面中输出新的效果。**
+
+**css 等需要 loader 进行处理的文件，在修改保存后可以自动编译，但是 entry.js 修改后保存没有进行自动编译**
 
 ```
 # 安装
