@@ -880,5 +880,237 @@ public void rotate(int[] nums, int k) {
 
 Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.
 
+#### JavaScript Solution
 
+这个解法是时间复杂度为 O(n*n)，空间复杂度为 O(1)的解法
+
+```
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var containsDuplicate = function(nums) {
+    for (let i = 0; i < nums.length - 1; i++) {
+    	for(let j = i + 1; j < nums.length; j++) {
+    		if (nums[i] == nums[j]) return true;
+    	}
+    }
+    return false;
+};
+
+containsDuplicate([1, 2, 3, 4, 1])
+```
+
+这个方法使用了 Set 类，时间复杂度为 O(n)，空间复杂度为 O(n)
+
+```
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var containsDuplicate = function(nums) {
+    let len = nums.length;
+    let set = new Set(nums);
+    if(set.size < len) return ture;
+    return false;
+};
+
+containsDuplicate([1, 2, 3, 4, 1])
+```
+
+### [219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/)
+
+Given an array of integers and an integer k, find out whether there are two distinct indices i and j in the array such that **nums[i] = nums[j]** and the **absolute** difference between i and j is at most k.
+
+#### JavaScript Solution
+
+这个方法的时间复杂度为 O(n*k)， 空间复杂度为 O(1)
+
+```
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var containsNearbyDuplicate = function(nums, k) {
+    for (let i = 0; i < nums.length-1; i++) {
+    	for (let j = i+1; j <= Math.min(nums.length-1, i + k); j++ ){
+    		if(nums[i] == nums[j] )
+    			return true;
+    	}
+    }
+    return false;
+};
+
+
+containsNearbyDuplicate([1, 2], 2)
+```
+
+#### Java Solution
+
+这种方法的时间复杂度为 O(n)，空间复杂度为 O(n)
+
+```
+public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for( int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i]) && (i - map.get(nums[i])) <= k)
+                return true;
+            map.put(nums[i], i);
+        }
+        return false;
+    }
+```
+
+#### Best Solution
+
+这个方法中利用了 Set 类中 add 方法的返回值，如果这个数在集合中出现，则返回 true，否则返回 false。
+
+```
+public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<Integer>();
+        for(int i = 0; i < nums.length; i++){
+            if(i > k) set.remove(nums[i-k-1]);
+            if(!set.add(nums[i])) return true;
+        }
+        return false;
+ }
+```
+
+### [268. Missing Number](https://leetcode.com/problems/missing-number/)
+
+Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+
+For example,
+Given nums = `[0, 1, 3]` return `2`.
+
+**Note:**
+
+Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
+
+要使用 O(n) 的时间和 O(1) 的复杂度。
+
+O(n) 的时间说明不能对原数组进行排序。
+
+#### JavaScript Solution
+
+我的想法是，如果 nums[i] = 1，则将 nums[1] 上面的数设置成该值得绝对值的负数。最后遍历一遍，找出不是负数的值，对应的 i 没有出现。
+
+```
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var missingNumber = function(nums) {
+	let hasZero = false;
+	nums[nums.length] = nums.length;
+	for (let i = 0; i < nums.length; i++) {
+		if(nums[i] === 0) {
+			hasZero = true;
+		}
+		let tmp = Math.abs(nums[i]);
+		if(nums[tmp] === 0) {
+			hasZero = true;
+			nums[tmp] = -(nums.length-1);
+		}
+		nums[tmp] = -Math.abs(nums[tmp]);
+	}
+	if(hasZero) {
+		for (let i = 1; i < nums.length; i++) {
+			if(nums[i] >= 0) {
+				return i;
+			}
+		}
+		return nums.length-1;
+	} else {
+		return 0;
+	}
+};
+
+missingNumber([0, 1, 3])
+```
+
+#### Best Solution
+
+通过 和 减去所有的数，得到的差值就是没出现的值。
+
+```
+public int missingNumber(int[] nums) { //sum
+    int len = nums.length;
+    int sum = (0+len)*(len+1)/2;
+    for(int i=0; i<len; i++)
+        sum-=nums[i];
+    return sum;
+}
+```
+
+还有一种使用亦或的方法：
+
+```
+public int missingNumber(int[] nums) { //xor
+    int res = nums.length;
+    for(int i=0; i<nums.length; i++){
+        res ^= i;
+        res ^= nums[i];
+    }
+    return res;
+}
+```
+
+### [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/)
+
+Given an array `nums`, write a function to move all `0`'s to the end of it while maintaining the relative order of the non-zero elements.
+
+For example, given `nums = [0, 1, 0, 3, 12`], after calling your function, `nums` should be `[1, 3, 12, 0, 0]`.
+
+**Note:**
+
+You must do this **in-place** without making a copy of the array.
+Minimize the total number of operations.
+
+#### JavaScript Solution
+
+我的想法是从后向前判断是否为0，如果是0，则往最后移动。
+
+```
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function(nums) {
+	let tmp;
+    for (var i = nums.length - 1; i >= 0; i--) {
+    	if (nums[i] === 0) {
+    		let index = i + 1;
+    		while ((index < nums.length) && (nums[index] !== 0)) {
+    			nums[index - 1] = nums[index];
+    			nums[index] = 0;
+    			index++;
+    		}
+    	}
+    }
+};
+
+moveZeroes([0, 1, 0, 3, 12]);
+```
+
+#### Best Solution
+
+```
+// Shift non-zero values as far forward as possible
+// Fill remaining space with zeros
+
+public void moveZeroes(int[] nums) {
+    if (nums == null || nums.length == 0) return;        
+
+    int insertPos = 0;
+    for (int num: nums) {
+        if (num != 0) nums[insertPos++] = num;
+    }        
+
+    while (insertPos < nums.length) {
+        nums[insertPos++] = 0;
+    }
+}
+```
 
