@@ -30,6 +30,8 @@ webpack 也有一个 web 服务器 webpack-dev-server, 我们也安装上
 npm install webpack-dev-server --save-dev
 ```
 
+<!--more-->
+
 ### webpack 配置文件
 
 webpack 使用一个名为 webpack.config.js 的配置文件, 现在在你的项目根目录下创建该文件. 我们假设我们的工程有一个入口文件 app.js, 该文件位于 `app/` 目录下, 并且希望 webpack 将它打包输出为 `build/` 目录下的 bundle.js 文件. webpack.config.js 配置如下:
@@ -722,15 +724,177 @@ getTitle() {
 下载 `grayarrow.gif`, 在 `NewsItem.js` 中引入
 
 ```
-import ImageGrayArrow from './grayarrow.gif';
+import ImageGrayArrow from '../img/grayarrow.gif';
+```
+
+这里计算时间间距我们使用了 [Moment](http://momentjs.com), 如果你要使用你需要安装并引入它, 或者使用你喜欢的实现方法.
+
+```
+npm install moment --save-dev
 ```
 
 修改 `NewsItem.js`
 
+```
+getDomain() {
+		return URL.parse(this.props.item.url).hostname;
+	}
+	getTitle() {
+		return (
+			<div className="newItem-title">
+				<a className="newItem-titleLink" href={this.props.item.url}>{this.props.item.title}</a>
+        		{
+        			this.props.item.url && <span className="newItem-titleDomain">
+				<a href={'https://news.ycombinator.com/from?site=' + this.getDomain()}> ({this.getDomain()})</a>
+        		</span>
+        		}
+			</div>
+		);
+	}
 
+	getCommentLink() {
+		var commentText = "discuss";
+		if(this.props.item.kids && this.props.item.kids.length)
+			commentText = this.props.item.kids.length + " comments";
+		return (
+			<a href={"https://news.ycombinator.com/item?id=" + this.props.item.id}>{commentText}</a>
+		);
+	}
 
+	getSubtext() {
+		return (
+			<div className="newsItem-subtext">
+				{this.props.item.score} points by <a href={"https://news.ycombinator.com/user?id=" + this.props.item.by}>{this.props.item.by} {Moment.utc(this.props.item.time * 1000).fromNow()} </a> | {this.getCommentLink()}
+			</div>
+		);
+	}
 
+	getVote() {
+		return (
+			<div className="newsItem-vote">
+				<a href={"https://news.ycombinator.com/vote?id=" + this.props.item.id + "&how=up&goto=news"}>
+					<img src={ImageGrayArray} width="10" />
+				</a>
+			</div>
+		);
+	}
 
+	getRank() {
+		return (
+			<div className="newsItem-rank">
+				{this.props.rank}.
+			</div>
+		);
+	}
 
+  	render() {
+	    return (
+	        <div className="newsItem">
+	        	{this.getRank()}
+	        	{this.getVote()}
+	        	<div className="newsItem-itemText">
+	        		{this.getTitle()}
+	        		{this.getSubtext()}
+	        	</div>
+	        </div>
+	    );
+	}
+```
+
+`NewItem.css`
+
+```
+.newsItem{background-color: #f6f6ef;padding-top: 6px;}
+.newItem-title{}
+.newItem-titleLink{text-decoration: none; color: #000;font-size: 10pt;}
+.newItem-titleDomain a{text-decoration: none;color: 828282; font-size: 8pt}
+.newItem-titleDomain a:hover{text-decoration: underline;}
+.newsItem-rank{font-size: 10pt;width: 20px;float: left;text-align: center;}
+.newsItem-vote{float: left;margin: 3px 2px 6px 2px;}
+.newsItem-subtext{font-size: 7pt; color: #828282;}
+.newsItem-subtext a{text-decoration: none; color: #828282;}
+.newsItem-subtext a:hover{text-decoration: underline;}
+```
+
+## NewsList
+
+上一节中为了测试 `NewsItem`, 我们定义了一个测试数据 `testData`, `NewsList` 中也只有一个 `NewsItem`, 而真实的情况不会只有一条资讯, 而应该是一组资讯, 每一条对应有一个 `NewsItem`, 本节中我们来实现这个功能.
+
+首先我们确定传入的数据是一个数组, 其中每一个元素都是一条资讯, 至于这个数据由哪里传入, 怎么生成我们先不关心, 但我们可以用 `this.props.items` 获取到. `NewsList` 对于其中的每一个元素都生成一个 `NewsItem`.
+
+下面是修改完的 `render`
+
+```
+render() {
+    return (
+        <div className="newsList">
+          <NewsHeader />
+          <div className="newsList-newsItem">
+            {
+              (this.props.items).map(function(item, index) {
+                return (
+                    <NewsItem key={item.id} item={item} rank={index+1} />
+                    );
+              })
+            }
+          </div>
+        </div>
+        );
+  }
+```
+
+新建样式 NewsList.css
+
+```
+.newsList{width: 85%; margin: 0 auto;}
+```
+
+目前的代码是没法运行的, 我们还没有取得数据传入给 `NewsList`, 这将在下一节完善.
+
+### Hacker News API
+
+本节中我们使用 [Hacker News API](https://github.com/HackerNews/API) 来获取数据, 具体请参考 API 文档.
+
+`app.js`
+
+```
+function get(url) {
+  return Promise.resolve($.ajax(url));
+}
+
+get('https://hacker-news.firebaseio.com/v0/topstories.json').then( function(stories) {
+  return Promise.all(stories.slice(0, 30).map(itemId => get('https://hacker-news.firebaseio.com/v0/item/' + itemId + '.json')));
+}).then(function(items) {
+	console.log(items);
+  ReactDOM.render(
+  	<NewsList items={items}/>,
+  	document.getElementById("content")
+  );
+}).catch(function(err) {
+  console.log('error occur', err);
+});
+```
+
+`items` 就是处理完后的数据, 一个由资讯数据组成的数组, 我们将它作为属性传入 `NewsList`.
+
+最后的效果如下：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/25fe7e54707be92b2884feb8c82af4a3.png)
+
+## Demo
+
+这个小项目的 Demo 我已经传到网上去了，可以在 github 上进行下载。具体步骤如下：
+
+安装方法是：
+
+```
+git clone https://github.com/ShiningDan/React-hacker-news.git
+cd React-hacker-news/
+npm install
+npm run build
+npm run start
+```
+
+就可以在 http://localhost:8080/build/index.html 上看到项目的展示效果。因为是从 Hacker News 上获取最新的新闻，页面的显示速度和网速以及 Hacker News 的访问速度有关，请耐心等待~
 
 
