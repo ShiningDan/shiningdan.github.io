@@ -98,7 +98,7 @@ ECMAScript 6简介ECMAScript和JavaScript的关系要讲清楚这个问题，需
 ECMAScript 6 入门
 
 ECMAScript 6简介ECMAScript和JavaScript的关系要讲清楚这个问题，需要回顾历史。1996年11月，JavaScript的创造者Netscape公司，决定将JavaScript提交给国际标准化组织E">
-<meta property="og:updated_time" content="2017-02-09T11:56:58.000Z">
+<meta property="og:updated_time" content="2017-02-09T12:01:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6入门">
 <meta name="twitter:description" content="本文是我在学习 ECMAScript 6 时的记录，用于个人查询总结。在学习的过程中参考过很多别人的文章，如有需要，可以根据链接详细学习：
@@ -421,6 +421,7 @@ ECMAScript 6简介ECMAScript和JavaScript的关系要讲清楚这个问题，需
 <p>该标准从一开始就是针对JavaScript语言制定的，但是之所以不叫JavaScript，有两个原因。一是商标，Java是Sun公司的商标，根据授权协议，只有Netscape公司可以合法地使用JavaScript这个名字，且JavaScript本身也已经被Netscape公司注册为商标。二是想体现这门语言的制定者是ECMA，不是Netscape，这样有利于保证这门语言的开放性和中立性。</p>
 <p>因此，ECMAScript和JavaScript的关系是，前者是后者的规格，后者是前者的一种实现（另外的ECMAScript方言还有Jscript和ActionScript）。日常场合，这两个词是可以互换的。</p>
 <h3 id="部署进度"><a href="#部署进度" class="headerlink" title="部署进度"></a>部署进度</h3><p>各大浏览器的最新版本，对ES6的支持可以查看 kangax.github.io/es5-compat-table/es6/。随着时间的推移，支持度已经越来越高了，ES6的大部分特性都实现了</p>
+<a id="more"></a>
 <h3 id="Babel转码器"><a href="#Babel转码器" class="headerlink" title="Babel转码器"></a>Babel转码器</h3><p><a href="https://babeljs.io" target="_blank" rel="external">Babel</a> 是一个广泛使用的ES6转码器，可以将ES6代码转为ES5代码，从而在现有环境执行。这意味着，你可以用ES6的方式编写程序，又不用担心现有环境是否支持。下面是一个例子。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 转码前</div><div class="line">input.map(item =&gt; item + 1);</div><div class="line"></div><div class="line">// 转码后</div><div class="line">input.map(function (item) &#123;</div><div class="line">  return item + 1;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>上面的原始代码用了箭头函数，这个特性还没有得到广泛支持，Babel将其转为普通函数，就能在现有的JavaScript环境执行了。</p>
