@@ -1114,3 +1114,219 @@ public void moveZeroes(int[] nums) {
 }
 ```
 
+### [Third Maximum Number](https://leetcode.com/problems/third-maximum-number/)
+
+Given a **non-empty array** of integers, return the **third** maximum number in this array. If it does not exist, return the maximum number. The time complexity must be in O(n).
+
+**Example 1:**
+
+```
+Input: [3, 2, 1]
+
+Output: 1
+
+Explanation: The third maximum is 1.
+```
+
+**Example 2:**
+
+```
+Input: [1, 2]
+
+Output: 2
+
+Explanation: The third maximum does not exist, so the maximum (2) is returned instead.
+```
+
+**Example 3:**
+
+```
+Input: [2, 2, 3, 1]
+
+Output: 1
+
+Explanation: Note that the third maximum here means the third maximum distinct number.
+Both numbers with value 2 are both considered as second maximum.
+```
+
+#### JavaScript Solution
+
+首先把前面的数放在 set 中，直到有三个不重复的数以后，就可以进行排序
+
+```
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var thirdMax = function(nums) {
+	let set = new Set(), arr = [], hasThree = false;
+    for (var i = nums.length - 1; i >= 0; i--) {
+    	if(!hasThree && (set.size != 3)) {
+    		set.add(nums[i]);
+    	}
+    	if(!hasThree && (set.size === 3)) {
+    		set.forEach( function(element) {
+    			arr.push(element);
+    		});
+    		arr.sort();
+    		hasThree = true;
+    	} else if(hasThree) {
+    		if(nums[i] < arr[0]) {
+	    	} else if(nums[i] > arr[2]) {
+	    		arr[0] = arr[1];
+	    		arr[1] = arr[2];
+	    		arr[2] =  nums[i];
+	    	} else if((nums[i] < arr[2]) && (nums[i] > arr[1])) {
+	    		arr[0] = arr[1];
+	    		arr[1] = nums[i];
+	    	} else if(nums[i] < arr[1]){
+	    		arr[0] = nums[i];
+	    	}
+    	}
+    }
+
+    if(hasThree) return arr[0];
+    else {
+    	set.forEach( function(element) {
+			arr.push(element);
+		});
+		arr.sort();
+		return arr[arr.length-1];
+    }		
+};
+
+thirdMax([5,2,4,1,3,6,0]);
+```
+
+#### Best Solution
+
+```
+public int thirdMax(int[] nums) {
+        Integer max1 = null;
+        Integer max2 = null;
+        Integer max3 = null;
+        for (Integer n : nums) {
+            if (n.equals(max1) || n.equals(max2) || n.equals(max3)) continue;
+            if (max1 == null || n > max1) {
+                max3 = max2;
+                max2 = max1;
+                max1 = n;
+            } else if (max2 == null || n > max2) {
+                max3 = max2;
+                max2 = n;
+            } else if (max3 == null || n > max3) {
+                max3 = n;
+            }
+        }
+        return max3 == null ? max1 : max3;
+    }
+```
+
+### [448. Find All Numbers Disappeared in an Array](https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/)
+
+Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once.
+
+Find all the elements of [1, n] inclusive that do not appear in this array.
+
+Could you do it without extra space and in O(n) runtime? You may assume the returned list does not count as extra space.
+
+**Example:**
+
+```
+Input:
+[4,3,2,7,8,2,3,1]
+
+Output:
+[5,6]
+```
+
+#### JavaScript Solution
+
+由于不能使用额外的空间，所以考虑对原数组进行修改，如果 i 出现，则 nums[i] 的值变成负相反数。
+
+```
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var findDisappearedNumbers = function(nums) {
+    for (let i = nums.length - 1; i >= 0; i--) {
+    	nums[(Math.abs(nums[i])-1)] = -Math.abs(nums[(Math.abs(nums[i])-1)]);
+    }
+    let arr = [];
+    for (let i = 0; i < nums.length; i++) {
+    	if(nums[i] > 0) arr.push(i+1);
+    }
+    return arr;
+};
+findDisappearedNumbers([1, 3, 2, 4, 2, 3, 5, 6])
+```
+
+#### Best Solution
+
+想法和我一样，不过他没有使用 Math.abs，使得计算更加简单。
+
+```
+public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> ret = new ArrayList<Integer>();
+        
+        for(int i = 0; i < nums.length; i++) {
+            int val = Math.abs(nums[i]) - 1;
+            if(nums[val] > 0) {
+                nums[val] = -nums[val];
+            }
+        }
+        
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] > 0) {
+                ret.add(i+1);
+            }
+        }
+        return ret;
+    }
+```
+
+### [485. Max Consecutive Ones](https://leetcode.com/problems/max-consecutive-ones/)
+
+Given a binary array, find the maximum number of consecutive 1s in this array.
+
+**Example 1:**
+
+```
+Input: [1,1,0,1,1,1]
+Output: 3
+Explanation: The first two digits or the last three digits are consecutive 1s.
+    The maximum number of consecutive 1s is 3.
+```
+
+**Note:**
+
+The input array will only contain 0 and 1.
+
+The length of input array is a positive integer and will not exceed 10,000
+
+#### JavaScript Solution
+
+```
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMaxConsecutiveOnes = function(nums) {
+	let len = maxLen = 0;
+    for (var i = nums.length - 1; i >= 0; i--) {
+    	if (nums[i] === 1) 
+    		len++;
+    	else {
+    		maxLen = Math.max(len, maxLen);
+    		len = 0;
+    	}
+    }
+    return Math.max(len, maxLen);
+};
+
+findMaxConsecutiveOnes([1,1,0,1])
+```
+
+
+
