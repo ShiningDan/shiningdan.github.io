@@ -12,6 +12,7 @@ tags:
 * [一小时包教会 —— webpack 入门指南](http://www.w2bc.com/Article/50764)
 * [Webpack 官网](http://webpack.github.io/docs/)
 * [阮一峰 Webpack demos](https://github.com/ruanyf/webpack-demos)
+* [入门Webpack，看这篇就够了](http://www.jianshu.com/p/42e11515c10f#)
 
 ## 介绍
 
@@ -19,7 +20,18 @@ Webpack 是当下最热门的前端资源模块化管理和打包工具。它可
 
 我们可以直接使用 require(XXX) 的形式来引入各模块，即使它们可能需要经过编译（比如JSX和sass），但我们无须在上面花费太多心思，因为 webpack 有着各种健全的加载器（loader）在默默处理这些事情，这块我们后续会提到。
 
+WebPack可以看做是**模块打包机**：它做的事情是，分析你的项目结构，找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其打包为合适的格式以供浏览器使用。
+
 <!--more-->
+
+## Webpack和Grunt以及Gulp相比有什么特性
+
+其实Webpack和另外两个并没有太多的可比性，Gulp/Grunt是一种能够优化前端的开发流程的工具，而WebPack是一种模块化的解决方案，不过Webpack的优点使得Webpack可以替代Gulp/Grunt类的工具。
+
+Grunt和Gulp的工作方式是：在一个配置文件中，指明对某些文件进行类似编译，组合，压缩等任务的具体步骤，这个工具之后可以自动替你完成这些任务。
+
+Webpack的工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个浏览器可识别的JavaScript文件。
+
 
 ## 前言
 
@@ -554,6 +566,11 @@ module.exports = {  // 是 module.exports 不是 module.export
 }
 ```
 
+```
+注：“__dirname”是node.js中的一个全局变量，它指向当前执行脚本所在的目录。
+```
+
+
 同时简化 entry.js 中的 style.css 加载方式：
 
 ```
@@ -561,6 +578,14 @@ require('./style.css')
 ```
 
 最后运行 `webpack`，可以看到 webpack 通过配置文件执行的结果和上一章节通过命令行 `webpack entry.js bundle.js --module-bind 'css=style!css'` 执行的结果是一样的。
+
+Loaders需要单独安装并且需要在webpack.config.js下的modules关键字下进行配置，Loaders的配置选项包括以下几方面：
+
+* `test`：一个匹配loaders所处理的文件的拓展名的正则表达式（必须）
+* `loader`：loader的名称（必须）
+* `include/exclude`：手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；
+* `query`：为loaders提供额外的设置选项（可选）
+
 
 #### 使用CDN/远程文件
 
@@ -679,6 +704,8 @@ resolve: {
 
 ### 插件
 
+loaders是在打包构建过程中用来处理源文件的（JSX，Scss，Less..），一次处理一个，插件并不直接操作单个文件，它直接对整个构建过程其作用。
+
 插件可以完成更多 loader 不能完成的功能。
 
 插件的使用一般是在 webpack 的配置信息 `plugins` 选项中指定。
@@ -754,6 +781,40 @@ webpack -p    //压缩混淆脚本，这个非常非常重要！
  
 webpack -d    //生成map映射文件，告知哪些模块被最终打包到哪里了
 ```
+
+### 使用webpack构建本地服务器
+
+想不想让你的浏览器监测你都代码的修改，并自动刷新修改后的结果，其实Webpack提供一个可选的本地开发服务器，这个本地服务器基于node.js构建，可以实现你想要的这些功能，不过它是一个单独的组件，在webpack中进行配置之前需要单独安装它作为项目依赖
+
+```
+npm install --save-dev webpack-dev-server
+```
+
+devserver作为webpack配置选项中的一项，具有以下配置选项
+
+devserver配置选项:
+
+* `contentBase`	默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public"目录）
+* `port`	设置默认监听端口，如果省略，默认为”8080“
+* `inline`	设置为true，当源文件改变时会自动刷新页面
+* `colors`	设置为true，使终端输出的文件为彩色的
+* `historyApiFallback`	在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
+
+把这些命令加到`webpack.config.js`的配置文件中，现在的配置文件如下所示
+
+```
+module.exports = {
+    entry: ...
+    
+    devServer: {
+    contentBase: "./public",//本地服务器所加载的页面所在的目录
+    colors: true,//终端中输出结果为彩色
+    historyApiFallback: true,//不跳转
+    inline: true//实时刷新
+  } 
+}
+```
+
 
 
 ### 故障处理

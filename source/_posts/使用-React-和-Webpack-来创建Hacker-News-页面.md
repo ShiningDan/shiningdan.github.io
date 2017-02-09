@@ -85,6 +85,11 @@ document.write("It works");
 }
 ```
 
+```
+注：package.json中的脚本部分已经默认在命令前添加了node_modules/.bin路径，所以无论是全局还是局部安装的Webpack，你都不需要写前面那指明详细的 script 中运行命令所对应的路径了
+```
+
+
 现在执行 `npm run build` 相当于 `webpack`, `npm run start` 相当于 `webpack-dev-server`. 当项目变得相当复杂时, 你可以使用这种技巧隐藏其中的细节.
 
 ### 安装依赖
