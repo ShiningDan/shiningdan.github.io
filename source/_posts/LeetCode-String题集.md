@@ -312,3 +312,273 @@ public class Solution {
     }
 }
 ```
+
+### [28. Implement strStr()](https://leetcode.com/problems/implement-strstr/)
+
+Implement strStr().
+
+Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+虽然这道题直接使用 indexOf 就可以 accept，但是作者的意图应该是让我们实现一个 indexOf 方法。
+
+#### JavaScript Solution
+
+这个方法是 Best Solution，想法也是一个一个比较，但是在 for 循环中没有设置溢出条件，而是在 if 语句中设置了溢出条件，因为 for 循环中的溢出条件基本用不上。
+
+```
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @return {number}
+ */
+var strStr = function(haystack, needle) {
+    for (let i = 0; ; i++) {
+    	for (let j = 0; ; j++) {
+    		if (j === needle.length) return i;
+    		if ((i+j) === haystack.length) return -1;
+    		if (haystack[i+j] !== needle[j]) break;
+    	}
+    }
+};
+
+strStr("sdasd", "asd");
+```
+
+#### Java Solution
+
+```
+public int strStr(String haystack, String needle) {
+        for (int i = 0; ; i++) {
+            for (int j = 0; ; j++) {
+                if (j == needle.length()) return i;
+                if ((i + j) == haystack.length()) return -1;
+                if (haystack.charAt(i+j) != needle.charAt(j)) break;
+            }
+        }
+    }
+```
+
+### [38. Count and Say](https://leetcode.com/problems/count-and-say/)
+
+The count-and-say sequence is the sequence of integers beginning as follows:
+`1, 11, 21, 1211, 111221, ...`
+
+`1` is read off as `"one 1"` or `11`.
+`11` is read off as `"two 1s"` or `21`.
+`21` is read off as `"one 2`, then `"one 1"` or `1211`.
+Given an integer n, generate the nth sequence.
+
+Note: The sequence of integers will be represented as a string.
+
+#### JavaScript Solution
+
+```
+/**
+ * @param {number} n
+ * @return {string}
+ */
+var countAndSay = function(n) {
+	let seq = "1";
+    for (let i = 1; i < n; i++) {
+    	let tmp = "", num = 1, value = seq[0];
+    	for (let j = 1; j < seq.length; j++) {
+    		if (seq[j] != value) {
+    			tmp += num;
+    			tmp += value;
+    			num = 1;
+    			value = seq[j];
+    			continue;
+    		}
+    		num++;
+    	}
+    	tmp += num;
+    	tmp += value;
+		seq = tmp;
+    }
+    return seq;
+};
+
+countAndSay(4)
+```
+
+#### Best Solution
+
+如果是针对经常进行变动的 String，可以使用 StringBuilder 类
+
+StringBuilder 类中常用的方法有：
+
+* append
+* charAt
+* delete(int start, int end)
+* deleteCharAt(int index)
+* insert(int offset, String str)
+* replace(int start, int end, String str)
+* substring
+
+String 中常用的方法有：
+
+* charAt
+* compareTo
+* concat
+* contains
+* indexOf
+* join
+* match
+* replace
+* split
+* valueOf
+* substring
+* toLowerCase/toUpperCase
+
+```
+public class Solution {
+    public String countAndSay(int n) {
+	    	StringBuilder curr=new StringBuilder("1");
+	    	StringBuilder prev;
+	    	int count;
+	    	char say;
+	        for (int i=1;i<n;i++){
+	        	prev=curr;
+	 	        curr=new StringBuilder();       
+	 	        count=1;
+	 	        say=prev.charAt(0);
+	 	        
+	 	        for (int j=1,len=prev.length();j<len;j++){
+	 	        	if (prev.charAt(j)!=say){
+	 	        		curr.append(count).append(say);
+	 	        		count=1;
+	 	        		say=prev.charAt(j);
+	 	        	}
+	 	        	else count++;
+	 	        }
+	 	        curr.append(count).append(say);
+	        }	       	        
+	        return curr.toString();
+        
+    }
+}
+```
+
+### [58. Length of Last Word](https://leetcode.com/problems/length-of-last-word/)
+
+
+Given a string s consists of upper/lower-case alphabets and empty space characters `' '`, return the length of last word in the string.
+
+If the last word does not exist, return 0.
+
+**Note:** A word is defined as a character sequence consists of non-space characters only.
+
+For example,
+
+Given s = `"Hello World"`,
+return `5`.
+
+#### JavaScript Solution
+
+```
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLastWord = function(s) {
+    let len = 0, isSpace = false;
+    for (let i = 0; i < s.length; i++) {
+    	if (isSpace && s[i] != " ") {
+    		len = 0;
+    		isSpace = false;
+    	}
+    	if (s[i] === " ") isSpace = true;
+    	else len ++;
+    }
+    return len;
+};
+
+lengthOfLastWord("Hello World");
+```
+
+#### Best Solution
+
+Best Solution 很简单的方法，就是先对 s 进行 trim，将前后的空格都去掉。简化了逻辑中对最后一位是 `" "` 的判断。
+
+```
+public int lengthOfLastWord(String s) {
+        s = s.trim();
+        int len = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ' ') len = 0;
+            else len ++;
+        }
+        return len;
+    }
+```
+
+### [67. Add Binary](https://leetcode.com/problems/add-binary/)
+
+Given two binary strings, return their sum (also a binary string).
+
+For example,
+a = `"11"`
+b = `"1"`
+Return `"100"`.
+
+#### JavaScript Solution
+
+解决这个问题，有几个要点。第一个要点是 `a[i] - "0"` 直接获得数字值。第二个要点是，为了不用判断 a 和 b 谁的长度厂，可以在 `while` 中使用 `if` 分别处理，尽量避免 `a[i]` 和 `b[j]` 的直接联系。第三点是使用 Array 存储，再使用 `join` 合成 string。
+
+JavaScript string 没有翻转的函数，但是可以使用以下的方法实现该功能：
+
+```
+s.split("").reverse().join();
+```
+
+```
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
+var addBinary = function(a, b) {
+    let i = a.length-1, j = b.length-1, carry = 0;
+    let result = [];
+    while (i >=0 || j >= 0) {
+    	let sum = carry;
+    	if (i >= 0) sum += (a[i--] - "0");
+    	if (j >= 0) sum += (b[j--] - "0");
+    	result.unshift(sum % 2);
+    	carry = Math.floor(sum / 2);
+    }
+    if (carry !== 0) result.unshift(carry);
+    return result.join("");
+};
+
+addBinary("1", "1101");
+```
+
+#### Java Solution
+
+```
+public class Solution {
+    public String addBinary(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        int i = a.length() - 1, j = b.length() -1, carry = 0;
+        while (i >= 0 || j >= 0) {
+            int sum = carry;
+            if (j >= 0) sum += b.charAt(j--) - '0';
+            if (i >= 0) sum += a.charAt(i--) - '0';
+            sb.append(sum % 2);
+            carry = sum / 2;
+        }
+        if (carry != 0) sb.append(carry);
+        return sb.reverse().toString();
+    }
+}
+```
+
+
+
+
+
+
+
+
+
