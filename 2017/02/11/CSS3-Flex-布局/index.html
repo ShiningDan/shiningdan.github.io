@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="GitHub,Hexo," />
+  <meta name="keywords" content="HTML,CSS,Flex," />
 
 
 
@@ -84,19 +84,48 @@
 
 
 
-<meta name="description" content="前言在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。
-在我换电脑以后，需要在新的电脑上重新部署 hexo 的环境，由于原来 hexo 的源代码及文稿与发布的仓库位于两个不同的仓库中，导致我需要下载一个仓库，但是要 hexo deploy 到另一个仓库中，这是一个很不合理的">
+<meta name="description" content="本笔记是根据CSS 3 Flex 全解【视频】介绍总结，如有需要，可以去原视频查看。
+Flex 之前布局主要使用：
+
+noraml flow(正常文档流)
+float + clear
+position relative + absolute
+display inline + block
+负 margin
+
+Flex 布局的特点
+块状布局侧重垂直方向，行内布局侧重水平方向，flex 布局与方向无关">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Github上Hexo项目源码以及发布版管理">
-<meta property="og:url" content="https://shiningdan.github.io/2017/01/10/Github上Hexo项目源码以及发布版管理/index.html">
+<meta property="og:title" content="CSS3 Flex 布局">
+<meta property="og:url" content="https://shiningdan.github.io/2017/02/11/CSS3-Flex-布局/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="前言在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。
-在我换电脑以后，需要在新的电脑上重新部署 hexo 的环境，由于原来 hexo 的源代码及文稿与发布的仓库位于两个不同的仓库中，导致我需要下载一个仓库，但是要 hexo deploy 到另一个仓库中，这是一个很不合理的">
-<meta property="og:updated_time" content="2017-01-11T13:38:10.000Z">
+<meta property="og:description" content="本笔记是根据CSS 3 Flex 全解【视频】介绍总结，如有需要，可以去原视频查看。
+Flex 之前布局主要使用：
+
+noraml flow(正常文档流)
+float + clear
+position relative + absolute
+display inline + block
+负 margin
+
+Flex 布局的特点
+块状布局侧重垂直方向，行内布局侧重水平方向，flex 布局与方向无关">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/d7714d26c651961da0e4d506020c2650.png">
+<meta property="og:updated_time" content="2017-02-11T13:15:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Github上Hexo项目源码以及发布版管理">
-<meta name="twitter:description" content="前言在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。
-在我换电脑以后，需要在新的电脑上重新部署 hexo 的环境，由于原来 hexo 的源代码及文稿与发布的仓库位于两个不同的仓库中，导致我需要下载一个仓库，但是要 hexo deploy 到另一个仓库中，这是一个很不合理的">
+<meta name="twitter:title" content="CSS3 Flex 布局">
+<meta name="twitter:description" content="本笔记是根据CSS 3 Flex 全解【视频】介绍总结，如有需要，可以去原视频查看。
+Flex 之前布局主要使用：
+
+noraml flow(正常文档流)
+float + clear
+position relative + absolute
+display inline + block
+负 margin
+
+Flex 布局的特点
+块状布局侧重垂直方向，行内布局侧重水平方向，flex 布局与方向无关">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/d7714d26c651961da0e4d506020c2650.png">
 
 
 
@@ -124,13 +153,13 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2017/01/10/Github上Hexo项目源码以及发布版管理/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2017/02/11/CSS3-Flex-布局/"/>
 
 
 
 
 
-  <title> Github上Hexo项目源码以及发布版管理 | ShiningDan的博客 </title>
+  <title> CSS3 Flex 布局 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -286,7 +315,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/10/Github上Hexo项目源码以及发布版管理/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/02/11/CSS3-Flex-布局/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -310,7 +339,7 @@
             
             
               
-                Github上Hexo项目源码以及发布版管理
+                CSS3 Flex 布局
               
             
           </h2>
@@ -325,8 +354,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-10T19:29:37+08:00">
-                2017-01-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-11T14:24:38+08:00">
+                2017-02-11
               </time>
             
 
@@ -366,8 +395,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/10/Github上Hexo项目源码以及发布版管理/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/10/Github上Hexo项目源码以及发布版管理/" itemprop="commentCount"></span>
+                <a href="/2017/02/11/CSS3-Flex-布局/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/11/CSS3-Flex-布局/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -377,7 +406,7 @@
 
           
           
-             <span id="/2017/01/10/Github上Hexo项目源码以及发布版管理/" class="leancloud_visitors" data-flag-title="Github上Hexo项目源码以及发布版管理">
+             <span id="/2017/02/11/CSS3-Flex-布局/" class="leancloud_visitors" data-flag-title="CSS3 Flex 布局">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -404,54 +433,81 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在原来的电脑中，我的 hexo 备份在 GitHub上，除了一个 User Page 用来发布文章以外，还有一个 hexo-backup 的仓库，用来保存 hexo 的源代码。</p>
-<p>在我换电脑以后，需要在新的电脑上重新部署 hexo 的环境，由于原来 hexo 的源代码及文稿与发布的仓库位于两个不同的仓库中，导致我需要下载一个仓库，但是要 hexo deploy 到另一个仓库中，这是一个很不合理的项目规划方案。所以，在网上搜索了一些教程以后，我重新规划了 GitHub 上面的代码仓库，用一个仓库同时存放 hexo 项目的发布版和源文件，但是这两个部分位于一个仓库的不同分支中。在以后需要重新部署 hexo 环境的时候，只用从一个仓库中下载代码，就可以获得源代码和发布版。</p>
-<p>感谢<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo搭建博客/#more" target="_blank" rel="external">CrazyMilk</a>的文章，为我提供了使用一个仓库同时管理发布版和源代码的解决方案！</p>
-<a id="more"></a>
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="创建-GitHub-仓库"><a href="#创建-GitHub-仓库" class="headerlink" title="创建 GitHub 仓库"></a>创建 GitHub 仓库</h3><p>首先点击 New Repository，创建一个新的代码仓库，在填写 Repository name 的时候，格式是 username.github.io (username 是你的 GitHub 账号用户名)。</p>
-<h3 id="本地安装环境配置"><a href="#本地安装环境配置" class="headerlink" title="本地安装环境配置"></a>本地安装环境配置</h3><p>需要下载的软件有 Git、node.js 和 Hexo ，下载及安装方法不再赘述。</p>
-<p><strong>注意，在配置 Git 的时候，最好使用 git config 进行配置</strong>，这与 GitHub 在计算 contributions 次数的有关，也是就 GitHub 个人首页上绿色小点，用来统计每个人每天 commit 的次数有关。</p>
-<p>在 GitHub 上统计代码仓库 commit 的次数时候，需要同时满足以下三点，才可以记为一次 commit：</p>
+        <p>本笔记是根据<a href="https://zhuanlan.zhihu.com/p/25173221" target="_blank" rel="external">CSS 3 Flex 全解【视频】</a>介绍总结，如有需要，可以去原视频查看。</p>
+<h2 id="Flex-之前"><a href="#Flex-之前" class="headerlink" title="Flex 之前"></a>Flex 之前</h2><p>布局主要使用：</p>
 <ul>
-<li>The email address used for the commits is associated with your GitHub account.</li>
-<li>The commits were made in a standalone repository, not a fork.</li>
-<li>The commits were made:<ul>
-<li>In the repository’s default branch (usually master)</li>
-<li>In the gh-pages branch (for repositories with Project Pages sites)</li>
+<li>noraml flow(正常文档流)</li>
+<li>float + clear</li>
+<li>position relative + absolute</li>
+<li>display inline + block</li>
+<li>负 margin</li>
+</ul>
+<h2 id="Flex-布局的特点"><a href="#Flex-布局的特点" class="headerlink" title="Flex 布局的特点"></a>Flex 布局的特点</h2><ol>
+<li>块状布局侧重垂直方向，行内布局侧重水平方向，flex 布局与方向无关</li>
+<li>flex 布局可以实现<strong>空间自动分配、自动对齐</strong></li>
+<li>flex 布局适用于简单的线性布局，复杂的布局交给 Grid 布局</li>
+</ol>
+<h2 id="Flex-基本概念"><a href="#Flex-基本概念" class="headerlink" title="Flex 基本概念"></a>Flex 基本概念</h2><p><img src="http://ojt6zsxg2.bkt.clouddn.com/d7714d26c651961da0e4d506020c2650.png" alt=""></p>
+<p>Flex 布局的时候，有两个轴，一个是主轴，一个是侧轴，注意主轴不一定是横轴，它的方向也可以改变成纵向。主轴的方向是 item 的排列方向。</p>
+<p>使用 Flex 布局的时候，给父容器添加 <code>display: flex;</code> 就可以。</p>
+<p>Flex 布局的父容器叫 <strong>flex container</strong>，子容器叫 <strong>flex item</strong>。</p>
+<h3 id="flex-container"><a href="#flex-container" class="headerlink" title="flex container"></a>flex container</h3><p>flex container 有六个主要的属性：</p>
+<ol>
+<li>flex-direction：方向<ul>
+<li>row（行）</li>
+<li>row-reverse</li>
+<li>column（列）</li>
+<li>column-reverse</li>
 </ul>
 </li>
+<li>flex-wrap：换行，默认是胡换行，所有的 flex-item 都挤在一行，<ul>
+<li>nowrap(不换行)</li>
+<li>wrap</li>
+<li>wrap-reverse(换行，换行以后上下(row)/左右(column)方向交换)</li>
 </ul>
-<p>也就是你的本地 Git 账号需要和 GitHub 账号一致。所以需要通过 git config 来配置本地 Git 的账号：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --global user.name &quot;username&quot;</div><div class="line">git config --global user.email &quot;username@example.com&quot;</div></pre></td></tr></table></figure>
-<h3 id="本地博客搭建流程"><a href="#本地博客搭建流程" class="headerlink" title="本地博客搭建流程"></a>本地博客搭建流程</h3><p>本流程与<a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo搭建博客/#more" target="_blank" rel="external">CrazyMilk</a>的文章中的流程有所不同，如果是按照他的流程，在 <code>hexo init</code> 的时候，会删除本地的 .git 文件夹，所在流程上会略有不同。</p>
-<p>以我的博客搭建流程为例：</p>
-<ol>
-<li>在 GitHub 上创建 shiningdan.github.io 代码仓库</li>
-<li>本地下载和安装 git、node.js，并且使用 git config 配置本地 git 账号</li>
-<li>在本地合适的位置创建 shiningdan.github.io 文件夹，作为本地博客根目录</li>
-<li>在本地 shiningdan.github.io 依次执行：<code>npm install -g hexo
-hexo init
-npm install
-npm install hexo-deployer-git</code></li>
-<li>使用 GitHub 提示，将本地文件夹与远程代码仓库连接：<code>echo &quot;# shiningdan.github.io&quot; &gt;&gt; README.md
-git init
-git add README.md
-git commit -m &quot;first commit&quot;
-git remote add origin https://github.com/ShiningDan/shiningdan.github.io.git
-git push -u origin master</code></li>
-<li>创建 master 和 hexo 分支。因为创建的代码仓库是 User Page，所以 master 分支是作为 hexo deploy 的分支，而 hexo 分支是保存源代码的分支。在 terminal 下执行命令：<code>git branch hexo //创建 hexo 分支
-git push origin hexo //将本地分支 PUSH 到远端
-git checkout hexo //切换本地分支为 hexo</code></li>
-<li>修改_config.yml中的deploy参数，修改 deploy <code>type:git</code>、<code>repo:https://github.com/ShiningDan/shiningdan.github.io.git</code>、<code>branch: master</code>。注意，branch 一定要为 master，因为 User Page 的发布版必须位于 master 分支下。</li>
-<li>修改 GitHub 网页中的配置，将 hexo 分支设置为默认分支。</li>
-<li>依次执行<code>git add .</code>、<code>git commit -m “…”</code>、<code>git push origin hexo</code>提交网站相关的文件</li>
-<li>执行<code>hexo generate -d</code>生成网站并部署到GitHub上</li>
+</li>
+<li>flex-flow：上面两个的简写</li>
+<li>justify-content：<strong>主轴</strong>方向对齐方式<ul>
+<li>auto</li>
+<li>baseline</li>
+<li>center(所有 item 都在中间)</li>
+<li>end</li>
+<li>flex-end(向终点靠拢)</li>
+<li>flex-start(向�起点靠拢)</li>
+<li>last-baseline</li>
+<li>space-around(空间分布在所有 item 周围)</li>
+<li>sapce-between(空间分布在所有 item 之间)</li>
+</ul>
+</li>
+<li>align-item：<strong>侧轴</strong>对齐方式<ul>
+<li>stretch(默认值，将所有的元素都伸展开到最高的元素一样的高度，但是元素的 height 不能设置。<strong>只有这个值会延伸 item 的高度</strong>)</li>
+<li>flex-start/flex-end：所有的元素向侧轴开始/终点的地方对齐，元素的高度不会改变</li>
+<li>center：都放在侧轴中点</li>
+<li>baseline</li>
+</ul>
+</li>
+<li>align-content：多行/多列内容对齐方式（使用较少）</li>
 </ol>
-<h3 id="日常发布以及备份"><a href="#日常发布以及备份" class="headerlink" title="日常发布以及备份"></a>日常发布以及备份</h3><p>在备份源代码和源文件的时候，依次执行<code>git add .</code>、<code>git commit -m “…”</code>、<code>git push origin hexo</code>指令将改动推送到GitHub，此时源代码和源文件是被备份在 hexo 分支上。</p>
-<p>再执行<code>hexo generate -d</code>发布网站到master分支上</p>
-<h3 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h3><ol>
-<li>使用<code>git clone https://github.com/ShiningDan/shiningdan.github.io.git</code>拷贝仓库（默认分支为hexo）</li>
-<li>在本地新拷贝的shiningdan.github.io文件夹下通过Git bash依次执行下列指令：<code>npm install -g hexo</code>、<code>npm install</code>、<code>npm install hexo-deployer-git</code>（记得，不需要hexo init这条指令）</li>
+<h3 id="flex-item"><a href="#flex-item" class="headerlink" title="flex item"></a>flex item</h3><p>flex item 主要有六个属性：</p>
+<ol>
+<li>flex-grow：增长比例（空间过多时）<ul>
+<li>参数是数值。如果有多余的空间，每个 flex item 的 flwx-grow(1, 2, 3…) 值代表将多余的空间按照份数分给不同的 item。条件是 item 没有设置 width(或者 height)</li>
+</ul>
+</li>
+<li>flex-shrink：收缩比例（空间不够时）<ul>
+<li>参数是数值。当空间被填满时，如果加入这个参数，则会根据数值按比例收缩。</li>
+</ul>
+</li>
+<li>flex-basis：默认大小（一般不用）</li>
+<li>flex：上面三个的缩写</li>
+<li>order：顺序（代替双飞翼）<ul>
+<li>参数是数值，并且如果要使 order 生效，需要对所有的 item 都设置 order 值。参数越小，则该 item 放置越前面。</li>
+</ul>
+</li>
+<li>align-self：自身的对齐方式<ul>
+<li>参数和在 flex container 上设置的侧轴对齐方式(align-item)一样，表示该 item 和侧轴对齐方式和其他的 item 对齐方式不一样。</li>
+</ul>
+</li>
 </ol>
 
       
@@ -476,9 +532,11 @@ git checkout hexo //切换本地分支为 hexo</code></li>
       
         <div class="post-tags">
           
-            <a href="/tags/GitHub/" rel="tag"># GitHub</a>
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
           
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+            <a href="/tags/Flex/" rel="tag"># Flex</a>
           
         </div>
       
@@ -487,8 +545,8 @@ git checkout hexo //切换本地分支为 hexo</code></li>
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/07/网页组件制作之七色卡/" rel="next" title="网页组件制作之七色卡">
-                <i class="fa fa-chevron-left"></i> 网页组件制作之七色卡
+              <a href="/2017/02/09/ES6入门/" rel="next" title="ES6入门">
+                <i class="fa fa-chevron-left"></i> ES6入门
               </a>
             
           </div>
@@ -496,10 +554,6 @@ git checkout hexo //切换本地分支为 hexo</code></li>
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/13/用Sass实现新浪微博首页/" rel="prev" title="用Sass实现新浪微博首页">
-                用Sass实现新浪微博首页 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -525,8 +579,8 @@ git checkout hexo //切换本地分支为 hexo</code></li>
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/10/Github上Hexo项目源码以及发布版管理/"
-           data-title="Github上Hexo项目源码以及发布版管理" data-url="https://shiningdan.github.io/2017/01/10/Github上Hexo项目源码以及发布版管理/">
+      <div class="ds-thread" data-thread-key="2017/02/11/CSS3-Flex-布局/"
+           data-title="CSS3 Flex 布局" data-url="https://shiningdan.github.io/2017/02/11/CSS3-Flex-布局/">
       </div>
     
   </div>
@@ -626,7 +680,7 @@ git checkout hexo //切换本地分支为 hexo</code></li>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境配置"><span class="nav-number">2.</span> <span class="nav-text">环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-GitHub-仓库"><span class="nav-number">2.1.</span> <span class="nav-text">创建 GitHub 仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地安装环境配置"><span class="nav-number">2.2.</span> <span class="nav-text">本地安装环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地博客搭建流程"><span class="nav-number">2.3.</span> <span class="nav-text">本地博客搭建流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日常发布以及备份"><span class="nav-number">2.4.</span> <span class="nav-text">日常发布以及备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新部署"><span class="nav-number">2.5.</span> <span class="nav-text">重新部署</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Flex-之前"><span class="nav-number">1.</span> <span class="nav-text">Flex 之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flex-布局的特点"><span class="nav-number">2.</span> <span class="nav-text">Flex 布局的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flex-基本概念"><span class="nav-number">3.</span> <span class="nav-text">Flex 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#flex-container"><span class="nav-number">3.1.</span> <span class="nav-text">flex container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flex-item"><span class="nav-number">3.2.</span> <span class="nav-text">flex item</span></a></li></ol></li></ol></div>
             
 
           </div>
