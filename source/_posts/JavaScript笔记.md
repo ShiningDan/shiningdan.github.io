@@ -1,4 +1,4 @@
----
+﻿---
 title: JavaScript笔记
 date: 2016-11-29 22:38:50
 categories: coding
@@ -899,9 +899,102 @@ JSON 支持以下三种类型的值
 
 建议使用 Web Worker 的时候，始终使用 onerror 事件处理程序，否则 Worker 会在发生错误时静默失败。
 
+###  JavaScript里的循环方法forEach，for-in，for-of
 
+JavaScript诞生已经有20多年了，我们一直使用的用来循环一个数组的方法是这样的：
 
+```
+for (var index = 0; index < myArray.length; index++) {
+console.log(myArray[index]);
+}
+```
+自从JavaScript5起，我们开始可以使用内置的 forEach 方法：
 
+```
+myArray.forEach(function (value) {
+console.log(value);
+});
+```
+
+写法简单了许多，但也有短处：你不能中断循环(使用语句或使用语句。
+
+for-in循环实际是为循环”enumerable“对象而设计的：
+
+for – in 是用来循环带有字符串key的对象的方法。
+
+```
+var obj = {a:1, b:2, c:3};
+for (var prop in obj) {
+console.log("obj." + prop + " = " + obj[prop]);
+}
+// 输出:
+// "obj.a = 1"
+// "obj.b = 2"
+// "obj.c = 3"
+```
+
+JavaScript6里引入了一种新的循环方法，它就是for-of循环，它既比传统的for循环简洁，同时弥补了forEach和for-in循环的短板。
+
+for-of 可以用来循环数组：
+
+```
+let iterable = [10, 20, 30];
+for (let value of iterable) {
+console.log(value);
+}
+// 10
+// 20
+// 30
+```
+循环一个字符串：
+
+```
+let iterable = "boo";
+for (let value of iterable) {
+console.log(value);
+}
+// "b"
+// "o"
+// "o"
+```
+
+循环一个 DOM collection
+
+```
+// Note: This will only work in platforms that have
+// implemented NodeList.prototype[Symbol.iterator]
+let articleParagraphs = document.querySelectorAll("article > p");
+for (let paragraph of articleParagraphs) {
+paragraph.classList.add("read");
+}
+```
+
+循环一个生成器(generators)
+
+```
+function* fibonacci() { // a generator function
+    let [prev, curr] = [0, 1];
+    while (true) {
+        [prev, curr] = [curr, prev + curr];
+        yield curr;
+    }
+}
+for (let n of fibonacci()) {
+console.log(n);
+    // truncate the sequence at 1000
+    if (n >= 1000) {
+        break;
+    }
+}
+```
+
+for–of循环并不能直接使用在普通的对象上，但如果我们按对象所拥有的属性进行循环，可使用内置的Object.keys()方法：
+
+```
+for (var key of Object.keys(someObject)) {
+console.log(key + ": " + someObject[key]);
+}
+```
 
 
 

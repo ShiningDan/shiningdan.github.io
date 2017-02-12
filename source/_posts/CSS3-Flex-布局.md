@@ -30,6 +30,8 @@ tags:
 
 ![](http://ojt6zsxg2.bkt.clouddn.com/d7714d26c651961da0e4d506020c2650.png)
 
+<!--more-->
+
 Flex 布局的时候，有两个轴，一个是主轴，一个是侧轴，注意主轴不一定是横轴，它的方向也可以改变成纵向。主轴的方向是 item 的排列方向。
 
 使用 Flex 布局的时候，给父容器添加 `display: flex;` 就可以。

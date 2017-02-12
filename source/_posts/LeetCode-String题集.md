@@ -528,7 +528,7 @@ Return `"100"`.
 JavaScript string 没有翻转的函数，但是可以使用以下的方法实现该功能：
 
 ```
-s.split("").reverse().join();
+s.split("").reverse().join("");
 ```
 
 ```
@@ -574,11 +574,238 @@ public class Solution {
 }
 ```
 
+### [125. Valid Palindrome](https://leetcode.com/problems/valid-palindrome/)
 
 
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
+For example,
+`"A man, a plan, a canal: Panama"` is a palindrome.
+`"race a car"` is not a palindrome.
 
+**Note:**
 
+Have you consider that the string might be empty? This is a good question to ask during an interview.
 
+For the purpose of this problem, we define empty string as valid palindrome.
 
+#### JavaScript Solution
 
+使用正则表达式会很慢
+
+```
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isPalindrome = function(s) {
+	s = s.toLowerCase();
+    let rs = s.split("").reverse().join("");
+    let i = 0, j = 0;
+    let reg = /[a-z0-9]/i;
+    while (i < s.length && j < rs.length) {
+    	console.log(s[i] + " " + rs[j]);
+    	if (!reg.test(s[i])) i++;
+    	else if (!reg.test(rs[j])) j++;
+    	else if (s[i] != rs[j]) return false;
+    	else {
+    		i++;
+    		j++;
+    	}
+    }
+    return true;
+};
+
+isPalindrome("A man, a plan, a canal: Panama");
+```
+
+#### Best Solution
+
+Best Solution 使用的 char 的函数来比较每个数字，并且有很好的一点是，一个指针从头开始，一个指针从末尾开始，当两个指针相遇时，比较就完成了，时间会比我快一倍。
+
+```
+public class Solution {
+    public boolean isPalindrome(String s) {
+        if (s.isEmpty()) {
+        	return true;
+        }
+        int head = 0, tail = s.length() - 1;
+        char cHead, cTail;
+        while(head <= tail) {
+        	cHead = s.charAt(head);
+        	cTail = s.charAt(tail);
+        	if (!Character.isLetterOrDigit(cHead)) {
+        		head++;
+        	} else if(!Character.isLetterOrDigit(cTail)) {
+        		tail--;
+        	} else {
+        		if (Character.toLowerCase(cHead) != Character.toLowerCase(cTail)) {
+        			return false;
+        		}
+        		head++;
+        		tail--;
+        	}
+        }
+        
+        return true;
+    }
+}
+```
+
+### [344. Reverse String](https://leetcode.com/problems/reverse-string/)
+
+Write a function that takes a string as input and returns the string reversed.
+
+**Example:**
+
+Given s = "hello", return "olleh".
+
+#### JavaScript Solution
+
+这个方法使用的 O(n) 的时间和 O(n) 的额外空间
+
+```
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseString = function(s) {
+    let words = "";
+    for (var i = s.length - 1; i >= 0; i--) {
+    	words += s[i];
+    }
+    return words;
+};
+
+reverseString("Hello World!");
+```
+
+#### Best Solution
+
+最优解法使用的是折半递归处理，时间复杂度为 O(nlog(n))，空间复杂度为 O(log(n))
+
+```
+public String reverseString(String s) {
+        if (s.length() <= 1) return s;
+        String leftString = s.substring(0, s.length()/2);
+        String rightString = s.substring(s.length()/2, s.length());
+        return reverseString(rightString) + reverseString(leftString);
+    }
+```
+
+### [345. Reverse Vowels of a String](https://leetcode.com/problems/reverse-vowels-of-a-string/)
+
+Write a function that takes a string as input and reverse only the vowels of a string.
+
+**Example 1:**
+
+Given s = "hello", return "holle".
+
+**Example 2:**
+
+Given s = "leetcode", return "leotcede".
+
+**Note:**
+
+The vowels does not include the letter "y".
+
+交换所有的元音字母
+
+#### JavaScript Solution
+
+这个解法使用了 ES6 的数组解构与赋值。
+
+还有一个需要注意的地方是，string 是不可变的，所以 `s[i] = s[j]` 是不可行的。
+
+```
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseVowels = function(s) {
+    let i = 0, j = s.length-1;
+    let set = new Set(["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]);
+    let arrs = s.split("");
+    while (i < j) {
+    	if (!set.has(arrs[i])) i++;
+    	else if(!set.has(arrs[j])) j--;
+    	else {
+    		[arrs[i], arrs[j]] = [arrs[j], arrs[i]];
+       		i++;
+    		j--;
+    	}
+    }
+    return arrs.join("");
+};
+
+reverseVowels("leotcede");
+```
+
+#### Java Solution
+
+```
+public String reverseVowels(String s) {
+    if(s == null || s.length()==0) return s;
+    String vowels = "aeiouAEIOU";
+    char[] chars = s.toCharArray();
+    int start = 0;
+    int end = s.length()-1;
+    while(start<end){
+        
+        while(start<end && !vowels.contains(chars[start]+"")){
+            start++;
+        }
+        
+        while(start<end && !vowels.contains(chars[end]+"")){
+            end--;
+        }
+        
+        char temp = chars[start];
+        chars[start] = chars[end];
+        chars[end] = temp;
+        
+        start++;
+        end--;
+    }
+    return new String(chars);
+}
+```
+
+### [383. Ransom Note](https://leetcode.com/problems/ransom-note/)
+
+Given an arbitrary ransom note string and another string containing letters from all the magazines, write a function that will return true if the ransom note can be constructed from the magazines ; otherwise, it will return false.
+
+Each letter in the magazine string can only be used once in your ransom note.
+
+**Note:**
+
+You may assume that both strings contain only lowercase letters.
+
+```
+canConstruct("a", "b") -> false
+canConstruct("aa", "ab") -> false
+canConstruct("aa", "aab") -> true
+```
+
+#### JavaScript Solution
+
+我的方法是将 magazine 中所有的字符都放进了一个数组，然后 ransomNote 从中查询，但是查询的时间复杂度是 O(n)，所以总体时间复杂度很大。
+
+```
+/**
+ * @param {string} ransomNote
+ * @param {string} magazine
+ * @return {boolean}
+ */
+var canConstruct = function(ransomNote, magazine) {
+    let arrm = magazine.split("");
+    for (var i = ransomNote.length - 1; i >= 0; i--) {
+    	let index = arrm.indexOf(ransomNote[i]);
+    	if (index === -1) {return false;}  
+    	arrm[index] = ""; 	
+    }
+    return true;
+};
+
+canConstruct("a", "b");
+```
