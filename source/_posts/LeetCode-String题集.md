@@ -809,3 +809,116 @@ var canConstruct = function(ransomNote, magazine) {
 
 canConstruct("a", "b");
 ```
+
+#### Best Solution
+
+Best Solution 的方法把所有的出现都放在一个数组里，减少了每次查询的时间。
+
+```
+public boolean canConstruct(String ransomNote, String magazine) {
+        int[] arr = new int[26];
+        for (int i = 0; i < magazine.length(); i++) {
+            arr[magazine.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            if(--arr[ransomNote.charAt(i)-'a'] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+```
+
+### [434. Number of Segments in a String](https://leetcode.com/problems/number-of-segments-in-a-string/)
+
+Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.
+
+Please note that the string does not contain any **non-printable** characters.
+
+**Example:**
+
+```
+Input: "Hello, my name is John"
+Output: 5
+```
+#### JavaScript Solution
+
+```
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var countSegments = function(s) {
+	s = s.toLowerCase();
+    let num = 0, iscontiguous = false;
+    for (let i = 0; i < s.length; i++) {
+    	if (s[i] !== " " && (i === 0 || s[i-1] === " ")) num++;
+    }
+    return num;
+};
+
+countSegments("The one-hour drama");
+```
+
+### [459. Repeated Substring Pattern](https://leetcode.com/problems/repeated-substring-pattern/)
+
+Given a non-empty string check if it can be constructed by taking a substring of it and appending multiple copies of the substring together. You may assume the given string consists of lowercase English letters only and its length will not exceed 10000.
+
+Example 1:
+
+```
+Input: "abab"
+
+Output: True
+
+Explanation: It's the substring "ab" twice.
+```
+
+Example 2:
+
+```
+Input: "aba"
+
+Output: False
+```
+
+Example 3:
+
+```
+Input: "abcabcabcabc"
+
+Output: True
+
+Explanation: It's the substring "abc" four times. (And the substring "abcabc" twice.)
+```
+
+#### JavaScript Solution
+
+从大到小构造 substring 进行判断速度会快很多。
+
+```
+/**
+ * @param {string} str
+ * @return {boolean}
+ */
+var repeatedSubstringPattern = function(str) {
+    let len = str.length;
+    for (let i = Math.floor(len/2); i > 0; i --) {
+    	if ((len % i) === 0) {
+    		let substr = str.substring(0, i);
+    		let cstr = substr.repeat(len/i);
+    		if (cstr === str) {return true;}
+    	}
+    }
+    return false;
+};
+
+repeatedSubstringPattern("aaaaaaa")
+```
+
+1. The length of the repeating substring must be a divisor of the length of the input string
+2. Search for all possible divisor of str.length, starting for length/2
+3. If i is a divisor of length, repeat the substring from 0 to i the number of times i is contained in s.length
+4. If the repeated substring is equals to the input str return true
+
+
