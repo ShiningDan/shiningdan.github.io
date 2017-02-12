@@ -403,8 +403,7 @@
 
       
         
-          
-            <p>本笔记是根据<a href="https://zhuanlan.zhihu.com/p/25173221" target="_blank" rel="external">CSS 3 Flex 全解【视频】</a>介绍总结，如有需要，可以去原视频查看。</p>
+          <p>本笔记是根据<a href="https://zhuanlan.zhihu.com/p/25173221">CSS 3 Flex 全解【视频】</a>介绍总结，如有需要，可以去原视频查看。</p>
 <h2 id="Flex-之前"><a href="#Flex-之前" class="headerlink" title="Flex 之前"></a>Flex 之前</h2><p>布局主要使用：</p>
 <ul>
 <li>noraml flow(正常文档流)</li>
@@ -419,69 +418,13 @@
 <li>flex 布局适用于简单的线性布局，复杂的布局交给 Grid 布局</li>
 </ol>
 <h2 id="Flex-基本概念"><a href="#Flex-基本概念" class="headerlink" title="Flex 基本概念"></a>Flex 基本概念</h2><p><img src="http://ojt6zsxg2.bkt.clouddn.com/d7714d26c651961da0e4d506020c2650.png" alt=""></p>
-<p>Flex 布局的时候，有两个轴，一个是主轴，一个是侧轴，注意主轴不一定是横轴，它的方向也可以改变成纵向。主轴的方向是 item 的排列方向。</p>
-<p>使用 Flex 布局的时候，给父容器添加 <code>display: flex;</code> 就可以。</p>
-<p>Flex 布局的父容器叫 <strong>flex container</strong>，子容器叫 <strong>flex item</strong>。</p>
-<h3 id="flex-container"><a href="#flex-container" class="headerlink" title="flex container"></a>flex container</h3><p>flex container 有六个主要的属性：</p>
-<ol>
-<li>flex-direction：方向<ul>
-<li>row（行）</li>
-<li>row-reverse</li>
-<li>column（列）</li>
-<li>column-reverse</li>
-</ul>
-</li>
-<li>flex-wrap：换行，默认是胡换行，所有的 flex-item 都挤在一行，<ul>
-<li>nowrap(不换行)</li>
-<li>wrap</li>
-<li>wrap-reverse(换行，换行以后上下(row)/左右(column)方向交换)</li>
-</ul>
-</li>
-<li>flex-flow：上面两个的简写</li>
-<li>justify-content：<strong>主轴</strong>方向对齐方式<ul>
-<li>auto</li>
-<li>baseline</li>
-<li>center(所有 item 都在中间)</li>
-<li>end</li>
-<li>flex-end(向终点靠拢)</li>
-<li>flex-start(向�起点靠拢)</li>
-<li>last-baseline</li>
-<li>space-around(空间分布在所有 item 周围)</li>
-<li>sapce-between(空间分布在所有 item 之间)</li>
-</ul>
-</li>
-<li>align-item：<strong>侧轴</strong>对齐方式<ul>
-<li>stretch(默认值，将所有的元素都伸展开到最高的元素一样的高度，但是元素的 height 不能设置。<strong>只有这个值会延伸 item 的高度</strong>)</li>
-<li>flex-start/flex-end：所有的元素向侧轴开始/终点的地方对齐，元素的高度不会改变</li>
-<li>center：都放在侧轴中点</li>
-<li>baseline</li>
-</ul>
-</li>
-<li>align-content：多行/多列内容对齐方式（使用较少）</li>
-</ol>
-<h3 id="flex-item"><a href="#flex-item" class="headerlink" title="flex item"></a>flex item</h3><p>flex item 主要有六个属性：</p>
-<ol>
-<li>flex-grow：增长比例（空间过多时）<ul>
-<li>参数是数值。如果有多余的空间，每个 flex item 的 flwx-grow(1, 2, 3…) 值代表将多余的空间按照份数分给不同的 item。条件是 item 没有设置 width(或者 height)</li>
-</ul>
-</li>
-<li>flex-shrink：收缩比例（空间不够时）<ul>
-<li>参数是数值。当空间被填满时，如果加入这个参数，则会根据数值按比例收缩。</li>
-</ul>
-</li>
-<li>flex-basis：默认大小（一般不用）</li>
-<li>flex：上面三个的缩写</li>
-<li>order：顺序（代替双飞翼）<ul>
-<li>参数是数值，并且如果要使 order 生效，需要对所有的 item 都设置 order 值。参数越小，则该 item 放置越前面。</li>
-</ul>
-</li>
-<li>align-self：自身的对齐方式<ul>
-<li>参数和在 flex container 上设置的侧轴对齐方式(align-item)一样，表示该 item 和侧轴对齐方式和其他的 item 对齐方式不一样。</li>
-</ul>
-</li>
-</ol>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/11/CSS3-Flex-布局/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -907,10 +850,44 @@
 <p>For example,<br>a = <code>&quot;11&quot;</code><br>b = <code>&quot;1&quot;</code><br>Return <code>&quot;100&quot;</code>.</p>
 <h4 id="JavaScript-Solution-6"><a href="#JavaScript-Solution-6" class="headerlink" title="JavaScript Solution"></a>JavaScript Solution</h4><p>解决这个问题，有几个要点。第一个要点是 <code>a[i] - &quot;0&quot;</code> 直接获得数字值。第二个要点是，为了不用判断 a 和 b 谁的长度厂，可以在 <code>while</code> 中使用 <code>if</code> 分别处理，尽量避免 <code>a[i]</code> 和 <code>b[j]</code> 的直接联系。第三点是使用 Array 存储，再使用 <code>join</code> 合成 string。</p>
 <p>JavaScript string 没有翻转的函数，但是可以使用以下的方法实现该功能：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">s.split(&quot;&quot;).reverse().join();</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">s.split(&quot;&quot;).reverse().join(&quot;&quot;);</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * @param &#123;string&#125; a</div><div class="line"> * @param &#123;string&#125; b</div><div class="line"> * @return &#123;string&#125;</div><div class="line"> */</div><div class="line">var addBinary = function(a, b) &#123;</div><div class="line">    let i = a.length-1, j = b.length-1, carry = 0;</div><div class="line">    let result = [];</div><div class="line">    while (i &gt;=0 || j &gt;= 0) &#123;</div><div class="line">    	let sum = carry;</div><div class="line">    	if (i &gt;= 0) sum += (a[i--] - &quot;0&quot;);</div><div class="line">    	if (j &gt;= 0) sum += (b[j--] - &quot;0&quot;);</div><div class="line">    	result.unshift(sum % 2);</div><div class="line">    	carry = Math.floor(sum / 2);</div><div class="line">    &#125;</div><div class="line">    if (carry !== 0) result.unshift(carry);</div><div class="line">    return result.join(&quot;&quot;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">addBinary(&quot;1&quot;, &quot;1101&quot;);</div></pre></td></tr></table></figure>
 <h4 id="Java-Solution-4"><a href="#Java-Solution-4" class="headerlink" title="Java Solution"></a>Java Solution</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    public String addBinary(String a, String b) &#123;</div><div class="line">        StringBuilder sb = new StringBuilder();</div><div class="line">        int i = a.length() - 1, j = b.length() -1, carry = 0;</div><div class="line">        while (i &gt;= 0 || j &gt;= 0) &#123;</div><div class="line">            int sum = carry;</div><div class="line">            if (j &gt;= 0) sum += b.charAt(j--) - &apos;0&apos;;</div><div class="line">            if (i &gt;= 0) sum += a.charAt(i--) - &apos;0&apos;;</div><div class="line">            sb.append(sum % 2);</div><div class="line">            carry = sum / 2;</div><div class="line">        &#125;</div><div class="line">        if (carry != 0) sb.append(carry);</div><div class="line">        return sb.reverse().toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+<h3 id="125-Valid-Palindrome"><a href="#125-Valid-Palindrome" class="headerlink" title="125. Valid Palindrome"></a><a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="external">125. Valid Palindrome</a></h3><p>Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.</p>
+<p>For example,<br><code>&quot;A man, a plan, a canal: Panama&quot;</code> is a palindrome.<br><code>&quot;race a car&quot;</code> is not a palindrome.</p>
+<p><strong>Note:</strong></p>
+<p>Have you consider that the string might be empty? This is a good question to ask during an interview.</p>
+<p>For the purpose of this problem, we define empty string as valid palindrome.</p>
+<h4 id="JavaScript-Solution-7"><a href="#JavaScript-Solution-7" class="headerlink" title="JavaScript Solution"></a>JavaScript Solution</h4><p>使用正则表达式会很慢</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * @param &#123;string&#125; s</div><div class="line"> * @return &#123;boolean&#125;</div><div class="line"> */</div><div class="line">var isPalindrome = function(s) &#123;</div><div class="line">	s = s.toLowerCase();</div><div class="line">    let rs = s.split(&quot;&quot;).reverse().join(&quot;&quot;);</div><div class="line">    let i = 0, j = 0;</div><div class="line">    let reg = /[a-z0-9]/i;</div><div class="line">    while (i &lt; s.length &amp;&amp; j &lt; rs.length) &#123;</div><div class="line">    	console.log(s[i] + &quot; &quot; + rs[j]);</div><div class="line">    	if (!reg.test(s[i])) i++;</div><div class="line">    	else if (!reg.test(rs[j])) j++;</div><div class="line">    	else if (s[i] != rs[j]) return false;</div><div class="line">    	else &#123;</div><div class="line">    		i++;</div><div class="line">    		j++;</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    return true;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">isPalindrome(&quot;A man, a plan, a canal: Panama&quot;);</div></pre></td></tr></table></figure>
+<h4 id="Best-Solution-4"><a href="#Best-Solution-4" class="headerlink" title="Best Solution"></a>Best Solution</h4><p>Best Solution 使用的 char 的函数来比较每个数字，并且有很好的一点是，一个指针从头开始，一个指针从末尾开始，当两个指针相遇时，比较就完成了，时间会比我快一倍。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public class Solution &#123;</div><div class="line">    public boolean isPalindrome(String s) &#123;</div><div class="line">        if (s.isEmpty()) &#123;</div><div class="line">        	return true;</div><div class="line">        &#125;</div><div class="line">        int head = 0, tail = s.length() - 1;</div><div class="line">        char cHead, cTail;</div><div class="line">        while(head &lt;= tail) &#123;</div><div class="line">        	cHead = s.charAt(head);</div><div class="line">        	cTail = s.charAt(tail);</div><div class="line">        	if (!Character.isLetterOrDigit(cHead)) &#123;</div><div class="line">        		head++;</div><div class="line">        	&#125; else if(!Character.isLetterOrDigit(cTail)) &#123;</div><div class="line">        		tail--;</div><div class="line">        	&#125; else &#123;</div><div class="line">        		if (Character.toLowerCase(cHead) != Character.toLowerCase(cTail)) &#123;</div><div class="line">        			return false;</div><div class="line">        		&#125;</div><div class="line">        		head++;</div><div class="line">        		tail--;</div><div class="line">        	&#125;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="344-Reverse-String"><a href="#344-Reverse-String" class="headerlink" title="344. Reverse String"></a><a href="https://leetcode.com/problems/reverse-string/" target="_blank" rel="external">344. Reverse String</a></h3><p>Write a function that takes a string as input and returns the string reversed.</p>
+<p><strong>Example:</strong></p>
+<p>Given s = “hello”, return “olleh”.</p>
+<h4 id="JavaScript-Solution-8"><a href="#JavaScript-Solution-8" class="headerlink" title="JavaScript Solution"></a>JavaScript Solution</h4><p>这个方法使用的 O(n) 的时间和 O(n) 的额外空间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * @param &#123;string&#125; s</div><div class="line"> * @return &#123;string&#125;</div><div class="line"> */</div><div class="line">var reverseString = function(s) &#123;</div><div class="line">    let words = &quot;&quot;;</div><div class="line">    for (var i = s.length - 1; i &gt;= 0; i--) &#123;</div><div class="line">    	words += s[i];</div><div class="line">    &#125;</div><div class="line">    return words;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">reverseString(&quot;Hello World!&quot;);</div></pre></td></tr></table></figure>
+<h4 id="Best-Solution-5"><a href="#Best-Solution-5" class="headerlink" title="Best Solution"></a>Best Solution</h4><p>最优解法使用的是折半递归处理，时间复杂度为 O(nlog(n))，空间复杂度为 O(log(n))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public String reverseString(String s) &#123;</div><div class="line">        if (s.length() &lt;= 1) return s;</div><div class="line">        String leftString = s.substring(0, s.length()/2);</div><div class="line">        String rightString = s.substring(s.length()/2, s.length());</div><div class="line">        return reverseString(rightString) + reverseString(leftString);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="345-Reverse-Vowels-of-a-String"><a href="#345-Reverse-Vowels-of-a-String" class="headerlink" title="345. Reverse Vowels of a String"></a><a href="https://leetcode.com/problems/reverse-vowels-of-a-string/" target="_blank" rel="external">345. Reverse Vowels of a String</a></h3><p>Write a function that takes a string as input and reverse only the vowels of a string.</p>
+<p><strong>Example 1:</strong></p>
+<p>Given s = “hello”, return “holle”.</p>
+<p><strong>Example 2:</strong></p>
+<p>Given s = “leetcode”, return “leotcede”.</p>
+<p><strong>Note:</strong></p>
+<p>The vowels does not include the letter “y”.</p>
+<p>交换所有的元音字母</p>
+<h4 id="JavaScript-Solution-9"><a href="#JavaScript-Solution-9" class="headerlink" title="JavaScript Solution"></a>JavaScript Solution</h4><p>这个解法使用了 ES6 的数组解构与赋值。</p>
+<p>还有一个需要注意的地方是，string 是不可变的，所以 <code>s[i] = s[j]</code> 是不可行的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * @param &#123;string&#125; s</div><div class="line"> * @return &#123;string&#125;</div><div class="line"> */</div><div class="line">var reverseVowels = function(s) &#123;</div><div class="line">    let i = 0, j = s.length-1;</div><div class="line">    let set = new Set([&quot;a&quot;, &quot;e&quot;, &quot;i&quot;, &quot;o&quot;, &quot;u&quot;, &quot;A&quot;, &quot;E&quot;, &quot;I&quot;, &quot;O&quot;, &quot;U&quot;]);</div><div class="line">    let arrs = s.split(&quot;&quot;);</div><div class="line">    while (i &lt; j) &#123;</div><div class="line">    	if (!set.has(arrs[i])) i++;</div><div class="line">    	else if(!set.has(arrs[j])) j--;</div><div class="line">    	else &#123;</div><div class="line">    		[arrs[i], arrs[j]] = [arrs[j], arrs[i]];</div><div class="line">       		i++;</div><div class="line">    		j--;</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    return arrs.join(&quot;&quot;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">reverseVowels(&quot;leotcede&quot;);</div></pre></td></tr></table></figure>
+<h4 id="Java-Solution-5"><a href="#Java-Solution-5" class="headerlink" title="Java Solution"></a>Java Solution</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public String reverseVowels(String s) &#123;</div><div class="line">    if(s == null || s.length()==0) return s;</div><div class="line">    String vowels = &quot;aeiouAEIOU&quot;;</div><div class="line">    char[] chars = s.toCharArray();</div><div class="line">    int start = 0;</div><div class="line">    int end = s.length()-1;</div><div class="line">    while(start&lt;end)&#123;</div><div class="line">        </div><div class="line">        while(start&lt;end &amp;&amp; !vowels.contains(chars[start]+&quot;&quot;))&#123;</div><div class="line">            start++;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        while(start&lt;end &amp;&amp; !vowels.contains(chars[end]+&quot;&quot;))&#123;</div><div class="line">            end--;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        char temp = chars[start];</div><div class="line">        chars[start] = chars[end];</div><div class="line">        chars[end] = temp;</div><div class="line">        </div><div class="line">        start++;</div><div class="line">        end--;</div><div class="line">    &#125;</div><div class="line">    return new String(chars);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="383-Ransom-Note"><a href="#383-Ransom-Note" class="headerlink" title="383. Ransom Note"></a><a href="https://leetcode.com/problems/ransom-note/" target="_blank" rel="external">383. Ransom Note</a></h3><p>Given an arbitrary ransom note string and another string containing letters from all the magazines, write a function that will return true if the ransom note can be constructed from the magazines ; otherwise, it will return false.</p>
+<p>Each letter in the magazine string can only be used once in your ransom note.</p>
+<p><strong>Note:</strong></p>
+<p>You may assume that both strings contain only lowercase letters.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">canConstruct(&quot;a&quot;, &quot;b&quot;) -&gt; false</div><div class="line">canConstruct(&quot;aa&quot;, &quot;ab&quot;) -&gt; false</div><div class="line">canConstruct(&quot;aa&quot;, &quot;aab&quot;) -&gt; true</div></pre></td></tr></table></figure>
+<h4 id="JavaScript-Solution-10"><a href="#JavaScript-Solution-10" class="headerlink" title="JavaScript Solution"></a>JavaScript Solution</h4><p>我的方法是将 magazine 中所有的字符都放进了一个数组，然后 ransomNote 从中查询，但是查询的时间复杂度是 O(n)，所以总体时间复杂度很大。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * @param &#123;string&#125; ransomNote</div><div class="line"> * @param &#123;string&#125; magazine</div><div class="line"> * @return &#123;boolean&#125;</div><div class="line"> */</div><div class="line">var canConstruct = function(ransomNote, magazine) &#123;</div><div class="line">    let arrm = magazine.split(&quot;&quot;);</div><div class="line">    for (var i = ransomNote.length - 1; i &gt;= 0; i--) &#123;</div><div class="line">    	let index = arrm.indexOf(ransomNote[i]);</div><div class="line">    	if (index === -1) &#123;return false;&#125;  </div><div class="line">    	arrm[index] = &quot;&quot;; 	</div><div class="line">    &#125;</div><div class="line">    return true;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">canConstruct(&quot;a&quot;, &quot;b&quot;);</div></pre></td></tr></table></figure>
           
         
       
