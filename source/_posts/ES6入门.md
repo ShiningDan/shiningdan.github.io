@@ -1271,6 +1271,499 @@ Object.getOwnPropertyDescriptors(obj)
 //      configurable: true } }
 ```
 
+### Symbol
+
+ES5的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin模式），新方法的名字就有可能与现有方法产生冲突。如果有一种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。这就是ES6引入Symbol的原因。
+
+ES6引入了一种新的原始数据类型Symbol，表示独一无二的值。它是JavaScript语言的第七种数据类型，前六种是：Undefined、Null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。
+
+Symbol值通过`Symbol`函数生成。这就是说，对象的属性名现在可以有两种类型，一种是原来就有的字符串，另一种就是新增的Symbol类型。凡是属性名属于Symbol类型，就都是独一无二的，可以保证不会与其他属性名产生冲突。
+
+```
+let s = Symbol();
+
+typeof s
+// "symbol"
+```
+
+注意，`Symbol`函数前不能使用`new`命令，否则会报错。这是因为生成的Symbol是一个原始类型的值，不是对象。
+
+#### 作为属性名的Symbol
+
+```
+var mySymbol = Symbol();
+
+// 第一种写法
+var a = {};
+a[mySymbol] = 'Hello!';
+
+// 第二种写法
+var a = {
+  [mySymbol]: 'Hello!'
+};
+
+// 第三种写法
+var a = {};
+Object.defineProperty(a, mySymbol, { value: 'Hello!' });
+
+// 以上写法都得到同样结果
+a[mySymbol] // "Hello!"
+```
+
+注意，Symbol值作为对象属性名时，不能用点运算符。
+
+```
+var mySymbol = Symbol();
+var a = {};
+
+a.mySymbol = 'Hello!';
+a[mySymbol] // undefined
+a['mySymbol'] // "Hello!"
+```
+
+#### 属性名的遍历
+
+Symbol 作为属性名，该属性不会出现在`for...in`、`for...of`循环中，也不会被`Object.keys()`、`Object.getOwnPropertyNames()`、`JSON.stringify()`返回。但是，它也不是私有属性，有一个`Object.getOwnPropertySymbols`方法，可以获取指定对象的所有 Symbol 属性名。
+
+另一个新的API，`Reflect.ownKeys`方法可以返回所有类型的键名，包括常规键名和 Symbol 键名。
+
+```
+let obj = {
+  [Symbol('my_key')]: 1,
+  enum: 2,
+  nonEnum: 3
+};
+
+Reflect.ownKeys(obj)
+//  ["enum", "nonEnum", Symbol(my_key)]
+```
+由于以 Symbol 值作为名称的属性，不会被常规方法遍历得到。我们可以利用这个特性，为对象定义一些非私有的、但又希望只用于内部的方法。
+
+#### Symbol.for()，Symbol.keyFor()
+
+有时，我们希望重新使用同一个Symbol值，`Symbol.for`方法可以做到这一点。它接受一个字符串作为参数，然后搜索有没有以该参数作为名称的Symbol值。如果有，就返回这个Symbol值，否则就新建并返回一个以该字符串为名称的Symbol值。
+
+##### 模块的 Singleton 模式
+
+Singleton模式指的是调用一个类，任何时候返回的都是同一个实例。使用 `Symbol.for` 可以实现。
+
+### Set和Map数据结构
+
+#### Set
+
+ES6 提供了新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。
+
+Set结构的实例有四个遍历方法，可以用于遍历成员。
+
+* keys()：返回键名的遍历器
+* values()：返回键值的遍历器
+* entries()：返回键值对的遍历器
+* forEach()：使用回调函数遍历每个成员
+
+扩展运算符和Set结构相结合，就可以去除数组的重复成员。
+
+```
+let arr = [3, 5, 2, 2, 5, 5];
+let unique = [...new Set(arr)];
+// [3, 5, 2]
+```
+
+#### WeakSet
+
+WeakSet结构与Set类似，也是不重复的值的集合。但是，它与Set有两个区别。
+
+首先，WeakSet的成员只能是对象，而不能是其他类型的值。
+
+其次，WeakSet中的对象都是弱引用，即垃圾回收机制不考虑WeakSet对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于WeakSet之中。这个特点意味着，无法引用WeakSet的成员，因此WeakSet是不可遍历的。
+
+WeakSet不能遍历，是因为成员都是弱引用，随时可能消失，遍历机制无法保证成员的存在，很可能刚刚遍历结束，成员就取不到了。WeakSet的一个用处，是储存DOM节点，而不用担心这些节点从文档移除时，会引发内存泄漏。
+
+#### Map
+
+JavaScript的对象（Object），本质上是键值对的集合（Hash结构），但是传统上只能用字符串当作键。这给它的使用带来了很大的限制。
+
+为了解决这个问题，ES6提供了Map数据结构。它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。也就是说，Object结构提供了“字符串—值”的对应，Map结构提供了“值—值”的对应，是一种更完善的Hash结构实现。如果你需要“键值对”的数据结构，Map比Object更合适。
+
+Map原生提供三个遍历器生成函数和一个遍历方法。
+
+* keys()：返回键名的遍历器。
+* values()：返回键值的遍历器。
+* entries()：返回所有成员的遍历器。
+* forEach()：遍历Map的所有成员。
+
+需要特别注意的是，Map的遍历顺序就是插入顺序。
+
+##### Map转为数组
+
+前面已经提过，Map转为数组最方便的方法，就是使用扩展运算符（...）
+
+```
+let myMap = new Map().set(true, 7).set({foo: 3}, ['abc']);
+[...myMap]
+// [ [ true, 7 ], [ { foo: 3 }, [ 'abc' ] ] ]
+```
+
+将数组转入Map构造函数，就可以转为Map。
+
+```
+new Map([[true, 7], [{foo: 3}, ['abc']]])
+// Map {true => 7, Object {foo: 3} => ['abc']}
+```
+
+#### WeakMap
+
+`WeakMap`结构与`Map`结构基本类似，唯一的区别是它只接受对象作为键名（`null`除外），不接受其他类型的值作为键名，而且键名所指向的对象，不计入垃圾回收机制。
+
+### Proxy
+
+Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。
+
+Proxy 可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写。Proxy 这个词的原意是代理，用在这里表示由它来“代理”某些操作，可以译为“代理器”。
+
+```
+var obj = new Proxy({}, {
+  get: function (target, key, receiver) {
+    console.log(`getting ${key}!`);
+    return Reflect.get(target, key, receiver);
+  },
+  set: function (target, key, value, receiver) {
+    console.log(`setting ${key}!`);
+    return Reflect.set(target, key, value, receiver);
+  }
+});
+```
+
+上面代码对一个空对象架设了一层拦截，重定义了属性的读取（get）和设置（set）行为。这里暂时先不解释具体的语法，只看运行结果。对设置了拦截行为的对象obj，去读写它的属性，就会得到下面的结果。
+
+```
+obj.count = 1
+//  setting count!
+++obj.count
+//  getting count!
+//  setting count!
+//  2
+```
+
+### Reflect
+
+`Reflect`对象与`Proxy`对象一样，也是 ES6 为了操作对象而提供的新 API。`Reflect`对象的设计目的有这样几个。
+
+（1） 将Object对象的一些明显属于语言内部的方法（比如Object.defineProperty），放到Reflect对象上。现阶段，某些方法同时在Object和Reflect对象上部署，未来的新方法将只部署在Reflect对象上。也就是说，从Reflect对象上可以拿到语言内部的方法。
+
+（2） 修改某些Object方法的返回结果，让其变得更合理。比如，Object.defineProperty(obj, name, desc)在无法定义属性时，会抛出一个错误，而Reflect.defineProperty(obj, name, desc)则会返回false。
+
+（3） 让Object操作都变成函数行为。某些Object操作是命令式，比如name in obj和delete obj[name]，而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让它们变成了函数行为。
+
+（4）Reflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。这就让Proxy对象可以方便地调用对应的Reflect方法，完成默认行为，作为修改行为的基础。也就是说，不管Proxy怎么修改默认行为，你总可以在Reflect上获取默认行为。
+
+### Promise 对象
+
+Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。它由社区最早提出和实现，ES6将其写进了语言标准，统一了用法，原生提供了Promise对象。
+
+如果某些事件不断地反复发生，一般来说，使用 stream 模式是比部署Promise更好的选择。
+
+#### 基本用法
+
+```
+var promise = new Promise(function(resolve, reject) {
+  // ... some code
+
+  if (/* 异步操作成功 */){
+    resolve(value);
+  } else {
+    reject(error);
+  }
+});
+```
+
+Promise构造函数接受一个函数作为参数，该函数的两个参数分别是`resolve`和`reject`。它们是两个函数，由JavaScript引擎提供，不用自己部署。
+
+Promise实例生成以后，可以用`then`方法分别指定`Resolved`状态和`Reject`状态的回调函数。
+
+```
+promise.then(function(value) {
+  // success
+}, function(error) {
+  // failure
+});
+```
+
+可以使用 `Promise` 异步加载图片，进行 Ajax 处理等。
+
+下面是异步加载图片的例子。
+
+```
+function loadImageAsync(url) {
+  return new Promise(function(resolve, reject) {
+    var image = new Image();
+
+    image.onload = function() {
+      resolve(image);
+    };
+
+    image.onerror = function() {
+      reject(new Error('Could not load image at ' + url));
+    };
+
+    image.src = url;
+  });
+}
+```
+
+下面是一个用Promise对象实现的Ajax操作的例子。
+
+```
+var getJSON = function(url) {
+  var promise = new Promise(function(resolve, reject){
+    var client = new XMLHttpRequest();
+    client.open("GET", url);
+    client.onreadystatechange = handler;
+    client.responseType = "json";
+    client.setRequestHeader("Accept", "application/json");
+    client.send();
+
+    function handler() {
+      if (this.readyState !== 4) {
+        return;
+      }
+      if (this.status === 200) {
+        resolve(this.response);
+      } else {
+        reject(new Error(this.statusText));
+      }
+    };
+  });
+
+  return promise;
+};
+
+getJSON("/posts.json").then(function(json) {
+  console.log('Contents: ' + json);
+}, function(error) {
+  console.error('出错了', error);
+});
+```
+
+#### Promise.prototype.then()
+
+then方法返回的是一个新的Promise实例（注意，不是原来那个Promise实例）。因此可以采用链式写法，即then方法后面再调用另一个then方法。
+
+#### Promise.prototype.catch()
+
+`Promise.prototype.catch`方法是`.then(null, rejection)`的别名，用于指定发生错误时的回调函数。
+
+
+一般来说，不要在`then`方法里面定义`Reject`状态的回调函数（即then的第二个参数），总是使用`catch`方法。
+
+```
+// bad
+promise
+  .then(function(data) {
+    // success
+  }, function(err) {
+    // error
+  });
+
+// good
+promise
+  .then(function(data) { //cb
+    // success
+  })
+  .catch(function(err) {
+    // error
+  });
+```
+
+上面代码中，第二种写法要好于第一种写法，理由是第二种写法可以捕获前面`then`方法执行中的错误，也更接近同步的写法（`try/catch`）。因此，建议总是使用`catch`方法，而不使用`then`方法的第二个参数。
+
+**缺点：跟传统的`try/catch`代码块不同的是，如果没有使用`catch`方法指定错误处理的回调函数，`Promise`对象抛出的错误不会传递到外层代码，即不会有任何反应。**
+
+#### Promise.all()
+
+`Promise.all`方法用于将多个Promise实例，包装成一个新的Promise实例。
+
+```
+var p = Promise.all([p1, p2, p3]);
+```
+
+（1）只有p1、p2、p3的状态都变成fulfilled，p的状态才会变成fulfilled，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数。
+
+（2）只要p1、p2、p3之中有一个被rejected，p的状态就变成rejected，此时第一个被reject的实例的返回值，会传递给p的回调函数。
+
+### Promise.race() 
+
+`Promise.race`方法同样是将多个Promise实例，包装成一个新的Promise实例。
+
+上面代码中，只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+
+#### Promise.resolve() 
+
+有时需要将现有对象转为Promise对象，`Promise.resolve`方法就起到这个作用。
+
+#### done()
+
+Promise对象的回调链，不管以then方法或catch方法结尾，要是最后一个方法抛出错误，都有可能无法捕捉到（因为Promise内部的错误不会冒泡到全局）。因此，我们可以提供一个done方法，总是处于回调链的尾端，保证抛出任何可能出现的错误。
+
+#### finally()
+
+finally方法用于指定不管Promise对象最后状态如何，都会执行的操作。它与done方法的最大区别，它接受一个普通的回调函数作为参数，该函数不管怎样都必须执行。
+
+### Iterator和for...of循环
+
+#### Iterator（遍历器）的概念
+
+遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
+
+Iterator的作用有三个：一是为各种数据结构，提供一个统一的、简便的访问接口；二是使得数据结构的成员能够按某种次序排列；三是ES6创造了一种新的遍历命令`for...of`循环，Iterator接口主要供`for...of`消费。
+
+#### 数据结构的默认Iterator接口
+
+Iterator接口的目的，就是为所有数据结构，提供了一种统一的访问机制，即`for...of`循环（详见下文）。当使用`for...of`循环遍历某种数据结构时，该循环会自动去寻找Iterator接口。
+
+在ES6中，有三类数据结构原生具备Iterator接口：数组、某些类似数组的对象(字符串，`rguments`对象、DOM NodeList 对象，Generator 对象)、Set和Map结构。
+
+对于字符串来说，`for...of`循环还有一个特点，就是会正确识别32位UTF-16字符。
+
+##### 数组
+
+`for...of`循环可以代替数组实例的`forEach`方法。
+
+JavaScript原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6提供for...of循环，允许遍历获得键值。
+
+```
+var arr = ['a', 'b', 'c', 'd'];
+
+for (let a in arr) {
+  console.log(a); // 0 1 2 3
+}
+
+for (let a of arr) {
+  console.log(a); // a b c d
+}
+```
+
+##### Set和Map结构
+
+遍历的顺序是按照各个成员被添加进数据结构的顺序。其次，Set结构遍历时，返回的是一个值，而Map结构遍历时，返回的是一个数组，该数组的两个成员分别为当前Map成员的键名和键值。
+
+### Generator 函数的语法
+
+Generator 函数是 ES6 提供的一种异步编程解决方案
+
+Generator 函数有多种理解角度。从语法上，首先可以把它理解成，Generator 函数是一个状态机，封装了多个内部状态。
+
+执行 Generator 函数会返回一个遍历器对象，也就是说，Generator 函数除了状态机，还是一个遍历器对象生成函数。返回的遍历器对象，可以依次遍历 Generator 函数内部的每一个状态。
+
+形式上，Generator 函数是一个普通函数，但是有两个特征。一是，`function`关键字与函数名之间有一个星号(`*`)；二是，函数体内部使用`yield`语句，定义不同的内部状态（yield在英语里的意思就是“产出”）。
+
+yield语句不能用在普通函数中，否则会报错。
+
+```
+function* helloWorldGenerator() {
+  yield 'hello';
+  yield 'world';
+  return 'ending';
+}
+
+var hw = helloWorldGenerator();
+```
+
+上面代码定义了一个Generator函数helloWorldGenerator，它内部有两个yield语句“hello”和“world”，即该函数有三个状态：hello，world和return语句（结束执行）。
+
+每次调用next方法，内部指针就从函数头部或上一次停下来的地方开始执行，直到遇到下一个yield语句（或return语句）为止。换言之，Generator函数是分段执行的，yield语句是暂停执行的标记，而next方法可以恢复执行。
+
+#### 与Iterator接口的关系
+
+由于Generator函数就是遍历器生成函数，因此可以把Generator赋值给对象的Symbol.iterator属性，从而使得该对象具有Iterator接口。
+
+#### Generator.prototype.return()
+
+Generator函数返回的遍历器对象，还有一个`return`方法，可以返回给定的值，并且终结遍历Generator函数。
+
+```
+function* gen() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+var g = gen();
+
+g.next()        // { value: 1, done: false }
+g.return('foo') // { value: "foo", done: true }
+g.next()        // { value: undefined, done: true }
+```
+
+#### yield* 语句
+
+用到`yield*`语句，用来在一个 Generator 函数里面执行另一个 Generator 函数。
+
+#### 应用
+
+##### 异步操作的同步化表达
+
+Generator函数的暂停执行的效果，意味着可以把异步操作写在yield语句里面，等到调用next方法时再往后执行。这实际上等同于不需要写回调函数了，因为异步操作的后续操作可以放在yield语句下面，反正要等到调用next方法时再执行。
+
+通过Generator函数逐行读取文本文件
+
+```
+function* numbers() {
+  let file = new FileReader("numbers.txt");
+  try {
+    while(!file.eof) {
+      yield parseInt(file.readLine(), 10);
+    }
+  } finally {
+    file.close();
+  }
+}
+```
+
+##### 控制流管理 
+
+利用`for...of`循环会自动依次执行`yield`命令的特性，提供一种更一般的控制流管理的方法。
+
+```
+let steps = [step1Func, step2Func, step3Func];
+
+function *iterateSteps(steps){
+  for (var i=0; i< steps.length; i++){
+    var step = steps[i];
+    yield step();
+  }
+}
+```
+
+##### 部署Iterator接口
+
+利用Generator函数，可以在任意对象上部署Iterator接口。
+
+```
+function* iterEntries(obj) {
+  let keys = Object.keys(obj);
+  for (let i=0; i < keys.length; i++) {
+    let key = keys[i];
+    yield [key, obj[key]];
+  }
+}
+
+let myObj = { foo: 3, bar: 7 };
+
+for (let [key, value] of iterEntries(myObj)) {
+  console.log(key, value);
+}
+
+// foo 3
+// bar 7
+```
+
+### Generator 函数的异步应用
+
+
+
+
+
+
 
 
 
