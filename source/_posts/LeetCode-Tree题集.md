@@ -299,21 +299,314 @@ Given a binary tree, determine if it is height-balanced.
 For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
 
 
+#### JavaScript Solution
+
+1.The first method checks whether the tree is balanced strictly according to the definition of balanced binary tree: the difference between the heights of the two sub trees are not bigger than 1, and both the left sub tree and right sub tree are also balanced. With the helper function depth(), we could easily write the code;
 
 
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isBalanced = function(root) {
+	if (root === null) return true;
+    
+    let depth = function(node) {
+    	if (node === null) return 0;
+    	return 1 + Math.max(depth(node.left), depth(node.right));
+    }
+
+    let leftDep = depth(root.left);
+    let rightDep = depth(root.right);
+    return Math.abs(leftDep - rightDep) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+};
+```
+
+For the current node root, calling depth() for its left and right children actually has to access all of its children, thus the complexity is O(N). We do this for each node in the tree, so the overall complexity of isBalanced will be O(N^2). This is a top down approach.
+
+#### Java Solution
+
+2.The second method is based on DFS. Instead of calling depth() explicitly for each child node, we return the height of the current node in DFS recursion. When the sub tree of the current node (inclusive) is balanced, the function dfsHeight() returns a non-negative value as the height. Otherwise -1 is returned. According to the leftHeight and rightHeight of the two children, the parent node could check if the sub tree is balanced, and decides its return value.
+
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isBalanced(TreeNode root) {
+        int height = dfsHeight(root);
+        if (height == -1) return false;
+        return true;
+    }
+    public int dfsHeight(TreeNode node) {
+        if (node == null) return 0;
+
+        int leftDep = dfsHeight(node.left);
+        int rightDep = dfsHeight(node.right);
+
+        if (leftDep == -1 || rightDep == -1) return -1;
+        if (Math.abs(leftDep - rightDep) > 1) return -1;
+        return 1 + Math.max(leftDep, rightDep);
+    }
+}
+```
+
+In this bottom up approach, each node in the tree only need to be accessed once. Thus the time complexity is O(N), better than the first solution.
+
+### [111. Minimum Depth of Binary Tree](https://leetcode.com/problems/minimum-depth-of-binary-tree/)
+
+Given a binary tree, find its minimum depth.
+
+The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+#### JavaScript Solution
+
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function(root) {
+    if (root === null) return 0;
+
+    let leftDep = minDepth(root.left);
+    let rightDep = minDepth(root.right);
+    return (leftDep === 0 || rightDep === 0) ?  leftDep + rightDep +1: 1 + Math.min(leftDep, rightDep);
+};
+```
+
+### [112. Path Sum](https://leetcode.com/problems/path-sum/)
+
+Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+
+For example:
+Given the below binary tree and `sum = 22`,
+
+```
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+```
+
+return true, as there exist a root-to-leaf path `5->4->11->2` which sum is 22.
+
+#### JavaScript Solution 
+
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {boolean}
+ */
+var hasPathSum = function(root, sum) {
+    if (root === null) return false;
+    
+    let calPath = function(node, _s, sum) {
+    	if (node === null) return false;
+    	let s = _s + node.val;
+    	if (s === sum && node.left === null && node.right === null) return true;
+    	return calPath(node.left, s, sum) || calPath(node.right, s, sum);
+    }
+
+    return calPath(root, 0, sum);
+};
+```
+
+#### Best Solution
+
+最优解和我的想法大致相同，但是在递归函数的参数设计上比我的要好。
+
+```
+public class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if(root == null) return false;
+    
+        if(root.left == null && root.right == null && sum - root.val == 0) return true;
+    
+        return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+    }
+}
+```
+
+### [226. Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)
+
+Invert a binary tree.
+
+```
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+```
+
+to
+
+```
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+```
+
+#### JavaScript Solution
+
+DFS
+
+The below solution is correct, but it is also bound to the application stack, which means that it's no so much scalable - (you can find the problem size that will overflow the stack and crash your application), so more robust solution would be to use stack data structure.
+
+大意是，因为使用递归，并且没有使用尾递归，所以会导致栈溢出，最好不要这样写。可以使用队列，进行广度优先搜索。
 
 
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode}
+ */
+var invertTree = function(root) {
+    if (root === null) return null;
+    [root.left, root.right] = [root.right, root.left];
+    invertTree(root.left);
+    invertTree(root.right);
+    return root;
+};
+```
 
+#### Java Solution
 
+BFS
 
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        if (root == null) return root;
+        q.add(root);
+        while (!q.isEmpty()) {
+            TreeNode n = q.poll();
+            TreeNode tmp = n.left;
+            n.left = n.right;
+            n.right = tmp;
+            if (n.left != null) q.add(n.left);
+            if (n.right != null) q.add(n.right);
+        }
+        return root;
+    }
+}
+```
 
+#### [235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)
 
+Given a binary search tree (BST), find the [lowest common ancestor (LCA)](https://en.wikipedia.org/wiki/Lowest_common_ancestor) of two given nodes in the BST.
 
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
 
+```
+        _______6______
+       /              \
+    ___2__          ___8__
+   /      \        /      \
+   0      _4       7       9
+         /  \
+         3   5
+```
 
+For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
 
+#### JavaScript Solution
 
+递归：
 
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function(root, p, q) {
+    if (p.val < root.val && q.val < root.val) return lowestCommonAncestor(root.left, p, q);
+    if (p.val > root.val && q.val > root.val) return lowestCommonAncestor(root.right, p, q);
+    return root;
+};  
+```
 
+#### Best Solution
 
+非递归
 
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        while ((p.val - root.val) * (q.val - root.val) > 0) {
+            root = (p.val - root.val) < 0 ? root.left: root.right;
+        }
+        return root;
+    }
+}
+```
