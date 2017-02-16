@@ -12,7 +12,9 @@ tags:
 
 本文是在学习 React 的时候，根据 [React实战--打造画廊应用](http://www.imooc.com/learn/507) 这篇教程来进行练习的Demo，详细文章请阅读原文。
 
-##项目生成
+<!--more-->
+
+## 项目生成
 
 这一次我们使用[Yeoman](http://yeoman.io) 来创建项目的框架。
 
