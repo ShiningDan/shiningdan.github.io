@@ -10,7 +10,7 @@ tags:
   - Webpack
 ---
 
-本文是在学习 React 的时候，根据 [Learn React & Webpack by building the Hacker News front page](https://github.com/theJian/build-a-hn-front-page#learn-react--webpack-by-building-the-hacker-news-front-page) 这篇教程来进行联系的记录，详细文章请阅读原文。
+本文是在学习 React 的时候，根据 [Learn React & Webpack by building the Hacker News front page](https://github.com/theJian/build-a-hn-front-page#learn-react--webpack-by-building-the-hacker-news-front-page) 这篇教程来进行练习的Demo，详细文章请阅读原文。
 
 ## 准备工作
 

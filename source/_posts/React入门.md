@@ -873,6 +873,8 @@ Unmounting：已移出真实 DOM
 
 生命周期的方法有：
 
+![](http://ojt6zsxg2.bkt.clouddn.com/b71eac106855edc950d5c0427ed01c1c.png)
+
 
 * `componentWillMount` : 在渲染前调用,在客户端也在服务端。
 * `componentDidMount` : 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM 结构，可以通过this.getDOMNode()来进行访问。 如果你想和其他JavaScript框架一起使用，可以在这个方法中调用setTimeout, setInterval或者发送AJAX请求等操作(防止异部操作阻塞UI)。
