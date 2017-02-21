@@ -1686,7 +1686,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #60a7ad;
+  background: #e55c44;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2856,5 +2856,12 @@ code {
 }
 .highlight.plain {
   background-color: #f5f2f0;
+}
+.highlight.plain pre {
+  background-color: #f5f2f0;
+}
+.highlight.plain .line {
+  background-color: #f5f2f0;
   color: #353845;
+  font-size: 14px;
 }
