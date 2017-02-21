@@ -14,7 +14,29 @@ tags:
 
 本文在前端设计方面，是学习[慕课网 Lyn](http://www.imooc.com/t/104593)的视频。如果在设计方面有问题，建议参考原视频。
 
+项目最终效果：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/974aa23d57a72dd84ec464a88acc6822.png)
+
+项目下载方法：
+
+这个小项目的 Demo 我已经传到网上去了，可以在 github 上进行下载。具体步骤如下：
+
+安装方法是：
+
+```
+https://github.com/ShiningDan/react-gallery.git
+cd react-gallery/
+npm install
+npm run build
+npm run start
+```
+
+就可以在 http://localhost:8080/index.html 上看到项目的展示效果。
+
 <!--more-->
+
+下面介绍如何从零开始完成这个项目。
 
 ## 项目生成
 
@@ -1209,7 +1231,43 @@ handleNavIconClick(index) {
 
 打包运行，就可以看到效果啦！
 
+### 设置照片点击居中
 
+现在在展示页面，可以实现点击居中的照片实现翻转，也可以点击两侧的照片实现翻转，但是这个逻辑和我们需要的不一样。我们需要的是点击居中的照片实现翻转，点击两侧的照片，则被点击的照片会被居中，为了实现上述功能，我们需要在 `GalleryPhoto` 中修改 `handleClick` 的逻辑：
+
+```
+handleClick(event) {
+	if (this.state.photoCenter !== " photo-center") {
+		let index = this.props.id.slice(6);
+		this.props.handlePhotoClick(index);
+	} else {
+		if (this.state.photoFB === "photo-f") {
+			this.setState({
+				photoFB: "photo-b",
+			})
+		}
+		else {
+			this.setState({
+				photoFB: "photo-f",
+			});
+		}
+	}
+}
+```
+
+在创建 `GalleryPhoto` 的时候修改`getPhotos` 方法，为其指定 `id`：
+
+并且通过 `props` 将 `handleNavIconClick` 方法暴露给 `GalleryPhoto` 组件，在点击组件的时候达到和点击 `GalleryIcon` 一样的效果。
+
+```
+photos.map(function(photo, index) {
+    			return (
+    				<GalleryPhoto key={"photo-"+index} id={"photo-"+index} handlePhotoClick={this.handleNavIconClick.bind(this)} ref={"photo-"+index} imgSrc={photo.img} imgTitle={photo.title} imgDesc={photo.desc}/>
+    			);
+    		}.bind(this))
+```
+
+完成修改，现在可以打包运行啦。
 
 
 
