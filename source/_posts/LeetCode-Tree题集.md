@@ -610,3 +610,321 @@ public class Solution {
     }
 }
 ```
+
+### [257. Binary Tree Paths](https://leetcode.com/problems/binary-tree-paths/)
+
+
+Given a binary tree, return all root-to-leaf paths.
+
+For example, given the following binary tree:
+
+```
+   1
+ /   \
+2     3
+ \
+  5
+```
+
+All root-to-leaf paths are:
+
+```
+["1->2->5", "1->3"]
+```
+
+#### JavaScript Solution
+
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {string[]}
+ */
+var binaryTreePaths = function(root) {
+    let result = [];
+    let getTreePath = function(node, path) {
+    	if (node === null) return ;
+    	if (path !== "") {path = path + "->" + node.val;}
+    	else path = path + node.val;
+    	if (node.left === null && node.right === null) 
+    		result.push(path);
+    	if (node.left !== null) 
+    		getTreePath(node.left, path);
+    	if (node.right !== null) 
+    		getTreePath(node.right, path);
+    }
+    getTreePath(root, "");
+    return result;
+};
+```
+
+#### Best Solution
+
+最优解在递归的参数上进行 path 的修改，比我的解法上减少了更多的初始条件判断。
+
+```
+public List<String> binaryTreePaths(TreeNode root) {
+    List<String> answer = new ArrayList<String>();
+    if (root != null) searchBT(root, "", answer);
+    return answer;
+}
+private void searchBT(TreeNode root, String path, List<String> answer) {
+    if (root.left == null && root.right == null) answer.add(path + root.val);
+    if (root.left != null) searchBT(root.left, path + root.val + "->", answer);
+    if (root.right != null) searchBT(root.right, path + root.val + "->", answer);
+}
+```
+
+### [404. Sum of Left Leaves](https://leetcode.com/problems/sum-of-left-leaves/?tab=Description)
+
+Find the sum of all left leaves in a given binary tree.
+
+**Example:**
+
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+
+There are two left leaves in the binary tree, with values 9 and 15 respectively. Return 24.
+```
+
+#### JavaScript Solution
+
+Iterative method.
+
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumOfLeftLeaves = function(root) {
+    let nodes = [];
+    let sum = 0;
+    if (root === null) return sum;
+    nodes.push(root);
+    while (nodes.length !== 0) {
+    	let node = nodes.pop();
+    	if (node.left !== null) {
+    		nodes.push(node.left);
+    		if (node.left.left === null && node.left.right === null) 
+    			sum += node.left.val;
+    	}
+    	if (node.right !== null) {
+    		nodes.push(node.right);
+    	}
+    }
+    return sum;
+};
+```
+
+#### Java Solution
+
+Recursive method
+
+```
+public int sumOfLeftLeaves(TreeNode root) {
+    if(root == null) return 0;
+    int ans = 0;
+    if(root.left != null) {
+        if(root.left.left == null && root.left.right == null) ans += root.left.val;
+        else ans += sumOfLeftLeaves(root.left);
+    }
+    ans += sumOfLeftLeaves(root.right);
+    
+    return ans;
+}
+```
+
+### [437. Path Sum III](https://leetcode.com/problems/path-sum-iii/)
+
+You are given a binary tree in which each node contains an integer value.
+
+Find the number of paths that sum to a given value.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (traveling only from parent nodes to child nodes).
+
+The tree has no more than 1,000 nodes and the values are in the range -1,000,000 to 1,000,000.
+
+**Example:**
+
+```
+root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+
+      10
+     /  \
+    5   -3
+   / \    \
+  3   2   11
+ / \   \
+3  -2   1
+
+Return 3. The paths that sum to 8 are:
+
+1.  5 -> 3
+2.  5 -> 2 -> 1
+3. -3 -> 11
+```
+
+#### JavaScript Solution
+
+做法就是，遍历树，并且计算所有中间和的结果，放在 map 里面。
+
+```
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {number}
+ */
+var pathSum = function(root, sum) {
+    let map = new Map();
+    let calPathSum = function(node, sums) {
+    	if (node === null) {return ;}
+    	for (let i = 0; i < sums.length; i ++) {
+    		sums[i] += node.val;
+    	}
+    	sums.push(node.val);
+    	for (let i = 0; i < sums.length; i++) {
+    		if (map.has(sums[i])) {
+    			map.set(sums[i], map.get(sums[i]) + 1);
+    		} else {
+    			map.set(sums[i], 1);
+    		}
+    	}
+    	calPathSum(node.left, sums.concat());
+    	calPathSum(node.right, sums.concat());
+    }
+    calPathSum(root, []);
+    if (map.has(sum)) {return map.get(sum)}
+    return 0;
+};
+```
+
+#### Best Solution
+
+```
+ public int pathSum(TreeNode root, int sum) {
+        HashMap<Integer, Integer> preSum = new HashMap();
+        preSum.put(0,1);
+        return helper(root, 0, sum, preSum);
+    }
+    
+    public int helper(TreeNode root, int currSum, int target, HashMap<Integer, Integer> preSum) {
+        if (root == null) {
+            return 0;
+        }
+        
+        currSum += root.val;
+        int res = preSum.getOrDefault(currSum - target, 0);
+        preSum.put(currSum, preSum.getOrDefault(currSum, 0) + 1);
+        
+        res += helper(root.left, currSum, target, preSum) + helper(root.right, currSum, target, preSum);
+        preSum.put(currSum, preSum.get(currSum) - 1);
+        return res;
+    }
+```
+
+### [501. Find Mode in Binary Search Tree](https://leetcode.com/problems/find-mode-in-binary-search-tree/?tab=Description)
+
+
+Given a binary search tree (BST) with duplicates, find all the mode(s) (the most frequently occurred element) in the given BST.
+
+Assume a BST is defined as follows:
+
+* The left subtree of a node contains only nodes with keys **less than or equal to** the node's key.
+* The right subtree of a node contains only nodes with keys **greater than or equal to** the node's key.
+* Both the left and right subtrees must also be binary search trees.
+
+For example:
+
+Given BST `[1,null,2,2]`,
+
+```
+   1
+    \
+     2
+    /
+   2
+```
+
+return `[2]`.
+
+**Note:** If a tree has more than one mode, you can return them in any order.
+
+**Follow up: **Could you do that without using any extra space? (Assume that the implicit stack space incurred due to recursion does not count).
+
+#### Best Solution
+
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int[] findMode(TreeNode root) {
+        inorder(root);
+        modes = new int[modeCount];
+        modeCount = 0;
+        currCount = 0;
+        inorder(root);
+        return modes;
+    }
+
+    private int currVal;
+    private int currCount = 0;
+    private int maxCount = 0;
+    private int modeCount = 0;
+    
+    private int[] modes;
+
+    private void handleValue(int val) {
+        if (val != currVal) {
+            currVal = val;
+            currCount = 0;
+        }
+        currCount++;
+        if (currCount > maxCount) {
+            maxCount = currCount;
+            modeCount = 1;
+        } else if (currCount == maxCount) {
+            if (modes != null)
+                modes[modeCount] = currVal;
+            modeCount++;
+        }
+    }
+    
+    private void inorder(TreeNode root) {
+        if (root == null) return;
+        inorder(root.left);
+        handleValue(root.val);
+        inorder(root.right);
+    }
+}
+```
