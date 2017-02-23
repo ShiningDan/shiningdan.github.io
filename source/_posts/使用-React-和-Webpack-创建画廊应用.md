@@ -38,51 +38,6 @@ npm run start
 
 下面介绍如何从零开始完成这个项目。
 
-## 项目生成
-
-这一次我们使用[Yeoman](http://yeoman.io) 来创建项目的框架。
-
-### 安装 Yeoman
-
-在此之前你应该已经安装了 node.js.
-
-```
-npm install -g yo
-```
-
-### 安装 react-webpack generator
-
-针对不同的项目，使用不同的工具，可以下载并安装不同的 [Yeoman Generator](http://yeoman.io/generators/) 来创建项目的架构。
-
-我们在项目中要使用的是 React + Webpack，所以在 Yeoman Generator 上，搜索 React，并且下载 [react-webpack generator](https://github.com/react-webpack-generators/generator-react-webpack#readme)。
-
-```
-npm install -g generator-react-webpack
-```
-
-### 创建项目
-
-在 Github 上创建一个 Repository，叫 [react-gallery](https://github.com/ShiningDan/react-gallery)，并且使用 Git 在本地创建一个 react-gallery 文件夹。
-
-```
-git clone https://github.com/ShiningDan/react-gallery.git
-```
-
-上面 git clone 后面的链接为你自己创建好的项目。
-
-进入创建好的项目文件夹，使用 Yeoman Generator 创建项目的框架。
-
-```
-cd react-gallery
-yo react-webpack
-```
-
-然后 Yeoman 会提示你选择项目名称，项目要使用的 css 语言等。我就选用了最基本的 css。
-
-![](http://ojt6zsxg2.bkt.clouddn.com/e064ad627d943fed6ed5af9fb43473b6.png)
-
-然后回车，根据你的选项，react-webpack generator 安装需要的工具。
-
 ## 准备工作
 
 ### 创建项目
