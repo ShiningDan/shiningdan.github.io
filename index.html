@@ -334,6 +334,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -381,9 +403,15 @@
 
       
         
-          
-            
-          
+          <p>本文是根据<a href="https://github.com/tsrot/study-notes/blob/master/React学习资源汇总.md">React学习资源汇总</a>这个文章中提及的文章阅读后的总结，仅供个人学习使用，更清楚详细的介绍可以根据链接阅读原贴。</p>
+<p>React Router 保持 UI 与 URL 同步。它拥有简单的 API 与强大的功能例如代码缓冲加载、动态路由匹配、以及建立正确的位置过渡处理。你第一个念头想到的应该是 URL，而不是事后再想起。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/01/React-Router入门/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -542,19 +570,17 @@
 
       
         
-          
-            <p><strong>在该笔记中将学到列表展示中倒计时效果的方法与展示效果</strong></p>
-<p>本系列的是参考<a href="http://www.imooc.com/u/114832/courses?sort=publish" target="_blank" rel="external">慕课网 vivian</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
+          <p><strong>在该笔记中将学到列表展示中倒计时效果的方法与展示效果</strong></p>
+<p>本系列的是参考<a href="http://www.imooc.com/u/114832/courses?sort=publish">慕课网 vivian</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
 <p>显示效果如下：</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/dc8d05b51948a0e2830ad8a7302d383b.png" alt=""></p>
-<p>瀑布流布局的每栏都是等宽不等高的图片。</p>
-<h3 id="CSS3-的多栏布局实现瀑布流布局"><a href="#CSS3-的多栏布局实现瀑布流布局" class="headerlink" title="CSS3 的多栏布局实现瀑布流布局"></a>CSS3 的多栏布局实现瀑布流布局</h3><p>通过 CSS3 的 <code>column</code> 多列属性，可以实现瀑布流布局。</p>
-<p>column-count    规定元素应该被分隔的列数。<br>column-fill    规定如何填充列。<br>column-gap    规定列之间的间隔。<br>column-rule    设置所有 column-rule-* 属性的简写属性。<br>column-rule-color    规定列之间规则的颜色。<br>column-rule-style    规定列之间规则的样式。<br>column-rule-width    规定列之间规则的宽度。<br>column-span    规定元素应该横跨的列数。<br>column-width    规定列的宽度。<br>columns    规定设置 column-width 和 column-count 的简写属性。    </p>
-<p>一般使用 <code>column-width</code> 设置每列元素的宽度，然后可以通过样式自动实现瀑布流布局。</p>
-<p>代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;瀑布流布局&lt;/title&gt;</div><div class="line">    &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">        * &#123;margin: 0;padding: 0;&#125;</div><div class="line">        #main&#123;-moz-column-width:202px; /* Firefox */</div><div class="line">              -webkit-column-width:202px; /* Safari 和 Chrome */</div><div class="line">              column-width:202px;&#125;</div><div class="line">        .box&#123;margin: 15px 0 0 15px;&#125;</div><div class="line">        .img&#123;border: 1px solid #ccc;padding: 10px;width: 165px;border-radius: 5px;box-shadow: 0 0 5px #ccc;&#125;</div><div class="line">        .img img&#123;display: block;width: 165px;&#125;</div><div class="line">    &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div id=&quot;main&quot;&gt;</div><div class="line">        &lt;div class=&quot;box&quot;&gt;</div><div class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/1.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">        &lt;div class=&quot;box&quot;&gt;</div><div class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/2.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</div><div class="line">            ...</div><div class="line">        &lt;div class=&quot;box&quot;&gt;</div><div class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/40.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/01/网页组件制作之瀑布流效果/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2041,7 +2067,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
