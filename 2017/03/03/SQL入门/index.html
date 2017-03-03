@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS,HTML,JavaScript," />
+  <meta name="keywords" content="SQL," />
 
 
 
@@ -84,49 +84,50 @@
 
 
 
-<meta name="description" content="在该笔记中将学到列表展示中带预览图幻灯片效果的方法与展示效果
-本系列的是参考慕课网 lyn老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-适用场景：
+<meta name="description" content="本文总结了一些 SQL 操作的基本介绍
+SQL 简介SQL 是用于访问和处理数据库的标准的计算机语言。
+SQL 对大小写不敏感！
+可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。
+查询和更新指令构成了 SQL 的 DML 部分：
 
-单列布局，通过大图突出商品
-适合单列布局，不适合左右分栏
-
-VCD 分析法
-V(view)：视觉，通过 V 的部分分析页面的 html 结构
-D(data)：数据，页面发生变化的时候需要提供的数据是什么
-C(controller)：控制，指的">
+SELECT - 从数据库表中获取数据
+UPDATE - 更新数据库表中的数据
+DELETE - 从数据库表中删除数据
+INSER">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网页组件制作之带预览图幻灯片效果">
-<meta property="og:url" content="https://shiningdan.github.io/2016/11/15/网页组件制作之带预览图幻灯片效果/index.html">
+<meta property="og:title" content="SQL入门">
+<meta property="og:url" content="https://shiningdan.github.io/2017/03/03/SQL入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="在该笔记中将学到列表展示中带预览图幻灯片效果的方法与展示效果
-本系列的是参考慕课网 lyn老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-适用场景：
+<meta property="og:description" content="本文总结了一些 SQL 操作的基本介绍
+SQL 简介SQL 是用于访问和处理数据库的标准的计算机语言。
+SQL 对大小写不敏感！
+可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。
+查询和更新指令构成了 SQL 的 DML 部分：
 
-单列布局，通过大图突出商品
-适合单列布局，不适合左右分栏
-
-VCD 分析法
-V(view)：视觉，通过 V 的部分分析页面的 html 结构
-D(data)：数据，页面发生变化的时候需要提供的数据是什么
-C(controller)：控制，指的">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img53.PNG">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/img55.PNG">
-<meta property="og:updated_time" content="2016-11-16T09:10:30.000Z">
+SELECT - 从数据库表中获取数据
+UPDATE - 更新数据库表中的数据
+DELETE - 从数据库表中删除数据
+INSER">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/0d1589d4e1c8050751ca47e78bc0f189.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/96ad55e98b6b7eba19072bc70b61dd31.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/0c5d432edee1b368e2f586bd49202102.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/4762033d8dbf4de96a713cf23aa4c373.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/5d54c8d8e292d32990aeaaa0ad6492a7.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/b114ccbc13ec83ed53304e7fa726e5b9.png">
+<meta property="og:updated_time" content="2017-03-03T13:51:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="网页组件制作之带预览图幻灯片效果">
-<meta name="twitter:description" content="在该笔记中将学到列表展示中带预览图幻灯片效果的方法与展示效果
-本系列的是参考慕课网 lyn老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-适用场景：
+<meta name="twitter:title" content="SQL入门">
+<meta name="twitter:description" content="本文总结了一些 SQL 操作的基本介绍
+SQL 简介SQL 是用于访问和处理数据库的标准的计算机语言。
+SQL 对大小写不敏感！
+可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。
+查询和更新指令构成了 SQL 的 DML 部分：
 
-单列布局，通过大图突出商品
-适合单列布局，不适合左右分栏
-
-VCD 分析法
-V(view)：视觉，通过 V 的部分分析页面的 html 结构
-D(data)：数据，页面发生变化的时候需要提供的数据是什么
-C(controller)：控制，指的">
-<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img53.PNG">
+SELECT - 从数据库表中获取数据
+UPDATE - 更新数据库表中的数据
+DELETE - 从数据库表中删除数据
+INSER">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/0d1589d4e1c8050751ca47e78bc0f189.png">
 
 
 
@@ -154,13 +155,13 @@ C(controller)：控制，指的">
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2016/11/15/网页组件制作之带预览图幻灯片效果/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2017/03/03/SQL入门/"/>
 
 
 
 
 
-  <title> 网页组件制作之带预览图幻灯片效果 | ShiningDan的博客 </title>
+  <title> SQL入门 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -316,7 +317,7 @@ C(controller)：控制，指的">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2016/11/15/网页组件制作之带预览图幻灯片效果/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/03/03/SQL入门/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -340,7 +341,7 @@ C(controller)：控制，指的">
             
             
               
-                网页组件制作之带预览图幻灯片效果
+                SQL入门
               
             
           </h2>
@@ -355,8 +356,8 @@ C(controller)：控制，指的">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-15T22:20:41+08:00">
-                2016-11-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T20:40:04+08:00">
+                2017-03-03
               </time>
             
 
@@ -396,8 +397,8 @@ C(controller)：控制，指的">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/11/15/网页组件制作之带预览图幻灯片效果/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/15/网页组件制作之带预览图幻灯片效果/" itemprop="commentCount"></span>
+                <a href="/2017/03/03/SQL入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/03/SQL入门/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -407,7 +408,7 @@ C(controller)：控制，指的">
 
           
           
-             <span id="/2016/11/15/网页组件制作之带预览图幻灯片效果/" class="leancloud_visitors" data-flag-title="网页组件制作之带预览图幻灯片效果">
+             <span id="/2017/03/03/SQL入门/" class="leancloud_visitors" data-flag-title="SQL入门">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -434,143 +435,99 @@ C(controller)：控制，指的">
       
 
       
-        <p><strong>在该笔记中将学到列表展示中带预览图幻灯片效果的方法与展示效果</strong></p>
-<p>本系列的是参考<a href="http://www.imooc.com/u/104593/courses?sort=publishh" target="_blank" rel="external">慕课网 lyn</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
-<p><strong>适用场景：</strong></p>
-<ol>
-<li>单列布局，通过大图突出商品</li>
-<li>适合单列布局，不适合左右分栏</li>
-</ol>
-<h2 id="VCD-分析法"><a href="#VCD-分析法" class="headerlink" title="VCD 分析法"></a>VCD 分析法</h2><ol>
-<li>V(view)：视觉，通过 V 的部分分析页面的 html 结构</li>
-<li>D(data)：数据，页面发生变化的时候需要提供的数据是什么</li>
-<li>C(controller)：控制，指的是页面部分所有的动作和行为</li>
-</ol>
-<p><strong>基本的素材是 view 和 data，controller 部分是脚本流程和功能。</strong></p>
-<h3 id="view-部分的开发"><a href="#view-部分的开发" class="headerlink" title="view 部分的开发"></a>view 部分的开发</h3><p>通过对项目的视觉分析，列出网页的 html 页面结构图。</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img53.PNG" alt=""></p>
-<p>data的部分是页面发生变化的时候需要提供的数据，一般是通过 AJAX 从服务器端获取，在本案例中通过 JS 创建了一个数组用来存储数据。</p>
-<p>显示效果如下：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/img55.PNG" alt=""></p>
+        <p>本文总结了一些 SQL 操作的基本介绍</p>
+<h2 id="SQL-简介"><a href="#SQL-简介" class="headerlink" title="SQL 简介"></a>SQL 简介</h2><p>SQL 是用于访问和处理数据库的标准的计算机语言。</p>
+<p><strong>SQL 对大小写不敏感！</strong></p>
+<p>可以把 SQL 分为两个部分：数据操作语言 (DML) 和 数据定义语言 (DDL)。</p>
+<p>查询和更新指令构成了 SQL 的 DML 部分：</p>
+<ul>
+<li><code>SELECT</code> - 从数据库表中获取数据</li>
+<li><code>UPDATE</code> - 更新数据库表中的数据</li>
+<li><code>DELETE</code> - 从数据库表中删除数据</li>
+<li><code>INSERT INTO</code> - 向数据库表中插入数据</li>
+</ul>
+<p>SQL 的数据定义语言 (DDL) 部分使我们有能力创建或删除表格。我们也可以定义索引（键），规定表之间的链接，以及施加表间的约束。</p>
+<ul>
+<li><code>CREATE DATABASE</code> - 创建新数据库</li>
+<li><code>ALTER DATABASE</code> - 修改数据库</li>
+<li><code>CREATE TABLE</code> - 创建新表</li>
+<li><code>ALTER TABLE</code> - 变更（改变）数据库表</li>
+<li><code>DROP TABLE</code> - 删除表</li>
+<li><code>CREATE INDEX</code> - 创建索引（搜索键）</li>
+<li><code>DROP INDEX</code> - 删除索引</li>
+</ul>
 <a id="more"></a>
-<p><strong>相关的技术点：</strong></p>
-<ol>
-<li>transition：设置元素 CSS 改变的过度动画</li>
-<li>-webkit-box-reflec：设置元素支持倒影</li>
-<li>在模版关键字中，使用 replace 替换关键字，例如</li>
-<li>在 a 标签的 href 属性中设置的值是 javascript:switchSlider(1)，用来调用 js 中定义好的函数</li>
-<li><strong>在 HTML 中没有将所有的元素都写出来，而是只写了一个模版 div ，其中需要替换的值用  等值标出。在 addSlider 函数中，使用 JS replace 函数来替换模版中需要替换的数据(data)，创建多个相同模版产生的 div，用 innerHTML 来更新 HTML 内容。</strong></li>
-</ol>
-<p><strong>在本教程中，要注意模版的使用方法。</strong></p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;预览图幻灯片效果&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            *{margin: 0;padding: 0;}
-            body{padding: 50px 0;background-color: #FFF;font-size: 14px;font-family: &quot;Avenir Next&quot;;color: #555;}
-            .slider, .slider .main, .slider .main .main-i{ width: 800px; height: 450px;position: relative;margin: 0 auto;}
-            .slider .main{ overflow: hidden;}
-            .slider .main .main-i{z-index: 1}
-            .slider .main .main-i img{ position: absolute;z-index: 1;width: 100%;}
-            .slider .main .main-i .caption{position: absolute;left: 50%;top: 30%; z-index: 2;}
-            .slider .main .main-i .caption h2{font-size: 30px;line-height: 50px;color: #B5B5B5;text-align: right;opacity: 0;}
-            .slider .main .main-i .caption h3{font-size: 50px;line-height: 70px;color: #000;text-align: right;font-family: &quot;Open Sans Condensed&quot;;opacity: 1;}
-            .slider .ctrl{width: 100%; height: 13px;line-height: 13px;text-align: center;margin-top: -13px;z-index: 9;position: absolute;}
-            .slider .ctrl .ctrl-i{display: inline-block; width: 150px;height: 13px;background-color: #666;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);margin-left: 1px;position: relative;}
-            .slider .ctrl .ctrl-i img{width: 100%;bottom: 50px;opacity: 0;transition: all 0.2s;position: absolute;z-index: 0;margin-left: -50%;}
-            .slider .ctrl .ctrl-i:hover{background-color: #F0F0F0}
-            .slider .ctrl .ctrl-i:hover img{bottom: 13px;opacity: 1;z-index: 1;
-            /*定义预览图的倒影*/
-            -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent),to(rgba(255, 255, 255, 0.3)));
-            }
-            /*当前展现的状态*/
-            .slider .ctrl .ctrl-i:hover, .slider .ctrl .ctrl-i_active{background-color: #000;}
-            .slider .ctrl .ctrl-i_active:hover img{opacity: 1}
-            /*切换幻灯片的样式*/
-            .slider .main .main-i{opacity: 0;position: absolute;right: 50%;transition: all 0.8s;}
-            #main_background,.slider .main .main-i_active{opacity: 1;right: 0;}
-            #main_background{z-index: 0;opacity: 0.6}
-            .slider .main .main-i .caption h2{margin-right: 45px;opacity: 0;}
-            .slider .main .main-i .caption h3{margin-left: 45px;opacity: 0;}
-            .slider .main .main-i_active .caption h2{margin-right: 0px;opacity: 1; transition: all 0.5s 0.6s;}
-            .slider .main .main-i_active .caption h3{margin-left: 0px;opacity: 1; transition: all 0.5s 0.6s;}             
-        &lt;/style&gt;
-        &lt;script&gt; 
-            let data = [
-                {img:1,h2:&quot;Monday h2&quot;, h3:&quot;Monday h3&quot;},
-                {img:2,h2:&quot;Tuesday h2&quot;, h3:&quot;Tuesday h3&quot;},
-                {img:3,h2:&quot;Wednesday h2&quot;, h3:&quot;Wednesday h3&quot;},
-                {img:4,h2:&quot;Thursday h2&quot;, h3:&quot;Thursday h3&quot;},
-                {img:5,h2:&quot;Friday h2&quot;, h3:&quot;Friday h3&quot;},
-            ];
+<h2 id="SQL-数据类型"><a href="#SQL-数据类型" class="headerlink" title="SQL 数据类型"></a>SQL 数据类型</h2><p>不同的数据库中对数据类型的定义有所不同，我在这里按照 MySQL 中的数据类型介绍，如果需要使用其他数据库的数据类型，可以查看<a href="http://www.w3school.com.cn/sql/sql_datatypes.asp" target="_blank" rel="external">w3school | SQL 数据类型</a></p>
+<p>在 MySQL 中，有三种主要的类型：文本、数字和日期/时间类型。</p>
+<p><strong>Text 类型：</strong></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/0d1589d4e1c8050751ca47e78bc0f189.png" alt=""></p>
+<p><strong>Number 类型：</strong></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/96ad55e98b6b7eba19072bc70b61dd31.png" alt=""></p>
+<p><strong>Date 类型：</strong></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/0c5d432edee1b368e2f586bd49202102.png" alt=""></p>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p>运算符用于指定一个SQL语句中的条件，并作为连词多个条件在一份声明中。</p>
+<ul>
+<li>算术运算符</li>
+<li>比较操作符</li>
+<li>逻辑运算符</li>
+</ul>
+<h3 id="SQL算术运算符"><a href="#SQL算术运算符" class="headerlink" title="SQL算术运算符"></a>SQL算术运算符</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/4762033d8dbf4de96a713cf23aa4c373.png" alt=""></p>
+<h3 id="SQL比较操作符"><a href="#SQL比较操作符" class="headerlink" title="SQL比较操作符"></a>SQL比较操作符</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/5d54c8d8e292d32990aeaaa0ad6492a7.png" alt=""></p>
+<h3 id="SQL逻辑运算符"><a href="#SQL逻辑运算符" class="headerlink" title="SQL逻辑运算符"></a>SQL逻辑运算符</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/b114ccbc13ec83ed53304e7fa726e5b9.png" alt=""></p>
+<h2 id="数据库级的操作"><a href="#数据库级的操作" class="headerlink" title="数据库级的操作"></a>数据库级的操作</h2><p>CREATE DATABASE语句的基本语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE DATABASE DatabaseName;</div></pre></td></tr></table></figure>
+<p>查看所有的数据库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">show databases;</div></pre></td></tr></table></figure>
+<p>删除一个现有的数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DROP DATABASE DatabaseName;</div></pre></td></tr></table></figure>
+<p>选择一个数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">USE DatabaseName;</div></pre></td></tr></table></figure>
+<h2 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h2><p><code>SELECT</code> 语句用于从表中选取数据。</p>
+<p>结果被存储在一个结果表中（称为结果集）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT 列名称 FROM 表名称 //SELECT LastName,FirstName FROM Persons</div><div class="line">SELECT * FROM 表名称  //星号（*）是选取所有列的快捷方式。</div></pre></td></tr></table></figure>
+<h3 id="SELECT-DISTINCT"><a href="#SELECT-DISTINCT" class="headerlink" title="SELECT DISTINCT"></a>SELECT DISTINCT</h3><p>在表中，可能会包含重复值。这并不成问题，不过，有时您也许希望仅仅列出不同（distinct）的值。</p>
+<p>关键词 <code>DISTINCT</code> 用于返回唯一不同的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DISTINCT 列名称 FROM 表名称</div></pre></td></tr></table></figure>
+<h2 id="WHERE"><a href="#WHERE" class="headerlink" title="WHERE"></a>WHERE</h2><p>如需有条件地从表中选取数据，可将 <code>WHERE</code> 子句添加到 <code>SELECT</code> 语句。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT 列名称 FROM 表名称 WHERE 列 运算符 值</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">操作符            描述</div><div class="line">=	             等于</div><div class="line">&lt;&gt;	            不等于 //在某些版本的 SQL 中，操作符 &lt;&gt; 可以写为 !=</div><div class="line">&gt;	             大于</div><div class="line">&lt;	             小于</div><div class="line">&gt;=	           大于等于</div><div class="line">&lt;=	           小于等于</div><div class="line">BETWEEN	     在某个范围内</div><div class="line">LIKE	     搜索某种模式</div></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM Persons WHERE City=&apos;Beijing&apos;</div></pre></td></tr></table></figure>
+<p><strong>引号的使用</strong></p>
+<p>请注意，我们在例子中的条件值周围使用的是单引号。</p>
+<p>SQL 使用单引号来环绕文本值（大部分数据库系统也接受双引号）。如果是数值，请不要使用引号。</p>
+<h2 id="AND-amp-OR"><a href="#AND-amp-OR" class="headerlink" title="AND &amp; OR"></a><code>AND</code> &amp; <code>OR</code></h2><p><code>AND</code> 和 <code>OR</code> 运算符用于基于一个以上的条件对记录进行过滤。</p>
+<p><code>AND</code> 和 <code>OR</code> 可在 <code>WHERE</code> 子语句中把两个或多个条件结合起来：</p>
+<ul>
+<li>如果第一个条件和第二个条件都成立，则 <code>AND</code> 运算符显示一条记录。</li>
+<li>如果第一个条件和第二个条件中只要有一个成立，则 <code>OR</code> 运算符显示一条记录。</li>
+</ul>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM Persons WHERE FirstName=&apos;Thomas&apos; AND LastName=&apos;Carter&apos;</div></pre></td></tr></table></figure>
+<p>我们也可以把 <code>AND</code> 和 <code>OR</code> 结合起来（使用圆括号来组成复杂的表达式）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM Persons WHERE (FirstName=&apos;Thomas&apos; OR FirstName=&apos;William&apos;)</div><div class="line">AND LastName=&apos;Carter&apos;</div></pre></td></tr></table></figure>
+<h2 id="ORDER-BY"><a href="#ORDER-BY" class="headerlink" title="ORDER BY"></a>ORDER BY</h2><p><code>ORDER BY</code> 语句用于对结果集进行排序。</p>
+<p><code>ORDER BY</code> 语句默认按照升序对记录进行排序。</p>
+<p>如果您希望按照降序对记录进行排序，可以使用 <code>DESC</code> 关键字。</p>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT Company, OrderNumber FROM Orders ORDER BY Company</div></pre></td></tr></table></figure>
+<p>以字母顺序显示公司名称（Company），接着按照数字顺序显示顺序号（OrderNumber）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT Company, OrderNumber FROM Orders ORDER BY Company, OrderNumber</div></pre></td></tr></table></figure>
+<p>以逆字母顺序显示公司名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT Company, OrderNumber FROM Orders ORDER BY Company DESC</div></pre></td></tr></table></figure>
+<p>以逆字母顺序显示公司名称，并以数字顺序显示顺序号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT Company, OrderNumber FROM Orders ORDER BY Company DESC, OrderNumber ASC</div></pre></td></tr></table></figure>
+<h2 id="INSERT-INTO"><a href="#INSERT-INTO" class="headerlink" title="INSERT INTO"></a>INSERT INTO</h2><p>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">INSERT INTO 表名称 VALUES (值1, 值2,....)</div><div class="line">INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)</div></pre></td></tr></table></figure>
+<h2 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h2><p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE 表名称 SET 列名称 = 新值 WHERE ...</div></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">UPDATE Person SET Address = &apos;Zhongshan 23&apos;, City = &apos;Nanjing&apos;</div><div class="line">WHERE LastName = &apos;Wilson&apos;</div></pre></td></tr></table></figure>
+<h2 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h2><p>DELETE 语句用于删除表中的行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM 表名称 WHERE 列名称 = 值</div></pre></td></tr></table></figure>
+<p>可以在不删除表的情况下删除所有的行。这意味着表的结构、属性和索引都是完整的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE * FROM table_name</div></pre></td></tr></table></figure>
 
-            function addSlider() {
-                let tpl_main = document.getElementById(&quot;template_main&quot;).innerHTML.replace(/^\s*/, &quot;&quot;).replace(/\s*$/, &quot;&quot;);
-                let tpl_ctrl = document.getElementById(&quot;template_ctrl&quot;).innerHTML.replace(/^\s*/, &quot;&quot;).replace(/\s*$/, &quot;&quot;);
-
-                console.log(tpl_main);
-                console.log(tpl_ctrl);
-
-                let out_main = new Array();
-                let out_ctrl = new Array();
-
-                for(i in data) {
-                    let _html_main = tpl_main.replace(/{{index}}/g, data[i].img).replace(/{{h2}}/g, data[i].h2).replace(/{{h3}}/g, data[i].h3);
-
-                    let _html_ctrl = tpl_ctrl.replace(/{{index}}/g, data[i].img);
-
-                    out_main.push(_html_main);
-                    out_ctrl.push(_html_ctrl);
-                }
-                document.getElementById(&quot;template_main&quot;).innerHTML = out_main.join(&quot;&quot;);
-                document.getElementById(&quot;template_ctrl&quot;).innerHTML = out_ctrl.join(&quot;&quot;);
-
-            }
-
-            window.onload = function(){
-                addSlider();
-                switchSlider(1);
-            }
-
-            function switchSlider(n) {
-
-                let main = document.getElementById(&quot;main_&quot; + n);
-                let ctrl = document.getElementById(&quot;ctrl_&quot; + n);
-
-                let clear_main = document.getElementsByClassName(&quot;main-i&quot;);
-                let clear_ctrl = document.getElementsByClassName(&quot;ctrl-i&quot;);
-
-                for(i=0; i&lt;clear_main.length;i++){
-                    clear_main[i].className = clear_main[i].className.replace(&quot; main-i_active&quot;, &quot;&quot;);
-                }
-                for(i=0; i&lt;clear_ctrl.length;i++){
-                    clear_ctrl[i].className = clear_ctrl[i].className.replace(&quot; ctrl-i_active&quot;, &quot;&quot;);
-                }
-
-                main.className += &quot; main-i_active&quot;;
-                ctrl.className += &quot; ctrl-i_active&quot;;
-            }         
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;slider&quot;&gt;
-            &lt;div class=&quot;main&quot; id=&quot;template_main&quot;&gt;
-                &lt;div class=&quot;main-i&quot; id=&quot;main_{{index}}&quot;&gt;
-                    &lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/img54.jpg&quot; alt=&quot;&quot;&gt;
-                    &lt;div class=&quot;caption&quot;&gt;
-                        &lt;h2&gt;{{h2}}&lt;/h2&gt;
-                        &lt;h3&gt;{{h3}}&lt;/h3&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;ctrl&quot; id=&quot;template_ctrl&quot;&gt;
-                &lt;a href=&quot;javascript:switchSlider({{index}});&quot; id=&quot;ctrl_{{index}}&quot; class=&quot;ctrl-i&quot;&gt;&lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/img54.jpg&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
       
     </div>
 
@@ -593,11 +550,7 @@ C(controller)：控制，指的">
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
-          
-            <a href="/tags/HTML/" rel="tag"># HTML</a>
-          
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+            <a href="/tags/SQL/" rel="tag"># SQL</a>
           
         </div>
       
@@ -606,8 +559,8 @@ C(controller)：控制，指的">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/15/网页组件制作之倒计时效果/" rel="next" title="网页组件制作之倒计时效果">
-                <i class="fa fa-chevron-left"></i> 网页组件制作之倒计时效果
+              <a href="/2017/03/02/排序算法入门/" rel="next" title="排序算法入门">
+                <i class="fa fa-chevron-left"></i> 排序算法入门
               </a>
             
           </div>
@@ -615,10 +568,6 @@ C(controller)：控制，指的">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/17/网页组件制作之信息滚动效果/" rel="prev" title="网页组件制作之信息滚动效果">
-                网页组件制作之信息滚动效果 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -644,8 +593,8 @@ C(controller)：控制，指的">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/11/15/网页组件制作之带预览图幻灯片效果/"
-           data-title="网页组件制作之带预览图幻灯片效果" data-url="https://shiningdan.github.io/2016/11/15/网页组件制作之带预览图幻灯片效果/">
+      <div class="ds-thread" data-thread-key="2017/03/03/SQL入门/"
+           data-title="SQL入门" data-url="https://shiningdan.github.io/2017/03/03/SQL入门/">
       </div>
     
   </div>
@@ -745,7 +694,7 @@ C(controller)：控制，指的">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#VCD-分析法"><span class="nav-number">1.</span> <span class="nav-text">VCD 分析法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#view-部分的开发"><span class="nav-number">1.1.</span> <span class="nav-text">view 部分的开发</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL-简介"><span class="nav-number">1.</span> <span class="nav-text">SQL 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL-数据类型"><span class="nav-number">2.</span> <span class="nav-text">SQL 数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运算符"><span class="nav-number">3.</span> <span class="nav-text">运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL算术运算符"><span class="nav-number">3.1.</span> <span class="nav-text">SQL算术运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL比较操作符"><span class="nav-number">3.2.</span> <span class="nav-text">SQL比较操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL逻辑运算符"><span class="nav-number">3.3.</span> <span class="nav-text">SQL逻辑运算符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库级的操作"><span class="nav-number">4.</span> <span class="nav-text">数据库级的操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SELECT"><span class="nav-number">5.</span> <span class="nav-text">SELECT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SELECT-DISTINCT"><span class="nav-number">5.1.</span> <span class="nav-text">SELECT DISTINCT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WHERE"><span class="nav-number">6.</span> <span class="nav-text">WHERE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AND-amp-OR"><span class="nav-number">7.</span> <span class="nav-text">AND & OR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ORDER-BY"><span class="nav-number">8.</span> <span class="nav-text">ORDER BY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#INSERT-INTO"><span class="nav-number">9.</span> <span class="nav-text">INSERT INTO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UPDATE"><span class="nav-number">10.</span> <span class="nav-text">UPDATE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DELETE"><span class="nav-number">11.</span> <span class="nav-text">DELETE</span></a></li></ol></div>
             
 
           </div>
