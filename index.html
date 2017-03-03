@@ -403,29 +403,19 @@
 
       
         
-          
-            <p>最近又整理了一下常用的排序算法，并且都用 JavaScript 实现了一次。</p>
+          <p>最近又整理了一下常用的排序算法，并且都用 JavaScript 实现了一次。</p>
 <p>参考链接：</p>
-<p><a href="http://blog.csdn.net/hguisu/article/details/7776068" target="_blank" rel="external">八大排序算法</a><br><a href="http://blog.csdn.net/whuslei/article/details/6442755" target="_blank" rel="external">常见排序算法小结</a></p>
+<p><a href="http://blog.csdn.net/hguisu/article/details/7776068">八大排序算法</a><br><a href="http://blog.csdn.net/whuslei/article/details/6442755">常见排序算法小结</a></p>
 <p>排序有内部排序和外部排序，内部排序是数据记录在内存中进行排序，而外部排序是因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。</p>
 <p>常用的内部排序如下：</p>
 <p><img src="http://my.csdn.net/uploads/201207/17/1342514529_5795.jpg" alt=""></p>
-<h2 id="插入排序-直接插入排序"><a href="#插入排序-直接插入排序" class="headerlink" title="插入排序-直接插入排序"></a>插入排序-直接插入排序</h2><p>将一个记录插入到已排序好的有序表中，从而得到一个新，记录数增1的有序表。即：先将序列的第1个记录看成是一个有序的子序列，然后从第2个记录逐个进行插入，直至整个序列有序为止。</p>
-<p><img src="http://my.csdn.net/uploads/201207/17/1342520948_8667.jpg" alt=""></p>
-<h3 id="算法的实现"><a href="#算法的实现" class="headerlink" title="算法的实现"></a>算法的实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function insertSort(arr) &#123;</div><div class="line">	for (let i = 1; i &lt; arr.length; i++) &#123;</div><div class="line">		let val = arr[i];</div><div class="line">		let j = i;</div><div class="line">		while (arr[j-1] &gt; val &amp;&amp; j &gt; 0) &#123;</div><div class="line">			arr[j] = arr[j-1];</div><div class="line">			j--;</div><div class="line">		&#125;</div><div class="line">		arr[j] = val;</div><div class="line">	&#125;</div><div class="line">	return arr;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let a = [3,1,5,7,2,4,9,-4, -7, -5];</div><div class="line">insertSort(a);</div></pre></td></tr></table></figure>
-<p>###时间复杂度</p>
-<p>O(n^2)</p>
-<h2 id="插入排序-希尔排序"><a href="#插入排序-希尔排序" class="headerlink" title="插入排序-希尔排序"></a>插入排序-希尔排序</h2><p>希尔排序又叫缩小增量排序</p>
-<h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><p>先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，待整个序列中的记录“基本有序”时，再对全体记录进行依次直接插入排序。</p>
-<p>先取定一个小于n的整数d1作为第一个增量,把表的全部记录分成d1个组,所有距离为d1的倍数的记录放在同一个组中,在各组内进行直接插入排序；然后,取第二个增量d2(＜d1),重复上述的分组和排序,直至所取的增量<code>dt=1(dt&lt;dt-1&lt;…&lt;d2&lt;d1)</code>,即所有记录放在同一组中进行直接插入排序为止。    </p>
-<p><img src="http://hi.csdn.net/attachment/201105/24/0_1306225546mbOy.gif" alt=""></p>
-<p>一般增量的选择从 <code>n/2</code> 减少到 <code>1</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">function shellInsertSort(arr) &#123;</div><div class="line">	let len = Math.floor(arr.length/2);</div><div class="line">	while (len &gt; 0) &#123;</div><div class="line">		for (let i = 0; i &lt; len; i++) &#123;</div><div class="line">			let j = i+len;</div><div class="line">			while(j &lt; arr.length) &#123;</div><div class="line">				let k = j;</div><div class="line">				while(k &gt;= len &amp;&amp; arr[k-len] &gt; arr[k]) &#123;</div><div class="line">					let tmp = arr[k];</div><div class="line">					arr[k] = arr[k-len];</div><div class="line">					arr[k-len] = tmp;</div><div class="line">					k -= len;</div><div class="line">				&#125;</div><div class="line">				j += len;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		len = Math.floor(len/2);</div><div class="line">	&#125;</div><div class="line">	return arr;</div><div class="line">&#125;</div><div class="line">let a = [3,1,5,7,2,4,9,-4, -7, -5];</div><div class="line">shellInsertSort(a);</div></pre></td></tr></table></figure>
-<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p>最好情况：由于希尔排序的好坏和步长d的选择有很多关系，因此，目前还没有得出最好的步长如何选择(现在有些比较好的选择了，但不确定是否是最好的)。所以，不知道最好的情况下的算法时间复杂度。 </p>
-<p>最坏情况下：O(N*logN)，最坏的情况下和平均情况下差不多。  </p>
-<p>平均情况下：O(N*logN)</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/02/排序算法入门/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
