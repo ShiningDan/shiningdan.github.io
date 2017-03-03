@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="HTML,CSS," />
+  <meta name="keywords" content="CSS,HTML," />
 
 
 
@@ -119,7 +119,8 @@
 <meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img13.PNG">
 <meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img14.PNG">
 <meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img15.PNG">
-<meta property="og:updated_time" content="2016-10-27T09:09:07.000Z">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/acfad5e0ba3714e9345d2875961bbe93.png">
+<meta property="og:updated_time" content="2017-03-03T07:06:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网页布局笔记">
 <meta name="twitter:description" content="在该笔记中，将学到的是多种不同的网页风格的实现或者多种不同风格的组件实现方法
@@ -990,63 +991,30 @@
 </ol>
 <p><strong>注意点：固定宽度的列的高度 &gt; 自适应宽度的列的高度</strong>。因为使用绝对定位的元素，脱离了文档流，无法撑开父元素，所以需要在父元素中有一个相同高度，或者更高的元素撑开父元素。</p>
 <p>在下面的例子中，sidebar 的宽度是绝对的，然后 content 是自适应宽度。需要给父元素 mainbody 设置 position:relative，然后 content 设置 position:absolute，并且使用 top:0，将 content 和 sidebar 放置在统一高度。最后给 content 设置 margin-left = sidebar的宽度，就完成了横向两列布局的实现：</p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;使用绝对定位实现横向两列式布局&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            *{
-                margin:0;
-                padding:0;
-            }
-            #wrap{
-                margin:0 auto;
-                width:540px;
-                border:2px solid black;
-            }
-            #header{
-                height:100px;
-                background-color:red;
-            }
-            #footer{
-                height:100px;
-                background-color:green;
-            }
-            #mainbody{
-                clear:both;
-                border:2px solid blue;
-                position:relative;
-                width:100%;
-            }
-            #sidebar{
-                height:200px;
-                width:100px;
-                background-color:red;
-            }
-            #content{
-                height:200px;
-                width:428px;
-                background-color:green;
-                position:absolute;
-                top:0;
-                margin-left:110px;
-            }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div id=&quot;wrap&quot;&gt;
-            &lt;div id=&quot;header&quot;&gt;&lt;/div&gt;
-            &lt;div id=&quot;mainbody&quot;&gt;
-                &lt;div id=&quot;sidebar&quot;&gt;sidebar&lt;/div&gt;
-                &lt;div id=&quot;content&quot;&gt;content&lt;/div&gt;            
-            &lt;/div&gt;
-            &lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>显示效果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;title&gt;使用绝对定位实现横向两列式布局&lt;/title&gt;</div><div class="line">        &lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">        &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">            *&#123;</div><div class="line">                margin:0;</div><div class="line">                padding:0;</div><div class="line">            &#125;</div><div class="line">            #wrap&#123;</div><div class="line">                margin:0 auto;</div><div class="line">                width:540px;</div><div class="line">                border:2px solid black;</div><div class="line">            &#125;</div><div class="line">            #header&#123;</div><div class="line">                height:100px;</div><div class="line">                background-color:red;</div><div class="line">            &#125;</div><div class="line">            #footer&#123;</div><div class="line">                height:100px;</div><div class="line">                background-color:green;</div><div class="line">            &#125;</div><div class="line">            #mainbody&#123;</div><div class="line">                clear:both;</div><div class="line">                border:2px solid blue;</div><div class="line">                position:relative;</div><div class="line">                width:100%;</div><div class="line">            &#125;</div><div class="line">            #sidebar&#123;</div><div class="line">                height:200px;</div><div class="line">                width:100px;</div><div class="line">                background-color:red;</div><div class="line">            &#125;</div><div class="line">            #content&#123;</div><div class="line">                height:200px;</div><div class="line">                width:428px;</div><div class="line">                background-color:green;</div><div class="line">                position:absolute;</div><div class="line">                top:0;</div><div class="line">                margin-left:110px;</div><div class="line">            &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;div id=&quot;wrap&quot;&gt;</div><div class="line">            &lt;div id=&quot;header&quot;&gt;&lt;/div&gt;</div><div class="line">            &lt;div id=&quot;mainbody&quot;&gt;</div><div class="line">                &lt;div id=&quot;sidebar&quot;&gt;sidebar&lt;/div&gt;</div><div class="line">                &lt;div id=&quot;content&quot;&gt;content&lt;/div&gt;            </div><div class="line">            &lt;/div&gt;</div><div class="line">            &lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
 <p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img15.PNG" alt=""></p>
 <hr>
+<h3 id="两栏等高布局"><a href="#两栏等高布局" class="headerlink" title="两栏等高布局"></a>两栏等高布局</h3><p>给两个元素用 padding 来填充，然后用 margin 来消除 padding 带来的影响，最后给父元素加一个 width:100%（或者固定宽度），overflow:hidden; 来清除浮动。</p>
+<p>具体的实践过程中可以把 margin-bottom 和 padding-bottom 的值设大一些，要保证任意两栏的高度差不小于你设置的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">        &lt;title&gt;左右宽度是否一样&lt;/title&gt;</div><div class="line">        &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">            body&#123;</div><div class="line">                padding: 0;</div><div class="line">                margin: 0;</div><div class="line">                color: #f00;</div><div class="line">            &#125;</div><div class="line">            .container&#123;</div><div class="line">                width: 600px;</div><div class="line">                margin: 0 auto;</div><div class="line">                border: 3px solid #00c;</div><div class="line">                overflow: hidden;</div><div class="line">            &#125;</div><div class="line">            .left&#123;</div><div class="line">                width: 150px;</div><div class="line">                float: left;</div><div class="line">                background: #b0b0b0;</div><div class="line">                padding-bottom: 1000px;</div><div class="line">                margin-bottom: -1000px;</div><div class="line">            &#125;</div><div class="line">            .right&#123;</div><div class="line">                width: 450px;</div><div class="line">                float: left;</div><div class="line">                background: #6cc;</div><div class="line">                padding-bottom: 1000px;</div><div class="line">                margin-bottom: -1000px;</div><div class="line">            &#125;</div><div class="line">        &lt;/style&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;div class=&quot;container&quot;&gt;</div><div class="line">            &lt;div class=&quot;left&quot;&gt;我是左边&lt;/div&gt;</div><div class="line">            &lt;div class=&quot;right&quot;&gt;我是右边&lt;br/&gt;现在我的高度比左边的高度要高哦。啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<h3 id="三栏式布局"><a href="#三栏式布局" class="headerlink" title="三栏式布局"></a>三栏式布局</h3><h4 id="绝对定位法"><a href="#绝对定位法" class="headerlink" title="绝对定位法"></a>绝对定位法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;三栏式布局&lt;/title&gt;</div><div class="line">    &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">        * &#123;margin:0; padding: 0px;&#125;</div><div class="line">        .wrap&#123;position: relative;&#125;</div><div class="line">        .left,.right&#123;height:100%; width: 200px; position: absolute; top: 0px;&#125;</div><div class="line">        .left&#123;background-color: red;left: 0;&#125;</div><div class="line">        .right&#123;background-color: green;right: 0&#125;</div><div class="line">        .center&#123;background-color: blue;margin: 0 210px;height: 500px;&#125;</div><div class="line">    &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div class=&quot;wrap&quot;&gt;</div><div class="line">        &lt;div class=&quot;left&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;right&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;center&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>显示效果如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/acfad5e0ba3714e9345d2875961bbe93.png" alt=""></p>
+<p>中间一栏的宽度是自适应的，通过中间一栏的高度来撑开父元素的高度。</p>
+<p>这里的左中右三个div的顺序是可以任意调整的，这与剩下的两中方法就不一样了</p>
+<h4 id="margin负值法"><a href="#margin负值法" class="headerlink" title="margin负值法"></a>margin负值法</h4><p>这种方法是在实际的网站中应用的最多的</p>
+<p>外层div宽度100%显示，并且浮动（本例左浮动，下面所述依次为基础），内层div为真正的主体内容，含有左右210像素的margin值。左栏与右栏都是采用margin负值定位的，左栏左浮动，margin-left为-100%，由于前面的div宽度100%与浏览器，所以这里的-100%margin值正好使左栏div定位到了页面的左侧；右侧栏也是左浮动，其margin-left也是负值，大小为其本身的宽度即200像素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;三栏式布局&lt;/title&gt;</div><div class="line">    &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">        * &#123;margin: 0px;padding: 0px;&#125;</div><div class="line">        body&#123;height: 500px;&#125;</div><div class="line">        .main&#123;width: 100%;height: 100%;float: left;&#125;</div><div class="line">        .main .body&#123;background-color: red;height: 100%; margin: 0 210px;&#125;</div><div class="line">        .left,.right&#123;width: 200px;height: 100%;float: left;&#125;</div><div class="line">        .left&#123;margin-left: -100%;background-color: green;&#125; /*把自己推到 .main 之前*/</div><div class="line">        .right&#123;margin-left: -200px;background-color: blue;&#125; /*把自己放在 .main 同一行之后*/</div><div class="line">    &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div class=&quot;main&quot;&gt;&lt;div class=&quot;body&quot;&gt;&lt;/div&gt;&lt;/div&gt;</div><div class="line">    &lt;div class=&quot;left&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;div class=&quot;right&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>您需要注意几个div的顺序，无论是左浮动还是右浮动，先是主体部分div，这是肯定的，至于左右两栏谁先谁后，都无所谓</p>
+<p>此方法的优点：三栏相互关联，可谓真正意义上的自适应，有一定的抗性——布局不易受内部影响。</p>
+<p>缺点在于：相对比较难理解些，上手不容易，代码相对复杂。出现百分比宽度，过多的负值定位，如果出现布局的bug，排查不易。</p>
+<h4 id="自身浮动法"><a href="#自身浮动法" class="headerlink" title="自身浮动法"></a>自身浮动法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;三栏式布局&lt;/title&gt;</div><div class="line">    &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">        * &#123;margin: 0px; padding: 0px;&#125;</div><div class="line">        body &#123;height: 500px;&#125;</div><div class="line">        .left,.right &#123;height: 100%; width: 200px;&#125;</div><div class="line">        .left &#123;background-color: red;float: left;&#125;</div><div class="line">        .right &#123;background-color: green; float: right;&#125;</div><div class="line">        .main &#123;background-color: blue; height: 100%;margin: 0 210px;&#125;</div><div class="line">    &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div class=&quot;left&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;div class=&quot;right&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;div class=&quot;main&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>这里三个div标签的顺序的关键是要把主体div放在最后，左右两栏div顺序任意。</p>
+<p>因为使用浮动：</p>
+<p><strong>浮动的框可以向左或向右移动，直到它的外边缘碰到包含框或另一个浮动框的边框为止。</strong></p>
+<p><strong>由于浮动框不在文档的普通流中，所以文档的普通流中的块框表现得就像浮动框不存在一</strong></p>
+<p>所以如果 <code>.main</code> 在 <code>.left</code> 或 <code>.right</code> 之前，left/right 会被 main 的边框碰到，无法下移到和 main 同一高度。</p>
 
       
     </div>
@@ -1070,9 +1038,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HTML/" rel="tag"># HTML</a>
-          
             <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
           
         </div>
       
@@ -1220,7 +1188,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网页布局基础"><span class="nav-number">1.</span> <span class="nav-text">网页布局基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动居中一列布局"><span class="nav-number">2.</span> <span class="nav-text">自动居中一列布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#横向两列布局"><span class="nav-number">3.</span> <span class="nav-text">横向两列布局</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#浮动属性-float-的一些表现"><span class="nav-number">3.1.</span> <span class="nav-text">浮动属性 float 的一些表现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除浮动的方法"><span class="nav-number">3.2.</span> <span class="nav-text">清除浮动的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两种清除浮动方法的选择"><span class="nav-number">3.3.</span> <span class="nav-text">两种清除浮动方法的选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#横向两列布局的实现"><span class="nav-number">3.4.</span> <span class="nav-text">横向两列布局的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用绝对定位实现横向两列布局"><span class="nav-number">4.</span> <span class="nav-text">使用绝对定位实现横向两列布局</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#position-relative-的显示效果"><span class="nav-number">4.1.</span> <span class="nav-text">position:relative 的显示效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#position-absolute-的显示效果"><span class="nav-number">4.2.</span> <span class="nav-text">position:absolute 的显示效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当元素没有设置偏移量的时候"><span class="nav-number">4.2.1.</span> <span class="nav-text">当元素没有设置偏移量的时候</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当元素设置了偏移量的时候"><span class="nav-number">4.2.2.</span> <span class="nav-text">当元素设置了偏移量的时候</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#如果没有已经定位的祖先元素"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">如果没有已经定位的祖先元素</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如果有已经定位的祖先元素"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">如果有已经定位的祖先元素</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#横向两列布局的实现-1"><span class="nav-number">4.3.</span> <span class="nav-text">横向两列布局的实现</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网页布局基础"><span class="nav-number">1.</span> <span class="nav-text">网页布局基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动居中一列布局"><span class="nav-number">2.</span> <span class="nav-text">自动居中一列布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#横向两列布局"><span class="nav-number">3.</span> <span class="nav-text">横向两列布局</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#浮动属性-float-的一些表现"><span class="nav-number">3.1.</span> <span class="nav-text">浮动属性 float 的一些表现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除浮动的方法"><span class="nav-number">3.2.</span> <span class="nav-text">清除浮动的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两种清除浮动方法的选择"><span class="nav-number">3.3.</span> <span class="nav-text">两种清除浮动方法的选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#横向两列布局的实现"><span class="nav-number">3.4.</span> <span class="nav-text">横向两列布局的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用绝对定位实现横向两列布局"><span class="nav-number">4.</span> <span class="nav-text">使用绝对定位实现横向两列布局</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#position-relative-的显示效果"><span class="nav-number">4.1.</span> <span class="nav-text">position:relative 的显示效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#position-absolute-的显示效果"><span class="nav-number">4.2.</span> <span class="nav-text">position:absolute 的显示效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当元素没有设置偏移量的时候"><span class="nav-number">4.2.1.</span> <span class="nav-text">当元素没有设置偏移量的时候</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当元素设置了偏移量的时候"><span class="nav-number">4.2.2.</span> <span class="nav-text">当元素设置了偏移量的时候</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#如果没有已经定位的祖先元素"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">如果没有已经定位的祖先元素</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如果有已经定位的祖先元素"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">如果有已经定位的祖先元素</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#横向两列布局的实现-1"><span class="nav-number">4.3.</span> <span class="nav-text">横向两列布局的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两栏等高布局"><span class="nav-number">4.4.</span> <span class="nav-text">两栏等高布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三栏式布局"><span class="nav-number">4.5.</span> <span class="nav-text">三栏式布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绝对定位法"><span class="nav-number">4.5.1.</span> <span class="nav-text">绝对定位法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#margin负值法"><span class="nav-number">4.5.2.</span> <span class="nav-text">margin负值法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自身浮动法"><span class="nav-number">4.5.3.</span> <span class="nav-text">自身浮动法</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
