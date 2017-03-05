@@ -11,6 +11,8 @@ tags:
 
 本文是根据[React学习资源汇总](https://github.com/tsrot/study-notes/blob/master/React学习资源汇总.md)这个文章中提及的文章阅读后的总结，仅供个人学习使用，更清楚详细的介绍可以根据链接阅读原贴。
 
+[React Router 使用教程](http://www.ruanyifeng.com/blog/2016/05/react_router.html)
+[React Router 中文文档](React Router 使用教程)
 
 React Router 保持 UI 与 URL 同步。它拥有简单的 API 与强大的功能例如代码缓冲加载、动态路由匹配、以及建立正确的位置过渡处理。你第一个念头想到的应该是 URL，而不是事后再想起。
 
@@ -211,9 +213,69 @@ let routes = <Route path="/" component={App}>
 
 `Route`组件的`path`属性指定路由的匹配规则。这个属性是可以省略的，这样的话，不管路径是否匹配，总是会加载指定组件。
 
+path属性可以使用通配符。
 
+```
+<Route path="/hello/:name">
+// 匹配 /hello/michael
+// 匹配 /hello/ryan
 
+<Route path="/hello(/:name)">
+// 匹配 /hello
+// 匹配 /hello/michael
+// 匹配 /hello/ryan
 
+<Route path="/files/*.*">
+// 匹配 /files/hello.jpg
+// 匹配 /files/hello.html
+
+<Route path="/files/*">
+// 匹配 /files/ 
+// 匹配 /files/a
+// 匹配 /files/a/b
+
+<Route path="/**/*.jpg">
+// 匹配 /files/hello.jpg
+// 匹配 /files/path/to/file.jpg
+```
+
+规则如下：
+
+```
+（1）:paramName
+:paramName匹配URL的一个部分，直到遇到下一个/、?、#为止。这个路径参数可以通过this.props.params.paramName取出。
+（2）()
+()表示URL的这个部分是可选的。
+（3）*
+*匹配任意字符，直到模式里面的下一个字符为止。匹配方式是非贪婪模式。
+（4） **
+** 匹配任意字符，直到下一个/、?、#为止。匹配方式是贪婪模式。
+```
+
+### Link
+
+`Link`组件用于取代`<a>`元素，生成一个链接，允许用户点击后跳转到另一个路由。它基本上就是`<a>`元素的React 版本，可以接收`Router`的状态。
+
+```
+<ul>
+  <li><Link to="/about">About</Link></li>
+  <li><Link to="/inbox">Inbox</Link></li>
+</ul>
+```
+
+如果希望当前的路由与其他路由有不同样式，这时可以使用`Link`组件的`activeStyle`属性。
+
+```
+<Link to="/about" activeStyle={{color: 'red'}}>About</Link>
+<Link to="/repos" activeStyle={{color: 'red'}}>Repos</Link>
+```
+
+另一种做法是，使用`activeClassName`指定当前路由的`Class`。
+
+```
+<Link to="/about" activeClassName="active">About</Link>
+<Link to="/repos" activeClassName="active">Repos</Link>
+```
 
 #### 添加更多的 UI
 
@@ -386,6 +448,7 @@ ReactDOM.render((
 
 **也就是通过 `<Link>` component 指向的组件在页面刚开始的时候是不存在的，只有当页面的 url 转到了对应的位置，该组件才会被 append 到当前页面中。而 `<IndexRoute>` 的行为是，在当前 url 中会默认显示，如果跳转到其他的 url 中则会消失。**
 
+
 URL 与页面的对应关系为
 ```
 URL	                            组件
@@ -464,6 +527,59 @@ Route 可以定义 onEnter 和 onLeave 两个 hook ，这些hook会在页面跳�
 `/inbox` 的 `onLeave`
 `/about` 的 `onEnter`
 
+下面是一个例子，使用`onEnter`钩子替代`<Redirect>`组件。
+
+```
+<Route path="inbox" component={Inbox}>
+  <Route
+    path="messages/:id"
+    onEnter={
+      ({params}, replace) => replace(`/messages/${params.id}`)
+    } 
+  />
+</Route>
+```
+
+`onEnter`钩子还可以用来做认证。
+
+```
+const requireAuth = (nextState, replace) => {
+    if (!auth.isAdmin()) {
+        // Redirect to Home page if not an Admin
+        replace({ pathname: '/' })
+    }
+}
+export const AdminRoutes = () => {
+  return (
+     <Route path="/admin" component={Admin} onEnter={requireAuth} />
+  )
+}
+```
+
+下面是一个高级应用，当用户离开一个路径的时候，跳出一个提示框，要求用户确认是否离开。
+
+```
+const Home = withRouter(
+  React.createClass({
+    componentDidMount() {
+      this.props.router.setRouteLeaveHook(
+        this.props.route, 
+        this.routerWillLeave
+      )
+    },
+
+    routerWillLeave(nextLocation) {
+      // 返回 false 会继续停留当前页面，
+      // 否则，返回一个字符串，会显示给用户，让其自己决定
+      if (!this.state.isSaved)
+        return '确认要离开？';
+    },
+  })
+)
+```
+
+上面代码中，`setRouteLeaveHook`方法为`Leave`钩子指定`routerWillLeave`函数。该方法如果返回`false`，将阻止路由的切换，否则就返回一个字符串，提示用户决定是否要切换。
+
 ### 路由匹配原理
 
 路由拥有三个属性来决定是否“匹配“一个 URL：
@@ -524,6 +640,14 @@ render(
 
 Browser history 是使用 React Router 的应用推荐的 history。它使用浏览器中的 History API 用于处理 URL，创建一个像 `example.com/some/path` 这样真实的 URL 。
 
+但是，这种情况需要对[服务器改造](https://github.com/ReactTraining/react-router/blob/master/docs/guides/Histories.md#configuring-your-server)。否则用户直接向服务器请求某个子路由，会显示网页找不到的404错误
+
+如果开发服务器使用的是`webpack-dev-server`，加上`--history-api-fallback`参数就可以了。
+
+```
+webpack-dev-server --inline --content-base . --history-api-fallback
+```
+
 ##### 服务器配置
 
 服务器需要做好处理 URL 的准备。处理应用启动最初的 `/` 这样的请求应该没问题，但当用户来回跳转并在 `/accounts/123` 刷新时，服务器就会收到来自 `/accounts/123` 的请求，这时你需要处理这个 URL 并在响应中包含 JavaScript 应用代码。
@@ -575,9 +699,69 @@ router 允许你使用 IndexRoute ，以使 `Home` 作为最高层级的路由�
 
 ### Index Links
 
+如果链接到根路由`/`，不要使用`Link`组件，而要使用`IndexLink`组件。
+
 如果你在这个 app 中使用 `<Link to="/">Home</Link>` , 它会一直处于激活状态，因为所有的 URL 的开头都是 `/` 。 这确实是个问题，因为我们仅仅希望在 `Home` 被渲染后，激活并链接到它。
 
+这是因为对于根路由来说，`activeStyle`和`activeClassName`会失效，或者说总是生效，因为`/`会匹配任何子路由。而`IndexLink`组件会使用路径的精确匹配。
+
 如果需要在 `Home` 路由被渲染后才激活的指向 `/` 的链接，请使用 `<IndexLink to="/">Home</IndexLink>`
+
+另一种方法是使用`Link`组件的`onlyActiveOnIndex`属性，也能达到同样效果。
+
+```
+<Link to="/" activeClassName="active" onlyActiveOnIndex={true}>
+  Home
+</Link>
+```
+
+实际上，`IndexLink`就是对`Link`组件的`onlyActiveOnIndex`属性的包装。
+
+### 表单处理
+
+`Link`组件用于正常的用户点击跳转，但是有时还需要表单跳转、点击按钮跳转等操作。这些情况怎么跟React Router对接呢？
+
+下面是一个表单。
+
+```
+<form onSubmit={this.handleSubmit}>
+  <input type="text" placeholder="userName"/>
+  <input type="text" placeholder="repo"/>
+  <button type="submit">Go</button>
+</form>
+```
+
+第一种方法是使用`browserHistory.push`
+
+```
+import { browserHistory } from 'react-router'
+
+// ...
+  handleSubmit(event) {
+    event.preventDefault()
+    const userName = event.target.elements[0].value
+    const repo = event.target.elements[1].value
+    const path = `/repos/${userName}/${repo}`
+    browserHistory.push(path)
+  },
+```
+
+第二种方法是使用`context`对象。
+
+```
+export default React.createClass({
+
+  // ask for `router` from context
+  contextTypes: {
+    router: React.PropTypes.object
+  },
+
+  handleSubmit(event) {
+    // ...
+    this.context.router.push(path)
+  },
+})
+```
 
 ## 高级用法
 
