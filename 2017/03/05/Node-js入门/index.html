@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS,HTML,JavaScript," />
+  <meta name="keywords" content="Node.js," />
 
 
 
@@ -84,30 +84,34 @@
 
 
 
-<meta name="description" content="网页组件制作之购物车效果在该笔记中将学到列表展示中购物车效果的方法与展示效果
-本系列的是参考慕课网 阿安老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-实现效果
-注意事项：
-在进行 float 计算结果输出的时候，因为 float 的精度很高，所以输出的结果会有很高的精度，如 “73.23” 会输出成 “73.2300000000001”。所以，在使用 innerText 修改计算结果的时候">
+<meta name="description" content="本笔记记录着学习 Node 入门 这本书的练习步骤以及一些总结
+实现功能
+用户可以通过浏览器使用我们的应用。
+当用户请求http://domain/start时，可以看到一个欢迎页面，页面上有一个文件上传的表单。
+用户可以选择一个图片并提交表单，随后文件将被上传到http://domain/upload，该页面完成上传后会把图片显示在页面上。
+
+模块分析为了实现上文的用例，我们需要实现哪些部分">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网页组件制作之购物车效果">
-<meta property="og:url" content="https://shiningdan.github.io/2016/12/27/网页组件制作之购物车效果/index.html">
+<meta property="og:title" content="Node.js入门">
+<meta property="og:url" content="https://shiningdan.github.io/2017/03/05/Node-js入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="网页组件制作之购物车效果在该笔记中将学到列表展示中购物车效果的方法与展示效果
-本系列的是参考慕课网 阿安老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-实现效果
-注意事项：
-在进行 float 计算结果输出的时候，因为 float 的精度很高，所以输出的结果会有很高的精度，如 “73.23” 会输出成 “73.2300000000001”。所以，在使用 innerText 修改计算结果的时候">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/img81.PNG">
-<meta property="og:updated_time" content="2017-01-06T02:36:27.000Z">
+<meta property="og:description" content="本笔记记录着学习 Node 入门 这本书的练习步骤以及一些总结
+实现功能
+用户可以通过浏览器使用我们的应用。
+当用户请求http://domain/start时，可以看到一个欢迎页面，页面上有一个文件上传的表单。
+用户可以选择一个图片并提交表单，随后文件将被上传到http://domain/upload，该页面完成上传后会把图片显示在页面上。
+
+模块分析为了实现上文的用例，我们需要实现哪些部分">
+<meta property="og:updated_time" content="2017-03-05T14:52:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="网页组件制作之购物车效果">
-<meta name="twitter:description" content="网页组件制作之购物车效果在该笔记中将学到列表展示中购物车效果的方法与展示效果
-本系列的是参考慕课网 阿安老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-实现效果
-注意事项：
-在进行 float 计算结果输出的时候，因为 float 的精度很高，所以输出的结果会有很高的精度，如 “73.23” 会输出成 “73.2300000000001”。所以，在使用 innerText 修改计算结果的时候">
-<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/img81.PNG">
+<meta name="twitter:title" content="Node.js入门">
+<meta name="twitter:description" content="本笔记记录着学习 Node 入门 这本书的练习步骤以及一些总结
+实现功能
+用户可以通过浏览器使用我们的应用。
+当用户请求http://domain/start时，可以看到一个欢迎页面，页面上有一个文件上传的表单。
+用户可以选择一个图片并提交表单，随后文件将被上传到http://domain/upload，该页面完成上传后会把图片显示在页面上。
+
+模块分析为了实现上文的用例，我们需要实现哪些部分">
 
 
 
@@ -135,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2016/12/27/网页组件制作之购物车效果/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2017/03/05/Node-js入门/"/>
 
 
 
 
 
-  <title> 网页组件制作之购物车效果 | ShiningDan的博客 </title>
+  <title> Node.js入门 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -297,7 +301,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2016/12/27/网页组件制作之购物车效果/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/03/05/Node-js入门/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -321,7 +325,7 @@
             
             
               
-                网页组件制作之购物车效果
+                Node.js入门
               
             
           </h2>
@@ -336,8 +340,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-27T21:37:21+08:00">
-                2016-12-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-05T19:27:42+08:00">
+                2017-03-05
               </time>
             
 
@@ -377,8 +381,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/12/27/网页组件制作之购物车效果/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/27/网页组件制作之购物车效果/" itemprop="commentCount"></span>
+                <a href="/2017/03/05/Node-js入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/05/Node-js入门/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -388,7 +392,7 @@
 
           
           
-             <span id="/2016/12/27/网页组件制作之购物车效果/" class="leancloud_visitors" data-flag-title="网页组件制作之购物车效果">
+             <span id="/2017/03/05/Node-js入门/" class="leancloud_visitors" data-flag-title="Node.js入门">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -415,173 +419,49 @@
       
 
       
-        <h1 id="网页组件制作之购物车效果"><a href="#网页组件制作之购物车效果" class="headerlink" title="网页组件制作之购物车效果"></a>网页组件制作之购物车效果</h1><p><strong>在该笔记中将学到列表展示中购物车效果的方法与展示效果</strong></p>
-<p>本系列的是参考<a href="http://www.imooc.com/u/101164/courses?sort=publish" target="_blank" rel="external">慕课网 阿安</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
-<h2 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h2><p><img src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/img81.PNG" alt=""></p>
-<p><strong>注意事项：</strong></p>
-<p>在进行 float 计算结果输出的时候，因为 float 的精度很高，所以输出的结果会有很高的精度，如 “73.23” 会输出成 “73.2300000000001”。所以，在使用 innerText 修改计算结果的时候，可以使用 toFixed(num) 对float 数值进行处理，修改显示精度。</p>
-<a id="more"></a>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;购物车&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            body{margin: 0;padding: 0;font-size: 12px;}
-            .wrap{width: 700px;margin: 20px auto;}
-            .wrap span{display: inline-block;}
-            #shop-head{border: 1px solid #ddd;border-top: 2px solid rgb(178, 200, 231);height: 20px;background-color: rgb(228, 241, 255)}
-            #shop-head span{text-align: center;height: 20px;line-height: 20px}
-            .select,.price,.number,.total,.action{width: 80px}
-            .good{width: 200px;}
-            .goods{height: 100px;background-color: rgb(239, 245, 255);border: 1px solid #ddd;}
-            .good img{display: inline-block;vertical-align: middle}
-            .goods input{display: inline-block;vertical-align: middle;width: 30px;text-align: center}
-            .goods .number .add{background-color: #ddd;;width: 16px;height: 20px;line-height: 20px;margin-left: -6px;cursor: pointer;}
-            .goods .number .reduce{background-color: #ddd;;width: 16px;height: 20px;line-height: 20px;margin-right: -6px;}
-            .goods span:not([class=good]){line-height: 100px;vertical-align: middle;text-align: center}
-            .goods .action .delete{cursor: pointer;height: 20px;line-height: 20px;}
-            #shop-footer{background-color: rgb(237, 236, 237);border: 1px solid #ddd;margin-top: 2px;height: 30px;line-height: 30px;}
-            #shop-footer .buy{float: right;width: 60px;height: 30px;border-left: 1px solid #ddd;display: inline-block;text-align: center;}
-            #shop-footer .sum{margin-left: 300px;}
-        &lt;/style&gt;
-        &lt;script&gt;
-            let data = [  
-                {img:&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/img77.jpg&quot;,name:&quot;图解TCP/IP&quot;,price:46.20},
-                {img:&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/img78.jpg&quot;,name:&quot;图解HTTP&quot;,price:28.80},
-                {img:&quot;http://ofjjubwp5.bkt.clouddn.com/image/jpg/img79.jpg&quot;,name:&quot;ES6标准入门&quot;,price:41.30}
-            ];
+        <p>本笔记记录着学习 <a href="http://www.nodebeginner.org/index-zh-cn.html" target="_blank" rel="external">Node 入门</a> 这本书的练习步骤以及一些总结</p>
+<h2 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h2><ul>
+<li>用户可以通过浏览器使用我们的应用。</li>
+<li>当用户请求<code>http://domain/start</code>时，可以看到一个欢迎页面，页面上有一个文件上传的表单。</li>
+<li>用户可以选择一个图片并提交表单，随后文件将被上传到<code>http://domain/upload</code>，该页面完成上传后会把图片显示在页面上。</li>
+</ul>
+<h2 id="模块分析"><a href="#模块分析" class="headerlink" title="模块分析"></a>模块分析</h2><p>为了实现上文的用例，我们需要实现哪些部分</p>
+<ul>
+<li>我们需要提供Web页面，因此需要一个HTTP服务器</li>
+<li>对于不同的请求，根据请求的URL，我们的服务器需要给予不同的响应，因此我们需要一个<code>路由</code>，用于把请求对应到请求处理程序（request handler）</li>
+<li>当请求被服务器接收并通过路由传递之后，需要可以对其进行处理，因此我们需要最终的请求处理程序</li>
+<li>路由还应该能处理POST数据，并且把数据封装成更友好的格式传递给请求处理入程序，因此需要请求数据处理功能</li>
+<li>我们不仅仅要处理URL对应的请求，还要把内容显示出来，这意味着我们需要一些视图逻辑供请求处理程序使用，以便将内容发送给用户的浏览器</li>
+<li>最后，用户需要上传图片，所以我们需要上传处理功能来处理这方面的细节</li>
+</ul>
+<h2 id="构建应用的模块"><a href="#构建应用的模块" class="headerlink" title="构建应用的模块"></a>构建应用的模块</h2><h3 id="一个基础的HTTP服务器"><a href="#一个基础的HTTP服务器" class="headerlink" title="一个基础的HTTP服务器"></a>一个基础的HTTP服务器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var http = require(&quot;http&quot;);</div><div class="line"></div><div class="line">let server = http.createServer(function(request, response) &#123;</div><div class="line">	response.writeHead(200, &#123;&quot;Content-type&quot;: &quot;text/plain&quot;&#125;);</div><div class="line">	response.write(&quot;Hello World!&quot;);</div><div class="line">	response.end();</div><div class="line">&#125;);</div><div class="line"></div><div class="line">server.listen(8888);</div></pre></td></tr></table></figure>
+<p>第一行请求（<code>require</code>）Node.js自带的 <code>http</code> 模块，并且把它赋值给 <code>http</code> 变量。</p>
+<p>接下来我们调用<code>http</code>模块提供的函数： <code>createServer</code> 。这个函数会返回一个对象，这个对象有一个叫做 <code>listen</code> 的方法，这个方法有一个数值参数，指定这个HTTP服务器监听的端口号。</p>
+<p><code>function(request, response)</code>这个函数定义是 <code>createServer()</code> 的第一个也是唯一一个参数。因为在JavaScript中，函数和其他变量一样都是可以被传递的。</p>
+<p>当我们使用 <code>http.createServer</code> 方法的时候，我们当然不只是想要一个侦听某个端口的服务器，我们还想要它在服务器收到一个HTTP请求的时候做点什么。</p>
+<p>问题是，这是异步的：请求任何时候都可能到达，但是我们的服务器却跑在一个单进程中。</p>
+<p>写PHP应用的时候，我们一点也不为此担心：任何时候当有请求进入的时候，网页服务器（通常是Apache）就为这一请求新建一个进程，并且开始从头到尾执行相应的PHP脚本。</p>
+<p>那么在我们的Node.js程序中，当一个新的请求到达8888端口的时候，我们怎么控制流程呢？</p>
+<p>我们创建了服务器，并且向创建它的方法传递了一个函数。无论何时我们的服务器收到一个请求，这个函数就会被调用。</p>
+<p>这个就是传说中的 回调 。我们给某个方法传递了一个函数，这个方法在有相应事件发生时调用这个函数来进行 回调 。</p>
+<h3 id="服务器是如何处理请求的"><a href="#服务器是如何处理请求的" class="headerlink" title="服务器是如何处理请求的"></a>服务器是如何处理请求的</h3><p>当回调启动，我们的回调函数被触发的时候，有两个参数被传入： <code>request</code> 和 <code>response</code> 。</p>
+<p>它们是对象，你可以使用它们的方法来处理HTTP请求的细节，并且响应请求（比如向发出请求的浏览器发回一些东西）。</p>
+<p>所以我们的代码就是：当收到请求时，使用 <code>response.writeHead()</code>函数发送一个HTTP状态<code>200</code>和HTTP头的内容类型（<code>content-type</code>），使用 <code>response.write()</code> 函数在HTTP相应主体中发送文本“Hello World”。</p>
+<p>最后，我们调用 <code>response.end()</code> 完成响应。</p>
+<h3 id="服务端的模块放在哪里"><a href="#服务端的模块放在哪里" class="headerlink" title="服务端的模块放在哪里"></a>服务端的模块放在哪里</h3><p>我们现在在 server.js 文件中有一个非常基础的HTTP服务器代码，而且我提到通常我们会有一个叫 index.js 的文件去调用应用的其他模块（比如 server.js 中的HTTP服务器模块）来引导和启动应用。</p>
+<p>事实上，我们不用做太多的修改。把某段代码变成模块意味着我们需要把我们希望提供其功能的部分 导出 到请求这个模块的脚本。</p>
+<p>我们把我们的服务器脚本放到一个叫做 <code>start</code> 的函数里，然后我们会导出这个函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var http = require(&quot;http&quot;);</div><div class="line"></div><div class="line">function start() &#123;</div><div class="line">	function onRequest(request, response) &#123;</div><div class="line">		console.log(&apos;request received.&apos;);</div><div class="line">		response.writeHead(200, &#123;&quot;Content-type&quot;: &quot;text/plain&quot;&#125;);</div><div class="line">		response.write(&quot;Hello World!&quot;);</div><div class="line">		response.end();</div><div class="line">	&#125;</div><div class="line">	http.createServer(onRequest).listen(8888);</div><div class="line">	console.log(&apos;server start listen.&apos;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">exports.start = start;</div></pre></td></tr></table></figure>
+<p>我们现在就可以创建我们的主文件 index.js 并在其中启动我们的HTTP了，虽然服务器的代码还在 server.js 中。</p>
+<p>创建 index.js 文件并写入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">let server = require(&quot;./server.js&quot;);</div><div class="line"></div><div class="line">server.start();</div></pre></td></tr></table></figure>
+<p>我们现在就可以从我们的主要脚本启动我们的的应用了，而它还是老样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node index.js</div></pre></td></tr></table></figure>
+<h2 id="如何来进行请求的“路由”"><a href="#如何来进行请求的“路由”" class="headerlink" title="如何来进行请求的“路由”"></a>如何来进行请求的“路由”</h2><p>我们要为路由提供请求的URL和其他需要的GET及POST参数，随后路由需要根据这些数据来执行相应的代码（这里“代码”对应整个应用的第三部分：一系列在接收到请求时真正工作的处理程序）。</p>
+<p>我们需要的所有数据都会包含在<code>request</code>对象中，该对象作为<code>onRequest()</code>回调函数的第一个参数传递。但是为了解析这些数据，我们需要额外的Node.JS模块，它们分别是<code>url</code>和<code>querystring</code>模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">                               url.parse(string).query</div><div class="line">                                           |</div><div class="line">           url.parse(string).pathname      |</div><div class="line">                       |                   |</div><div class="line">                       |                   |</div><div class="line">                     ------ -------------------</div><div class="line">http://localhost:8888/start?foo=bar&amp;hello=world</div><div class="line">                                ---       -----</div><div class="line">                                 |          |</div><div class="line">                                 |          |</div><div class="line">              querystring(string)[&quot;foo&quot;]    |</div><div class="line">                                            |</div><div class="line">                         querystring(string)[&quot;hello&quot;]</div></pre></td></tr></table></figure>
+<p>现在我们来给<code>onRequest()</code>函数加上一些逻辑，用来找出浏览器请求的URL路径：</p>
 
-            function calTotal() {  
-                let goods = document.getElementsByClassName(&quot;goods&quot;);
-                let total = 0;
-                for(let i = 0; i &lt; goods.length; i++) {
-                    if(goods[i].getElementsByClassName(&quot;select&quot;)[0].getElementsByTagName(&quot;input&quot;)[0].checked) {
-                        let num = parseInt(goods[i].getElementsByClassName(&quot;count&quot;)[0].value);
-                        let price = parseFloat(goods[i].getElementsByClassName(&quot;price&quot;)[0].innerText);
-                        total = total + num * price;
-                    }
-                }
-                for(let i = 0; i &lt; goods.length; i++) {
-                    let num = parseInt(goods[i].getElementsByClassName(&quot;count&quot;)[0].value);
-                    let price = parseFloat(goods[i].getElementsByClassName(&quot;price&quot;)[0].innerText);
-                    let prices = num * price;
-                    goods[i].getElementsByClassName(&quot;total&quot;)[0].innerText = prices.toFixed(2);
-                }
-                document.getElementById(&quot;totalprice&quot;).innerText = total.toFixed(2);
-            }
-
-            window.onload =function () {  
-                let shopContent = document.getElementById(&quot;shop-content&quot;);
-                let goodsHTML = shopContent.innerHTML;
-                let number = document.getElementById(&quot;shop-content&quot;).getElementsByClassName(&quot;number&quot;);
-                let selectgoods = document.getElementById(&quot;shop-content&quot;).getElementsByClassName(&quot;select&quot;);
-                //预处理内容
-                let newHTMLCont = [];
-                for(let i=0; i&lt;data.length;i++) {
-                    let newHTML = goodsHTML.replace(&quot;{{img}}&quot;, data[i].img).replace(/{{index}}/g, i).replace(&quot;{{name}}&quot;, data[i].name).replace(&quot;{{price}}&quot;, data[i].price);
-                    newHTMLCont.push(newHTML);
-                }
-                shopContent.innerHTML = newHTMLCont.join(&quot;&quot;);
-
-                //添加事件监听
-                for(let i=0; i&lt;number.length; i++) {
-                    number[i].getElementsByClassName(&quot;add&quot;)[0].onclick = function () {  
-                        let n = document.getElementById(&quot;good-&quot; + i);
-                        let count = n.getElementsByClassName(&quot;count&quot;)[0];
-                        let num = parseInt(count.value)+1;
-                        count.value = num;
-                        if(num &gt; 1){
-                            let reduce = n.getElementsByClassName(&quot;reduce&quot;)[0];
-                            reduce.style.cursor = &quot;pointer&quot;;
-                            reduce.innerText = &quot;-&quot;;
-                        }
-                        calTotal();
-                    }
-                    number[i].getElementsByClassName(&quot;reduce&quot;)[0].onclick = function () { 
-                        let n = document.getElementById(&quot;good-&quot; + i); 
-                        let count = n.getElementsByClassName(&quot;count&quot;)[0];
-                        let num = parseInt(count.value)-1;
-
-                        if(num === 1){
-                            event.target.style.cursor = &quot;default&quot;;
-                            event.target.innerText = &quot;&quot;;
-                        }
-                        if(num &gt; 0){
-                            count.value = num;
-                        }
-                        calTotal();       
-                    }
-                }
-
-                //添加选中事件监听
-                let selectAll = document.getElementsByClassName(&quot;select-all&quot;);
-                for (let i=0; i&lt;selectAll.length;i++) {
-                    selectAll[i].onclick = function () {
-                        for(let j = 0; j&lt;selectgoods.length;j++) {
-                            selectgoods[j].getElementsByTagName(&quot;input&quot;)[0].checked = this.getElementsByTagName(&quot;input&quot;)[0].checked;
-                        }
-                        calTotal(); 
-                    }
-                }
-                for (let i = 0; i&lt;selectgoods.length;i++) {
-                    selectgoods[i].onclick = calTotal;
-                }
-
-
-                //添加删除事件监听
-                let deletes = document.getElementsByClassName(&quot;delete&quot;);
-                for(let i = 0; i&lt;deletes.length;i++) {
-                    deletes[i].onclick = function () {  
-                        let id = this.id;
-                        document.getElementById(&quot;shop-content&quot;).removeChild(document.getElementById(&quot;good-&quot; + id));
-                        calTotal(); 
-                    }
-                }
-                calTotal();
-            }
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;wrap&quot;&gt;
-            &lt;div id=&quot;shop-head&quot;&gt;
-                &lt;span class=&quot;select select-all&quot;&gt;&lt;input type=&quot;checkbox&quot;&gt;全选&lt;/span&gt;
-                &lt;span class=&quot;good&quot;&gt;商品&lt;/span&gt;
-                &lt;span class=&quot;price&quot;&gt;单价&lt;/span&gt;
-                &lt;span class=&quot;number&quot;&gt;数量&lt;/span&gt;
-                &lt;span class=&quot;total&quot;&gt;小计&lt;/span&gt;
-                &lt;span class=&quot;action&quot;&gt;操作&lt;/span&gt;
-            &lt;/div&gt;
-            &lt;div id=&quot;shop-content&quot;&gt;
-                &lt;div class=&quot;goods&quot; id=&quot;good-{{index}}&quot;&gt;
-                    &lt;span class=&quot;select&quot;&gt;&lt;input type=&quot;checkbox&quot;&gt;&lt;/span&gt;
-                    &lt;span class=&quot;good&quot;&gt;
-                        &lt;img src={{img}} alt=&quot;商品图片&quot;&gt; {{name}}
-                    &lt;/span&gt;
-                    &lt;span class=&quot;price&quot;&gt;{{price}}&lt;/span&gt;
-                    &lt;span class=&quot;number&quot;&gt;
-                        &lt;span class=&quot;reduce&quot;&gt;&lt;/span&gt;
-                        &lt;input class=&quot;count&quot; type=&quot;text&quot; value=&quot;1&quot;&gt;
-                        &lt;span class=&quot;add&quot;&gt;+&lt;/span&gt;
-                    &lt;/span&gt;
-                    &lt;span class=&quot;total&quot;&gt;46.20&lt;/span&gt;
-                    &lt;span class=&quot;action&quot;&gt;
-                        &lt;span class=&quot;delete&quot; id=&quot;{{index}}&quot;&gt;删除&lt;/span&gt;
-                    &lt;/span&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div id=&quot;shop-footer&quot;&gt;
-                &lt;span class=&quot;select select-all&quot;&gt;&lt;input type=&quot;checkbox&quot;&gt;全选&lt;/span&gt;
-                &lt;span class=&quot;deleteAll&quot;&gt;删除全部&lt;/span&gt;
-                &lt;span class=&quot;sum&quot;&gt;
-                    已选商品&lt;span class=&quot;counts&quot;&gt;0&lt;/span&gt;件&amp;nbsp;
-                    合计：￥ &lt;span id=&quot;totalprice&quot;&gt;46.20&lt;/span&gt;
-                &lt;/span&gt;
-                &lt;span class=&quot;buy&quot;&gt;结算&lt;/span&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
       
     </div>
 
@@ -604,11 +484,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
-          
-            <a href="/tags/HTML/" rel="tag"># HTML</a>
-          
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+            <a href="/tags/Node-js/" rel="tag"># Node.js</a>
           
         </div>
       
@@ -617,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/18/网页组件制作之图片剪切效果/" rel="next" title="网页组件制作之图片剪切效果">
-                <i class="fa fa-chevron-left"></i> 网页组件制作之图片剪切效果
+              <a href="/2017/03/03/SQL入门/" rel="next" title="SQL入门">
+                <i class="fa fa-chevron-left"></i> SQL入门
               </a>
             
           </div>
@@ -626,10 +502,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/29/Sass-笔记/" rel="prev" title=" Sass 笔记">
-                 Sass 笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -655,8 +527,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/12/27/网页组件制作之购物车效果/"
-           data-title="网页组件制作之购物车效果" data-url="https://shiningdan.github.io/2016/12/27/网页组件制作之购物车效果/">
+      <div class="ds-thread" data-thread-key="2017/03/05/Node-js入门/"
+           data-title="Node.js入门" data-url="https://shiningdan.github.io/2017/03/05/Node-js入门/">
       </div>
     
   </div>
@@ -756,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网页组件制作之购物车效果"><span class="nav-number">1.</span> <span class="nav-text">网页组件制作之购物车效果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现效果"><span class="nav-number">1.1.</span> <span class="nav-text">实现效果</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现功能"><span class="nav-number">1.</span> <span class="nav-text">实现功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块分析"><span class="nav-number">2.</span> <span class="nav-text">模块分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建应用的模块"><span class="nav-number">3.</span> <span class="nav-text">构建应用的模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个基础的HTTP服务器"><span class="nav-number">3.1.</span> <span class="nav-text">一个基础的HTTP服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器是如何处理请求的"><span class="nav-number">3.2.</span> <span class="nav-text">服务器是如何处理请求的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端的模块放在哪里"><span class="nav-number">3.3.</span> <span class="nav-text">服务端的模块放在哪里</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何来进行请求的“路由”"><span class="nav-number">4.</span> <span class="nav-text">如何来进行请求的“路由”</span></a></li></ol></div>
             
 
           </div>
