@@ -447,6 +447,272 @@ exports.upload = upload;
 
 ### 以非阻塞操作进行请求响应
 
+到目前为止，我们的应用已经可以通过应用各层之间传递值的方式（请求处理程序 -> 请求路由 -> 服务器）将请求处理程序返回的内容（请求处理程序最终要显示给用户的内容）传递给HTTP服务器。
+
+现在我们采用如下这种新的实现方式：相对采用将内容传递给服务器的方式，我们这次采用将服务器“传递”给内容的方式。 从实践角度来说，就是将`response`对象（从服务器的回调函数`onRequest()`获取）通过请求路由传递给请求处理程序。 随后，处理程序就可以采用该对象上的函数来对请求作出响应。
+
+先从server.js开始：
+
+```
+let http = require("http");
+let url = require("url");
+
+function start(route, handle) {
+	function onRequest(request, response) {
+		console.log('request received.');
+		let pathname = url.parse(request.url).pathname;
+		console.log('request for ' + pathname + ' received.');
+
+		route(handle, pathname, response);
+	}
+	http.createServer(onRequest).listen(8888);
+	console.log('server start listen.');
+}
+
+exports.start = start;
+```
+
+我们将`onRequest()`处理程序中所有有关`response`的函数调都移除，因为我们希望这部分工作让`route()`函数来完成。
+
+```
+function route(handle, pathname, response) {
+	console.log('About to route a request for ' + pathname);
+	if (typeof handle[pathname] === 'function') {
+		handle[pathname](response);
+	} else {
+		console.log('No request handler found for ' + pathname);
+		response.writeHead(404, {'Content-Type': 'text/plain'});
+		response.write('404 Not found');
+		response.end();
+	}
+}
+
+exports.route = route;
+```
+
+最后，我们将requestHandler.js修改为如下形式：
+
+```
+let exec = require("child_process").exec;
+
+function start(response) {
+	console.log('Reques handler "start" was called');
+	exec("find /", {timeout: 10000, maxBuffer: 20000*1024}, 
+		function(error, stdout, stderr) {
+		response.writeHead(200, {"Content-Type": "text/plain"});
+		response.write(stdout);
+		response.end();
+	});
+}
+
+function upload(response) {
+	console.log('Request handler "upload" was called');
+	response.writeHead(200, {"Content-Type": "text/plain"});
+	response.write("Hello Upload");
+	response.end();
+}
+
+exports.start = start;
+exports.upload = upload;
+```
+
+这时再次我们启动应用（node index.js），一切都会工作的很好。
+
+
+当请求http://localhost:8888/start的时候，会花10秒钟的时间才载入，而当请求http://localhost:8888/upload的时候，会立即响应，纵然这个时候/start响应还在处理中。
+
+## 更有用的场景
+
+服务器，请求路由以及请求处理程序都已经完成了，下面让我们按照此前的用例给网站添加交互：用户选择一个文件，上传该文件，然后在浏览器中看到上传的文件。 为了保持简单，我们假设用户只会上传图片，然后我们应用将该图片显示到浏览器中。
+
+要实现该功能，分为如下两步： 首先，让我们来看看如何处理POST请求（非文件上传），之后，我们使用Node.js的一个用于文件上传的外部模块。之所以采用这种实现方式有两个理由。
+
+第一，尽管在Node.js中处理基础的POST请求相对比较简单，但在这过程中还是能学到很多。 
+第二，用Node.js来处理文件上传（multipart POST请求）是比较复杂的，它不在本书的范畴，但，如何使用外部模块却是在本书涉猎内容之内。
+
+### 处理POST请求
+
+考虑这样一个简单的例子：我们显示一个文本区（textarea）供用户输入内容，然后通过POST请求提交给服务器。最后，服务器接受到请求，通过处理程序将输入的内容展示到浏览器中。
+
+`/start`请求处理程序用于生成带文本区的表单，因此，我们将requestHandlers.js修改为如下形式：
+
+```
+let exec = require("child_process").exec;
+
+function start(response) {
+	console.log('Reques handler "start" was called');
+	
+	let body = `<html>
+	<head>
+		<meta http-qnuiv="Content-Type" content="text/html" charset=UTF-8/>
+	</head>
+	<body>
+		<form action="/upload" method="post">
+			<textarea name="text" cols="60" rows="20"></textarea>
+			<input type="submit" value="Submit Text"/>
+		</form>
+	</body>
+	</html>`
+	response.writeHead(200, {"Content-Type": "text/html"});
+	response.write(body);
+	response.end();
+}
+
+function upload(response) {
+	console.log('Request handler "upload" was called');
+	response.writeHead(200, {"Content-Type": "text/plain"});
+	response.write("Hello Upload");
+	response.end();
+}
+
+exports.start = start;
+exports.upload = upload;
+```
+
+当请求 `/start` 的时候，会收到一个页面，页面中有 `textarea` 元素和 `input[type="submit"]` 元素。当点击 `submit` 的时候，通过 `input` 的 `action` 导向到 `/upload` 链接，从而触发 upload 的处理函数。
+
+采用异步回调来实现非阻塞地处理POST请求的数据。
+
+这里采用非阻塞方式处理是明智的，因为POST请求一般都比较“重” —— 用户可能会输入大量的内容。用阻塞的方式处理大数据量的请求必然会导致用户操作的阻塞。
+
+为了使整个过程非阻塞，Node.js会将POST数据拆分成很多小的数据块，然后通过触发特定的事件，将这些小数据块传递给回调函数。这里的特定的事件有`data`事件（表示新的小数据块到达了）以及`end`事件（表示所有的数据都已经接收完毕）。
+
+我们需要告诉Node.js当这些事件触发的时候，回调哪些函数。怎么告诉呢？ 我们通过在`request`对象上注册监听器（listener） 来实现。这里的`request`对象是每次接收到HTTP请求时候，都会把该对象传递给`onRequest`回调函数。
+
+**获取所有来自请求的数据，然后将这些数据给应用层处理，应该是HTTP服务器要做的事情。**
+
+因此，我建议，我们直接在服务器中处理POST数据，然后将最终的数据传递给请求路由和请求处理器，让他们来进行进一步的处理。
+
+实现思路就是： 将`data`和`end`事件的回调函数直接放在服务器中，在`data`事件回调中收集所有的POST数据，当接收到所有数据，触发`end`事件后，其回调函数调用请求路由，并将数据传递给它，然后，请求路由再将该数据传递给请求处理程序。
+
+先从server.js开始：
+
+```
+var http = require("http");
+var url = require("url");
+
+function start(route, handle) {
+  function onRequest(request, response) {
+    var postData = "";
+    var pathname = url.parse(request.url).pathname;
+    console.log("Request for " + pathname + " received.");
+
+    request.setEncoding("utf8");
+
+    request.addListener("data", function(postDataChunk) {
+      postData += postDataChunk;
+      console.log("Received POST data chunk '"+
+      postDataChunk + "'.");
+    });
+
+    request.addListener("end", function() {
+      route(handle, pathname, response, postData);
+    });
+
+  }
+
+  http.createServer(onRequest).listen(8888);
+  console.log("Server has started.");
+}
+
+exports.start = start;
+```
+
+首先，我们设置了接收数据的编码格式为UTF-8，然后注册了“data”事件的监听器，用于收集每次接收到的新数据块，并将其赋值给`postData` 变量，最后，我们将请求路由的调用移到`end`事件处理程序中，以确保它只会当所有数据接收完毕后才触发，并且只触发一次。我们同时还把POST数据传递给请求路由，因为这些数据，请求处理程序会用到。
+
+我建议可以尝试下，尝试着去输入一小段文本，以及大段内容，当大段内容的时候，就会发现data事件会触发多次。
+
+我们接下来在`/upload`页面，展示用户输入的内容。要实现该功能，我们需要将`postData`传递给请求处理程序，修改router.js为如下形式：
+
+```
+function route(handle, pathname, response, postData) {
+	console.log('About to route a request for ' + pathname);
+	if (typeof handle[pathname] === 'function') {
+		handle[pathname](response, postData);
+	} else {
+		console.log('No request handler found for ' + pathname);
+		response.writeHead(404, {'Content-Type': 'text/plain'});
+		response.write('404 Not found');
+		response.end();
+	}
+}
+
+exports.route = route;
+```
+
+然后，在requestHandlers.js中，我们将数据包含在对`upload`请求的响应中：
+
+```
+function start(response, postData) {
+  console.log("Request handler 'start' was called.");
+
+  var body = '<html>'+
+    '<head>'+
+    '<meta http-equiv="Content-Type" content="text/html; '+
+    'charset=UTF-8" />'+
+    '</head>'+
+    '<body>'+
+    '<form action="/upload" method="post">'+
+    '<textarea name="text" rows="20" cols="60"></textarea>'+
+    '<input type="submit" value="Submit text" />'+
+    '</form>'+
+    '</body>'+
+    '</html>';
+
+    response.writeHead(200, {"Content-Type": "text/html"});
+    response.write(body);
+    response.end();
+}
+
+function upload(response, postData) {
+  console.log("Request handler 'upload' was called.");
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.write("You've sent: " + postData);
+  response.end();
+}
+
+exports.start = start;
+exports.upload = upload;
+```
+
+好了，我们现在可以接收POST数据并在请求处理程序中处理该数据了。
+
+我们最后要做的是： 当前我们是把请求的整个消息体传递给了请求路由和请求处理程序。我们应该只把POST数据中，我们感兴趣的部分传递给请求路由和请求处理程序。在我们这个例子中，我们感兴趣的其实只是`text`字段。
+
+例如我们在输入一段“Hello Node.js” 的时候，`postData` 的返回值是 `text=Hello+Node.js`，我们需要把 `text` 其中的内容保留显示。所以使用 querystring 来进行处理。
+
+```
+var querystring = require("querystring");
+
+function upload(response, postData) {
+  console.log("Request handler 'upload' was called.");
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.write("You've sent the text: "+
+  querystring.parse(postData).text);
+  response.end();
+}
+```
+
+### 处理文件上传
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
