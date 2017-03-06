@@ -14,6 +14,8 @@ tags:
 * 当用户请求`http://domain/start`时，可以看到一个欢迎页面，页面上有一个文件上传的表单。
 * 用户可以选择一个图片并提交表单，随后文件将被上传到`http://domain/upload`，该页面完成上传后会把图片显示在页面上。
 
+<!--more-->
+
 ## 模块分析
 
 为了实现上文的用例，我们需要实现哪些部分
@@ -133,6 +135,386 @@ http://localhost:8888/start?foo=bar&hello=world
 ```
 
 现在我们来给`onRequest()`函数加上一些逻辑，用来找出浏览器请求的URL路径：
+
+其中，一些相关的对象为：
+
+`request.url`：类型为 string，其中的值为：`/start?foo=bar&hello=world`
+
+经过 `url.parse(request.url)` 后生成一个 Object 类型的对象。其中的内容为：
+
+```
+Url {
+  protocol: null,
+  slashes: null,
+  auth: null,
+  host: null,
+  port: null,
+  hostname: null,
+  hash: null,
+  search: '?foo=bar&hello=world',
+  query: 'foo=bar&hello=world',
+  pathname: '/start',
+  path: '/start?foo=bar&hello=world',
+  href: '/start?foo=bar&hello=world' }
+```
+
+解析的代码为：
+
+```
+let http = require("http");
+let url = require("url");
+
+function start() {
+	function onRequest(request, response) {
+		console.log('request received.');
+		let pathname = url.parse(request.url).pathname;
+		console.log('request for ' + pathname + ' received.');
+		response.writeHead(200, {"Content-type": "text/plain"});
+		response.write("Hello World!");
+		response.end();
+	}
+	http.createServer(onRequest).listen(8888);
+	console.log('server start listen.');
+}
+
+exports.start = start;
+```
+
+好了，我们的应用现在可以通过请求的URL路径来区别不同请求了--这使我们得以使用路由（还未完成）来将请求以URL路径为基准映射到处理程序上。
+
+在我们所要构建的应用中，这意味着来自`/start`和`/upload`的请求可以使用不同的代码来处理。稍后我们将看到这些内容是如何整合到一起的。
+
+现在我们可以来编写路由了，建立一个名为`router.js`的文件，添加以下内容：
+
+```
+function route(pathname) {
+	console.log('About to route a request for ' + pathname);
+}
+
+exports.route = route;
+```
+
+我们来扩展一下服务器的start()函数，以便将路由函数作为参数传递过去：
+
+```
+let http = require("http");
+let url = require("url");
+
+function start(route) {
+	function onRequest(request, response) {
+		console.log('request received.');
+		let pathname = url.parse(request.url).pathname;
+		console.log('request for ' + pathname + ' received.');
+
+		route(pathname);
+
+		response.writeHead(200, {"Content-type": "text/plain"});
+		response.write("Hello World!");
+		response.end();
+	}
+	http.createServer(onRequest).listen(8888);
+	console.log('server start listen.');
+}
+
+exports.start = start;
+```
+
+同时，我们会相应扩展index.js，使得路由函数可以被注入到服务器中：
+
+```
+let server = require("./server.js");
+let router = require("./router.js")
+
+server.start(router.route);
+```
+
+### 路由给真正的请求处理程序
+
+当然这还远远不够，路由，顾名思义，是指我们要针对不同的URL有不同的处理方式。例如处理`/start`的“业务逻辑”就应该和处理`/upload`的不同。
+
+应用程序需要新的部件，因此加入新的模块 -- 已经无需为此感到新奇了。我们来创建一个叫做requestHandlers的模块，并对于每一个请求处理程序，添加一个占位用函数，随后将这些函数作为模块的方法导出：
+
+```
+function start() {
+	console.log('Reques handler "start" was called');
+}
+
+function upload() {
+	console.log('Request handler "upload" was called');
+}
+
+exports.start = start;
+exports.upload = upload;
+```
+
+在这里我们得做个决定：是将`requestHandlers`模块硬编码到路由里来使用，还是再添加一点依赖注入？虽然和其他模式一样，依赖注入不应该仅仅为使用而使用，但在现在这个情况下，使用依赖注入可以让路由和请求处理程序之间的耦合更加松散，也因此能让路由的重用性更高。
+
+那么我们要怎么传递这些请求处理程序呢？别看现在我们只有2个处理程序，在一个真实的应用中，请求处理程序的数量会不断增加，我们当然不想每次有一个新的URL或请求处理程序时，都要为了在路由里完成请求到处理程序的映射而反复折腾。除此之外，在路由里有一大堆`if request == x then call handler y`也使得系统丑陋不堪。
+
+我们已经确定将一系列请求处理程序通过一个对象来传递，并且需要使用松耦合的方式将这个对象注入到`route()`函数中。
+
+我们先将这个对象引入到主文件`index.js`中：
+
+```
+let server = require("./server.js");
+let router = require("./router.js");
+let requestHandlers = require("./requestHandlers.js");
+
+let handle = {};
+handle["/"] = requestHandlers.start;
+handle["/start"] = requestHandlers.start;
+handle["/upload"] = requestHandlers.upload;
+server.start(router.route, handle);
+```
+
+在完成了对象的定义后，我们把它作为额外的参数传递给服务器，为此将server.js修改如下：
+
+```
+let http = require("http");
+let url = require("url");
+
+function start(route, handle) {
+	function onRequest(request, response) {
+		console.log('request received.');
+		let pathname = url.parse(request.url).pathname;
+		console.log('request for ' + pathname + ' received.');
+
+		route(handle, pathname);
+
+		response.writeHead(200, {"Content-type": "text/plain"});
+		response.write("Hello World!");
+		response.end();
+	}
+	http.createServer(onRequest).listen(8888);
+	console.log('server start listen.');
+}
+
+exports.start = start;
+```
+
+然后我们相应地在route.js文件中修改`route()`函数：
+
+```
+function route(handle, pathname) {
+	console.log('About to route a request for ' + pathname);
+	if (typeof handle[pathname] === 'function') {
+		handle[pathname]();
+	} else {
+		console.log('No request handler found for ' + pathname);
+	}
+}
+
+exports.route = route;
+```
+
+## 让请求处理程序作出响应
+
+浏览器发出请求后获得并显示的“Hello World”信息仍是来自于我们server.js文件中的`onRequest`函数。
+
+其实“处理请求”说白了就是“对请求作出响应”，因此，我们需要让请求处理程序能够像`onRequest`函数那样可以和浏览器进行“对话”。
+
+### 不好的实现方式
+
+让请求处理程序通过`onRequest`函数直接返回`（return()）`他们要展示给用户的信息。
+
+让我们从让请求处理程序返回需要在浏览器中显示的信息开始。我们需要将requestHandler.js修改为如下形式：
+
+```
+function start() {
+  console.log("Request handler 'start' was called.");
+  return "Hello Start";
+}
+
+function upload() {
+  console.log("Request handler 'upload' was called.");
+  return "Hello Upload";
+}
+
+exports.start = start;
+exports.upload = upload;
+```
+
+好的。同样的，请求路由需要将请求处理程序返回给它的信息返回给服务器。因此，我们需要将router.js修改为如下形式：
+
+```
+function route(handle, pathname) {
+  console.log("About to route a request for " + pathname);
+  if (typeof handle[pathname] === 'function') {
+    return handle[pathname]();
+  } else {
+    console.log("No request handler found for " + pathname);
+    return "404 Not found";
+  }
+}
+
+exports.route = route;
+```
+
+最后，我们需要对我们的server.js进行重构以使得它能够将请求处理程序通过请求路由返回的内容响应给浏览器，如下所示：
+
+```
+var http = require("http");
+var url = require("url");
+
+function start(route, handle) {
+  function onRequest(request, response) {
+    var pathname = url.parse(request.url).pathname;
+    console.log("Request for " + pathname + " received.");
+
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    var content = route(handle, pathname)
+    response.write(content);
+    response.end();
+  }
+
+  http.createServer(onRequest).listen(8888);
+  console.log("Server has started.");
+}
+
+exports.start = start;
+```
+
+如果我们运行重构后的应用，一切都会工作的很好：
+
+请求http://localhost:8888/start,浏览器会输出“Hello Start”，
+请求http://localhost:8888/upload会输出“Hello Upload”,
+请求http://localhost:8888/foo 会输出“404 Not found”。
+
+好，那么问题在哪里呢？简单的说就是： 当未来有请求处理程序需要进行非阻塞的操作的时候，我们的应用就“挂”了。
+
+### 阻塞与非阻塞
+
+我们来修改下start请求处理程序，我们让它等待10秒以后再返回“Hello Start”。
+
+```
+function start() {
+  console.log("Request handler 'start' was called.");
+
+  function sleep(milliSeconds) {
+    var startTime = new Date().getTime();
+    while (new Date().getTime() < startTime + milliSeconds);
+  }
+
+  sleep(10000);
+  return "Hello Start";
+}
+
+function upload() {
+  console.log("Request handler 'upload' was called.");
+  return "Hello Upload";
+}
+
+exports.start = start;
+exports.upload = upload;
+```
+
+在第一个窗口中（“/start”）按下回车，然后快速切换到第二个窗口中（“/upload”）按下回车。
+
+发生了什么： /start URL加载花了10秒，这和我们预期的一样。但是，/upload URL居然也花了10秒，
+
+这到底是为什么呢？原因就是`start()`包含了阻塞操作。形象的说就是“它阻塞了所有其他的处理工作”。
+
+Node.js可以在不新增额外线程的情况下，依然可以对任务进行并行处理 —— Node.js是单线程的。它通过事件轮询（event loop）来实现并行操作，对此，我们应该要充分利用这一点 —— 尽可能的避免阻塞操作，取而代之，多使用非阻塞操作。
+
+接下来，我们会介绍一种错误的使用非阻塞操作的方式。
+
+```
+var exec = require("child_process").exec;
+
+function start() {
+  console.log("Request handler 'start' was called.");
+  var content = "empty";
+
+  exec("ls -lah", function (error, stdout, stderr) {
+    content = stdout;
+  });
+
+  return content;
+}
+
+function upload() {
+  console.log("Request handler 'upload' was called.");
+  return "Hello Upload";
+}
+
+exports.start = start;
+exports.upload = upload;
+```
+
+上述代码中，我们引入了一个新的Node.js模块，child_process。之所以用它，是为了实现一个既简单又实用的非阻塞操作：`exec()`。
+
+`exec()`做了什么呢？它从Node.js来执行一个shell命令。在上述例子中，我们用它来获取当前目录下所有的文件（“`ls -lah`”）,然后，当/startURL请求的时候将文件信息输出到浏览器中。
+
+### 以非阻塞操作进行请求响应
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
