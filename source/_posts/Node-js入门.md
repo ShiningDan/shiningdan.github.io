@@ -695,6 +695,289 @@ function upload(response, postData) {
 
 ### 处理文件上传
 
+最后，我们来实现我们最终的用例：允许用户上传图片，并将该图片在浏览器中显示出来。
+
+这里我们要用到的外部模块是Felix Geisendörfer开发的`node-formidable`模块。它对解析上传的文件数据做了很好的抽象。 其实说白了，处理文件上传“就是”处理POST数据 —— 但是，麻烦的是在具体的处理细节，所以，这里采用现成的方案更合适点。
+
+```
+npm install formidable
+```
+
+这里该模块做的就是将通过HTTP POST请求提交的表单，在Node.js中可以被解析。我们要做的就是创建一个新的`IncomingForm`，它是对提交表单的抽象表示，之后，就可以用它解析`request`对象，获取表单中需要的数据字段。
+
+`node-formidable`官方的例子展示了这两部分是如何融合在一起工作的：
+
+```
+var formidable = require('formidable'),
+    http = require('http'),
+    util = require('util');
+
+http.createServer(function(req, res) {
+  if (req.url == '/upload' && req.method.toLowerCase() == 'post') {
+    // parse a file upload
+    var form = new formidable.IncomingForm();
+    form.parse(req, function(err, fields, files) {
+      res.writeHead(200, {'content-type': 'text/plain'});
+      res.write('received upload:\n\n');
+      res.end(util.inspect({fields: fields, files: files}));
+    });
+    return;
+  }
+
+  // show a file upload form
+  res.writeHead(200, {'content-type': 'text/html'});
+  res.end(
+    '<form action="/upload" enctype="multipart/form-data" '+
+    'method="post">'+
+    '<input type="text" name="title"><br>'+
+    '<input type="file" name="upload" multiple="multiple"><br>'+
+    '<input type="submit" value="Upload">'+
+    '</form>'
+  );
+}).listen(8888);
+```
+
+可以看到通过调用`form.parse`传递给回调函数的`files`对象的内容，如下所示：
+
+```
+received upload:
+
+{ fields: { title: 'Hello World' },
+  files:
+   { upload:
+      { size: 1558,
+        path: '/tmp/1c747974a27a6292743669e91f29350b',
+        name: 'us-flag.png',
+        type: 'image/png',
+        lastModifiedDate: Tue, 21 Jun 2011 07:02:41 GMT,
+        _writeStream: [Object],
+        length: [Getter],
+        filename: [Getter],
+        mime: [Getter] } } }
+```
+
+为了实现我们的功能，我们需要将上述代码应用到我们的应用中，另外，我们还要考虑如何将上传文件的内容（保存在`/tmp`目录中）显示到浏览器中。
+
+显然，我们需要将该文件读取到我们的服务器中，使用一个叫`fs`的模块。
+
+我们来添加`/showURL`的请求处理程序，该处理程序直接硬编码将文件`/tmp/test.png`内容展示到浏览器中。当然了，首先需要将该图片保存到这个位置才行。
+
+将requestHandlers.js修改为如下形式：
+
+```
+var querystring = require("querystring"),
+    fs = require("fs");
+
+function start(response, postData) {
+  console.log("Request handler 'start' was called.");
+
+  var body = '<html>'+
+    '<head>'+
+    '<meta http-equiv="Content-Type" '+
+    'content="text/html; charset=UTF-8" />'+
+    '</head>'+
+    '<body>'+
+    '<form action="/upload" method="post">'+
+    '<textarea name="text" rows="20" cols="60"></textarea>'+
+    '<input type="submit" value="Submit text" />'+
+    '</form>'+
+    '</body>'+
+    '</html>';
+
+    response.writeHead(200, {"Content-Type": "text/html"});
+    response.write(body);
+    response.end();
+}
+
+function upload(response, postData) {
+  console.log("Request handler 'upload' was called.");
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.write("You've sent the text: "+
+  querystring.parse(postData).text);
+  response.end();
+}
+
+function show(response, postData) {
+  console.log("Request handler 'show' was called.");
+  fs.readFile("/tmp/test.png", "binary", function(error, file) {
+    if(error) {
+      response.writeHead(500, {"Content-Type": "text/plain"});
+      response.write(error + "\n");
+      response.end();
+    } else {
+      response.writeHead(200, {"Content-Type": "image/png"});
+      response.write(file, "binary");
+      response.end();
+    }
+  });
+}
+
+exports.start = start;
+exports.upload = upload;
+exports.show = show;
+```
+
+我们还需要将这新的请求处理程序，添加到index.js中的路由映射表中：
+
+```
+var server = require("./server");
+var router = require("./router");
+var requestHandlers = require("./requestHandlers");
+
+var handle = {}
+handle["/"] = requestHandlers.start;
+handle["/start"] = requestHandlers.start;
+handle["/upload"] = requestHandlers.upload;
+handle["/show"] = requestHandlers.show;
+
+server.start(router.route, handle);
+```
+
+重启服务器之后，通过访问http://localhost:8888/show，就可以看到保存在`/tmp/test.png`的图片了。
+
+好，最后我们要的就是：
+
+在`/start`表单中添加一个文件上传元素
+将`node-formidable`整合到我们的`upload`请求处理程序中，用于将上传的图片保存到`/tmp/test.png`
+将上传的图片内嵌到`/uploadURL`输出的HTML中
+
+第一项很简单。只需要在HTML表单中，添加一个`multipart/form-data`的编码类型，移除此前的文本区，添加一个文件上传组件，并将提交按钮的文案改为“Upload file”即可。 如下requestHandler.js所示：
+
+```
+function start(response, postData) {
+	console.log('Reques handler "start" was called');
+	
+	let body = `<html>
+	<head>
+		<meta http-qnuiv="Content-Type" content="text/html" charset=UTF-8/>
+	</head>
+	<body>
+		<form action="/upload" method="post" enctype="multipart/from-data">
+			<input type="file" name="upload" />
+			<input type="submit" value="Upload file" />
+		</form>
+	</body>
+	</html>`
+	response.writeHead(200, {"Content-Type": "text/html"});
+	response.write(body);
+	response.end();
+}
+```
+
+很好。下一步相对比较复杂。这里有这样一个问题： 我们需要在`upload`处理程序中对上传的文件进行处理，这样的话，我们就需要将`request`对象传递给`node-formidable`的`form.parse`函数。
+
+但是，我们有的只是`response`对象和`postData`数组。看样子，我们只能不得不将`request`对象从服务器开始一路通过请求路由，再传递给请求处理程序。 或许还有更好的方案，但是，不管怎么说，目前这样做可以满足我们的需求。
+
+到这里，我们可以将`postData`从服务器以及请求处理程序中移除了 —— 一方面，对于我们处理文件上传来说已经不需要了，另外一方面，它甚至可能会引发这样一个问题： 我们已经“消耗”了`request`对象中的数据，这意味着，对于`form.parse`来说，当它想要获取数据的时候就什么也获取不到了。（因为Node.js不会对数据做缓存）
+
+我们从server.js开始 —— 移除对`postData`的处理以及`request.setEncoding` （这部分node-formidable自身会处理），转而采用将request对象传递给请求路由的方式：
+
+```
+let http = require("http");
+let url = require("url");
+
+function start(route, handle) {
+	function onRequest(request, response) {
+		console.log('request received.');
+		let pathname = url.parse(request.url).pathname;
+		console.log('request for ' + pathname + ' received.');
+		route(handle, pathname, response, request);
+	}
+	http.createServer(onRequest).listen(8888);
+	console.log('server start listen.');
+}
+
+exports.start = start;
+```
+
+接下来是 router.js —— 我们不再需要传递`postData`了，这次要传递`request`对象：
+
+```
+function route(handle, pathname, response, request) {
+	console.log('About to route a request for ' + pathname);
+	if (typeof handle[pathname] === 'function') {
+		handle[pathname](response, request);
+	} else {
+		console.log('No request handler found for ' + pathname);
+		response.writeHead(404, {'Content-Type': 'text/plain'});
+		response.write('404 Not found');
+		response.end();
+	}
+}
+
+exports.route = route;
+```
+
+现在，`request`对象就可以在我们的`upload`请求处理程序中使用了。node-formidable会处理将上传的文件保存到本地`/tmp`目录中，而我们需要做的是确保该文件保存成`/tmp/test.png`。 没错，我们保持简单，并假设只允许上传PNG图片。
+
+这里采用`fs.renameSync(path1,path2)`来实现。要注意的是，正如其名，该方法是同步执行的， 也就是说，如果该重命名的操作很耗时的话会阻塞。 这块我们先不考虑。
+
+接下来，我们把处理文件上传以及重命名的操作放到一起，如下requestHandlers.js所示：
+
+```
+let querystring = require("querystring");
+let fs = require("fs");
+let formidable = require("formidable");
+
+function start(response) {
+	console.log('Reques handler "start" was called');
+	
+	let body = `<html>
+	<head>
+		<meta http-qnuiv="Content-Type" content="text/html" charset=UTF-8/>
+	</head>
+	<body>
+		<form action="/upload" method="post" enctype="multipart/form-data">
+			<input type="file" name="upload" multiple="multiple"/>
+			<input type="submit" value="Upload file" />
+		</form>
+	</body>
+	</html>`
+	response.writeHead(200, {"Content-Type": "text/html"});
+	response.write(body);
+	response.end();
+}
+
+function upload(response, request) {
+	console.log('Request handler "upload" was called');
+
+	let form = new formidable.IncomingForm();
+	console.log('About to parse');
+	form.parse(request, function(error, fields, files) {
+	    console.log("parsing done");
+	    fs.renameSync(files.upload.path, "./tmp/test.png");
+	    response.writeHead(200, {"Content-Type": "text/html"});
+	    response.write("received image:<br/>");
+	    response.write("<img src='/show' />");
+	    response.end();
+	});
+}
+
+function show(response) {
+	console.log('Request handler "show" was called.');
+	fs.readFile("./tmp/test.png", "binary", function(error, file) {
+		if (error) {
+			response.writeHead(500, {"Content-Type": "text/plain"});
+			response.write(error + "\n");
+			response.end();
+		} else {
+			response.writeHead(200, {"Content-Type": "image/png"});
+			response.write(file, "binary");
+			response.end();
+		}
+	})
+}
+
+exports.start = start;
+exports.upload = upload;
+exports.show = show;
+```
+
+好了，重启服务器，我们应用所有的功能就可以用了。选择一张本地图片，将其上传到服务器，然后浏览器就会显示该图片。
+
+
+
+
 
 
 
