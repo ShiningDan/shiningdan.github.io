@@ -94,7 +94,7 @@ NodeJS基础JS是脚本语言，脚本语言都需要一个解析器才能运行
 <meta property="og:description" content="本笔记是学习七天学会NodeJS 的个人总结。
 NodeJS基础JS是脚本语言，脚本语言都需要一个解析器才能运行。对于写在HTML页面里的JS，浏览器充当了解析器的角色。而对于需要独立运行的JS，NodeJS就是一个解析器。
 每一种解析器都是一个运行环境，不但允许JS定义各种数据结构，进行各种计算，还允许JS使用运行环境提供的内置对象和方法做一些事情。例如运行在浏览器中的JS的用途是操作DOM，浏">
-<meta property="og:updated_time" content="2017-03-08T15:25:45.000Z">
+<meta property="og:updated_time" content="2017-03-08T15:33:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node.js 基础总结">
 <meta name="twitter:description" content="本笔记是学习七天学会NodeJS 的个人总结。
@@ -410,6 +410,7 @@ NodeJS基础JS是脚本语言，脚本语言都需要一个解析器才能运行
         <p>本笔记是学习<a href="http://nqdeng.github.io/7-days-nodejs/#1" target="_blank" rel="external">七天学会NodeJS</a> 的个人总结。</p>
 <h2 id="NodeJS基础"><a href="#NodeJS基础" class="headerlink" title="NodeJS基础"></a>NodeJS基础</h2><p>JS是脚本语言，脚本语言都需要一个解析器才能运行。对于写在HTML页面里的JS，浏览器充当了解析器的角色。而对于需要独立运行的JS，NodeJS就是一个解析器。</p>
 <p>每一种解析器都是一个运行环境，不但允许JS定义各种数据结构，进行各种计算，还允许JS使用运行环境提供的内置对象和方法做一些事情。例如运行在浏览器中的JS的用途是操作DOM，浏览器就提供了<code>document</code>之类的内置对象。而运行在NodeJS中的JS的用途是操作磁盘文件或搭建HTTP服务器，NodeJS就相应提供了<code>fs</code>、<code>http</code>等内置对象。</p>
+<a id="more"></a>
 <h3 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h3><p>编写稍大一点的程序时一般都会将代码模块化。在NodeJS中，一般将代码合理拆分到不同的JS文件中，每一个文件就是一个模块，而文件路径就是模块名。</p>
 <p>在编写每个模块时，都有<code>require</code>、<code>exports</code>、<code>module</code>三个预先定义好的变量可供使用。</p>
 <h4 id="require"><a href="#require" class="headerlink" title="require"></a>require</h4><p><code>require</code>函数用于在当前模块中加载和使用别的模块，传入一个模块名，返回一个模块导出<strong>对象</strong>。模块名可使用相对路径（以<code>./</code>开头），或者是绝对路径（以<code>/</code>或<code>C:</code>之类的盘符开头）。另外，模块名中的.js扩展名可以省略。</p>
