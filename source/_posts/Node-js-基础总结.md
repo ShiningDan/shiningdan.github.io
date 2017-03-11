@@ -1524,13 +1524,196 @@ http://localhost:8888/test/test.js,test1.js
 
 ### 第二次迭代
 
+把`map`方法换成`for`循环或许会更快一些，但第一版代码最大的性能问题存在于从读取文件到输出响应的过程当中。我们以处理`/??a.js,b.js,c.js`这个请求为例，看看整个处理过程中耗时在哪儿。
 
+```
+ 发送请求       等待服务端响应         接收响应
+---------+----------------------+------------->
+         --                                        解析请求
+           ------                                  读取a.js
+                 ------                            读取b.js
+                       ------                      读取c.js
+                             --                    合并数据
+                               --                  输出响应
+```
 
+可以看到，第一版代码依次把请求的文件读取到内存中之后，再合并数据和输出响应。这会导致以下两个问题：
 
+1. 当请求的文件比较多比较大时，串行读取文件会比较耗时，从而拉长了服务端响应等待时间。
+2. 由于每次响应输出的数据都需要先完整地缓存在内存里，当服务器请求并发数较大时，会有较大的内存开销。
 
+对于第一个问题，很容易想到把读取文件的方式从串行改为并行。但是别这样做，因为对于机械磁盘而言，因为只有一个磁头，尝试并行读取文件只会造成磁头频繁抖动，反而降低IO效率。而对于固态硬盘，虽然的确存在多个并行IO通道，但是对于服务器并行处理的多个请求而言，硬盘已经在做并行IO了，对单个请求采用并行IO无异于拆东墙补西墙。因此，正确的做法不是改用并行IO，而是一边读取文件一边输出响应，把响应输出时机提前至读取第一个文件的时刻。这样调整后，整个请求处理过程变成下边这样。
 
+```
+发送请求 等待服务端响应 接收响应
+---------+----+------------------------------->
+         --                                        解析请求
+           --                                      检查文件是否存在
+             --                                    输出响应头
+               ------                              读取和输出a.js
+                     ------                        读取和输出b.js
+                           ------                  读取和输出c.js
+```
 
+根据以上设计，第二版代码按以下方式调整了部分函数。
 
+```
+function main(argv) {
+    var config = JSON.parse(fs.readFileSync(argv[0], 'utf-8')),
+        root = config.root || '.',
+        port = config.port || 80;
+
+    http.createServer(function (request, response) {
+        var urlInfo = parseURL(root, request.url);
+
+        validateFiles(urlInfo.pathnames, function (err, pathnames) {
+            if (err) {
+                response.writeHead(404);
+                response.end(err.message);
+            } else {
+                response.writeHead(200, {
+                    'Content-Type': urlInfo.mime
+                });
+                outputFiles(pathnames, response);
+            }
+        });
+    }).listen(port);
+}
+
+function outputFiles(pathnames, writer) {
+    (function next(i, len) {
+        if (i < len) {
+            var reader = fs.createReadStream(pathnames[i]);
+
+            reader.pipe(writer, { end: false });
+            reader.on('end', function() {
+                next(i + 1, len);
+            });
+        } else {
+            writer.end();
+        }
+    }(0, pathnames.length));
+}
+
+function validateFiles(pathnames, callback) {
+    (function next(i, len) {
+        if (i < len) {
+            fs.stat(pathnames[i], function (err, stats) {
+                if (err) {
+                    callback(err);
+                } else if (!stats.isFile()) {
+                    callback(new Error());
+                } else {
+                    next(i + 1, len);
+                }
+            });
+        } else {
+            callback(null, pathnames);
+        }
+    }(0, pathnames.length));
+}
+```
+
+修改部分有：
+
+1. 使用 `fs.stat` 来判断路径是否存在，来判断该路径对应的是否为一个文件
+2. 添加 `outputFiles` 文件，使用 `readStream` 来进行对 `response` 对象的大文件异步数据流写入，并且每读取完一个文件都进行一次写入，而不是先用一个数组存在本地。
+
+### 第三次迭代
+
+一般生产环境下的服务器程序都配有一个守护进程，在服务挂掉的时候立即重启服务。一般守护进程的代码会远比服务进程的代码简单，从概率上可以保证守护进程更难挂掉。如果再做得严谨一些，甚至守护进程自身可以在自己挂掉时重启自己，从而实现双保险。
+
+因此在本次迭代时，我们先利用NodeJS的进程管理机制，将守护进程作为父进程，将服务器程序作为子进程，并让父进程监控子进程的运行状态，在其异常退出时重启子进程。
+
+```
+var cp = require('child_process');
+
+var worker;
+
+function spawn(server, config) {
+    worker = cp.spawn('node', [ server, config ]);
+    worker.on('exit', function (code) {
+        if (code !== 0) {
+            spawn(server, config);
+        }
+    });
+}
+
+function main(argv) {
+    spawn('server.js', argv[0]);
+    process.on('SIGTERM', function () {
+        worker.kill();
+        process.exit(0);
+    });
+}
+
+main(process.argv.slice(2));
+```
+
+此外，服务器代码本身的入口函数也要做以下调整
+
+```
+function main(argv) {
+    var config = JSON.parse(fs.readFileSync(argv[0], 'utf-8')),
+        root = config.root || '.',
+        port = config.port || 80,
+        server;
+
+    server = http.createServer(function (request, response) {
+        ...
+    }).listen(port);
+
+    process.on('SIGTERM', function () {
+        server.close(function () {
+            process.exit(0);
+        });
+    });
+}
+```
+
+我们可以把守护进程的代码保存为`daemon.js`，之后我们可以通过`node daemon.js config.json`启动服务，而守护进程会进一步启动和监控服务器进程。此外，为了能够正常终止服务，我们让守护进程在接收到`SIGTERM`信号时终止服务器进程。而在服务器进程这一端，同样在收到`SIGTERM`信号时先停掉HTTP服务再正常退出。至此，我们的服务器程序就靠谱很多了。
+
+### 第四次迭代
+
+在我们解决了服务器本身的功能、性能和可靠性的问题后，接着我们需要考虑一下代码部署的问题，以及服务器控制的问题。
+
+一般而言，程序在服务器上有一个固定的部署目录，每次程序有更新后，都重新发布到部署目录里。而一旦完成部署后，一般也可以通过固定的服务控制脚本启动和停止服务。因此我们的服务器程序部署目录可以做如下设计。
+
+```
+- deploy/
+    - bin/
+        startws.sh
+        killws.sh
+    + conf/
+        config.json
+    + lib/
+        daemon.js
+        server.js
+```
+
+在以上目录结构中，我们分类存放了服务控制脚本、配置文件和服务器代码。
+
+按以上目录结构分别存放对应的文件之后，接下来我们看看控制脚本怎么写。首先是start.sh。
+
+```
+#!/bin/sh
+if [ ! -f "pid" ]
+then
+    node ../lib/daemon.js ../conf/config.json &
+    echo $! > pid
+fi
+```
+
+然后是killws.sh。
+
+```
+#!/bin/sh
+if [ -f "pid" ]
+then
+    kill $(tr -d '\r\n' < pid)
+    rm pid
+fi
+```
 
 
 
