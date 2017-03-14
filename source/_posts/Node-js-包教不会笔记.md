@@ -10,8 +10,15 @@ tags:
 
 * [superagent](http://visionmedia.github.io/superagent/) 是个 http 方面的库，可以**发起** get 或 post 请求。
 * [cheerio](https://github.com/cheeriojs/cheerio ) 大家可以理解成一个 Node.js 版的 jquery，用来从网页中以 css selector 取数据，使用方式跟 jquery 一样一样的。
-* [eventproxy](https://www.npmjs.com/package/eventproxy)管理到底异步操作是否完成，完成之后，它会自动调用你提供的处理函数，并将抓取到的数据当参数传过来。
-* [async](https://github.com/caolan/async/blob/v1.5.2/README.md)当你需要去多个源(一般是小于 10 个)汇总数据的时候，用 eventproxy 方便；当你需要用到队列，需要控制并发数，或者你喜欢函数式编程思维时，使用 async。
+* [eventproxy](https://www.npmjs.com/package/eventproxy) 管理到底异步操作是否完成，完成之后，它会自动调用你提供的处理函数，并将抓取到的数据当参数传过来。
+* [async](https://github.com/caolan/async/blob/v1.5.2/README.md) 当你需要去多个源(一般是小于 10 个)汇总数据的时候，用 eventproxy 方便；当你需要用到队列，需要控制并发数，或者你喜欢函数式编程思维时，使用 async。
+* [mocha](http://mochajs.org/) 测试框架 
+* [should](http://shouldjs.github.io) 断言库 
+* [istanbul](https://github.com/gotwarlost/istanbul) 测试率覆盖工具
+* [chai](http://chaijs.com/) 全栈的断言库
+* [phantomjs](http://phantomjs.org/) headless 浏览器 
+* [supertest](https://www.npmjs.com/package/supertest)专门用来配合 express （准确来说是所有兼容 connect 的 web 框架）进行集成测试的。
+* [benchmark](https://github.com/bestiejs/benchmark.js) 可以用来测试 JavaScript 语句执行所需要的时间
 
 
 
@@ -287,6 +294,458 @@ async.mapLimit(urls, 5, function (url, callback) {
 ```
 
 并发链接数是从 1 开始增长的，增长到 5 时，就不再增加。当其中有任务完成时，再继续抓取。并发连接数始终控制在 5 个。
+
+最终代码：
+
+```
+let eventproxy = require('eventproxy');
+let superagent = require('superagent');
+let cheerio = require('cheerio');
+let url = require('url');
+let async = require('async');
+
+let codeURL = 'https://cnodejs.org/';
+
+
+superagent.get(codeURL)
+.end(function(err, response) {
+    if (err) {
+        return console.log(err);
+    }
+    
+    let topicURL = [];
+    let $ = cheerio.load(response.text);
+    $('#topic_list .topic_title').each(function(index, element) {
+        topicURL.push(url.resolve(codeURL, element.attribs.href));
+    });
+
+    
+
+    let concurrencyCount = 0;
+    async.mapLimit(topicURL, 5, function(url, callback) {
+        concurrencyCount++;
+        console.log('current url is: ' + url + ' and concurrencyCount is: ' + concurrencyCount);
+        superagent.get(url).end(function(i){ return function(err, data) {
+            concurrencyCount--;
+            if (err) {
+                console.log('error while GET ' + err);
+            }
+            callback(err, [url, data])
+        }}(url))
+    }, function( err, result) {
+        console.log('final:');
+        result.forEach(function(value, key) {
+            let topicHref = value[0];
+            let $ = cheerio.load(value[1].text);
+            console.log({
+                title: $('.topic_full_title').text().trim(),
+                href: topicHref,
+                comment: $('.reply_content').eq(0).text().trim(),
+            })
+
+        })
+    })
+})
+```
+
+## 《测试用例：mocha，should，istanbul》
+
+学习使用测试框架 mocha : http://mochajs.org/
+学习使用断言库 should : https://github.com/tj/should.js
+学习使用测试率覆盖工具 istanbul : https://github.com/gotwarlost/istanbul
+简单 Makefile 的编写 : http://blog.csdn.net/haoel/article/details/2886
+
+```
+var fibonacci = function (n) {
+  if (n === 0) {
+    return 0;
+  }
+  if (n === 1) {
+    return 1;
+  }
+  return fibonacci(n-1) + fibonacci(n-2);
+};
+
+if (require.main === module) {
+  // 如果是直接执行 main.js，则进入此处
+  // 如果 main.js 被其他文件 require，则此处不会执行。
+  var n = Number(process.argv[2]);
+  console.log('fibonacci(' + n + ') is', fibonacci(n));
+}
+```
+
+我们先得把 main.js 里面的 `fibonacci` 暴露出来，这个简单。加一句
+
+```
+exports.fibonacci = fibonacci;
+```
+
+然后我们在 `test/main.test.js` 中引用我们的 main.js，并开始一个简单的测试。
+
+```
+// file: test/main.test.js
+var main = require('../main');
+var should = require('should');
+
+describe('test/main.test.js', function () {
+  it('should equal 55 when n === 10', function () {
+    main.fibonacci(10).should.equal(55);
+  });
+});
+```
+
+装个全局的 mocha: `$ npm install mocha -g`。
+
+在 lesson6 目录下，直接执行
+
+```
+$ mocha
+```
+
+那么，代码中的 describe 和 it 是什么意思呢？其实就是 BDD 中的那些意思，把它们当做语法来记就好了。
+
+`describe` 中的字符串，用来描述你要测的主体是什么；it 当中，描述具体的 case 内容。
+
+`should` 在 js 的 Object “基类”上注入了一个 `#should` 属性，这个属性中，又有着许许多多的属性可以被访问。
+
+比如测试一个数是不是大于3，则是 `(5).should.above(3)`；测试一个字符串是否有着特定前缀：`'foobar'.should.startWith('foo')`;。should.js API 在：https://github.com/tj/should.js
+
+回到正题，还记得我们 fibonacci 函数的几个要求吗？
+
+```
+* 当 n === 0 时，返回 0；n === 1时，返回 1;
+* n > 1 时，返回 `fibonacci(n) === fibonacci(n-1) + fibonacci(n-2)`，如 `fibonacci(10) === 55`;
+* n 不可大于10，否则抛错，因为 Node.js 的计算性能没那么强。
+* n 也不可小于 0，否则抛错，因为没意义。
+* n 不为数字时，抛错。
+```
+
+我们用测试用例来描述一下这几个要求，更新后的 main.test.js 如下：
+
+```
+var main = require('../main');
+var should = require('should');
+
+describe('test/main.test.js', function () {
+  it('should equal 0 when n === 0', function () {
+    main.fibonacci(0).should.equal(0);
+  });
+
+  it('should equal 1 when n === 1', function () {
+    main.fibonacci(1).should.equal(1);
+  });
+
+  it('should equal 55 when n === 10', function () {
+    main.fibonacci(10).should.equal(55);
+  });
+
+  it('should throw when n > 10', function () {
+    (function () {
+      main.fibonacci(11);
+    }).should.throw('n should <= 10');
+  });
+
+  it('should throw when n < 0', function () {
+    (function () {
+      main.fibonacci(-1);
+    }).should.throw('n should >= 0');
+  });
+
+  it('should throw when n isnt Number', function () {
+    (function () {
+      main.fibonacci('呵呵');
+    }).should.throw('n should be a Number');
+  });
+});
+```
+
+我们这时候跑一下 `$ mocha`，会发现后三个 case 都没过。
+
+于是我们更新 `fibonacci` 的实现：
+
+```
+var fibonacci = function (n) {
+  if (typeof n !== 'number') {
+    throw new Error('n should be a Number');
+  }
+  if (n < 0) {
+    throw new Error('n should >= 0')
+  }
+  if (n > 10) {
+    throw new Error('n should <= 10');
+  }
+  if (n === 0) {
+    return 0;
+  }
+  if (n === 1) {
+    return 1;
+  }
+
+  return fibonacci(n-1) + fibonacci(n-2);
+};
+```
+
+再跑一次 `$ mocha`，就过了。这就是传说中的测试驱动开发：**先把要达到的目的都描述清楚，然后让现有的程序跑不过 case，再修补程序，让 case 通过。**
+
+安装一个 `istanbul : $ npm i istanbul -g`
+
+执行 `$ istanbul cover _mocha`
+
+这会比直接使用 `mocha` 多一行覆盖率的输出，
+
+可以看到，我们其中的分支覆盖率是 91.67%，行覆盖率是 87.5%。
+
+运行这条命令以后，会在命令运行的目录生成 `coverage` 文件夹。
+
+打开 `open coverage/lcov-report/index.html` 看看，可以得到测试的覆盖率。
+
+## 《浏览器端测试：mocha，chai，phantomjs》
+
+### 知识点
+
+1. 学习使用测试框架 mocha 进行前端测试 : http://mochajs.org/
+2. 了解全栈的断言库 chai: http://chaijs.com/
+3. 了解 headless 浏览器 phantomjs: http://phantomjs.org/
+
+lesson6 的内容都是针对后端环境中 node 的一些单元测试方案，出于应用健壮性的考量，针对前端 js 脚本的单元测试也非常重要。而**前后端通吃，也是 mocha 的一大特点**。
+
+首先，前端脚本的单元测试主要有两个困难需要解决。
+
+1. 运行环境应当在浏览器中，可以操纵浏览器的DOM对象，且可以随意定义执行时的 html 上下文。
+2. 测试结果应当可以直接反馈给 mocha，判断测试是否通过。
+
+### 浏览器环境执行
+
+我们首先搭建一个测试原型，用 mocha 自带的脚手架可以自动生成。
+
+```
+cd vendor            # 进入我们的项目文件夹
+npm i -g mocha       # 安装全局的 mocha 命令行工具
+mocha init .         # 生成脚手架
+```
+
+mocha就会自动帮我们生成一个简单的测试原型, 目录结构如下
+
+```
+.
+├── index.html       # 这是前端单元测试的入口
+├── mocha.css
+├── mocha.js
+└── tests.js         # 我们的单元测试代码将在这里编写
+```
+
+其中 index.html 是单元测试的入口，tests.js 是我们的测试用例文件。
+
+我们直接在 index.html 插入上述示例的 fibonacci 函数以及断言库 chaijs。
+
+```
+<div id="mocha"></div>
+<script src='https://cdn.rawgit.com/chaijs/chai/master/chai.js'></script>
+<script>
+  var fibonacci = function (n) {
+    if (n === 0) {
+      return 0;
+    }
+    if (n === 1) {
+      return 1;
+    }
+    return fibonacci(n-1) + fibonacci(n-2);
+  };
+</script>
+```
+
+然后在tests.js中写入对应测试用例
+
+```
+var should = chai.should();
+describe('simple test', function () {
+  it('should equal 0 when n === 0', function () {
+    window.fibonacci(0).should.equal(0);
+  });
+});
+```
+
+这时打开index.html，可以发现测试结果，我们完成了浏览器端的脚本测试
+
+mocha没有提供一个命令行的前端脚本测试环境(因为我们的脚本文件需要运行在浏览器环境中)，因此我们使用phanatomjs帮助我们搭建一个模拟环境。不重复制造轮子，这里直接使用mocha-phantomjs帮助我们在命令行运行测试。
+
+首先安装mocha-phanatomjs
+
+```
+npm i -g mocha-phantomjs
+```
+
+然后在 index.html 的页面下加上这段兼容代码
+
+```
+<script>mocha.run()</script>
+```
+
+改为
+
+```
+<script>
+  if (window.initMochaPhantomJS && window.location.search.indexOf('skip') === -1) {
+    initMochaPhantomJS()
+  }
+  mocha.ui('bdd');
+  expect = chai.expect;
+
+  mocha.run();
+</script>
+```
+
+这时候, 我们在命令行中运行
+
+```
+mocha-phantomjs index.html --ssl-protocol=any --ignore-ssl-errors=true
+```
+
+结果展现是不是和后端代码测试很类似
+
+更进一步，我们可以直接在 package.json 的 scripts 中添加 (package.json 通过 npm init 生成，这里不再赘述)
+
+```
+"scripts": {
+  "test": "mocha-phantomjs index.html --ssl-protocol=any --ignore-ssl-errors=true"
+},
+```
+
+将mocha-phantomjs作为依赖
+
+```
+npm i mocha-phantomjs --save-dev
+```
+
+直接运行
+
+```
+npm test
+```
+
+至此,我们实现了前端脚本的单元测试，基于 phanatomjs 你几乎可以调用所有的浏览器方法，而 mocha-phanatomjs 也可以很便捷地将测试结果反馈到 mocha，便于后续的持续集成。
+
+## 《测试用例：supertest》
+
+superagent 是用来抓取页面用的，而 supertest，是专门用来配合 express （准确来说是所有兼容 connect 的 web 框架）进行集成测试的。
+
+对了，大家去装个 nodemon https://github.com/remy/nodemon 。
+
+```
+$ npm i -g nodemon
+```
+
+这个库是专门调试时候使用的，它会自动检测 node.js 代码的改动，然后帮你自动重启应用。在调试时可以完全用 nodemon 命令代替 node 命令。
+
+```
+$ nodemon app.js
+```
+
+启动我们的应用试试，然后随便改两行代码，就可以看到 nodemon 帮我们重启应用了。
+
+## 《正则表达式》
+
+```
+var web_development = "python php ruby javascript jsonp perhapsphpisoutdated";
+```
+
+找出其中 包含 p 但不包含 ph 的所有单词，即
+
+```
+[ 'python', 'javascript', 'jsonp' ]
+```
+
+开始这门课之前，大家先去看两篇文章。
+
+《正则表达式30分钟入门教程》：http://deerchao.net/tutorials/regex/regex.htm
+
+上面这篇介绍了正则表达式的基础知识，但是对于零宽断言没有展开来讲，零宽断言看下面这篇：
+
+《正则表达式之：零宽断言不『消费』》：http://fxck.it/post/50558232873
+
+接下来我们主要讲讲 js 中需要注意的地方，至于正则表达式的内容，上面那两篇文章足够学习了。
+
+第一，
+
+js 中，对于四种零宽断言，只支持 零宽度正预测先行断言 和 零宽度负预测先行断言 这两种。
+
+第二，
+
+js 中，正则表达式后面可以跟三个 flag，比如 /something/igm。
+
+他们的意义分别是，
+
+* `i` 的意义是不区分大小写
+* `g` 的意义是，匹配多个
+* `m` 的意义是，是 `^` 和 `$` 可以匹配每一行的开头。
+
+## 《benchmark 怎么写》
+
+[benchmark](https://github.com/bestiejs/benchmark.js) 可以用来测试 JavaScript 语句执行所需要的时间
+
+Using npm:
+
+```
+$ npm i --save benchmark
+```
+
+In Node.js:
+
+```
+var Benchmark = require('benchmark');
+```
+
+Usage example:
+
+```
+var suite = new Benchmark.Suite;
+
+// add tests
+suite.add('RegExp#test', function() {
+  /o/.test('Hello World!');
+})
+.add('String#indexOf', function() {
+  'Hello World!'.indexOf('o') > -1;
+})
+// add listeners
+.on('cycle', function(event) {
+  console.log(String(event.target));
+})
+.on('complete', function() {
+  console.log('Fastest is ' + this.filter('fastest').map('name'));
+})
+// 这里的 async 不是 mocha 测试那个 async 的意思，这个选项与它的时间计算有关，默认勾上就好了。
+.run({ 'async': true });
+
+// logs:
+// => RegExp#test x 4,161,532 +-0.99% (59 cycles)
+// => String#indexOf x 6,139,623 +-1.00% (131 cycles)
+// => Fastest is String#indexOf
+```
+
+## 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
