@@ -19,6 +19,10 @@ tags:
 * [phantomjs](http://phantomjs.org/) headless 浏览器 
 * [supertest](https://www.npmjs.com/package/supertest)专门用来配合 express （准确来说是所有兼容 connect 的 web 框架）进行集成测试的。
 * [benchmark](https://github.com/bestiejs/benchmark.js) 可以用来测试 JavaScript 语句执行所需要的时间
+* [《线上部署：heroku》](https://github.com/alsotang/node-lessons/tree/master/lesson12)：如何使用 Paas 部署个人展示项目
+* [《持续集成平台：travis》](https://github.com/alsotang/node-lessons/tree/master/lesson13)：使用 travis 可以创建一个空白的环境，针对不同的 node 版本测试整个项目的运行情况。
+* [cookie-parser](https://github.com/expressjs/cookie-parser) express 中操作cookie
+* [express-session](https://github.com/expressjs/session ) express 中操作 session
 
 
 
@@ -723,21 +727,184 @@ suite.add('RegExp#test', function() {
 // => Fastest is String#indexOf
 ```
 
-## 
+## 《Mongodb 与 Mongoose 的使用》
 
+### mongodb
 
+mongodb 这个名词相信大家不会陌生吧。有段时间 nosql 的概念炒得特别火，其中 hbase redis mongodb couchdb 之类的名词都相继进入了大众的视野。
 
+**hbase 和 redis 和 mongodb 和 couchdb 虽然都属于 nosql 的大范畴。但它们关注的领域是不一样的。hbase 是存海量数据的，redis 用来做缓存，而 mongodb 和 couchdb 则试图取代一些使用 mysql 的场景。**
 
+在 sql 中，我们的数据层级是：数据库（db） -> 表（table） -> 记录（record）-> 字段；在 mongodb 中，数据的层级是：数据库 -> collection -> document -> 字段。这四个概念可以对应得上。
 
+文档型数据这个名字中，“文档”两个字很容易误解。其实这个文档就是 bson 的意思。bson 是 json 的超集，比如 json 中没法储存二进制类型，而 bson 拓展了类型，提供了二进制支持。mongodb 中存储的一条条记录都可以用 bson 来表示。所以你也可以认为，**mongodb 是个存 bson 数据的数据库，或是存哈希数据的数据库**。
 
+在 mongodb 中，**表与表之间是没有联系的，不像 sql 中一样，可以设定外键，可以进行表连接**。mongodb 中，也无法支持事务。所以这样的表，无债一身轻。可以很轻易地 scale 至多个实例（假设实例都有不同的物理位置）上。
 
+mongodb 中，collection 是 schema-less 的。**在 sql 中，我们需要用建表语句来表明数据应该具有的形式，而 mongodb 中，可以在同一张里存各种各样不同的形式的数据**。
 
+mongodb 和 mysql 要我选的话，无关紧要的应用我会选择 mongodb，就当个简单的存 json 数据的数据库来用；如果是线上应用，肯定还是会选择 mysql。毕竟 sql 比较成熟，而且各种常用场景的最佳实践都有先例了。
 
+顺便说说 mongodb 与 redis 的不同。mongodb 是用来存非临时数据的，可以认为是存在硬盘上，而 redis 的数据可以认为都在内存中，存储临时数据，丢了也无所谓。对于稍微复杂的查询，redis 支持的查询方式太少太少了，几乎可以认为是 key-value 的。
 
+## cookie 和 session
 
+首先产生了 cookie 这门技术来解决这个问题，cookie 是 http 协议的一部分，它的处理分为如下几步：
 
+* 服务器向客户端发送 cookie。
+    * 通常使用 HTTP 协议规定的 set-cookie 头操作。
+    * 规范规定 cookie 的格式为 name = value 格式，且必须包含这部分。
+* 浏览器将 cookie 保存。
+* 每次请求浏览器都会将 cookie 发向服务器。
 
+其他可选的 cookie 参数会影响将 cookie 发送给服务器端的过程，主要有以下几种：
 
+* path：表示 cookie 影响到的路径，匹配该路径才发送这个 cookie。
+* expires 和 maxAge：告诉浏览器这个 cookie 什么时候过期，expires 是 UTC 格式时间，maxAge 是 cookie 多久后过期的相对时间。当不设置这两个选项时，会产生 session cookie，session cookie 是 transient 的，当用户关闭浏览器时，就被清除。一般用来保存 session 的 session_id。
+* secure：当 secure 值为 true 时，cookie 在 HTTP 中是无效，在 HTTPS 中才有效。
+* httpOnly：浏览器不允许脚本操作 document.cookie 去更改 cookie。一般情况下都应该设置这个为 true，这样可以避免被 xss 攻击拿到 cookie。
+
+### express 中的 cookie
+
+express 在 4.x 版本之后，session管理和cookies等许多模块都不再直接包含在express中，而是需要单独添加相应模块。
+
+express4 中操作 cookie 使用 `cookie-parser` 模块(https://github.com/expressjs/cookie-parser )。
+
+### session
+
+cookie 虽然很方便，但是使用 cookie 有一个很大的弊端，cookie 中的所有数据在客户端就可以被修改，数据非常容易被伪造，那么一些重要的数据就不能存放在 cookie 中了，而且如果 cookie 中数据字段太多会影响传输效率。为了解决这些问题，就产生了 session，session 中的数据是保留在服务器端的。
+
+session 的运作通过一个 `session_id` 来进行。`session_id` 通常是存放在客户端的 cookie 中，比如在 express 中，默认是 `connect.sid` 这个字段，当请求到来时，服务端检查 cookie 中保存的 `session_id` 并通过这个 `session_id` 与服务器端的 session data 关联起来，进行数据的保存和修改。
+
+session 可以存放在 1）内存、2）cookie本身、3）redis 或 memcached 等缓存中，或者4）数据库中。线上来说，缓存的方案比较常见，存数据库的话，查询效率相比前三者都太低，不推荐；
+
+express 中操作 session 要用到 `express-session` (https://github.com/expressjs/session ) 这个模块，主要的方法就是 `session(options)`，其中 options 中包含可选参数，主要有：
+
+* name: 设置 cookie 中，保存 session 的字段名称，默认为 `connect.sid` 。
+* store: session 的存储方式，默认存放在内存中，也可以使用 redis，mongodb 等。express 生态中都有相应模块的支持。
+* secret: 通过设置的 secret 字符串，来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改。
+* cookie: 设置存放 session id 的 cookie 的相关选项，默认为
+    * (default: { path: '/', httpOnly: true, secure: false, maxAge: null })
+* genid: 产生一个新的 session_id 时，所使用的函数， 默认使用 `uid2` 这个 npm 包。
+* rolling: 每个请求都重新设置一个 cookie，默认为 false。
+resave: 即使 session 没有被修改，也保存 session 值，默认为 true。
+
+###  在内存中存储 session
+
+`express-session` 默认使用内存来存 session，对于开发调试来说很方便。
+
+```
+var express = require('express');
+// 首先引入 express-session 这个模块
+var session = require('express-session');
+
+var app = express();
+app.listen(5000);
+
+// 按照上面的解释，设置 session 的可选参数
+app.use(session({
+  secret: 'recommand 128 bytes random string', // 建议使用 128 个字符的随机字符串
+  cookie: { maxAge: 60 * 1000 }
+}));
+
+app.get('/', function (req, res) {
+
+  // 检查 session 中的 isVisit 字段
+  // 如果存在则增加一次，否则为 session 设置 isVisit 字段，并初始化为 1。
+  if(req.session.isVisit) {
+    req.session.isVisit++;
+    res.send('<p>第 ' + req.session.isVisit + '次来此页面</p>');
+  } else {
+    req.session.isVisit = 1;
+    res.send("欢迎第一次来这里");
+    console.log(req.session);
+  }
+});
+```
+
+###  在 redis 中存储 session
+
+session 存放在内存中不方便进程间共享，因此可以使用 redis 等缓存来存储 session。
+
+假设你的机器是 4 核的，你使用了 4 个进程在跑同一个 node web 服务，当用户访问进程1时，他被设置了一些数据当做 session 存在内存中。而下一次访问时，他被负载均衡到了进程2，则此时进程2的内存中没有他的信息，认为他是个新用户。这就会导致用户在我们服务中的状态不一致。
+
+使用 redis 作为缓存，可以使用 `connect-redis` 模块(https://github.com/tj/connect-redis )来得到 redis 连接实例，然后在 session 中设置存储方式为该实例。
+
+```
+var express = require('express');
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
+
+var app = express();
+app.listen(5000);
+
+app.use(session({
+  // 假如你不想使用 redis 而想要使用 memcached 的话，代码改动也不会超过 5 行。
+  // 这些 store 都遵循着统一的接口，凡是实现了那些接口的库，都可以作为 session 的 store 使用，比如都需要实现 .get(keyString) 和 .set(keyString, value) 方法。
+  // 编写自己的 store 也很简单
+  store: new redisStore(),
+  secret: 'somesecrettoken'
+}));
+
+app.get('/', function (req, res) {
+  if(req.session.isVisit) {
+    req.session.isVisit++;
+    res.send('<p>第 ' + req.session.isVisit + '次来到此页面</p>');
+  } else {
+    req.session.isVisit = 1;
+    res.send('欢迎第一次来这里');
+  }
+});
+```
+
+### 各种存储的利弊
+
+上面我们说到，session 的 store 有四个常用选项：1）内存 2）cookie 3）缓存 4）数据库
+
+其中，开发环境存内存就好了。一般的小程序为了省事，如果不涉及状态共享的问题，用内存 session 也没问题。但内存 session 除了省事之外，没有别的好处。
+
+cookie session 我们下面会提到，现在说说利弊。用 cookie session 的话，是不用担心状态共享问题的，因为 session 的 data 不是由服务器来保存，而是保存在用户浏览器端，每次用户访问时，都会主动带上他自己的信息。当然在这里，安全性之类的，只要遵照最佳实践来，也是有保证的。它的弊端是增大了数据量传输，利端是方便。
+
+缓存方式是最常用的方式了，即快，又能共享状态。相比 cookie session 来说，当 session data 比较大的时候，可以节省网络传输。推荐使用。
+
+数据库 session。除非你很熟悉这一块，知道自己要什么，否则还是老老实实用缓存吧。
+
+### signedCookie
+
+cookie 虽然很方便，但是使用 cookie 有一个很大的弊端，cookie 中的所有数据在客户端就可以被修改，数据非常容易被伪造
+
+其实不是这样的，那只是为了方便理解才那么写。要知道，计算机领域有个名词叫 **签名**，专业点说，叫 **信息摘要算法**。
+
+而如果我们签个名，比如把 `dotcom_user` 的值跟我的 `secret_string` 做个 sha1
+
+```
+sha1('this_is_my_secret_and_fuck_you_all' + 'alsotang') === '4850a42e3bc0d39c978770392cbd8dc2923e3d1d'
+```
+
+然后把 cookie 变成这样
+
+```
+{
+  dotcom_user: 'alsotang',
+  'dotcom_user.sig': '4850a42e3bc0d39c978770392cbd8dc2923e3d1d',
+}
+```
+
+这样一来，用户就没法伪造信息了。一旦它更改了 cookie 中的信息，则服务器会发现 hash 校验的不一致。
+
+### session cookie
+
+初学者容易犯的一个错误是，忘记了 session_id 在 cookie 中的存储方式是 session cookie。即，当用户一关闭浏览器，浏览器 cookie 中的 session_id 字段就会消失。
+
+常见的场景就是在开发用户登陆状态保持时。
+
+假如用户在之前登陆了你的网站，你在他对应的 session 中存了信息，当他关闭浏览器再次访问时，你还是不懂他是谁。所以我们要在 cookie 中，也保存一份关于用户身份的信息。
+
+```
+{username: 'alsotang', age: 22, company: 'alibaba', location: 'hangzhou'}
+```
+
+我们可以考虑把这四个字段的信息都存在 session 中，而在 cookie，我们用 signedCookies 来存个 username。
 
 
 
