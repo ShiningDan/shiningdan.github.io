@@ -404,6 +404,17 @@
       
         
           <p>本文是 TCP 的可靠传输原理、流量控制与拥塞控制的笔记。</p>
+<p><strong>注意，连续ARQ协议实现的是分组层面的滑动窗口，</strong></p>
+<p><strong>TCP 和 UDP 之间的区别：</strong></p>
+<ol>
+<li>TCP 是面向连接的传输层协议，应用程序在使用 TCP 协议之前，必须先建立 TCP 连接，传输数据完后，需要释放 TCP 连接。UDP 是无连接的，发送数据之前不需要建立连接，因此减少了开销和发送数据的时延。</li>
+<li>每一条 TCP 连接只能有两个端点，所以 TCP 连接是点对点的。UDP 支持一对一，一对多，多对一和多对多的相互通信</li>
+<li>TCP 提供可靠交互的服务，通过 TCP 连接传送的数据，无差错，不丢失，不重复，按序到达。UDP 使用尽最大努力交付，即不保证交付可靠。</li>
+<li>TCP 是面向字节流的，TCP 把应用程序交下来的数据看成仅仅是一连串无结构的字节流，TCP 不关心把多长的报文发送到缓存中，而是根据对方给出的窗口和网络拥塞程度来决定一个报文段应包含多少个字节。UDP 是面向报文的，UDP 对应用层交下来的报文既不合并也不拆分，一次交付一个完整的报文。</li>
+<li>TCP 有拥塞控制，UDP 没有拥塞控制，很多实时应用（IP电话，视频会议等），要求主机恒定速率发送数据，并且允许在拥塞的时候丢失数据，所以很适合 UDP。</li>
+<li>UDP 首部开销小，只有8个字节。TCP 首部 20 个字节。</li>
+<li>TCP 提供全双工通信，允许通信双方在任何时候发送数据，TCP 连接两端都有发送缓存和接收缓存。</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/03/15/TCP-的流量控制与拥塞控制/#more" rel="contents">
@@ -2067,7 +2078,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
