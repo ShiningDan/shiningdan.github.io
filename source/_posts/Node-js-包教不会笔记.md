@@ -23,7 +23,9 @@ tags:
 * [《持续集成平台：travis》](https://github.com/alsotang/node-lessons/tree/master/lesson13)：使用 travis 可以创建一个空白的环境，针对不同的 node 版本测试整个项目的运行情况。
 * [cookie-parser](https://github.com/expressjs/cookie-parser) express 中操作cookie
 * [express-session](https://github.com/expressjs/session ) express 中操作 session
-
+* [q](https://github.com/kriskowal/q) Node.js 中 Promise 的实现
+* [connect](https://github.com/senchalabs/connect) Node.js 中用来实现服务器处理中间件
+* [express](https://github.com/expressjs/express) Node.js 中实现服务器处理的中间件，是 Connect 的升级版，还封装了很多对象来方便业务逻辑处理。
 
 
 <!--more-->
@@ -905,6 +907,434 @@ sha1('this_is_my_secret_and_fuck_you_all' + 'alsotang') === '4850a42e3bc0d39c978
 ```
 
 我们可以考虑把这四个字段的信息都存在 session 中，而在 cookie，我们用 signedCookies 来存个 username。
+
+## 《使用 promise 替代回调函数》
+
+### promise基本概念
+
+先学习promise的基本概念。
+
+* promise只有三种状态，未完成，完成(fulfilled)和失败(rejected)。
+* promise的状态可以由未完成转换成完成，或者未完成转换成失败。
+* promise的状态转换只发生一次
+
+promise有一个`then`方法，`then`方法可以接受3个函数作为参数。前两个函数对应promise的两种状态`fulfilled`, `rejected`的回调函数。第三个函数用于处理进度信息。
+
+```
+promiseSomething().then(function(fulfilled){
+        //当promise状态变成fulfilled时，调用此函数
+    },function(rejected){
+        //当promise状态变成rejected时，调用此函数
+    },function(progress){
+        //当返回进度信息时，调用此函数
+    });
+```
+
+学习一个简单的例子：
+
+```
+var Q = require('q');
+var defer = Q.defer();
+/**
+ * 获取初始promise
+ * @private
+ */
+function getInitialPromise() {
+  return defer.promise;
+}
+/**
+ * 为promise设置三种状态的回调函数
+ */
+getInitialPromise().then(function(success){
+    console.log(success);
+},function(error){
+    console.log(error);
+},function(progress){
+    console.log(progress);
+});
+defer.notify('in progress');//控制台打印in progress
+defer.resolve('resolve');   //控制台打印resolve
+defer.reject('reject');     //没有输出。promise的状态只能改变一次
+```
+
+以上的代码，通过 `defer.resolve('resolve)` 来触发 `then` 中的 `function(success)` 方法。
+
+### promise的传递
+
+`then`方法会返回一个promise，在下面这个例子中，我们用outputPromise指向then返回的promise。
+
+```
+var outputPromise = getInputPromise().then(function (fulfilled) {
+    }, function (rejected) {
+    });
+```
+
+现在outputPromise就变成了受 `function(fulfilled)` 或者 `function(rejected)`控制状态的promise了。怎么理解这句话呢？
+
+当`function(fulfilled)`或者`function(rejected)`返回一个值，比如一个字符串，数组，对象等等，那么`outputPromise`的状态就会变成`fulfilled`。
+
+```
+var Q = require('q');
+var defer = Q.defer();
+/**
+ * 通过defer获得promise
+ * @private
+ */
+function getInputPromise() {
+    return defer.promise;
+}
+
+/**
+ * 当inputPromise状态由未完成变成fulfil时，调用function(fulfilled)
+ * 当inputPromise状态由未完成变成rejected时，调用function(rejected)
+ * 将then返回的promise赋给outputPromise
+ * function(fulfilled) 和 function(rejected) 通过返回字符串将outputPromise的状态由
+ * 未完成改变为fulfilled
+ * @private
+ */
+var outputPromise = getInputPromise().then(function(fulfilled){
+    return 'fulfilled';
+},function(rejected){
+    return 'rejected';
+});
+
+/**
+ * 当outputPromise状态由未完成变成fulfil时，调用function(fulfilled)，控制台打印'fulfilled: fulfilled'。
+ * 当outputPromise状态由未完成变成rejected, 调用function(rejected), 控制台打印'rejected: rejected'。
+ */
+outputPromise.then(function(fulfilled){
+    console.log('fulfilled: ' + fulfilled);
+},function(rejected){
+    console.log('rejected: ' + rejected);
+});
+
+/**
+ * 将inputPromise的状态由未完成变成rejected
+ */
+defer.reject(); //输出 fulfilled: rejected
+
+/**
+ * 将inputPromise的状态由未完成变成fulfilled
+ */
+//defer.resolve(); //输出 fulfilled: fulfilled
+```
+
+当`function(fulfilled)`或者`function(rejected)`抛出异常时，那么`outputPromise`的状态就会变成`rejected`
+
+当`function(fulfilled)`或者`function(rejected)`返回一个promise时，`outputPromise`就会成为这个新的promise.
+这样做有什么意义呢? 主要在于聚合结果(`Q.all`)，管理延时，异常恢复等等
+
+比如说我们想要读取一个文件的内容，然后把这些内容打印出来。可能会写出这样的代码：
+
+```
+//错误的写法
+var outputPromise = getInputPromise().then(function(fulfilled){
+    fs.readFile('test.txt','utf8',function(err,data){
+        return data;
+    });
+});
+```
+
+然而这样写是错误的，因为function(fulfilled)并**没有返回任何值(指的是没有任何同步的返回值)**。需要下面的方式:
+
+```
+var Q = require('q');
+var fs = require('fs');
+var defer = Q.defer();
+
+/**
+ * 通过defer获得promise
+ * @private
+ */
+function getInputPromise() {
+    return defer.promise;
+}
+
+/**
+ * 当inputPromise状态由未完成变成fulfil时，调用function(fulfilled)
+ * 当inputPromise状态由未完成变成rejected时，调用function(rejected)
+ * 将then返回的promise赋给outputPromise
+ * function(fulfilled)将新的promise赋给outputPromise
+ * 未完成改变为reject
+ * @private
+ */
+var outputPromise = getInputPromise().then(function(fulfilled){
+    var myDefer = Q.defer();
+    fs.readFile('test.txt','utf8',function(err,data){
+        if(!err && data) {
+            myDefer.resolve(data);
+        }
+    });
+    return myDefer.promise;
+},function(rejected){
+    throw new Error('rejected');
+});
+
+/**
+ * 当outputPromise状态由未完成变成fulfil时，调用function(fulfilled)，控制台打印test.txt文件内容。
+ *
+ */
+outputPromise.then(function(fulfilled){
+    console.log(fulfilled);
+},function(rejected){
+    console.log(rejected);
+});
+
+/**
+ * 将inputPromise的状态由未完成变成rejected
+ */
+//defer.reject();
+
+/**
+ * 将inputPromise的状态由未完成变成fulfilled
+ */
+defer.resolve(); //控制台打印出 test.txt 的内容
+```
+
+### 方法传递
+
+方法传递的含义是当一个状态没有响应的回调函数，就会沿着then往下找。
+
+* 没有提供`function(rejected)`
+
+```
+var outputPromise = getInputPromise().then(function(fulfilled){})
+```
+
+* 没有提供`function(fulfilled)`
+
+```
+var outputPromise = getInputPromise().then(null,function(rejected){})
+```
+
+* 可以使用`fail(function(error))`来专门针对错误处理，而不是使用`then(null,function(error))`
+
+```
+ var outputPromise = getInputPromise().fail(function(error){})
+```
+
+* 可以使用`progress(function(progress))`来专门针对进度信息进行处理，而不是使用 `then(function(success){},function(error){},function(progress){})`
+
+### promise链
+
+promise链提供了一种让函数顺序执行的方法。
+
+```
+var Q = require('q');
+var defer = Q.defer();
+
+//一个模拟数据库
+var users = [{'name':'andrew','passwd':'password'}];
+
+function getUsername() {
+return defer.promise;
+}
+
+function getUser(username){
+    var user;
+    users.forEach(function(element){
+        if(element.name === username) {
+            user = element;
+        }
+    });
+    return user;
+}
+
+//promise链
+getUsername().then(function(username){
+ return getUser(username);
+}).then(function(user){
+ console.log(user);
+});
+
+defer.resolve('andrew');
+```
+
+我们通过两个then达到让函数顺序执行的目的。
+
+then的数量其实是没有限制的。当然，then的数量过多，要手动把他们链接起来是很麻烦的。
+
+这时我们需要用代码来动态制造promise链
+
+```
+var funcs = [foo,bar,baz,qux]
+var result = Q(initialVal)
+funcs.forEach(function(func){
+    result = result.then(func)
+})
+return result
+```
+
+### promise组合
+
+我们可以通过`Q.all([promise1,promise2...])`将多个promise组合成一个promise返回。 注意：
+
+* 当all里面所有的promise都`fulfill`时，`Q.all`返回的promise状态变成`fulfill`
+* 当任意一个promise被`reject`时，`Q.all`返回的promise状态立即变成`reject`
+
+通常，对于一个promise链，有两种结束的方式。第一种方式是返回最后一个promise
+
+如 `return foo().then(bar);`
+
+第二种方式就是通过done来结束promise链
+
+如 `foo().then(bar).done()`
+
+为什么需要通过done来结束一个promise链呢? 如果在我们的链中有错误没有被处理，那么在一个正确结束的promise链中，这个**没被处理的错误会通过异常抛出**。
+
+```
+var Q = require('q');
+/**
+ *@private
+ */
+function getPromise(msg,timeout,opt) {
+    var defer = Q.defer();
+    setTimeout(function(){
+    console.log(msg);
+        if(opt)
+            defer.reject(msg);
+        else
+            defer.resolve(msg);
+    },timeout);
+    return defer.promise;
+}
+/**
+ *没有用done()结束的promise链
+ *由于getPromse('2',2000,'opt')返回rejected, getPromise('3',1000)就没有执行
+ *然后这个异常并没有任何提醒，是一个潜在的bug
+ */
+getPromise('1',3000)
+    .then(function(){return getPromise('2',2000,'opt')})
+    .then(function(){return getPromise('3',1000)});
+/**
+ *用done()结束的promise链
+ *有异常抛出
+ */
+getPromise('1',3000)
+    .then(function(){return getPromise('2',2000,'opt')})
+    .then(function(){return getPromise('3',1000)})
+    .done();
+```
+
+## 《何为 connect 中间件》
+
+### HTTP
+
+Nodejs 的经典 httpServer 代码
+
+```
+var http = require('http');
+
+var server = http.createServer(requestHandler);
+function requestHandler(req, res) {
+  res.end('hello visitor!');
+}
+server.listen(3000);
+```
+
+然而，业务逻辑越来越复杂，会出发展成30个回调逻辑，那么就出现了30个 }); 及30个 err异常。更严重的是，到时候写代码根本看不清自己写的逻辑在30层中的哪一层，极其容易出现 多次返回 或返回地方不对等问题，这就是 回调金字塔 问题了。
+
+大多数同学应该能想到解决回调金字塔的办法，朴灵的《深入浅出Node.js》里讲到的三种方法。下面列举了这三种方法加上ES6新增的Generator，共四种解决办法。
+
+* EventProxy —— 事件发布订阅模式(第四课讲到)
+* BlueBird —— Promise方案(第十七课讲到)
+* Async —— 异步流程控制库(第五课讲到)
+* Generator —— ES6原生Generator
+
+而Connect和Express用的是 类似异步流程控制的思想 。
+
+我们动手实现一个类似的链式调用，其中 `funlist` 更名为 `middlewares`、`callback` 更名为 `next`，码如下：
+
+```
+var middlewares = [
+  function fun1(req, res, next) {
+    parseBody(req, function(err, body) {
+      if (err) return next(err);
+      req.body = body;
+      next();
+    });
+  },
+  function fun2(req, res, next) {
+    checkIdInDatabase(req.body.id, function(err, rows) {
+      if (err) return next(err);
+      res.dbResult = rows;
+      next();
+    });
+  },
+  function fun3(req, res, next) {
+    if (res.dbResult && res.dbResult.length > 0) {
+      res.end('true');
+    }
+    else {
+      res.end('false');
+    }
+    next();
+  }
+]
+
+function requestHandler(req, res) {
+  var i=0;
+
+  //由middlewares链式调用
+  function next(err) {
+
+    if (err) {
+      return res.end('error:', err.toString());
+    }
+
+    if (i<middlewares.length) {
+      middlewares[i++](req, res, next);
+    } else {
+      return ;
+    }
+  }
+
+  //触发第一个middleware
+  next();
+}
+```
+
+上面用`middlewares+next`完成了业务逻辑的 链式调用，而middlewares里的每个函数，都是一个 **中间件**。
+
+整体思路是：
+
+1. 将所有 处理逻辑函数(中间件) 存储在一个list中；
+2. 请求到达时 循环调用 list中的 处理逻辑函数(中间件)；
+
+### Connect的实现
+
+Connect的思想跟上面阐述的思想基本一样，先将处理逻辑存起来，然后循环调用。
+
+Connect中主要有五个函数 PS: Connect的核心代码是200+行，建议对照源码看下面的函数介绍。
+
+```
+函数名	                  作用
+createServer	包装httpServer形成app
+listen	             监听端口函数
+use	          向middlewares里面放入业务逻辑
+handle	    上一章的requestHandler函数增强版
+call	           业务逻辑的真正执行者
+```
+
+### Express
+
+大家都知道Express是Connect的升级版。
+
+Express不只是Connect的升级版，它还封装了很多对象来方便业务逻辑处理。Express里的Router是Connect的升级版。
+
+Express大概可以分为几个模块
+
+```
+模块	             描述
+router	    路由模块是Connect升级版
+request	    经过Express封装的req对象
+response	经过Express封装的res对象
+application	app上面的各种默认设置
+```
+
+
+
+
 
 
 
