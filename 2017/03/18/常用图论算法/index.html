@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="响应式布局," />
+  <meta name="keywords" content="JavaScript,graph theory," />
 
 
 
@@ -84,40 +84,63 @@
 
 
 
-<meta name="description" content="本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-响应式布局背景介绍响应式布局，要求服务器端根据不同大小，不同分辨率的客户端，呈现出不同的页面显示效果。
-响应式设计的优点：针对不同的设备，进行差异化显示，优化了不同设备的显示效果
-响应式设计的缺点：
+<meta name="description" content="本笔记总结一些常用的图论算法。
+参考链接有：
+数据结构与算法 - 图论
+笔记目录：
 
-兼容性代码多，工作量大，加载速度受到影响
-用户设备的判断未必精确
+最短路径算法
+无权最短路径 (广度优先算法)
+有权最短路径 (Dijsktra、Floyd 算法)
 
-一般，需要进行响应式设计的网站都是经常在多终端展示">
+
+最小生成树
+Prim 算法
+Kruskal 算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="响应式布局">
-<meta property="og:url" content="https://shiningdan.github.io/2017/01/31/响应式布局/index.html">
+<meta property="og:title" content="常用图论算法">
+<meta property="og:url" content="https://shiningdan.github.io/2017/03/18/常用图论算法/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-响应式布局背景介绍响应式布局，要求服务器端根据不同大小，不同分辨率的客户端，呈现出不同的页面显示效果。
-响应式设计的优点：针对不同的设备，进行差异化显示，优化了不同设备的显示效果
-响应式设计的缺点：
+<meta property="og:description" content="本笔记总结一些常用的图论算法。
+参考链接有：
+数据结构与算法 - 图论
+笔记目录：
 
-兼容性代码多，工作量大，加载速度受到影响
-用户设备的判断未必精确
+最短路径算法
+无权最短路径 (广度优先算法)
+有权最短路径 (Dijsktra、Floyd 算法)
 
-一般，需要进行响应式设计的网站都是经常在多终端展示">
-<meta property="og:updated_time" content="2017-02-08T05:00:11.000Z">
+
+最小生成树
+Prim 算法
+Kruskal 算法">
+<meta property="og:image" content="http://pic3.zhimg.com/v2-f38af68ed88323fab87de68cf56be212_b.png">
+<meta property="og:image" content="http://pic2.zhimg.com/v2-26c8c539a7197a62e4a356cd9dfda891_b.png">
+<meta property="og:image" content="http://pic2.zhimg.com/v2-8396dfb4df2801cd3d10b25f99528bbd_b.png">
+<meta property="og:image" content="http://pic2.zhimg.com/v2-624a0f575b509298722914b9849061ed_b.png">
+<meta property="og:image" content="http://pic1.zhimg.com/v2-861048c05e812564557b0a68b584e5ec_b.png">
+<meta property="og:image" content="http://img.blog.csdn.net/20130430183628159">
+<meta property="og:image" content="http://pic1.zhimg.com/v2-67ebcdf2a0cb6da002a0f2ca2d00ee30_b.jpg">
+<meta property="og:image" content="http://pic1.zhimg.com/v2-2b9696d89cae9dbac1f19b669d31ef24_b.jpg">
+<meta property="og:image" content="http://pic3.zhimg.com/v2-3ac7535fbf1707fee787b89f6145afee_b.jpg">
+<meta property="og:image" content="http://pic4.zhimg.com/v2-3782ccd91886fb4c78efa271ed0595bf_b.jpg">
+<meta property="og:updated_time" content="2017-03-19T06:54:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="响应式布局">
-<meta name="twitter:description" content="本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-响应式布局背景介绍响应式布局，要求服务器端根据不同大小，不同分辨率的客户端，呈现出不同的页面显示效果。
-响应式设计的优点：针对不同的设备，进行差异化显示，优化了不同设备的显示效果
-响应式设计的缺点：
+<meta name="twitter:title" content="常用图论算法">
+<meta name="twitter:description" content="本笔记总结一些常用的图论算法。
+参考链接有：
+数据结构与算法 - 图论
+笔记目录：
 
-兼容性代码多，工作量大，加载速度受到影响
-用户设备的判断未必精确
+最短路径算法
+无权最短路径 (广度优先算法)
+有权最短路径 (Dijsktra、Floyd 算法)
 
-一般，需要进行响应式设计的网站都是经常在多终端展示">
+
+最小生成树
+Prim 算法
+Kruskal 算法">
+<meta name="twitter:image" content="http://pic3.zhimg.com/v2-f38af68ed88323fab87de68cf56be212_b.png">
 
 
 
@@ -145,13 +168,13 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2017/01/31/响应式布局/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2017/03/18/常用图论算法/"/>
 
 
 
 
 
-  <title> 响应式布局 | ShiningDan的博客 </title>
+  <title> 常用图论算法 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -307,7 +330,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/31/响应式布局/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/03/18/常用图论算法/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -331,7 +354,7 @@
             
             
               
-                响应式布局
+                常用图论算法
               
             
           </h2>
@@ -346,8 +369,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-31T18:59:35+08:00">
-                2017-01-31
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-18T21:59:22+08:00">
+                2017-03-18
               </time>
             
 
@@ -387,8 +410,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/31/响应式布局/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/31/响应式布局/" itemprop="commentCount"></span>
+                <a href="/2017/03/18/常用图论算法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/18/常用图论算法/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -398,7 +421,7 @@
 
           
           
-             <span id="/2017/01/31/响应式布局/" class="leancloud_visitors" data-flag-title="响应式布局">
+             <span id="/2017/03/18/常用图论算法/" class="leancloud_visitors" data-flag-title="常用图论算法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -425,32 +448,83 @@
       
 
       
-        <p>本系列的是参考<a href="http://www.imooc.com/t/101686" target="_blank" rel="external">慕课网 远人</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
-<h2 id="响应式布局背景介绍"><a href="#响应式布局背景介绍" class="headerlink" title="响应式布局背景介绍"></a>响应式布局背景介绍</h2><p>响应式布局，要求服务器端根据不同大小，不同分辨率的客户端，呈现出不同的页面显示效果。</p>
-<p><strong>响应式设计的优点：</strong>针对不同的设备，进行差异化显示，优化了不同设备的显示效果</p>
-<p><strong>响应式设计的缺点：</strong></p>
-<ol>
-<li>兼容性代码多，工作量大，加载速度受到影响</li>
-<li>用户设备的判断未必精确</li>
-</ol>
-<p>一般，需要进行响应式设计的网站都是经常在多终端展示的网站。</p>
+        <p>本笔记总结一些常用的图论算法。</p>
+<p>参考链接有：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/25498681" target="_blank" rel="external">数据结构与算法 - 图论</a></p>
+<p>笔记目录：</p>
+<ul>
+<li>最短路径算法<ul>
+<li>无权最短路径 (广度优先算法)</li>
+<li>有权最短路径 (Dijsktra、Floyd 算法)</li>
+</ul>
+</li>
+<li>最小生成树<ul>
+<li>Prim 算法</li>
+<li>Kruskal 算法</li>
+</ul>
+</li>
+</ul>
 <a id="more"></a>
-<h2 id="响应式设计的原则"><a href="#响应式设计的原则" class="headerlink" title="响应式设计的原则"></a>响应式设计的原则</h2><ol>
-<li>移动优先：在网页设计的初期就要考虑多终端展示的效果，并且重点考虑在移动端展示的效果，因为移动端的布局比PC端更加苛刻。</li>
-<li>渐进增强：要针对老版本浏览器，重点完成内容显示的完整性。针对新版本的浏览器，加入最新的 feature 进行显示的实现。</li>
-</ol>
-<h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><ol>
-<li>css3 Media Query，这种实现方法最简单</li>
-<li>JavaScript，实现成本高，不推荐</li>
-<li>第三方开源框架(Boostrap 等)</li>
-</ol>
-<h3 id="CSS3-Media-Query"><a href="#CSS3-Media-Query" class="headerlink" title="CSS3-Media Query"></a>CSS3-Media Query</h3><p>常见的属性：</p>
+<h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><h3 id="无权最短路径"><a href="#无权最短路径" class="headerlink" title="无权最短路径"></a>无权最短路径</h3><p>一般使用广度优先算法作为无权的最短路径算法。<strong>最短路径算法求的是一个点到其余所有点的最短路径</strong></p>
+<p>基本步骤：</p>
 <ol>
-<li>device-width、device-height：屏幕宽高</li>
-<li>width、height：渲染窗口宽高</li>
-<li>orientation：设备方向</li>
-<li>resolution：屏幕分辨率</li>
+<li>将所有点的距离 d 设为无穷大</li>
+<li>挑选初始点 s，将 ds 设为 0，将 shortest 设为 0</li>
+<li>找到所有距离为 d 为 shortest 的点，查找他们的邻接链表的下一个顶点 w，如果 dw 的值为无穷大，则将 dw 设为 shortest + 1</li>
+<li>增加 shortest 的值，重复步骤 3，直到没有顶点的距离值为无穷大</li>
 </ol>
+<p><img src="http://pic3.zhimg.com/v2-f38af68ed88323fab87de68cf56be212_b.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">let Node = function() &#123;</div><div class="line">    this.isVisited = false;</div><div class="line">    this.distance = -1;</div><div class="line">    this.next = []; // Array of next nodes</div><div class="line">&#125;</div><div class="line"></div><div class="line">function BFS(start) &#123;</div><div class="line">    if (start.next.length === 0) &#123;</div><div class="line">        return start;</div><div class="line">    &#125;</div><div class="line">    let queue = [];</div><div class="line">    start.distance = 0;</div><div class="line">    queue.push(start);</div><div class="line">    while (queue.length !== 0) &#123;</div><div class="line">        let node = queue.unshift();</div><div class="line">        let distance = node.distance;</div><div class="line">        node.isVisited = true;</div><div class="line">        node.next.forEach(function(node) &#123;</div><div class="line">            if (!node.isVisited) &#123;</div><div class="line">                node.distance = distance + 1;</div><div class="line">                queue.push(node);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    return start;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="有权最短路径算法"><a href="#有权最短路径算法" class="headerlink" title="有权最短路径算法"></a>有权最短路径算法</h3><p>在有权图中，常见的最短路径算法有 Dijkstra 算法 Floyd 算法</p>
+<h4 id="Dijkstra-算法"><a href="#Dijkstra-算法" class="headerlink" title="Dijkstra 算法"></a>Dijkstra 算法</h4><p>迪杰斯特拉 Dijkstra 算法：Dijkstra 算法适用于权值为正的的图</p>
+<p>Dijkstra 算法属于单源算法，即只能求出<strong>某点到其它点最短距离，并不能得出任意两点之间的最短距离。</strong>该算法类似于边上有权值的最短路径算法，其本质是<strong>贪婪算法</strong>，贪婪算法一般分阶段求解一个问题，并且在每个阶段都把出现的当做是最好的去处理。</p>
+<p>算法步骤：</p>
+<ol>
+<li>将所有边初始化为无穷大</li>
+<li>选择一个开始的顶点，添加到优先队列中</li>
+<li>对于该点的所有邻接顶点进行判断，如果到该点的距离小于原先的值，则将该值进行更新</li>
+<li>将该点所有邻接顶点添加到优先队列中</li>
+<li>从优先队列中挑选出一个<strong>路径值最小的顶点</strong>，将其弹出，作为新的顶点，重复步骤 3，4，5</li>
+<li>直到所有点都被处理过一次</li>
+</ol>
+<p><img src="http://pic2.zhimg.com/v2-26c8c539a7197a62e4a356cd9dfda891_b.png" alt=""><br><img src="http://pic2.zhimg.com/v2-8396dfb4df2801cd3d10b25f99528bbd_b.png" alt=""><br><img src="http://pic2.zhimg.com/v2-624a0f575b509298722914b9849061ed_b.png" alt=""><br><img src="http://pic1.zhimg.com/v2-861048c05e812564557b0a68b584e5ec_b.png" alt=""></p>
+<p>Dijkstra 算法适合于权值为正的情况下，若权值为负则不能使用，因为出现死循环。这时候我们需要计算每个顶点被处理的次数，当某个顶点已经处理过的话，就跳出该循环。</p>
+<p>该算法的运行时间依赖对顶点的处理方法，我们必须妖绿顺序扫描顶点以找出最小值的算法。<strong>可以将顶点存储在优先级队列中。</strong></p>
+<p><strong>如果一个图有负价边，</strong>问题在与，一个顶点 u 被声明是 known 的，那个可能从另一个 unknown 的顶点 v 有一条回到 u 的负的路径，在这样的情况下选取从 s 到 v 再回到 u 的路径要比直接从 s 到 u 但不通过 v 更好。</p>
+<p>还有一种更简单的例子：假如一张图里有一个总长为负数的环，那么Dijkstra算法有可能会沿着这个环一直绕下去，绕到地老天荒…</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">let Node = function() &#123;</div><div class="line">    this.isVisited = false;</div><div class="line">    this.distance = Number.MAX_VALUE;</div><div class="line">    this.next = []; // Array of next nodes</div><div class="line">    this.link = new Map();  // map of node link, key is node, value is weight</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function Dijkstra(start) &#123;</div><div class="line">    if (start === null) &#123;</div><div class="line">        return start;</div><div class="line">    &#125; </div><div class="line">    start.distance = 0;</div><div class="line">    let queue = [];</div><div class="line">    queue.push(start);</div><div class="line">    while (queue.length !== 0) &#123;</div><div class="line">        let min = Number.MAX_VALUE, minNode;</div><div class="line">        for (let i = 0; i &lt; queue.length; i++) &#123;</div><div class="line">            if (queue[i].isVisited === false &amp;&amp; queue[i].distance &lt; min) &#123;</div><div class="line">                minNode = queue[i];</div><div class="line">                min = queue[i].distance;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        minNode.isVisited = true;</div><div class="line">        minNode.forEach(function(node) &#123;</div><div class="line">            let minDis = minNode.distance + minNode.link.get(node);</div><div class="line">            node.distance = node.distance &lt; minDis ? node.distance : minDis;</div><div class="line">            if (!node.isVisited) &#123;</div><div class="line">                queue.push(node);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    return start;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Floyd-算法"><a href="#Floyd-算法" class="headerlink" title="Floyd 算法"></a>Floyd 算法</h4><p><strong>Floyd 算法可以求出任意两点的最短距离</strong></p>
+<p>Floyd 算法是一个经典的动态规划算法。用通俗的语言来描述的话，首先我们的目标是寻找从点 i 到点 j 的最短路径。</p>
+<p>从任意节点 i 到任意节点 j 的最短路径不外乎 2 种可能：</p>
+<ol>
+<li>是直接从 i 到 j</li>
+<li>是从 i 经过若干个节点 k 到 j</li>
+</ol>
+<p>所以，我们假设 Dis(i,j) 为节点 u 到节点 v 的最短路径的距离，对于每一个节点 k，我们检查Dis(i,k) + Dis(k,j) &lt; Dis(i,j) 是否成立，如果成立，证明从 i 到 k 再到 j 的路径比 i 直接到 j 的路径短，我们便设置 Dis(i,j) = Dis(i,k) + Dis(k,j)，这样一来，当我们遍历完所有节点 k，Dis(i,j) 中记录的便是 i 到 j 的最短路径的距离。</p>
+<p>时间复杂度： O(n^3)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">for(int k=0; k&lt;n; k++) &#123; </div><div class="line">    for(i=0; i&lt;n; i++) &#123;</div><div class="line">         for(j=0; j&lt;n; j++)</div><div class="line">             if(A[i][j]&gt;(A[i][k]+A[k][j])) &#123;</div><div class="line">                  A[i][j]=A[i][k]+A[k][j];</div><div class="line">                  path[i][j]=k;</div><div class="line">             &#125; </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><p>最小生成树数是由连接图 G 的所有顶点的边构成的树，并且其总价值最低。</p>
+<h3 id="Prim-算法"><a href="#Prim-算法" class="headerlink" title="Prim 算法"></a>Prim 算法</h3><p>算法思想：找到一个顶点 v 在 known 数组中，另一个顶点 u 在 unknown 数组中， 并且权值最小的边，添加到图中。</p>
+<p>使用 Prim 算法也需要遍历 known 数组中顶点的所有边，找到权值最小的边，时间复杂度为 O(n*n)</p>
+<p>算法步骤：</p>
+<ol>
+<li>输入：一个加权连通图，其中顶点集合为 V，边集合为 E</li>
+<li>初始化：<code>Vnew = {x}</code>，其中 x 为集合 V 中的任一节点(起始点)，<code>Enew = {}</code> 为空</li>
+<li>在集合 E 中选取权值最小的边 <code>&lt;u, v&gt;</code>，其中 <strong>u 为集合 Vnew 中的元素，而 v 不在 Vnew 集合当中</strong>，并且 v∈V (如果存在有多条满足前述条件即具有相同权值的边，则可任意选取其中之一）</li>
+<li>将 v 加入集合 Vnew 中，将 <code>&lt;u, v&gt;</code> 边加入集合 Enew 中</li>
+<li>重复步骤 3、4 直到 Vnew = V</li>
+</ol>
+<p>时间复杂度：O(V^2)</p>
+<p><img src="http://img.blog.csdn.net/20130430183628159" alt=""></p>
+<h3 id="Kruskal-算法"><a href="#Kruskal-算法" class="headerlink" title="Kruskal 算法"></a>Kruskal 算法</h3><p>算法思想：连续按照最小的权值选择边，当所选的边不产生圈时就把它作为要取定的边。</p>
+<p>算法步骤：</p>
+<ol>
+<li>先构造一个只含有 n 个顶点，而边集为空的子图</li>
+<li>从边集 E 中选取一条权值最小的边，若该条边的两个顶点分属不同的集合，则将其加入子图。(也就是说，将这两个顶点分别所在的两棵树合成一棵树) 反之，若该条边的两个顶点已在同一集合上，则不可取，而应该取下一条权值最小的边再试之</li>
+<li>重复步骤 2，直到所有点连通</li>
+</ol>
+<p>时间复杂度：O(ElogV)</p>
+<p><img src="http://pic1.zhimg.com/v2-67ebcdf2a0cb6da002a0f2ca2d00ee30_b.jpg" alt=""><br><img src="http://pic1.zhimg.com/v2-2b9696d89cae9dbac1f19b669d31ef24_b.jpg" alt=""><br><img src="http://pic3.zhimg.com/v2-3ac7535fbf1707fee787b89f6145afee_b.jpg" alt=""><br><img src="http://pic4.zhimg.com/v2-3782ccd91886fb4c78efa271ed0595bf_b.jpg" alt=""></p>
 
       
     </div>
@@ -474,7 +548,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/响应式布局/" rel="tag"># 响应式布局</a>
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/graph-theory/" rel="tag"># graph theory</a>
           
         </div>
       
@@ -483,8 +559,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/15/使用Alfred-Workflow上传剪切板图片并导出到Markdown/" rel="next" title="使用Alfred Workflow上传剪切板图片并导出到Markdown">
-                <i class="fa fa-chevron-left"></i> 使用Alfred Workflow上传剪切板图片并导出到Markdown
+              <a href="/2017/03/15/TCP-的流量控制与拥塞控制/" rel="next" title="TCP 的流量控制与拥塞控制">
+                <i class="fa fa-chevron-left"></i> TCP 的流量控制与拥塞控制
               </a>
             
           </div>
@@ -492,10 +568,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/02/React入门/" rel="prev" title="React入门">
-                React入门 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -521,8 +593,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/31/响应式布局/"
-           data-title="响应式布局" data-url="https://shiningdan.github.io/2017/01/31/响应式布局/">
+      <div class="ds-thread" data-thread-key="2017/03/18/常用图论算法/"
+           data-title="常用图论算法" data-url="https://shiningdan.github.io/2017/03/18/常用图论算法/">
       </div>
     
   </div>
@@ -622,7 +694,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#响应式布局背景介绍"><span class="nav-number">1.</span> <span class="nav-text">响应式布局背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应式设计的原则"><span class="nav-number">2.</span> <span class="nav-text">响应式设计的原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方法"><span class="nav-number">3.</span> <span class="nav-text">实现方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS3-Media-Query"><span class="nav-number">3.1.</span> <span class="nav-text">CSS3-Media Query</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#最短路径算法"><span class="nav-number">1.</span> <span class="nav-text">最短路径算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无权最短路径"><span class="nav-number">1.1.</span> <span class="nav-text">无权最短路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有权最短路径算法"><span class="nav-number">1.2.</span> <span class="nav-text">有权最短路径算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dijkstra-算法"><span class="nav-number">1.2.1.</span> <span class="nav-text">Dijkstra 算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Floyd-算法"><span class="nav-number">1.2.2.</span> <span class="nav-text">Floyd 算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最小生成树"><span class="nav-number">2.</span> <span class="nav-text">最小生成树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Prim-算法"><span class="nav-number">2.1.</span> <span class="nav-text">Prim 算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kruskal-算法"><span class="nav-number">2.2.</span> <span class="nav-text">Kruskal 算法</span></a></li></ol></li></ol></div>
             
 
           </div>
