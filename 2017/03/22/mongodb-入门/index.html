@@ -1,0 +1,1185 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MongoDB," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本笔记是在学习 MongoDB 的记录笔记，持续补充中，在学习的过程中参考了下面的教程。想要继续学习的朋友可以根据链接找到更多的内容：
+MongoDB 教mongoDB入门篇MongoDB权威指南">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongodb 入门">
+<meta property="og:url" content="https://shiningdan.github.io/2017/03/22/mongodb-入门/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本笔记是在学习 MongoDB 的记录笔记，持续补充中，在学习的过程中参考了下面的教程。想要继续学习的朋友可以根据链接找到更多的内容：
+MongoDB 教mongoDB入门篇MongoDB权威指南">
+<meta property="og:image" content="http://www.runoob.com/wp-content/uploads/2013/10/bigdata.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/a6683c803916e1270d6de367203b4cfb.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/15dfa8ac27f02a4b5efda5e4c39cfe34.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/a2e8a8faf1a641b9f7a68d1155063f77.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/d3dc9ecbb3587aeeb71b66fa8ba3bcd2.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/99f7868e143b47f881a7f739dd4d3439.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/1afea3cbecb79b7bc1ded80547f119b2.png">
+<meta property="og:updated_time" content="2017-03-22T12:49:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongodb 入门">
+<meta name="twitter:description" content="本笔记是在学习 MongoDB 的记录笔记，持续补充中，在学习的过程中参考了下面的教程。想要继续学习的朋友可以根据链接找到更多的内容：
+MongoDB 教mongoDB入门篇MongoDB权威指南">
+<meta name="twitter:image" content="http://www.runoob.com/wp-content/uploads/2013/10/bigdata.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/03/22/mongodb-入门/"/>
+
+
+
+
+
+  <title> mongodb 入门 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/03/22/mongodb-入门/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                mongodb 入门
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-22T14:01:15+08:00">
+                2017-03-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/22/mongodb-入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/22/mongodb-入门/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/22/mongodb-入门/" class="leancloud_visitors" data-flag-title="mongodb 入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本笔记是在学习 MongoDB 的记录笔记，持续补充中，在学习的过程中参考了下面的教程。想要继续学习的朋友可以根据链接找到更多的内容：</p>
+<p><a href="http://www.runoob.com/mongodb/mongodb-tutorial.html" target="_blank" rel="external">MongoDB 教</a><br><a href="http://www.imooc.com/learn/295" target="_blank" rel="external">mongoDB入门篇</a><br><a href="https://book.douban.com/subject/25798102/" target="_blank" rel="external">MongoDB权威指南</a></p>
+<a id="more"></a>
+<h2 id="RDBMS-和-NoSQL"><a href="#RDBMS-和-NoSQL" class="headerlink" title="RDBMS 和 NoSQL"></a>RDBMS 和 NoSQL</h2><h3 id="关系型数据库遵循ACID规则"><a href="#关系型数据库遵循ACID规则" class="headerlink" title="关系型数据库遵循ACID规则"></a>关系型数据库遵循ACID规则</h3><ol>
+<li>A (Atomicity) 原子性</li>
+</ol>
+<p>原子性很容易理解，也就是说事务里的所有操作要么全部做完，要么都不做，事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。</p>
+<p>比如银行转账，从A账户转100元至B账户，分为两个步骤：1）从A账户取100元；2）存入100元至B账户。这两步要么一起完成，要么一起不完成，如果只完成第一步，第二步失败，钱会莫名其妙少了100元。</p>
+<ol>
+<li>C (Consistency) 一致性</li>
+</ol>
+<p>一致性也比较容易理解，也就是说数据库要一直处于一致的状态，事务的运行不会改变数据库原本的一致性约束。</p>
+<p>例如现有完整性约束a+b=10，如果一个事务改变了a，那么必须得改变b，使得事务结束后依然满足a+b=10，否则事务失败。</p>
+<ol>
+<li>I (Isolation) 独立性</li>
+</ol>
+<p>所谓的独立性是指并发的事务之间不会互相影响，如果一个事务要访问的数据正在被另外一个事务修改，只要另外一个事务未提交，它所访问的数据就不受未提交事务的影响。</p>
+<p>比如现有有个交易是从A账户转100元至B账户，在这个交易还未完成的情况下，如果此时B查询自己的账户，是看不到新增加的100元的。</p>
+<ol>
+<li>D (Durability) 持久性</li>
+</ol>
+<p>持久性是指一旦事务提交后，它所做的修改将会永久的保存在数据库上，即使出现宕机也不会丢失。</p>
+<h3 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h3><p>NoSQL，指的是非关系型的数据库。NoSQL有时也称作Not Only SQL的缩写，是对不同于传统的关系型数据库的数据库管理系统的统称。</p>
+<p><strong>NoSQL用于超大规模数据的存储</strong>。（例如谷歌或Facebook每天为他们的用户收集万亿比特的数据）。这些类型的数据存储不需要固定的模式，无需多余操作就可以<strong>横向扩展</strong>。</p>
+<h3 id="RDBMS-vs-NoSQL"><a href="#RDBMS-vs-NoSQL" class="headerlink" title="RDBMS vs NoSQL"></a>RDBMS vs NoSQL</h3><p>RDBMS </p>
+<ol>
+<li>高度组织化结构化数据 </li>
+<li>结构化查询语言（SQL） (SQL) </li>
+<li>数据和关系都存储在单独的表中。 </li>
+<li>数据操纵语言，数据定义语言 </li>
+<li>严格的一致性</li>
+<li>基础事务</li>
+</ol>
+<p>NoSQL </p>
+<ol>
+<li>代表着不仅仅是SQL</li>
+<li>没有声明性查询语言</li>
+<li>没有预定义的模式</li>
+<li>键 - 值对存储，列存储，文档存储，图形数据库</li>
+<li>最终一致性，而非ACID属性</li>
+<li>非结构化和不可预知的数据</li>
+<li>CAP定理 </li>
+<li>高性能，高可用性和可伸缩性</li>
+</ol>
+<p><img src="http://www.runoob.com/wp-content/uploads/2013/10/bigdata.png" alt=""></p>
+<p>由上图可以知道，网络中出现的非结构化的数据越来越多，不同种类的数据类型也越来越多，所以使用 NoSQL 可以更好地处理这些非结构化的数据。</p>
+<h3 id="CAP定理（CAP-theorem）"><a href="#CAP定理（CAP-theorem）" class="headerlink" title="CAP定理（CAP theorem）"></a>CAP定理（CAP theorem）</h3><p>在计算机科学中, CAP定理（CAP theorem）, 又被称作 布鲁尔定理（Brewer’s theorem）, 它指出对于一个分布式计算系统来说，不可能同时满足以下三点:</p>
+<ol>
+<li>一致性(Consistency) (所有节点在同一时间具有相同的数据)</li>
+<li>可用性(Availability) (保证每个请求不管成功或者失败都有响应)</li>
+<li>分隔容忍(Partition tolerance) (系统中任意信息的丢失或失败不会影响系统的继续运作)</li>
+</ol>
+<p>因此，根据 CAP 原理将 NoSQL 数据库分成了满足 CA 原则、满足 CP 原则和满足 AP 原则三 大类：</p>
+<ol>
+<li>CA - 单点集群，满足一致性，可用性的系统，通常在可扩展性上不太强大。</li>
+<li>CP - 满足一致性，分区容忍性的系统，通常性能不是特别高。</li>
+<li>AP - 满足可用性，分区容忍性的系统，通常可能对一致性要求低一些。</li>
+</ol>
+<p>BASE是NoSQL数据库通常对可用性及一致性的弱要求原则:</p>
+<ol>
+<li>Basically Availble –基本可用</li>
+<li>Soft-state –软状态/柔性事务。</li>
+<li>Eventual Consistency –最终一致性 最终一致性， 也是是 ACID 的最终目的。</li>
+</ol>
+<h3 id="NoSQL-数据库分类"><a href="#NoSQL-数据库分类" class="headerlink" title="NoSQL 数据库分类"></a>NoSQL 数据库分类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">列存储	:</div><div class="line">Hbase</div><div class="line">Cassandra</div><div class="line">Hypertable</div><div class="line">顾名思义，是按列存储数据的。最大的特点是方便存储结构化和半结构化数据，方便做数据压缩，对针对某一列或者某几列的查询有非常大的IO优势。</div><div class="line"></div><div class="line">文档存储 :</div><div class="line">MongoDB</div><div class="line">CouchDB</div><div class="line">文档存储一般用类似json的格式存储，存储的内容是文档型的。这样也就有有机会对某些字段建立索引，实现关系数据库的某些功能。</div><div class="line"></div><div class="line">key-value存储 :</div><div class="line">Tokyo Cabinet / Tyrant</div><div class="line">Berkeley DB</div><div class="line">MemcacheDB</div><div class="line">Redis</div><div class="line">可以通过key快速查询到其value。一般来说，存储不管value的格式，照单全收。（Redis包含了其他功能）</div><div class="line"></div><div class="line">图存储 :</div><div class="line">Neo4J</div><div class="line">FlockDB</div><div class="line">图形关系的最佳存储。使用传统关系数据库来解决的话性能低下，而且设计使用不方便。</div><div class="line"></div><div class="line">对象存储 :</div><div class="line">db4o</div><div class="line">Versant</div><div class="line">通过类似面向对象语言的语法操作数据库，通过对象的方式存取数据。</div><div class="line"></div><div class="line">xml数据库 :</div><div class="line">Berkeley DB XML</div><div class="line">BaseX</div><div class="line">高效的存储XML数据，并支持XML的内部查询语法，比如XQuery,Xpath。</div></pre></td></tr></table></figure>
+<h2 id="MongoDB-概念解析"><a href="#MongoDB-概念解析" class="headerlink" title="MongoDB 概念解析"></a>MongoDB 概念解析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">SQL术语/概念	MongoDB术语/概念	解释/说明</div><div class="line">database	      database	      数据库</div><div class="line">table	         collection	    数据库表/集合</div><div class="line">row	              document	   数据记录行/文档</div><div class="line">column	           field	    数据字段/域</div><div class="line">index	           index	      索引</div><div class="line">table              joins	表连接,MongoDB不支持</div><div class="line">primary key	    primary key	主键,MongoDB自动将_id字段设置为主键</div></pre></td></tr></table></figure>
+<p>MongoDB 中的数据类型</p>
+<p>MongoDB区分类型和大小写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">数据类型	                      描述</div><div class="line">String	      字符串。存储数据常用的数据类型。在 MongoDB 中，UTF-8 编码的字符串才是合法的。</div><div class="line">Integer	      整型数值。用于存储数值。根据你所采用的服务器，可分为 32 位或 64 位。</div><div class="line">Boolean	      布尔值。用于存储布尔值（真/假）。</div><div class="line">Double	      双精度浮点值。用于存储浮点值。</div><div class="line">Min/Max keys  将一个值与 BSON（二进制的 JSON）元素的最低值和最高值相对比。</div><div class="line">Arrays	      用于将数组或列表或多个值存储为一个键。</div><div class="line">Timestamp	  时间戳。记录文档修改或添加的具体时间。</div><div class="line">Object	      用于内嵌文档。</div><div class="line">Null	      用于创建空值。</div><div class="line">Symbol	      符号。该数据类型基本上等同于字符串类型，但不同的是，它一般用于采用特殊符号类型的语言。</div><div class="line">Date	      日期时间。用 UNIX 时间格式来存储当前日期或时间。你可以指定自己的日期时间：创建 Date 对象，传入年月日信息。</div><div class="line">Object ID	  对象 ID。用于创建文档的 ID。</div><div class="line">Binary Data	  二进制数据。用于存储二进制数据。</div><div class="line">Code	      代码类型。用于在文档中存储 JavaScript 代码。</div><div class="line">Regular expression	正则表达式类型。用于存储正则表达式。</div></pre></td></tr></table></figure>
+<p>有一些数据库名是保留的，可以直接访问这些有特殊作用的数据库。</p>
+<ol>
+<li>admin： 从权限的角度来看，这是”root”数据库。要是将一个用户添加到这个数据库，这个用户自动继承所有数据库的权限。一些特定的服务器端命令也只能从这个数据库运行，比如列出所有的数据库或者关闭服务器。</li>
+<li>local: 这个数据永远不会被复制，可以用来存储限于本地单台服务器的任意集合</li>
+<li>config: 当Mongo用于分片设置时，config数据库在内部使用，用于保存分片的相关信息。</li>
+</ol>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p><strong>创建数据库</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">use DATABASE_NAME</div></pre></td></tr></table></figure>
+<p>如果数据库不存在，则创建数据库，否则切换到指定数据库。</p>
+<p><strong>查看当前数据库</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db</div><div class="line">  zyc</div></pre></td></tr></table></figure>
+<p><strong>查看所有数据库</strong></p>
+<p>如果你想查看所有数据库，可以使用 show dbs 命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">show dbs</div></pre></td></tr></table></figure>
+<p>可以看到，我们刚创建的数据库 zyc 并不在数据库的列表中， 要显示它，我们需要向 zyc 数据库插入一些数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt; show dbs</div><div class="line">  admin  0.000GB</div><div class="line">  local  0.000GB</div><div class="line">&gt; db</div><div class="line">  zyc</div><div class="line">&gt; db.zyc.insert(&#123;&apos;id&apos;: &apos;BUPT&apos;&#125;)</div><div class="line">  WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)</div><div class="line">&gt; show dbs</div><div class="line">  admin  0.000GB</div><div class="line">  local  0.000GB</div><div class="line">  zyc    0.000GB</div></pre></td></tr></table></figure>
+<p>MongoDB 中默认的数据库为 test，如果你没有创建新的数据库，集合将存放在 test 数据库中。</p>
+<p><strong>删除数据库</strong></p>
+<p>MongoDB 删除数据库的语法格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.dropDatabase()</div></pre></td></tr></table></figure>
+<p>删除当前数据库，默认为 test，你可以使用 db 命令查看当前数据库名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.dropDatabase()</div><div class="line">  &#123; &quot;dropped&quot; : &quot;zyc&quot;, &quot;ok&quot; : 1 &#125;</div></pre></td></tr></table></figure>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>集合的概念就和 RDBMS 中的 table 是一个概念</p>
+<p><strong>给集合插入数据</strong></p>
+<p>使用 [collection].insert() 来插入数据，如果该集合不存在，则会创建。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; db.mongo.insert(&#123;&apos;id&apos;: &apos;first mongodb collection&apos;&#125;)</div><div class="line">  WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)</div><div class="line">&gt; show tables;</div><div class="line">  mongo</div></pre></td></tr></table></figure>
+<p><strong>查看所有的集合</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; show tables;</div><div class="line">  mongo</div></pre></td></tr></table></figure>
+<p><strong>删除集合</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; db.mongo.drop()</div><div class="line">  true</div><div class="line">&gt; show tables;</div></pre></td></tr></table></figure>
+<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p>文档的数据结构和JSON基本一样。<br>所有存储在集合中的数据都是BSON格式。<br>BSON是一种类json的一种二进制形式的存储格式,简称Binary JSON。</p>
+<h3 id="插入文档"><a href="#插入文档" class="headerlink" title="插入文档"></a>插入文档</h3><p>MongoDB 使用 insert() 或 save() 方法向集合中插入文档，语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.COLLECTION_NAME.insert(document)</div></pre></td></tr></table></figure>
+<p>插入文档的数据，必须要是一个 <code>document</code>，也就是一个有 key-value 对的 <code>{}</code>。如果 key-value 对中没有 ‘_id’ 存在，则会默认生成一个 <code>ObjectId</code> 类型的键值对，用来表示这个文档。</p>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; db.mongo.insert(&#123;&apos;id&apos;: &apos;first mongodb collection&apos;&#125;)</div><div class="line">  WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)</div><div class="line">&gt; db.mongo.find()</div><div class="line">  &#123; &quot;_id&quot; : ObjectId(&quot;58d22b9f123c0b38c9226ad7&quot;), &quot;id&quot; : &quot;first mongodb collection&quot; &#125;</div></pre></td></tr></table></figure>
+<p>insert 和 save 的区别：</p>
+<p>通过在 mongodb 中执行 <code>db.COLLECTION_NAME.insert</code> 和 <code>db.COLLECTION_NAME.save</code>，可以通过返回值得到这个函数的逻辑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&gt; db.mongo.save</div><div class="line">function (obj, opts) &#123;</div><div class="line">    if (obj == null)</div><div class="line">        throw Error(&quot;can&apos;t save a null&quot;);</div><div class="line"></div><div class="line">    if (typeof(obj) == &quot;number&quot; || typeof(obj) == &quot;string&quot;)</div><div class="line">        throw Error(&quot;can&apos;t save a number or string&quot;);</div><div class="line"></div><div class="line">    if (typeof(obj._id) == &quot;undefined&quot;) &#123;</div><div class="line">        obj._id = new ObjectId();</div><div class="line">        return this.insert(obj, opts);</div><div class="line">    &#125; else &#123;</div><div class="line">        return this.update(&#123;_id: obj._id&#125;, obj, Object.merge(&#123;upsert: true&#125;, opts));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们可以看到，<code>save</code> 无法保存 null、number、string，当然 insert 也无法保存这几种数据类型。</p>
+<p>通过 <code>save</code> 的逻辑中可以看出，如果这个 <code>obj</code> 没有在集合中存过，则调用 <code>insert</code> 方法将这个文档存入。如果在集合中已经存在了这个文档，则进行 <code>update</code> 更新文档。</p>
+<p>我们也可以将数据定义为一个变量，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt; document=(&#123;title: &apos;MongoDB 教程&apos;, </div><div class="line">    description: &apos;MongoDB 是一个 Nosql 数据库&apos;,</div><div class="line">    by: &apos;菜鸟教程&apos;,</div><div class="line">    url: &apos;http://www.runoob.com&apos;,</div><div class="line">    tags: [&apos;mongodb&apos;, &apos;database&apos;, &apos;NoSQL&apos;],</div><div class="line">    likes: 100</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>执行插入操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.col.insert(document)</div><div class="line">  WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)</div></pre></td></tr></table></figure>
+<h3 id="查找集合中所有的文档"><a href="#查找集合中所有的文档" class="headerlink" title="查找集合中所有的文档"></a>查找集合中所有的文档</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.COLLECTION_NAME.find()</div></pre></td></tr></table></figure>
+<p>将返回集合中所有的元素。</p>
+<p>也可以在 <code>find()</code> 的返回值中调用 <code>pretty()</code> 方法，将优化 Shell 输出样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt; db.mongo.find().pretty()</div><div class="line">&#123;</div><div class="line">	&quot;_id&quot; : ObjectId(&quot;58d22b9f123c0b38c9226ad7&quot;),</div><div class="line">	&quot;id&quot; : &quot;first mongodb collection&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以通过<strong>条件操作符</strong>来选择查询的条件</p>
+<p>MongoDB中条件操作符有：</p>
+<ol>
+<li>(&gt;) 大于 - <code>$gt</code></li>
+<li>(&lt;) 小于 - <code>$lt</code></li>
+<li>(&gt;=) 大于等于 - <code>$gte</code></li>
+<li>(&lt;= ) 小于等于 - <code>$lte</code></li>
+</ol>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/a6683c803916e1270d6de367203b4cfb.png" alt=""></p>
+<p><strong>MongoDB AND 条件</strong></p>
+<p>MongoDB 的 find() 方法可以传入多个键(key)，每个键(key)以逗号隔开，及常规 SQL 的 AND 条件。<br>语法格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.col.find(&#123;key1:value1, key2:value2&#125;).pretty()</div></pre></td></tr></table></figure>
+<p><strong>MongoDB OR 条件</strong></p>
+<p>MongoDB OR 条件语句使用了关键字 <code>$or</code>,语法格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;db.col.find(</div><div class="line">   &#123;</div><div class="line">      $or: [</div><div class="line">	     &#123;key1: value1&#125;, &#123;key2:value2&#125;</div><div class="line">      ]</div><div class="line">   &#125;</div><div class="line">).pretty()</div></pre></td></tr></table></figure>
+<p>以下实例演示了 AND 和 OR 联合使用，类似常规 SQL 语句为： <code>where likes&gt;50 AND (by = &#39;菜鸟教程&#39; OR title = &#39;MongoDB 教程&#39;)</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.col.find(&#123;&quot;likes&quot;: &#123;$gt:50&#125;, $or: [&#123;&quot;by&quot;: &quot;菜鸟教程&quot;&#125;,&#123;&quot;title&quot;: &quot;MongoDB 教程&quot;&#125;]&#125;).pretty()</div></pre></td></tr></table></figure>
+<p><code>$type</code>操作符是基于BSON类型来检索集合中匹配的数据类型，并返回结果。</p>
+<p>如果想获取 “col” 集合中 title 为 String 的数据，你可以使用以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.col.find(&#123;&quot;title&quot; : &#123;$type : 2&#125;&#125;)</div></pre></td></tr></table></figure>
+<p>其中 2 对应着 String 类型。所有的类型对应表如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/15dfa8ac27f02a4b5efda5e4c39cfe34.png" alt=""><br><img src="http://ojt6zsxg2.bkt.clouddn.com/a2e8a8faf1a641b9f7a68d1155063f77.png" alt=""></p>
+<h4 id="读取指定数量的数据记录"><a href="#读取指定数量的数据记录" class="headerlink" title="读取指定数量的数据记录"></a>读取指定数量的数据记录</h4><p>如果你需要在MongoDB中读取指定数量的数据记录，可以使用MongoDB的Limit方法，<code>limit()</code>方法接受一个数字参数，该参数指定从MongoDB中读取的记录条数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.COLLECTION_NAME.find().limit(NUMBER)</div></pre></td></tr></table></figure>
+<p>我们除了可以使用<code>limit()</code>方法来读取指定数量的数据外，还可以使用<code>skip()</code>方法来跳过指定数量的数据，skip方法同样接受一个数字参数作为跳过的记录条数。</p>
+<p><code>skip()</code>方法脚本语法格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.COLLECTION_NAME.find().limit(NUMBER).skip(NUMBER)</div></pre></td></tr></table></figure>
+<h4 id="查找结果排序"><a href="#查找结果排序" class="headerlink" title="查找结果排序"></a>查找结果排序</h4><p>在MongoDB中使用<code>sort()</code>方法对数据进行排序，<code>sort()</code>方法可以通过参数指定排序的字段，并使用 <code>1</code> 和 <code>-1</code> 来指定排序的方式，其中 <code>1</code> 为升序排列，而<code>-1</code>是用于降序排列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.COLLECTION_NAME.find().sort(&#123;KEY:1&#125;)</div></pre></td></tr></table></figure>
+<h3 id="删除集合中的文档"><a href="#删除集合中的文档" class="headerlink" title="删除集合中的文档"></a>删除集合中的文档</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">db.collection.remove(</div><div class="line">   &lt;query&gt;,</div><div class="line">   &#123;</div><div class="line">     justOne: &lt;boolean&gt;,</div><div class="line">     writeConcern: &lt;document&gt;</div><div class="line">   &#125;</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li><code>query</code> :（可选）删除的文档的条件。</li>
+<li><code>justOne</code> : （可选）如果设为 true 或 1，则只删除一个文档。</li>
+<li><code>writeConcern</code> :（可选）抛出异常的级别。</li>
+</ul>
+<h3 id="更新集合中的文档"><a href="#更新集合中的文档" class="headerlink" title="更新集合中的文档"></a>更新集合中的文档</h3><p><code>update()</code> 方法用于更新已存在的文档。语法格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">db.collection.update(</div><div class="line">   &lt;query&gt;,</div><div class="line">   &lt;update&gt;,</div><div class="line">   &#123;</div><div class="line">     upsert: &lt;boolean&gt;,</div><div class="line">     multi: &lt;boolean&gt;,</div><div class="line">     writeConcern: &lt;document&gt;</div><div class="line">   &#125;</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li><code>query</code> : update的查询条件，类似sql update查询内<code>where</code>后面的。</li>
+<li><code>update</code> : update的对象和一些更新的操作符（如<code>$,$inc...</code>）等，也可以理解为sql update查询内<code>set</code>后面的</li>
+<li><code>upsert</code> : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew，<code>true</code>为插入，默认是<code>false</code>，不插入。</li>
+<li><code>multi</code> : 可选，mongodb 默认是<code>false</code>，只更新找到的第一条记录，如果这个参数为<code>true</code>，就把按条件查出来多条记录全部更新。</li>
+<li><code>writeConcern</code> :可选，抛出异常的级别。</li>
+</ul>
+<h3 id="MongoDB-原子操作"><a href="#MongoDB-原子操作" class="headerlink" title="MongoDB 原子操作"></a>MongoDB 原子操作</h3><p>mongodb不支持事务，所以，在你的项目中应用时，要注意这点。无论什么设计，都不要要求mongodb保证数据的完整性。</p>
+<p>但是mongodb提供了许多原子操作，比如文档的保存，修改，删除等，都是原子操作。</p>
+<p>所谓原子操作就是要么这个文档保存到Mongodb，要么没有保存到Mongodb，不会出现查询到的文档没有保存完整的情况。</p>
+<h4 id="set"><a href="#set" class="headerlink" title="$set"></a>$set</h4><p>用来指定一个键并更新键值，若键不存在并创建。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; $set : &#123; field : value &#125; &#125;</div></pre></td></tr></table></figure>
+<h4 id="unset"><a href="#unset" class="headerlink" title="$unset"></a>$unset</h4><p>用来删除一个键。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; $unset : &#123; field : 1&#125; &#125;</div></pre></td></tr></table></figure>
+<h4 id="inc"><a href="#inc" class="headerlink" title="$inc"></a>$inc</h4><p>$inc可以对文档的某个值为数字型（只能为满足要求的数字）的键进行增减的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; $inc : &#123; field : value &#125; &#125;</div></pre></td></tr></table></figure>
+<h4 id="push"><a href="#push" class="headerlink" title="$push"></a>$push</h4><p>把value追加到field里面去，field一定要是<strong>数组类型</strong>才行，如果field不存在，会<strong>新增一个数组类型</strong>加进去。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; $push : &#123; field : value &#125; &#125;</div></pre></td></tr></table></figure>
+<h4 id="pushAll"><a href="#pushAll" class="headerlink" title="$pushAll"></a>$pushAll</h4><p>同$push,只是一次可以追加多个值到一个数组字段内。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; $pushAll : &#123; field : value_array &#125; &#125;</div></pre></td></tr></table></figure>
+<h4 id="pull"><a href="#pull" class="headerlink" title="$pull"></a>$pull</h4><p>从数组field内删除一个等于value值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; $pull : &#123; field : _value &#125; &#125;</div></pre></td></tr></table></figure>
+<h4 id="addToSet"><a href="#addToSet" class="headerlink" title="$addToSet"></a>$addToSet</h4><p>增加一个值到数组内，而且只有当这个值不在数组内才增加。</p>
+<h4 id="pop"><a href="#pop" class="headerlink" title="$pop"></a>$pop</h4><p>删除数组的第一个或最后一个元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; $pop : &#123; field : 1 &#125; &#125;</div></pre></td></tr></table></figure>
+<h4 id="rename"><a href="#rename" class="headerlink" title="$rename"></a>$rename</h4><p>修改字段名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123; $rename : &#123; old_field_name : new_field_name &#125; &#125;</div></pre></td></tr></table></figure>
+<h4 id="bit"><a href="#bit" class="headerlink" title="$bit"></a>$bit</h4><p>位操作，integer类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;$bit : &#123; field : &#123;and : 5&#125;&#125;&#125;</div></pre></td></tr></table></figure>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>索引通常能够极大的提高查询的效率，如果没有索引，MongoDB在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。<br>这种扫描全集合的查询效率是非常低的，特别在处理大量的数据时，查询可以要花费几十秒甚至几分钟，这对网站的性能是非常致命的。</p>
+<p>索引是特殊的数据结构，索引存储在一个易于遍历读取的数据集合中，索引是对数据库表中一列或多列的值进行排序的一种结构</p>
+<p>MongoDB使用 ensureIndex() 方法来创建索引。</p>
+<p>ensureIndex()方法基本语法格式如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.COLLECTION_NAME.ensureIndex(&#123;KEY:1&#125;)</div></pre></td></tr></table></figure>
+<p>语法中 Key 值为你要创建的索引字段，1为指定按升序创建索引，如果你想按降序来创建索引指定为-1即可。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/d3dc9ecbb3587aeeb71b66fa8ba3bcd2.png" alt=""></p>
+<h3 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h3><p>MongoDB中聚合(aggregate)主要用于处理数据(诸如<strong>统计平均值,求和</strong>等)，并返回计算后的数据结果。有点类似sql语句中的 count(*)。</p>
+<p>aggregate() 方法的基本语法格式如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)</div></pre></td></tr></table></figure>
+<p>举例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; db.mycol.aggregate([&#123;$group : &#123;_id : &quot;$by_user&quot;, num_tutorial : &#123;$sum : 1&#125;&#125;&#125;])</div></pre></td></tr></table></figure>
+<p>以上实例类似sql语句： select by_user, count(*) from mycol group by by_user</p>
+<p>在上面的例子中，我们通过字段by_user字段对数据进行分组，并计算by_user字段相同值的总和。</p>
+<p>下表展示了一些聚合的表达式:</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/99f7868e143b47f881a7f739dd4d3439.png" alt=""></p>
+<h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>管道在Unix和Linux中一般用于将当前命令的输出结果作为下一个命令的参数。</p>
+<p>MongoDB的聚合管道将MongoDB文档在一个管道处理完毕后将结果传递给下一个管道处理。管道操作是可以重复的。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/1afea3cbecb79b7bc1ded80547f119b2.png" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/20/node-mongodb-建站攻略/" rel="next" title="node+mongodb 建站攻略">
+                <i class="fa fa-chevron-left"></i> node+mongodb 建站攻略
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/22/mongodb-入门/"
+           data-title="mongodb 入门" data-url="https://shiningdan.github.io/2017/03/22/mongodb-入门/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDBMS-和-NoSQL"><span class="nav-number">1.</span> <span class="nav-text">RDBMS 和 NoSQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关系型数据库遵循ACID规则"><span class="nav-number">1.1.</span> <span class="nav-text">关系型数据库遵循ACID规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NoSQL"><span class="nav-number">1.2.</span> <span class="nav-text">NoSQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDBMS-vs-NoSQL"><span class="nav-number">1.3.</span> <span class="nav-text">RDBMS vs NoSQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAP定理（CAP-theorem）"><span class="nav-number">1.4.</span> <span class="nav-text">CAP定理（CAP theorem）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NoSQL-数据库分类"><span class="nav-number">1.5.</span> <span class="nav-text">NoSQL 数据库分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-概念解析"><span class="nav-number">2.</span> <span class="nav-text">MongoDB 概念解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库"><span class="nav-number">3.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集合"><span class="nav-number">4.</span> <span class="nav-text">集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档"><span class="nav-number">5.</span> <span class="nav-text">文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入文档"><span class="nav-number">5.1.</span> <span class="nav-text">插入文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找集合中所有的文档"><span class="nav-number">5.2.</span> <span class="nav-text">查找集合中所有的文档</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#读取指定数量的数据记录"><span class="nav-number">5.2.1.</span> <span class="nav-text">读取指定数量的数据记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找结果排序"><span class="nav-number">5.2.2.</span> <span class="nav-text">查找结果排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除集合中的文档"><span class="nav-number">5.3.</span> <span class="nav-text">删除集合中的文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新集合中的文档"><span class="nav-number">5.4.</span> <span class="nav-text">更新集合中的文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB-原子操作"><span class="nav-number">5.5.</span> <span class="nav-text">MongoDB 原子操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#set"><span class="nav-number">5.5.1.</span> <span class="nav-text">$set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unset"><span class="nav-number">5.5.2.</span> <span class="nav-text">$unset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inc"><span class="nav-number">5.5.3.</span> <span class="nav-text">$inc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#push"><span class="nav-number">5.5.4.</span> <span class="nav-text">$push</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pushAll"><span class="nav-number">5.5.5.</span> <span class="nav-text">$pushAll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pull"><span class="nav-number">5.5.6.</span> <span class="nav-text">$pull</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#addToSet"><span class="nav-number">5.5.7.</span> <span class="nav-text">$addToSet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pop"><span class="nav-number">5.5.8.</span> <span class="nav-text">$pop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rename"><span class="nav-number">5.5.9.</span> <span class="nav-text">$rename</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bit"><span class="nav-number">5.5.10.</span> <span class="nav-text">$bit</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引"><span class="nav-number">5.6.</span> <span class="nav-text">索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合"><span class="nav-number">5.7.</span> <span class="nav-text">聚合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管道"><span class="nav-number">5.8.</span> <span class="nav-text">管道</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
