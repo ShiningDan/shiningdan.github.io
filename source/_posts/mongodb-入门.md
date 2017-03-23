@@ -571,6 +571,15 @@ ensureIndex()方法基本语法格式如下所示：
 
 ![](http://ojt6zsxg2.bkt.clouddn.com/d3dc9ecbb3587aeeb71b66fa8ba3bcd2.png)
 
+#### 额外开销
+
+每个索引占据一定的存储空间，在进行插入，更新和删除操作时也需要对索引进行操作。所以，如果你很少对集合进行读取操作，建议不使用索引。
+
+#### 内存(RAM)使用
+
+由于索引是存储在内存(RAM)中,你应该确保该索引的大小不超过内存的限制。
+如果索引的大小大于内存的限制，MongoDB会删除一些索引，这将导致性能下降。
+
 ### 聚合
 
 MongoDB中聚合(aggregate)主要用于处理数据(诸如**统计平均值,求和**等)，并返回计算后的数据结果。有点类似sql语句中的 count(*)。
@@ -603,13 +612,209 @@ MongoDB的聚合管道将MongoDB文档在一个管道处理完毕后将结果传
 
 ![](http://ojt6zsxg2.bkt.clouddn.com/1afea3cbecb79b7bc1ded80547f119b2.png)
 
+## MongoDB 数据库引用
 
+DBRef的形式：
 
+```
+{ $ref : , $id : , $db :  }
+```
 
+三个字段表示的意义为：
 
+* $ref：集合名称
+* $id：引用的id
+* $db：数据库名称，可选参数
 
+考虑这样的一个场景，我们在不同的集合中 (address_home, address_office, address_mailing, 等)存储不同的地址（住址，办公室地址，邮件地址等）。
 
+这样，我们在调用不同地址时，也需要指定集合，一个文档从多个集合引用文档，我们应该使用 DBRefs。
 
+以下实例中用户数据文档使用了 DBRef, 字段 address：
 
+```
+{
+   "_id":ObjectId("53402597d852426020000002"),
+   "address": {
+   "$ref": "address_home",
+   "$id": ObjectId("534009e4d852427820000002"),
+   "$db": "w3cschoolcc"},
+   "contact": "987654321",
+   "dob": "01-01-1991",
+   "name": "Tom Benzamin"
+}
+```
 
+address DBRef 字段指定了引用的地址文档是在 address_home 集合下的 w3cschoolcc 数据库，id 为 534009e4d852427820000002。
 
+以下代码中，我们通过指定 $ref 参数（address_home 集合）来查找集合中指定id的用户地址信息：
+
+```
+>var user = db.users.findOne({"name":"Tom Benzamin"})
+>var dbRef = user.address
+>db[dbRef.$ref].findOne({"_id":(dbRef.$id)})
+```
+
+## MongoDB ObjectId
+
+ObjectId 是一个12字节 BSON 类型数据，有以下格式：
+
+* 前4个字节表示时间戳
+* 接下来的3个字节是机器标识码
+* 紧接的两个字节由进程id组成（PID）
+* 最后三个字节是随机数。
+
+### 创建文档的时间戳
+
+由于 ObjectId 中存储了 4 个字节的时间戳，所以你不需要为你的文档保存时间戳字段，你可以通过 `getTimestamp` 函数来获取文档的创建时间:
+
+```
+>ObjectId("5349b4ddd2781d08c09890f4").getTimestamp()
+```
+
+以上代码将返回 ISO 格式的文档创建时间：
+
+```
+ISODate("2014-04-12T21:49:17Z")
+```
+
+### ObjectId 转换为字符串
+
+在某些情况下，您可能需要将ObjectId转换为字符串格式。你可以使用下面的代码：
+
+```
+>new ObjectId().str
+```
+
+以上代码将返回Guid格式的字符串：：
+
+```
+5349b4ddd2781d08c09890f3
+```
+
+## MongoDB GridFS
+
+GridFS 用于存储和恢复那些超过16M（BSON文件限制）的文件(如：图片、音频、视频等)。
+
+GridFS 也是文件存储的一种方式，但是它是存储在MonoDB的集合中。
+GridFS 可以更好的存储大于16M的文件。
+
+GridFS 会将大文件对象分割成多个小的chunk(文件片段),一般为256k/个,每个chunk将作为MongoDB的一个文档(document)被存储在chunks集合中。
+
+GridFS 用两个集合来存储一个文件：fs.files与fs.chunks。
+
+每个文件的实际内容被存在chunks(二进制数据)中,和文件有关的meta数据(filename,content_type,还有用户自定义的属性)将会被存在files集合中。
+
+## MongoDB 固定集合（Capped Collections）
+
+MongoDB 固定集合（Capped Collections）是性能出色且有着固定大小的集合，对于大小固定，我们可以想象其就像一个环形队列，当集合空间用完后，再插入的元素就会覆盖最初始的头部的元素！
+
+指定文档个数,加上max:1000属性：
+
+```
+>db.createCollection("cappedLogCollection",{capped:true,size:10000,max:1000})
+```
+
+**固定集合属性及用法**
+
+属性
+
+1. 属性1:对固定集合进行插入速度极快
+2. 属性2:按照插入顺序的查询输出速度极快
+3. 属性3:能够在插入最新数据时,淘汰最早的数据
+
+用法
+
+1. 用法1:储存日志信息
+2. 用法2:缓存一些少量的文档
+
+## MongoDB 自动增长
+
+MongoDB 没有像 SQL 一样有自动增长的功能， MongoDB 的 _id 是系统自动生成的12字节唯一标识。
+
+但在某些情况下，我们可能需要实现 ObjectId 自动增长功能。
+
+由于 MongoDB 没有实现这个功能，我们可以通过编程的方式来实现，以下我们将在 counters 集合中实现_id字段自动增长。
+
+### 使用 counters 集合
+
+考虑以下 products 文档。我们希望 _id 字段实现 从 1,2,3,4 到 n 的自动增长功能。
+
+```
+{
+  "_id":1,
+  "product_name": "Apple iPhone",
+  "category": "mobiles"
+}
+```
+
+为此，创建 counters 集合，序列字段值可以实现自动长：
+
+```
+>db.createCollection("counters")
+```
+
+现在我们向 counters 集合中插入以下文档，使用 productid 作为 key:
+
+```
+{
+  "_id":"productid",
+  "sequence_value": 0
+}
+```
+
+sequence_value 字段是序列通过自动增长后的一个值。
+使用以下命令插入 counters 集合的序列文档中：
+
+```
+>db.counters.insert({_id:"productid",sequence_value:0})
+```
+
+### 创建 Javascript 函数
+
+现在，我们创建函数 getNextSequenceValue 来作为序列名的输入， 指定的序列会自动增长 1 并返回最新序列值。在本文的实例中序列名为 productid 。
+
+```
+>function getNextSequenceValue(sequenceName){
+   var sequenceDocument = db.counters.findAndModify(
+      {
+         query:{_id: sequenceName },
+         update: {$inc:{sequence_value:1}},
+         new:true
+      });
+   return sequenceDocument.sequence_value;
+}
+```
+
+使用 Javascript 函数
+接下来我们将使用 getNextSequenceValue 函数创建一个新的文档， 并设置文档 _id 自动为返回的序列值：
+
+```
+>db.products.insert({
+   "_id":getNextSequenceValue("productid"),
+   "product_name":"Apple iPhone",
+   "category":"mobiles"})
+```
+
+```
+>db.products.insert({
+   "_id":getNextSequenceValue("productid"),
+   "product_name":"Samsung S3",
+   "category":"mobiles"})
+```
+   
+就如你所看到的，我们使用 getNextSequenceValue 函数来设置 _id 字段。
+
+为了验证函数是否有效，我们可以使用以下命令读取文档：
+
+```
+>db.products.find()
+```
+
+以上命令将返回以下结果，我们发现 _id 字段是自增长的：
+
+```
+{ "_id" : 1, "product_name" : "Apple iPhone", "category" : "mobiles"}
+
+{ "_id" : 2, "product_name" : "Samsung S3", "category" : "mobiles" }
+```
