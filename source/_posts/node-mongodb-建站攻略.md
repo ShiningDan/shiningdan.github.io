@@ -4,9 +4,10 @@ date: 2017-03-20 21:35:20
 categories: coding
 tags:
   - Node.js
-  - express
-  - mongodb
-  - jade
+  - Express
+  - Mongodb
+  - Jade
+  - Grunt
 ---
 
 本笔记是根据 [node+mongodb 建站攻略](http://www.imooc.com/learn/75) 教程所记录的笔记。如有需要，可以参考原视频。
@@ -504,4 +505,406 @@ module.exports = Movie;
 ```
 
 ### 编写数据库交互代码
+
+主要的数据库交互逻辑都在 app.js 里面：
+
+```
+let express = require('express');
+let path = require('path');
+let serveStatic = require('serve-static');
+let bodyPaerser = require('body-parser');
+let underScore = require('underscore');
+let mongoose = require('mongoose');
+
+let Movie = require('./models/movie');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://127.0.0.1:27017/test');
+
+let port = process.env.PORT || 3000;
+let app = express();
+
+app.set('views', './views/pages/');  // 应用的视图目录
+app.set('view engine', 'jade'); // 应用的视图引擎
+app.use(serveStatic('bower_components'));
+app.use(bodyPaerser.urlencoded({extended: true}));
+app.locals.moment = require('moment');
+console.log('listen to port', port);
+app.listen(port);
+
+
+app.get('/', function(req, res) {
+    Movie.fetch(function(err, movies) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('index', {
+            title: 'ShiningDan 主页',
+            movies: movies,
+        })
+    })
+});
+
+app.get('/movie/:id', function(req, res) {   // 访问 /admin/3 返回 detail.jade 渲染后的效果
+    let id = req.params.id;
+    Movie.findById(id, function(err, movie) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('detail', {
+            title: movie.title,
+            movie: movie,
+        })
+    })  
+})
+
+app.get('/admin/update/:id', function(req, res) {
+    let id = req.params.id;
+    if (id) {
+        Movie.findById(id, function(err, movie) {
+            res.render('admin', {
+                title: 'shiningdan 后台更新页面',
+                movie: movie,
+            })
+        })
+    }
+})
+
+
+app.get('/admin/movie', function(req, res) {
+    res.render('admin', {
+        title: 'shiningdan 后台录入页',
+        movie: {
+            title: '',
+            doctor: '',
+            country: '',
+            language: '',
+            year: '',
+            flash: '',
+            poster: '',
+            summary: '',
+        }
+    })
+})
+
+app.post('/admin/movie/new', function(req, res) {
+    let movieObj = req.body.movie;
+    let id = movieObj._id;
+    let _movie;
+    if (id !== 'undefined') {
+        Movie.findById(id, function(err, movie) {
+            if (err) {
+                console.log(err);
+            }
+            _movie = underScore.extend(movie, movieObj);
+            _movie.save(function(err, movie) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/movie/' + movie._id);
+            })
+        })
+    } else {
+        _movie = Movie({
+            doctor: movieObj.doctor,
+            title: movieObj.title,
+            country: movieObj.country,
+            language: movieObj.language,
+            year: movieObj.year,
+            country: movieObj.country,
+            poster: movieObj.poster,
+            summary: movieObj.summary,
+            flash: movieObj.flash,
+        });
+        // _id 在调用 Movie() 的时候会自动生成
+        _movie.save(function(err, movie) {
+            if (err) {
+                console.log(err);
+            }
+            res.redirect('/movie/' + movie._id);
+        })
+    }
+});
+
+
+app.get('/admin/list', function(req, res) {  //访问 /admin/list 返回 list.jade 渲染后的效果
+    Movie.fetch(function(err, movies) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('list', {
+            title: 'ShiningDan 列表页',
+            movies: movies,
+        })
+    })
+})
+```
+
+同时 list.jade 也修改了一些地方
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+             table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th 电影名字
+                        th 导演
+                        th 国家
+                        th 上映年份
+                        th 录入时间
+                        th 查看
+                        th 更新
+                        th 删除
+                    tbody
+                        each item in movies
+                            tr(class='item-id-#{item._id}')
+                                td #{item.title}
+                                td #{item.doctor}
+                                td #{item.country}
+                                td #{item.year}
+                                td #{moment(item.meta.createAt).format('MM/DD/YYYY')}
+                                td: a(target='_blank', href='../movie/#{item._id}') 查看
+                                td: a(target='_blank', href='../admin/update/#{item._id}') 修改
+                                td
+                                    button.btn.btn-danger.del(type='button', data-id='#{item._id}') 删除
+```
+
+在定义 movie 结构的 model.js 里也添加了一些字段：
+
+```
+let mongoose = require('mongoose');
+
+let MovieSchema = new mongoose.Schema({
+    doctor: String,
+    title: String,
+    language: String,
+    summary: String,
+    flash: String,
+    poster: String,
+    year: String,
+    country: String,
+    meta: {
+        createAt: {
+            type: Date,
+            default: Date.now(),
+        },
+        updateAt: {
+            type: Date,
+            default: Date.now(),
+        },
+    },
+});
+
+MovieSchema.pre('save', function(next) {
+    if (this.isNew) {
+        this.meta.createAt = this.meta.updateAt = Date.now();
+    } else {
+        this.meta.updateAt = Date.now();
+    }
+    next();
+});
+
+MovieSchema.statics = {
+    fetch: function(cb) {
+        return this.find({})
+        .sort('meta.updateAt')
+        .exec(cb);
+    },
+    findById: function(id, cb) {
+        return this.findOne({_id: id})
+        .exec(cb);
+    },
+};
+
+module.exports = MovieSchema;
+```
+
+### 删除功能以及项目生成配置文件
+
+删除的时候，在点击删除按钮时，用 jQuery 提交一个 AJAX 请求来删除数据库中相关的信息。
+
+如果在根目录下还有一个 public 目录中也有静态资源，则应该把 `bower_components` 中的内容放在 public 下面。我们可以通过生成一个 `.bowerrc` 配置文件来指定 bower 的安装路径。
+
+```
+{
+    "directory": "public/libs"
+}
+```
+
+创建 admin.js，用来在前端接卸完成后对 `.del` 元素添加点击删除事件。admin.js 中的逻辑就是，当删除点击事件发生以后，发送一个 `DELETE` 的 AJAX 请求来请求后端从数据库中删除对应的电影信息。
+
+```
+$(function() {
+    $('.del').click(function(event) {
+        let target = $(event.target);
+        let id = target.data('id');
+        let tr = $('.item-id-' + id);
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/admin/list?id=' + id,
+        })
+        .done(function(result) {
+            if (result.success === 1) {
+                if(tr.length > 0) {
+                    tr.remove();
+                }
+            }
+        })
+    })
+})
+```
+
+然后在 `list.jade` 中引入 `admin.js`
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+             table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th 电影名字
+                        th 导演
+                        th 国家
+                        th 上映年份
+                        th 录入时间
+                        th 查看
+                        th 更新
+                        th 删除
+                    tbody
+                        each item in movies
+                            tr(class='item-id-#{item._id}')
+                                td #{item.title}
+                                td #{item.doctor}
+                                td #{item.country}
+                                td #{item.year}
+                                td #{moment(item.meta.createAt).format('MM/DD/YYYY')}
+                                td: a(target='_blank', href='../movie/#{item._id}') 查看
+                                td: a(target='_blank', href='../admin/update/#{item._id}') 修改
+                                td
+                                    button.btn.btn-danger.del(type='button', data-id='#{item._id}') 删除
+    script(src='/js/admin.js')
+```
+
+最后在 `app.js` 中添加对 `DELETE` AJAX 请求的响应：
+
+```
+app.delete('/admin/list', function(req, res) {
+    let id = req.query.id;
+    
+    if (id) {
+        Movie.remove({_id: id}, function(err, movie) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({success: 1});
+            }
+        })
+    }
+})
+```
+
+可以使用 `bower init` 和 `npm init` 来生成项目的配置文件，这样就可以方便打包在其他地方部署。
+
+整个项目的架构如下：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/351a29b687d7f38f527a429666e7abe3.png)
+
+## Grunt 集成自动重启
+
+Grunt 可以定义项目的自动处理流程，并且监听项目文件的变动自动热重启项目方便调试。
+
+首先需要安装 Grunt:
+
+```
+npm install grunt --save-dev
+npm install grunt-cli -g
+npm install grunt-nodemon --save-dev
+npm install grunt-concurrent--save-dev
+```
+
+然后在项目的根目录下生成 `gruntfile.js` 文件，内容如下：
+
+```
+module.exports = function(grunt) {
+
+    grunt.initConfig({
+        watch: {
+            jade: {
+                files: ['views/**'],
+                options: {
+                    livereload: true
+                }
+            },
+            js: {
+                files: ['public/js/**', 'models/**/*.js', 'schemas/**/*.js'],
+                options: {
+                    livereload: true,
+                },
+            }
+        },
+        nodemon: {
+            dev: {
+                script: 'app.js',
+                options: {
+                    args: [],
+                    nodeArgs: ['--debug'],
+                    ignore: ['README.md', 'node_modules/**', '.DS_Store'],
+                    ext: 'js',
+                    watch: ['./'],
+                    delay: 1000,
+                    env: {
+                            PORT: '3000'
+                    },
+                    cwd: __dirname
+                }
+            }
+        },
+
+        concurrent: {
+            tasks: ['nodemon', 'watch'],
+            options: {
+                logConcurrentOutput: true
+            }
+        },
+    });
+
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-nodemon');
+    grunt.loadNpmTasks('grunt-concurrent');
+    
+    grunt.option('force', true);
+    grunt.registerTask('default', ['concurrent']);
+}
+```
+
+运行 `grunt` 命令即可。
+
+### 开发用户模型及密码处理
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
