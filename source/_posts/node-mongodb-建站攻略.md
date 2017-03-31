@@ -888,7 +888,86 @@ module.exports = function(grunt) {
 
 ### 开发用户模型及密码处理
 
+使用 bcrypt 来为用户的密码进行加盐和 hash 求值。
 
+```
+npm install --save bcrypt
+```
+
+创建 `schemas/user.js`，将 `schemas/movie.js` 中的内容拷贝进来，添加 bcrypt，并且在 `pre('save')` 中为用户密码加盐：
+
+```
+let bcrypt = require('bcrypt');
+let SALT_WORK_FACTOR = 10;
+
+MovieSchema.pre('save', function(next) {
+    let user = this;
+    if (this.isNew) {
+        this.meta.createAt = this.meta.updateAt = Date.now();
+    } else {
+        this.meta.updateAt = Date.now();
+    }
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+        if (err) return next(err)
+
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            if (err) return next(err);
+
+            user.password = hash;
+            next()
+        })
+    });
+    next();
+});
+```
+
+### 登录注册前端视图
+
+登录的视图主要是在 header.jade 中添加 .navbar-fixed-bottom，实现在页面最下部添加注册与登录视图。点击注册与登录按钮，就会通过 bootstrap 的 modal 弹出遮罩层。
+
+```
+.container
+    .row
+        .page-header
+            h1 #{title}
+            small 重度科幻迷
+.navbar.navbar-default.navbar-fixed-bottom
+    .container
+        .navbar-header
+            a.navbar-brand(href="/") 重度科幻迷
+        p.navbar-text.navbar-right
+            a.navbar-link(href="#", data-toggle="modal", data-target="#signupModal") 注册
+            span &nbsp;|&nbsp;
+            a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录
+#signupModal.modal.fade
+    .modal-dialog
+        .modal-content
+            form(method="POST", action="/user/signup")
+                .modal-header 注册
+                .modal-body
+                    .form-group
+                        lable(for="signupName") 用户名
+                        input#singupName.form-control(name="user[name]", type="text")
+                        lable(for="signupPassword") 密码
+                        input#singupPassword.form-control(name="user[password]", type="text")
+                    .modal-footer
+                        button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+                        button.btn.btn-success(type="submit") 提交
+#signinModal.modal.fade
+    .modal-dialog
+        .modal-content
+            form(method="POST", action="/user/signin")
+                .modal-header 登录
+                .modal-body
+                    .form-group
+                        lable(for="signinName") 用户名
+                        input#singinName.form-control(name="user[name]", type="text")
+                        lable(for="signinPassword") 密码
+                        input#singinPassword.form-control(name="user[password]", type="text")
+                    .modal-footer
+                        button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+                        button.btn.btn-success(type="submit") 提交
+```
 
 
 
