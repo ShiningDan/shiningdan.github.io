@@ -8,7 +8,7 @@ tags:
 
 本笔记是在学习 MongoDB 的记录笔记，持续补充中，在学习的过程中参考了下面的教程。想要继续学习的朋友可以根据链接找到更多的内容：
 
-[MongoDB 教](http://www.runoob.com/mongodb/mongodb-tutorial.html)
+[MongoDB 教程 | 菜鸟教程](http://www.runoob.com/mongodb/mongodb-tutorial.html)
 [mongoDB入门篇](http://www.imooc.com/learn/295)
 [MongoDB权威指南](https://book.douban.com/subject/25798102/)
 
@@ -441,6 +441,10 @@ db.collection.remove(
 * `query` :（可选）删除的文档的条件。
 * `justOne` : （可选）如果设为 true 或 1，则只删除一个文档。
 * `writeConcern` :（可选）抛出异常的级别。
+
+```
+db.col.remove({'title':'MongoDB 教程'})
+```
 
 
 ### 更新集合中的文档

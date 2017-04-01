@@ -969,20 +969,743 @@ MovieSchema.pre('save', function(next) {
                         button.btn.btn-success(type="submit") 提交
 ```
 
+### 注册用户后台存储
 
+前端给后端传输 userid 的方法有很多种：
 
+1. 在 URL 中包含 userid 
 
+```
+app.post('/user/signup/:userid', function() {
+    let _userid = req.params.userid;
+});
+```
 
+这个样子就需要在 `req.params.userid` 中获取
 
+2. 在 queryString 中包含 userid：
 
+```
+app.post('/user/signup/:userid', function() {
+    ///user/signup/1111?userid=1112
+    let _userid = req.query.userid;
+});
+```
 
+遇到这种情况需要去 `req.query` 中去获取 userid
 
+3. 通过 POST 中传  userid，可以去 `req.body` 中获取：
 
+```
+app.post('/user/signup/:userid', function() {
+    let userid = req.body.userid;
+});
+```
 
+4. 统一使用 `req.param` 来获取 userid 的方法，如果传入的参数如下，有在 URL 中有 userid，在 queryString 中也有 userid，异步提交的数据中也有 userid (在 body) 里：
 
+```
+app.post('/user/signup/:userid', function() {
+    ///user/signup/1111?userid=1112
+    // body {userid: 1113}
+    let userid = req.param.userid;
+});
+```
 
+在这种情况下，express 中获得 userid 的优先级是：
 
+```
+URL > body > queryString
+```
 
+#### 对 User 生成构造函数
+
+在 `/models` 中添加 `user.js`
+
+```
+let mongoose = require('mongoose');
+let UserSchema = require('../schemas/user');
+let User = mongoose.model('User', UserSchema);
+
+module.exports = User;
+```
+
+并且导入到 `app.js` 中：
+
+```
+let User = require('./models/user');
+```
+
+在 `app.js` 中完成对 `POST` 请求的处理，如果该用户存在，则定向到 `/`，如果该用户不存在，子啊 mongodb 中创建该用户，并且重定向到 `/admin/userlist`：
+
+```
+app.post('/user/signup', function(req, res) {
+    let userid = req.body.user;
+
+    let user = new User(userid);
+
+    User.find({name: user.name}, function(err, user) {
+        if (err) {
+            console.log(err);
+        }
+
+        if (user) {
+            return res.redirect('/');
+        } else {
+            user.save(function(err, user) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/admin/userlist')
+            });
+        }
+    });
+});
+
+app.get('/admin/userlist', function(req, res) { 
+    User.fetch(function(err, users) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('userlist', {
+            title: 'ShiningDan 列表页',
+            users: users,
+        })
+    })
+})
+```
+
+然后在 `/views/pages` 中添加 `userlist.jade` 的模板，但是此时还没有处理查看/修改/删除功能。：
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+             table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th 名字
+                        th 时间
+                        th 查看
+                        th 更新
+                        th 删除
+                    tbody
+                        each item in users
+                            tr(class='item-id-#{item._id}')
+                                td #{item.name}
+                                td #{moment(item.meta.createAt).format('MM/DD/YYYY')}
+                                td: a(target='_blank', href='../movie/#{item._id}') 查看
+                                td: a(target='_blank', href='../admin/update/#{item._id}') 修改
+                                td
+                                    button.btn.btn-danger.del(type='button', data-id='#{item._id}') 删除
+    script(src='/js/admin.js')
+```
+
+### 实现登录逻辑
+
+为了实现登录的逻辑，我们需要对 `/user/login` 的 POST 请求路由进行处理。
+
+```
+app.post('/user/signin', function(req, res) {
+    let _user = req.body.user;
+    let name = _user.name;
+    let password = _user.password;
+
+    User.findOne({name: name}, function(err, user) {
+        if (err) {
+            console.log(err);
+        }
+        if (!user) {
+            return res.redirect('/');
+        }
+        user.comparePassword(password, function(err, isMatch) {
+            if (err) {
+                console.log(err);
+            }
+            if (isMatch) {
+                console.log("Password is matched");
+                res.redirect('/');
+            } else {
+                console.log("Password is not matched");
+            }
+        })
+    })
+});
+```
+
+然后在 `schemas/user.js` 中创建实例方法 `comparePassword` ，来进行密码比对：
+
+```
+//实例方法，只有在实例中才能调用
+UserSchema.methods = {
+    comparePassword: function(_password, cb) {
+        bcrypt.compare(_password, this.password, function(err, isMatch) {
+            if (err) {
+                return cb(err);
+            }
+            cb(null, isMatch);
+        })
+    }
+};
+```
+
+### 保持用户登录状态
+
+可以在 session 中存储用户的登录信息。首先导入 express-session 模块：
+
+```
+let session = require('express-session');
+```
+
+然后在 express 启动后使用该中间件：
+
+```
+app.use(session({
+    secret: 'zyc',
+    resave: false,
+    saveUninitialized: true,
+}));
+```
+
+当用户登录以后，把用户的登录验证信息放在 `req.session.user` 中：
+
+```
+user.comparePassword(password, function(err, isMatch) {
+    if (err) {
+        console.log(err);
+    }
+    if (isMatch) {
+        req.session.user = user;
+
+        res.redirect('/');
+    } else {
+        console.log("Password is not matched");
+    }
+})
+```
+
+然后在 `/` 路由的处理中可以打印得到 `req.session.user`：
+
+```
+app.get('/', function(req, res) {
+    console.log("user in session");
+    console.log(req.session.user);
+    Movie.fetch(function(err, movies) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('index', {
+            title: 'ShiningDan 主页',
+            movies: movies,
+        })
+    })
+});
+```
+
+但是，此时 session 并没有做持久化存储，当页面刷新以后，该 session 就会消失，所以要在 mongodb 中存储该用户的登录。首先导入 connect-mongo 模块：
+
+```
+let mongoStore = require('connect-mongo')(session);
+```
+
+当对 session 进行存储的时候，可以使用 connect-mongo 模块对 session 数据进行自动化存储：
+
+```
+app.use(session({
+    secret: 'zyc',
+    resave: false,
+    saveUninitialized: true,
+    store: new mongoStore({
+        url: dbUrl,
+        collection: 'sessions',
+    }),
+}));
+```
+
+此时，每当我们在 req.session 中存储一个新的数据后，就会在 mongodb 中的 sessions 表内创建一个新的内容，用来存储该会话，即使是页面重新刷新也存在。
+
+![](http://ojt6zsxg2.bkt.clouddn.com/8d0be6673c36b57de18e4497d74f0bf8.png)
+
+### 注销用户，用户退出功能实现
+
+为了实现用户注销的功能，需要在 header.jade 中修改页面结构，判断用户是否登陆过：
+
+```
+.navbar.navbar-default.navbar-fixed-bottom
+    .container
+        .navbar-header
+            a.navbar-brand(href="/") 重度科幻迷
+        if user
+            p.navbar-text.navbar-right
+                span 欢迎您，#{user.name}
+                span &nbsp;|&nbsp;
+                a.navbar-link(href="/logout") 登出
+        else
+            p.navbar-text.navbar-right
+                a.navbar-link(href="#", data-toggle="modal", data-target="#signupModal") 注册
+                span &nbsp;|&nbsp;
+                a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录
+```
+
+这里 `if user` 判断的是在 `app.locals.user` 中是否已经有值，如果有值，则渲染登出部分模板。如果没有值，就渲染登录部分模板。
+
+创建 `/logout` 路由的处理方法：
+
+```
+// logout 
+app.get('/logout', function(req, res) {
+    delete req.session.user;
+    delete app.locals.user;
+    res.redirect('/');
+})
+```
+
+并且在 `/` 中添加判断 `req.sesison.user` 中是否有值得判断，如果有值，则将 user 的值赋值给 `app.locals.user`
+
+```
+app.get('/', function(req, res) {
+    console.log("user in session");
+    console.log(req.session.user);
+    let _user = req.session.user;
+
+    if(_user) {
+        app.locals.user = _user;
+    }
+    ...
+}
+```
+
+### 会话持久的预处理
+
+目前路由在添加 `req.locals.user` 的部分是在 `/` 下面，但是在其他的页面登录就不会进行保存。所以要在所有的页面都添加 `req.locals.user`，要在 `app.use` 中进行预处理：
+
+```
+app.use(function(req, res, next) {
+    let _user = req.session.user;
+
+    if(_user) {
+        app.locals.user = _user;
+    }
+    next()
+});
+```
+
+### 调整路由结构，独立路由处理层
+
+将所有路由相关的逻辑都放在了 `/config/route.js` 逻辑下，然后通过 `module.exports` 导出。在 `app.js` 中导入 `route.js` 模块，并且通过 `require` 引入 `route.js`
+
+在 `app.js` 中
+
+```
+require('./config/route')(app);
+```
+
+在 `/config/route.js` 中：
+
+```
+let Movie = require('../models/movie');
+let User = require('../models/user');
+
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+        let _user = req.session.user;
+
+        if(_user) {
+            app.locals.user = _user;
+        }
+        next()
+    });
+    ...
+}
+```
+
+### 配置入口文件
+
+在本地开发环境中，可以添加一些配置，方便本地调试。在 `app.js` 中添加如下的代码：
+
+```
+let morgan = require('morgan');
+if ('development' === app.get('env')) {
+    app.set('showStackError', true);    // 将本地运行的错误打印出来
+    app.use(morgan(':method :url :status')); //将 express 的日志，每个请求的类型，路径，状态值打印出来
+    app.locals.pretty = true;  // 页面的源码设置为不格式化，不压缩
+    mongoose.set('debug', true);   // 打开 mongodb 的 debug 模式，显示每一次请求
+}
+```
+
+### 调整目录结构，彻底分离 MVC 层
+
+现在所有的路由的处理都是在 `route.js` 中执行，我们可以把 `route.js` 中所有的处理逻辑分成 `user.js`、`movie.js`、`index.js`，然后把对应的路由处理逻辑放在其中，都放在 `/app/controllers`里面，把 `、view`  文件夹放在 `/app/view` 这里，把 `/models` 和 `/schemas` 文件夹都放在 `/app` 文件夹下。。最后修改 `app.js` 中视图的目录，调整为：
+
+```
+app.set('views', './app/views/pages/');  // 应用的视图目录
+```
+
+最后项目的结构和部分文件的内容如下：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/f4b6115078e0b57eb479c5563e2ea0f3.png)
+
+`route.js`
+
+```
+let Index = require('../app/controllers/index');
+let User = require('../app/controllers/user');
+let Movie = require('../app/controllers/movie');
+
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+        let _user = req.session.user;
+        app.locals.user = _user;
+        
+        next()
+    });
+
+    app.get('/', Index.index);
+
+    app.post('/user/signin', User.signin);
+    app.post('/user/signup', User.signup);
+    app.get('/logout', User.logout);
+    app.get('/admin/userlist', User.list);
+
+    app.get('/movie/:id', Movie.detail);
+    app.get('/admin/update/:id', Movie.update);
+    app.get('/admin/movie', Movie.save);
+    app.post('/admin/movie/new', Movie.new);
+    app.get('/admin/list', Movie.list);
+    app.delete('/admin/list', Movie.del)
+}
+```
+
+`index.js`：
+
+```
+
+let Movie = require('../models/movie');
+
+exports.index = function(req, res) {
+    console.log("user in session");
+    console.log(req.session.user);
+
+    Movie.fetch(function(err, movies) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('index', {
+            title: 'ShiningDan 主页',
+            movies: movies,
+        })
+    })
+}
+```
+
+`movie.js`
+
+```
+let Movie = require('../models/movie');
+
+exports.detail = function(req, res) {   // 访问 /admin/3 返回 detail.jade 渲染后的效果
+    let id = req.params.id;
+    Movie.findById(id, function(err, movie) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('detail', {
+            title: movie.title,
+            movie: movie,
+        })
+    })  
+}
+
+exports.update = function(req, res) {
+    let id = req.params.id;
+    if (id) {
+        Movie.findById(id, function(err, movie) {
+            res.render('admin', {
+                title: 'shiningdan 后台更新页面',
+                movie: movie,
+            })
+        })
+    }
+}
+
+exports.save = function(req, res) {
+    res.render('admin', {
+        title: 'shiningdan 后台录入页',
+        movie: {
+            title: '',
+            doctor: '',
+            country: '',
+            language: '',
+            year: '',
+            flash: '',
+            poster: '',
+            summary: '',
+        }
+    })
+}
+
+exports.new = function(req, res) {
+    let movieObj = req.body.movie;
+    let id = movieObj._id;
+    let _movie;
+    if (id !== 'undefined') {
+        Movie.findById(id, function(err, movie) {
+            if (err) {
+                console.log(err);
+            }
+            _movie = underScore.extend(movie, movieObj);
+            _movie.save(function(err, movie) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/movie/' + movie._id);
+            })
+        })
+    } else {
+        _movie = Movie({
+            doctor: movieObj.doctor,
+            title: movieObj.title,
+            country: movieObj.country,
+            language: movieObj.language,
+            year: movieObj.year,
+            country: movieObj.country,
+            poster: movieObj.poster,
+            summary: movieObj.summary,
+            flash: movieObj.flash,
+        });
+        // _id 在调用 Movie() 的时候会自动生成
+        _movie.save(function(err, movie) {
+            if (err) {
+                console.log(err);
+            }
+            res.redirect('/movie/' + movie._id);
+        })
+    }
+}
+
+exports.list = function(req, res) {  //访问 /admin/list 返回 list.jade 渲染后的效果
+    Movie.fetch(function(err, movies) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('list', {
+            title: 'ShiningDan 列表页',
+            movies: movies,
+        })
+    })
+}
+
+exports.del = function(req, res) {
+    let id = req.query.id;
+    
+    if (id) {
+        Movie.remove({_id: id}, function(err, movie) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({success: 1});
+            }
+        })
+    }
+}
+```
+
+`user.js`
+
+```
+let User = require('../models/user');
+
+exports.signin = function(req, res) {
+    let _user = req.body.user;
+    let name = _user.name;
+    let password = _user.password;
+
+    User.findOne({name: name}, function(err, user) {
+        if (err) {
+            console.log(err);
+        }
+        if (!user) {
+            return res.redirect('/');
+        }
+        user.comparePassword(password, function(err, isMatch) {
+            if (err) {
+                console.log(err);
+            }
+            if (isMatch) {
+                req.session.user = user;
+
+                res.redirect('/');
+            } else {
+                console.log("Password is not matched");
+            }
+        })
+    })
+}
+
+exports.signup = function(req, res) {
+    let userid = req.body.user;
+
+    let user = new User(userid);
+    User.find({name: user.name}, function(err, user) {
+        if (err) {
+            console.log(err);
+        }
+
+        if (user) {
+            return res.redirect('/');
+        } else {
+            user.save(function(err, user) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/admin/userlist')
+            });
+        }
+    });
+}
+
+exports.logout = function(req, res) {
+    delete req.session.user;
+    // delete app.locals.user;
+    res.redirect('/');
+}
+
+exports.list = function(req, res) { 
+    User.fetch(function(err, users) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('userlist', {
+            title: 'ShiningDan 列表页',
+            users: users,
+        })
+    })
+}
+```
+
+### 增加注册和登录跳转页面
+
+添加注册模板 `signup.jade` 和登录模板 `signin.jade`：
+
+`signup.jade`
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-5
+                form(method="POST", action="/user/signup")
+                    .modal-body
+                        .form-group
+                            lable(for="signinName") 用户名
+                            input#singinName.form-control(name="user[name]", type="text")
+                            lable(for="signinPassword") 密码
+                            input#singinPassword.form-control(name="user[password]", type="text")
+                        .modal-footer
+                            button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+                            button.btn.btn-success(type="submit") 提交
+```
+
+`signin.jade`
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-5
+                form(method="POST", action="/user/signin")
+                    .modal-body
+                        .form-group
+                            lable(for="signinName") 用户名
+                            input#singinName.form-control(name="user[name]", type="text")
+                            lable(for="signinPassword") 密码
+                            input#singinPassword.form-control(name="user[password]", type="text")
+                        .modal-footer
+                            button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+                            button.btn.btn-success(type="submit") 提交
+```
+
+然后在 `route.js` 中添加对该模板的路由解析：
+
+```
+    app.get('/signin', User.showSignin);
+    app.get('/signup', User.showSignup);
+```
+
+在 `user.js` 中添加 `showSignin` 和 `showSignup` 方法来渲染模板：
+
+```
+exports.showSignin = function(req, res) {
+    res.render('signin', {
+        title: '登录页面',
+    });
+}
+
+exports.showSignup = function(req, res) {
+    res.render('signup', {
+        title: '注册页面',
+    });
+}
+```
+
+修改原来的 `signin` 方法和 `signup` 方法，重定向到这两个新的页面：
+
+```
+exports.signin = function(req, res) {
+    let _user = req.body.user;
+    let name = _user.name;
+    let password = _user.password;
+
+    User.findOne({name: name}, function(err, user) {
+        if (err) {
+            console.log(err);
+        }
+        if (!user) {
+            return res.redirect('/signup');
+        }
+        user.comparePassword(password, function(err, isMatch) {
+            if (err) {
+                console.log(err);
+            }
+            if (isMatch) {
+                req.session.user = user;
+
+                res.redirect('/');
+            } else {
+                res.redirect('/signin');
+                console.log("Password is not matched");
+            }
+        })
+    })
+}
+exports.signup = function(req, res) {
+    let userid = req.body.user;
+
+    let user = new User(userid);
+    User.find({name: user.name}, function(err, user) {
+        if (err) {
+            console.log(err);
+        }
+
+        if (user) {
+            return res.redirect('/signin');
+        } else {
+            user.save(function(err, user) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/')
+            });
+        }
+    });
+}
+```
 
 
 
