@@ -1548,7 +1548,7 @@ exports.signup = function(req, res) {
     let userid = req.body.user;
 
     let user = new User(userid);
-    User.find({name: user.name}, function(err, user) {
+    User.findOne({name: user.name}, function(err, user) {
         if (err) {
             console.log(err);
         }
@@ -1688,7 +1688,7 @@ exports.signup = function(req, res) {
     let userid = req.body.user;
 
     let user = new User(userid);
-    User.find({name: user.name}, function(err, user) {
+    User.findOne({name: user.name}, function(err, user) {
         if (err) {
             console.log(err);
         }
@@ -1706,6 +1706,242 @@ exports.signup = function(req, res) {
     });
 }
 ```
+
+### 用户权限管理
+
+首先，在 `/schemas/user.js` 中给用户添加一个 role 字段，用来代表不同等级的用户：
+
+```
+// 0: normal user
+// 1: verified user
+// 2: professional user
+// >10: admin
+// > 50: super admin
+role: {
+    type: Number,
+    default: 0,
+},
+```
+
+然后，在访问 `/admin/` 开头的 url 中，都使用中间件对用户的 url 进行判断，在 `/app/controllers/user.js` 中定义验证用户登录的中间件和验证用户权限的中间件：
+
+```
+//middleware for user
+exports.signinRequired = function(req, res, next) {
+    let user = req.session.user;
+    if (!user) {
+        return res.redirect('/signin');
+    }
+    next();
+}
+
+exports.adminRequired = function(req, res, next) {
+    let user = req.session.user;
+    if(user.role <= 10) {
+        return res.redirect('/signin');
+    }
+    next();
+}
+```
+
+对所有的 `/admin` url 进行修改，整理对外访问的 url 的格式：
+
+```
+    app.get('/admin/user/list', User.signinRequired, User.adminRequired, User.list);
+
+    app.get('/movie/:id', Movie.detail);
+    app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update);
+    app.get('/admin/movie', User.signinRequired, User.adminRequired, Movie.save);
+    app.post('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new);
+    app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list);
+    app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.del)
+```
+
+并且修改 `/public/js/admin.js` 中删除的路径为新的路径：
+
+```
+$.ajax({
+    type: 'DELETE',
+    url: '/admin/movie/list?id=' + id,
+})
+```
+
+## 开发评论功能
+
+### 设计评论的数据模型
+
+在页面中显示的评论需要被存储到数据库中，所以需要为评论定义一个合适的模型，模型中需要包含的字段有：
+
+1. 这条评论是在哪个 movie 下面的
+2. 这条评论是谁发送的 from
+3. 这条评论是评论给谁的 to 
+4. 这条评论的内容是什么
+
+所以在 `/schemas/` 中创建 `comment.js`，用来定义评论的模型：
+
+```
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let ObjectId = Schema.Types.ObjectId;
+
+let CommentSchema = new Schema({
+    movie: {
+        type: ObjectId,
+        ref: 'Movie',  // ObjectId 指向 Movi 中的数据
+    },
+    from : {
+        type: ObjectId,
+        ref: 'User',
+    },
+    to : {
+        type: ObjectId,
+        ref: 'User',
+    },
+    content: String,
+    meta: {
+        createAt: {
+            type: Date,
+            default: Date.now(),
+        },
+        updateAt: {
+            type: Date,
+            default: Date.now(),
+        },
+    },
+});
+
+CommentSchema.pre('save', function(next) {
+    if (this.isNew) {
+        this.meta.createAt = this.meta.updateAt = Date.now();
+    } else {
+        this.meta.updateAt = Date.now();
+    }
+    next();
+});
+
+CommentSchema.statics = {
+    fetch: function(cb) {
+        return this.find({})
+        .sort('meta.updateAt')
+        .exec(cb);
+    },
+    findById: function(id, cb) {
+        return this.findOne({_id: id})
+        .exec(cb);
+    },
+};
+
+module.exports = CommentSchema;
+```
+
+### 评论存储、查询与展现
+
+在 `/app/models` 中创建 `comment.js`，内容为创建 Comment 的构造函数：
+
+```
+let mongoose = require('mongoose');
+let CommentSchema = require('../schemas/comment');
+let Comment = mongoose.model('Comment', CommentSchema);
+
+module.exports = Comment;
+```
+
+在 `route.js` 中创建对 `/admin/comment` URL 的处理，用来处理对 comment 的 POST 请求：
+
+```
+app.post('/user/comment', User.signinRequired, Comment.save);
+```
+
+然后在 `/app/controllers/` 中创建 `comment.js` 来处理 post 请求：
+
+```
+let Comment = require('../models/comment');
+
+exports.save = function(req, res) {
+    let _comment = req.body.comment;
+    let comment = new Comment(_comment);
+    let movieId = _comment.movie;
+
+    comment.save(function(err, comment) {
+        if (err) {
+            console.log(err);
+        }
+        res.redirect('/movie/'+movieId);
+    });
+}
+```
+
+在 `detail.jade` 模板中添加评论的部分，包括评论的显示部分和一个发表评论的部分：
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-7
+                embed(src='#{movie.flash}', allowFullScreen='true', quality='high', width='720', height='600', align='middle', type='application/x-shockwave-flash')
+                .panel.panel-default
+                    .panel-heading
+                        h3 评论区
+                    .panel-body
+                        ul.media-list
+                            each item in comments
+                                li.media
+                                    .pull-left
+                                        img.media-object(src='', style="width:64px;height:64px;")
+                                    .media-body
+                                    h4.media-heading #{item.from.name}
+                                    p #{item.content}
+                                hr
+                        form(method='POST', action='/user/comment')
+                            input(type='hidden', name='comment[movie]', value='#{movie._id}')
+                            input(type='hidden', name='comment[from]', value='#{user._id}')
+                            .form-group
+                                textarea.form-control(name='comment[content]', row='3')
+                            button.btn.btn-primary(type='submit') 提交
+            .col-md-5
+                dl.dl-horizontal
+                    dt 电影名字
+                    dd #{movie.title}
+                    dt 导演
+                    dd #{movie.doctor}
+                    dt 国家
+                    dd #{movie.country}
+                    dt 语言
+                    dd #{movie.language}
+                    dt 上映年份
+                    dd #{movie.year}
+                    dt 简介
+                    dd #{movie.summary}
+```
+
+然后在 `detail.jade` 被渲染的时候，也就是在 `/app/controllers/movie.js` 中的 `detail` 函数中，通过获得的 movie，找到对应的评论，然后通过评论找到用户，传入用户的名字，最后交给 `detail.jade` 渲染出来。
+
+```
+exports.detail = function(req, res) {   // 访问 /admin/3 返回 detail.jade 渲染后的效果
+    let id = req.params.id;
+    Movie.findById(id, function(err, movie) {
+        if (err) {
+            console.log(err);
+        }
+        Comment.find({movie: id})
+        .populate('from', 'name')
+        .exec(function(err, comments) {
+            res.render('detail', {
+                title: movie.title,
+                movie: movie,
+                comments: comments
+            })
+        });
+    })  
+}
+```
+
+### 用户之间的相互回复功能
+
+
+
 
 
 
