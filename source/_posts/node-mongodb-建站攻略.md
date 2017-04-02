@@ -1940,9 +1940,159 @@ exports.detail = function(req, res) {   // 访问 /admin/3 返回 detail.jade �
 
 ### 用户之间的相互回复功能
 
+当需要显示用户之间的评论和在评论下发表的子评论时，需要修改评论的数据库模型，在 Comment 中存储子评论：
 
+```
+let CommentSchema = new Schema({
+    movie: {
+        type: ObjectId,
+        ref: 'Movie',  // ObjectId 指向 Movi 中的数据
+    },
+    from : {
+        type: ObjectId,
+        ref: 'User',
+    },
+    to : {
+        type: ObjectId,
+        ref: 'User',
+    },
+    reply: [{
+        from: {type: ObjectId, ref: 'User'},
+        to: {type: ObjectId, ref: 'User'},
+        content: String,
+    }],
+    content: String,
+    meta: {
+        createAt: {
+            type: Date,
+            default: Date.now(),
+        },
+        updateAt: {
+            type: Date,
+            default: Date.now(),
+        },
+    },
+});
+```
 
+然后修改 `detail.jade`，添加子评论的部分。在原来的用户头像 `img` 标签外扩展一个 `a` 标签，当点击这个 `a` 标签的时候，会跳转到评论输入区域。
 
+```
+extends ../layout
 
+block content
+    .container
+        .row
+            .col-md-7
+                embed(src='#{movie.flash}', allowFullScreen='true', quality='high', width='720', height='600', align='middle', type='application/x-shockwave-flash')
+                .panel.panel-default
+                    .panel-heading
+                        h3 评论区
+                    .panel-body
+                        ul.media-list
+                            each item in comments
+                                li.media
+                                    .pull-left
+                                        a.comment(href='#comments', data-cid='#{item._id}', data-tid='#{item.from._id}')
+                                            img.media-object(src='', style="width:64px;height:64px;")
+                                    .media-body
+                                    h4.media-heading #{item.from.name}
+                                    p #{item.content}
+                                    if item.reply && item.reply.length > 0
+                                        each reply in item.reply
+                                            .media
+                                                .pull-left
+                                                    a.comment(href='#comments', data-cid='#{item._id}', data-tid='#{reply.from._id}')
+                                                        img.media-object(src='', style="width:64px;height:64px;")
+                                                .media-body
+                                                h4.media-heading 
+                                                    | #{reply.from.name}
+                                                    span.text-info &nbsp;回复&nbsp;
+                                                    | #{reply.to.name}
+                                                p #{reply.content}
+                                hr
+                    #comment
+                        form#commentForm(method='POST', action='/user/comment')
+                            input(type='hidden', name='comment[movie]', value='#{movie._id}')
+                            input(type='hidden', name='comment[from]', value='#{user._id}')
+                            .form-group
+                                textarea.form-control(name='comment[content]', row='3')
+                            button.btn.btn-primary(type='submit') 提交
+            .col-md-5
+                dl.dl-horizontal
+                    dt 电影名字
+                    dd #{movie.title}
+                    dt 导演
+                    dd #{movie.doctor}
+                    dt 国家
+                    dd #{movie.country}
+                    dt 语言
+                    dd #{movie.language}
+                    dt 上映年份
+                    dd #{movie.year}
+                    dt 简介
+                    dd #{movie.summary}
+```
 
+然后创建一个新的 js 文件叫 `/public/js/detail.js` 在 `.comment` 上面绑定一个事件，事件的内容是，如果点击了该用户的头像，就会在评论区添加隐藏的 `input` 标签，表示这是对某个用户的评论：
+
+```
+$(function() {
+    $('.comment').click(function(e) {
+        let target = $(this);
+        let toId = target.data('tid');
+        let commentId = target.data('cid');
+
+        if ($('#toId').length > 0) {
+            $('#toId').val(toId);
+        } else {
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'toId',
+                name: 'comment[tid]',
+                value: toId,
+            }).appendTo('#commentForm');
+        }
+        if ($('#commentId').length > 0) {
+            $('#commentId').val(toId);
+        } else {
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'commentId',
+                name: 'comment[cid]',
+                value: toId,
+            }).appendTo('#commentForm');
+        }
+    })
+});
+```
+
+然后在处理 `comment` 的路由里面，添加对 `tId` 和 `cId` 的处理：
+
+```
+
+```
+
+在处理 `detail.jade` 的函数中，添加对子评论的查找以及显示的功能：
+
+```
+exports.detail = function(req, res) {   // 访问 /admin/3 返回 detail.jade 渲染后的效果
+    let id = req.params.id;
+    Movie.findById(id, function(err, movie) {
+        if (err) {
+            console.log(err);
+        }
+        Comment.find({movie: id})
+        .populate('from', 'name')
+        .populate('reply.from reply.to', 'name')
+        .exec(function(err, comments) {
+            res.render('detail', {
+                title: movie.title,
+                movie: movie,
+                comments: comments
+            })
+        });
+    })  
+}
+```
 
