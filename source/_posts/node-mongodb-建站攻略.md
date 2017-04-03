@@ -1996,20 +1996,20 @@ block content
                                         a.comment(href='#comments', data-cid='#{item._id}', data-tid='#{item.from._id}')
                                             img.media-object(src='', style="width:64px;height:64px;")
                                     .media-body
-                                    h4.media-heading #{item.from.name}
-                                    p #{item.content}
-                                    if item.reply && item.reply.length > 0
-                                        each reply in item.reply
-                                            .media
-                                                .pull-left
-                                                    a.comment(href='#comments', data-cid='#{item._id}', data-tid='#{reply.from._id}')
-                                                        img.media-object(src='', style="width:64px;height:64px;")
-                                                .media-body
-                                                h4.media-heading 
-                                                    | #{reply.from.name}
-                                                    span.text-info &nbsp;回复&nbsp;
-                                                    | #{reply.to.name}
-                                                p #{reply.content}
+                                        h4.media-heading #{item.from.name}
+                                        p #{item.content}
+                                        if item.reply && item.reply.length > 0
+                                            each reply in item.reply
+                                                .media
+                                                    .pull-left
+                                                        a.comment(href='#comments', data-cid='#{item._id}', data-tid='#{reply.from._id}')
+                                                            img.media-object(src='', style="width:64px;height:64px;")
+                                                    .media-body
+                                                    h4.media-heading 
+                                                        | #{reply.from.name}
+                                                        span.text-info &nbsp;回复&nbsp;
+                                                        | #{reply.to.name} :
+                                                    p #{reply.content}
                                 hr
                     #comment
                         form#commentForm(method='POST', action='/user/comment')
@@ -2032,6 +2032,7 @@ block content
                     dd #{movie.year}
                     dt 简介
                     dd #{movie.summary}
+    script(src='/js/detail.js')
 ```
 
 然后创建一个新的 js 文件叫 `/public/js/detail.js` 在 `.comment` 上面绑定一个事件，事件的内容是，如果点击了该用户的头像，就会在评论区添加隐藏的 `input` 标签，表示这是对某个用户的评论：
@@ -2060,7 +2061,7 @@ $(function() {
                 type: 'hidden',
                 id: 'commentId',
                 name: 'comment[cid]',
-                value: toId,
+                value: commentId,
             }).appendTo('#commentForm');
         }
     })
@@ -2070,10 +2071,45 @@ $(function() {
 然后在处理 `comment` 的路由里面，添加对 `tId` 和 `cId` 的处理：
 
 ```
+let Comment = require('../models/comment');
 
+exports.save = function(req, res) {
+    let _comment = req.body.comment;
+    let movieId = _comment.movie;
+
+    if(_comment.cid) {
+        Comment.findById(_comment.cid, function(err, comment) {
+            console.log(comment);
+            if (comment) {
+                let reply = {
+                    from: _comment.from,
+                    to: _comment.tid,
+                    content: _comment.content,
+                };
+
+                comment.reply.push(reply);
+
+                comment.save(function(err, comment) {
+                    if(err) {
+                        console.log(err);
+                    }
+                    res.redirect('/movie/' + movieId);
+                })
+            }
+        });
+    } else {
+        let comment = new Comment(_comment);
+        comment.save(function(err, comment) {
+            if (err) {
+                console.log(err);
+            }
+            res.redirect('/movie/'+movieId);
+        });
+    } 
+}
 ```
 
-在处理 `detail.jade` 的函数中，添加对子评论的查找以及显示的功能：
+在处理 `detail.jade` 的 `Movie.detail` 函数中，添加对子评论的查找以及显示的功能：
 
 ```
 exports.detail = function(req, res) {   // 访问 /admin/3 返回 detail.jade 渲染后的效果
@@ -2095,4 +2131,383 @@ exports.detail = function(req, res) {   // 访问 /admin/3 返回 detail.jade �
     })  
 }
 ```
+
+### 对评论做登录限制
+
+当用户没有登录的时候，不能显示评论按钮，而是显示登陆后评论，在 `detail.jade` 中进行修改：
+
+```
+#comment
+                        form#commentForm(method='POST', action='/user/comment')
+                            input(type='hidden', name='comment[movie]', value='#{movie._id}')
+                            if user 
+                                input(type='hidden', name='comment[from]', value='#{user._id}')
+                            .form-group
+                                textarea.form-control(name='comment[content]', row='3')
+                            if user
+                                button.btn.btn-primary(type='submit') 提交
+                            else
+                                a.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登录后评论 
+```
+
+显示效果如下，点击**登录后评论**，会弹出登录对话窗：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/914cf28d10c02444eb9a8ed85afab819.png)
+
+## 实现电影的分类功能
+
+### 设计分类的数据模型
+
+单独建立一个分类的表，管理分类的名字、分类的添加和删除，将电影的表和分类的表建立关系，在 `/schemas` 中创建 `category.js` 文件：
+
+```
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let ObjectId = Schema.Types.ObjectId;
+
+let CategorySchema = new Schema({
+    name: String,
+    movies: [{
+        type: ObjectId,
+        ref: 'Movie',
+    }],
+    meta: {
+        createAt: {
+            type: Date,
+            default: Date.now(),
+        },
+        updateAt: {
+            type: Date,
+            default: Date.now(),
+        },
+    },
+});
+
+CategorySchema.pre('save', function(next) {
+    if (this.isNew) {
+        this.meta.createAt = this.meta.updateAt = Date.now();
+    } else {
+        this.meta.updateAt = Date.now();
+    }
+    next();
+});
+
+CategorySchema.statics = {
+    fetch: function(cb) {
+        return this.find({})
+        .sort('meta.updateAt')
+        .exec(cb);
+    },
+    findById: function(id, cb) {
+        return this.findOne({_id: id})
+        .exec(cb);
+    },
+};
+
+module.exports = CategorySchema;
+```
+
+### 分类后台录入及分类存储
+
+创建 `/models/category.js` 来创建 `category` 的模型：
+
+```
+let mongoose = require('mongoose');
+let CategorySchema = require('../schemas/category');
+let Category = mongoose.model('Category', CategorySchema);
+
+module.exports = Category;
+```
+
+首先创建 admin 的分类录入模板 `category_admin.jade`，在访问 `/admin/category/new` 的时候返回该模板的渲染效果，在 `route.js` 中创建对分类的路由处理：
+
+`category_admin.jade`
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+            form.form-horizontal(method='post', action='/admin/category/new')
+                .from-group
+                    label.col-sm-2.control-label(for='inputCategory') 电影分类
+                    .col-sm-10
+                        input#inputCategory.form-control(type='text', name='category[name]', value=category.name)
+                .form-group
+                    .col-sm-offset-2.col-sm-10
+                    button.btn.btn-default(type='submit') 录入
+```
+
+然后创建对 `category_admin.jade` 渲染的路由处理，在 `/controllers` 下面创建 `category.js`，创建 `new` 函数来处理 `category_admin` 的渲染：
+
+`category.js`
+
+```
+exports.new = function(req, res) {
+    res.render('category_admin', {
+        title: 'shiningdan 后台分类录入页',
+        category: {},
+    });
+}
+```
+
+然后在 `route.js` 中将 `/admin/category/new` 的 get 请求对应 `new` 函数进行处理：
+
+```
+let Category = require('../app/controllers/category');
+
+app.get('/admin/category/new', User.signinRequired, User.adminRequired, Category.new);
+```
+
+然后对 `/admin/category/new` 的 POST 请求进行处理，将得到添加分类的请求传输到数据库中：
+
+`category.js`
+
+```
+let Category = require('../models/category');
+
+exports.save = function(req, res) {
+    let _category = req.body.category;
+    let category = new Category(_category);
+
+    category.save(function(err, category) {
+        if (err) {
+            console.log(err);
+        }
+        res.redirect('/admin/category/list');
+    })
+}
+```
+
+在新添加完分类以后，路由会被从定向到 `/admin/category/list`，所以要在  `route.js` 中创建对 `/admin/category/list` 的 GET 请求的处理：
+
+`route.js`
+
+```
+app.post('/admin/category/list', User.signinRequired, User.adminRequired, Category.save);
+app.get('/admin/category/list', User.signinRequired, User.adminRequired, Category.list);
+```
+
+`category.js`
+
+```
+
+```
+
+`list` 函数需要渲染一个新的模板来显示分类页面，所以在 `/app/views/pages/` 下面创建一个 `categorylist/jade` 来处理所有的 Category 输出的渲染：
+
+`categorylist.jade`
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+             table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th 名字
+                        th 时间
+                        th 查看
+                        th 更新
+                        th 删除
+                    tbody
+                        each item in categories
+                            tr(class='item-id-#{item._id}')
+                                td #{item.name}
+                                td #{moment(item.meta.createAt).format('MM/DD/YYYY')}
+                                td: a(target='_blank', href='../movie/#{item._id}') 查看
+                                td: a(target='_blank', href='../admin/update/#{item._id}') 修改
+                                td
+                                    button.btn.btn-danger.del(type='button', data-id='#{item._id}') 删除
+    script(src='/js/admin.js')
+```
+
+### 电影录入增加分类选择
+
+在电影录入的模板 `admin.jade` 中添加关于电影分类的选取部分：
+
+```
+form.form-horizontal(method='post', action='/admin/movie/new')
+                if movie._id
+                    input(type='hidden', name='movie[_id]', value='#{movie._id}')
+                .from-group
+                    label.col-sm-2.control-label(for='inputCategory') 电影分类
+                    .col-sm-10
+                        input#inputTitle.form-control(type='text', name='movie[categoryName]', value='#{movie.categoryName}')    
+                .form-group
+                    label.col-sm-2.control-label 分类选择
+                    each cat in categories
+                        label.radio-inline
+                            if movie._id
+                                input(type='radio', name='movie[category]', value=cat._id, checked=cat._id.toString()==movie.category.toString())
+                            else
+                                input(type='radio', name='movie[category]', value=cat._id)
+                            | #{cat.name}    
+                .from-group
+                    label.col-sm-2.control-label(for='inputTitle') 电影名字
+                    .col-sm-10
+                        input#inputTitle.form-control(type='text', name='movie[title]', value='#{movie.title}')
+```
+
+在 `/app/schemas/movie.js` 中添加 category 字段：
+
+```
+category: {
+    type: ObjectId,
+    ref: 'Category',
+},
+```
+
+在 `movie.new` 方法中，需要在对 `admin.jade` 模板进行初始化的时候传入 `categories` 值：
+
+```
+exports.new = function(req, res) {
+    Category.find({}, function(err, categories) {
+        res.render('admin', {
+            title: 'shiningdan 后台录入页',
+            movie: {},
+            categories: categories,
+        })
+    });
+}
+```
+
+然后在 `admin.jade` 中处理所有的 value，将 `value='#{movie.language}'` 替换为 `value=movie.language`，不然在页面显示中会有 `undefined` 出现。
+
+然后，在 `movie.save` 方法中，需要处理对分类的 post 请求，在存储 movie 的数据的时候，也要在 category 中将该 movie 添加进去：
+
+`/app/controllers/movie.js`
+
+```
+exports.save = function(req, res) {
+    let movieObj = req.body.movie;
+    let id = movieObj._id;
+    let _movie;
+    if (id) {
+        Movie.findById(id, function(err, movie) {
+            if (err) {
+                console.log(err);
+            }
+            _movie = underScore.extend(movie, movieObj);
+            _movie.save(function(err, movie) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/movie/' + movie._id);
+            })
+        })
+    } else {
+        _movie = Movie(movieObj);
+        // _id 在调用 Movie() 的时候会自动生成
+        let categoryId = _movie.category;
+        _movie.save(function(err, movie) {
+            if (err) {
+                console.log(err);
+            }
+            Category.findById(categoryId, function(err, category) {
+                category.movies.push(_movie._id);
+                category.save(function(err, category) {
+                    res.redirect('/movie/' + movie._id);
+                })
+            })
+        })
+    }
+}
+```
+
+这个时候，在 `db.movies` 中创建了含有 `category` 字段的一条数据，在 `db.categories` 中对应分类的 `movies` 数组中也添加了对该电影的引用。
+
+我们可以修改 `/` 对应的页面，将电影按照分类来进行显示：
+
+`index.jade`
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+            each cat in categories
+                .panel.panel-primary
+                    .panel-heading
+                        h3 #{cat.name}
+                    .panel-body
+                        if cat.movies && cat.movies.length > 0
+                            each item in cat.movies
+                                .col-md-2
+                                    .thumbnail
+                                        a(href='/movie/#{item._id}')
+                                            img(src='#{item.poster}', alt='#{item.title}')
+                                        .caption
+                                            h3 #{item.title}
+                                            p: a.btn.btn-primary(href='/movie/#{item._id}', role='button')
+                                                观看预告片
+```
+
+然后修改 `/` 对应的路由处理 `/app/controller/index.js`：
+
+```
+let Movie = require('../models/movie');
+let Category = require('../models/category');
+
+exports.index = function(req, res) {
+
+    Category.find({})
+    .populate({path: 'movies', options: {limit: 5}})
+    .exec(function(err, categories) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('index', {
+            title: 'Shiningdan 首页',
+            categories: categories,
+        });
+    });
+}
+```
+
+当点击 `/admin/movie/list/` 页面中的更新按钮时，跳转的对象是不正确的，所以需要修改跳转的对象：
+
+`list.jade`
+
+```
+td: a(target='_blank', href='/movie/#{item._id}') 查看
+td: a(target='_blank', href='/admin/movie/update/#{item._id}') 修改
+```
+
+然后要修改 `/admin/movie/update/#{item._id}` 中的请求处理方法，在 `/app/controllers/movie.js` 中修改 `update` 方法：
+
+```
+exports.update = function(req, res) {
+    let id = req.params.id;
+    if (id) {
+        Movie.findById(id, function(err, movie) {
+            Category.find({}, function(err, categories) {
+                res.render('admin', {
+                    title: 'shiningdan 后台更新页面',
+                    movie: movie,
+                    categories: categories,
+                })
+            })
+        })
+    }
+}
+```
+
+### jsonp 同步豆瓣数据
+
+
+
+
+
+
+
+
+
+
+
+
 
