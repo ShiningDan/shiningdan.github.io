@@ -2499,15 +2499,277 @@ exports.update = function(req, res) {
 
 ### jsonp 同步豆瓣数据
 
+使用 Jsonp 同步豆瓣数据，可以在 `/admin/movie` 中添加 `input` ，获得影片的 id ，然后发送 Ajax 来获取数据。豆瓣有提供 [Movie API](https://developers.douban.com/wiki/?title=movie_v2)。
 
+首先在 `admin.js` 中创建请求豆瓣 API 的 blur 事件：
 
+```
+$('#douban').blur(function(event) {
+    let douban = $(this);
+    let id = douban.val();
 
+    if(id) {
+        $.ajax({
+            url: 'https://api.douban.com/v2/movie/subject/' + id,
+            cache: true,
+            type: 'get',
+            dataType: `jsonp`,
+            crossDomain: true,
+            jsonp: 'callback',
+            success: function(data) {
+                $('#inputTitle').val(data.title);
+                $('#inputDoctor').val(data.directors[0].name);
+                $('#inputYear').val(data.year);
+                $('#inputCountry').val(data.countries[0]);
+                $('#inputSummary').val(data.summary);
+                $('#inputPoster').val(data.images.large);
+            },
+        });
+    }
+});
+```
 
+然后在 `admin.jade` 中添加一个 input，输入需要同步的影片 id：
 
+```
+form.form-horizontal(method='post', action='/admin/movie/new')
+    .form-group
+        label.col-sm-2.control-label 豆瓣同步
+        .col-sm-2
+            input#douban.form-control(type='text')
+    if movie._id
+        input(type='hidden', name='movie[_id]', value=movie._id)
+    .from-group
+        label.col-sm-2.control-label(for='inputCategory') 电影分类
+        .col-sm-10
+            input#inputCategory.form-control(type='text', name='movie[categoryName]', value=movie.categoryName)    
+```
 
+并且在 `admin.jade` 的最后引入 `admin.js`:
 
+```
+script(src='/js/admin.js')
+```
 
+### 电影录入增加分类自定义
 
+电影的分类不一定在 categories 里面都可以找到，所以在添加电影数据的时候，如果是不存在的电影分类，就创建一个新的分类：
+
+```
+exports.save = function(req, res) {
+    let movieObj = req.body.movie;
+    let id = movieObj._id;
+    let _movie;
+    if (id) {
+        Movie.findById(id, function(err, movie) {
+            if (err) {
+                console.log(err);
+            }
+            _movie = underScore.extend(movie, movieObj);
+            _movie.save(function(err, movie) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/movie/' + movie._id);
+            })
+        })
+    } else {
+        _movie = Movie(movieObj);
+        // _id 在调用 Movie() 的时候会自动生成
+        let categoryId = movieObj.category;
+        let categoryName = movieObj.categoryName;
+        console.log(movieObj);
+        _movie.save(function(err, movie) {
+            if (err) {
+                console.log(err);
+            }
+
+            if (categoryId) {
+                Category.findById(categoryId, function(err, category) {
+                    category.movies.push(_movie._id);
+                    category.save(function(err, category) {
+                        res.redirect('/movie/' + movie._id);
+                    })
+                })
+            } else if(categoryName) {
+                let category = new Category({
+                    name: categoryName,
+                    movies: [movie._id],
+                });
+                category.save(function(err, category) {
+                    _movie.category = category._id;
+                    _movie.save(function(err, movie) {
+                        res.redirect('/movie/' + movie._id);
+                    })
+                })
+            }
+        });
+    }
+}
+```
+
+### 增加分类列表及分页
+
+在首页，原有的展示页面是显示不同的分类，在每个分类下显示其中的电影。现在可以添加用户针对分类的查询，当点击分类的时候，可以导航到针对单个分类的查询结果上，所以，首先修改 `index.jade` 添加对分类的跳转：
+
+```
+each cat in categories
+    .panel.panel-primary
+        .panel-heading
+            h3 
+                a(href='/results?cat=#{cat._id}&p=0') #{cat.name}
+        .panel-body
+```
+
+在 `route.js` 中添加对 `/result` URL 的跳转：
+
+```
+app.get('/results', Index.search);
+```
+
+创建一个新的 `reuslts.jade`，作为分类查找显示页面的模板：
+
+```
+extends ../layout
+
+block content
+    .container
+        .row
+            .panel.panel-default
+                .panel-heading
+                    h3 #{keyword}
+                .panel-body
+                    if movies && movies.length > 0
+                        each item in movies
+                            .col-md-2
+                                .thumbnail
+                                    a(href='/movie/#{item._id}')
+                                        img(src='#{item.poster}', alt='#{item.title}')
+                                    .caption
+                                        h3 #{item.title}
+                                        p: a.btn.btn-primary(href='/movie/#{item._id}', role='button')
+                                            观看预告片
+            ul.pagination
+                - for (var i = 0; i < totalPage; i++) {
+                    - if (currentPage == (i + 1)) {
+                        li.active
+                            span #{currentPage}
+                    - } else {
+                        li
+                            a(href='/results?#{query}&p=#{i}') #{i+1}
+                    - }
+                - }
+```
+
+然后在 `/app/controllers/index.js` 中创建 `search` 方法来处理对 `/results?cat=#{cat._id}&p=0'` 的路由请求：
+
+```
+exports.search = function(req, res) {
+    let catId = req.query.cat;
+    let page = parseInt(req.query.p);
+    let count = 2;
+    let index = page * count;
+
+    Category.find({_id: catId})
+    .populate({
+        path: 'movies',
+        select: 'title poster',
+    })
+    .exec(function(err, categories) {
+        if (err) {
+            console.log(err);
+        }
+        let category = categories[0] || {};
+        let movies = category.movies || [];
+        let results = movies.slice(index, index + count);
+
+        res.render('results', {
+            title: 'Shiningdan 分类电影页面',
+            keyword: category.name,
+            currentPage: (page + 1),
+            query: 'cat=' + catId,
+            totalPage: Math.ceil(movies.length/count),
+            movies: results,
+        });
+    })
+}
+```
+
+### 增加搜索、公用列表及分页
+
+在 `header.jade` 里面加入搜索框：
+
+```
+.container
+    .row
+        .page-header.clearfix
+            h1 #{title}
+            .col-sm-4
+                small 重度科幻迷
+            .col-sm-8
+                form(method='GET', action='/results')
+                    .input-group.col-sm-4.pull-right
+                        input.form-control(type='text', name='q')
+                        span.input-group-btn
+                            button.btn.btn-default(type='submit') 搜索
+```
+
+然后该查询的目的地址是 `/result`，所以要在 `index.search` 函数中添加对应路径的处理：
+
+```
+exports.search = function(req, res) {
+    let catId = req.query.cat;
+    let q = req.query.q;
+    let page = parseInt(req.query.p, 10) || 0;
+    let count = 2;
+    let index = page * count;
+
+    if (catId) {
+        Category.find({_id: catId})
+        .populate({
+            path: 'movies',
+            select: 'title poster',
+        })
+        .exec(function(err, categories) {
+            if (err) {
+                console.log(err);
+            }
+            let category = categories[0] || {};
+            let movies = category.movies || [];
+            let results = movies.slice(index, index + count);
+
+            res.render('results', {
+                title: 'Shiningdan 分类电影页面',
+                keyword: category.name,
+                currentPage: (page + 1),
+                query: 'cat=' + catId,
+                totalPage: Math.ceil(movies.length/count),
+                movies: results,
+            });
+        })
+    } else {
+        Movie.find({title: new RegExp(q+'.*', 'i')}, function(err, movies) {
+            if (err) {
+                console.log(err);
+            }
+
+            let results = movies.slice(index, index+count);
+            res.render('results', {
+                title: 'Shiningdan 分类电影页面',
+                keyword: q,
+                currentPage: (page + 1),
+                query: 'cat=' + catId,
+                totalPage: Math.ceil(movies.length/count),
+                movies: results,
+            });
+        });
+    }  
+}
+```
+
+此时搜索 `欢乐` 就可以返回欢乐的搜索结果：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/5f17cd06906e86d42f4d3832665661ae.png)
 
 
 
