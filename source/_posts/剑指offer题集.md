@@ -8,6 +8,8 @@ tags:
 
 本笔记是刷 《剑指 offer》 题集中题目的笔记记录。
 
+<!--more-->
+
 ## 二维数组中的查找
 
 ### 题目描述
@@ -230,6 +232,92 @@ module.exports = {
     pop : pop
 };
 ```
+
+## 旋转数组的最小数字
+
+### 题目描述
+
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。
+例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
+NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
+
+使用折半查找法：
+
+```
+function minNumberInRotateArray(rotateArray)
+{
+    var index1 = 0;
+    var index2 = rotateArray.length-1;
+    var indexMid = index1;
+    while (rotateArray[index1] >= rotateArray[index2]) {
+        if (index2 - index1 == 1 || index2 - index1 ==0) {
+          indexMid = index2;
+          break;
+        }
+        indexMid = Math.floor((indeax1 + index2)/2);
+        if (rotateArray[indexMid] >= rotateArray[index1]) {
+            index1 = indexMid;
+        } else {
+            index2 = indexMid;
+        }
+    }
+    return rotateArray[indexMid];
+}
+module.exports = {
+    minNumberInRotateArray : minNumberInRotateArray
+};
+```
+
+## 斐波那契数
+
+### 题目描述
+
+大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项。
+n<=39
+
+使用递归的方法：
+
+```
+function Fibonacci(n)
+{
+    if (n === 0)
+        return 0;
+    if (n === 1)
+        return 1;
+    return Fibonacci(n-1) + Fibonacci(n-2);
+}
+module.exports = {
+    Fibonacci : Fibonacci
+};
+```
+
+但是使用递归的方法时，在求解的过程中，有很多结点重复计算，这使得计算量随着结点大大增加。
+
+所以，我们可以将计算过程中涉及的中间值保存下来，可以通过 `f(0)` 和 `f(1)` 计算得到 `f(2)`，然后通过 `f(1)` 和`f(2)` 计算得到 `f(3)`，一直到`f(n)`
+
+```
+function Fibonacci(n)
+{
+    var fibOne = 0, fibTwo = 1, num = 1;
+    if (n <= 1)
+        return n;
+    var temp;
+    while(num < n) {
+        temp = fibOne + fibTwo;
+        fibOne = fibTwo;
+        fibTwo = temp;
+        ++num;
+    }
+    return temp;
+}
+module.exports = {
+    Fibonacci : Fibonacci
+};
+```
+
+
+
 
 
 
