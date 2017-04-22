@@ -55,6 +55,8 @@ Examples:
   $ pug < my.jade -p my.jade > my.html
 ```
 
+<!--more-->
+
 ## API
 
 ```
@@ -288,6 +290,24 @@ body
 ```
 
 ### 代码
+
+#### 变量声明和传递
+
+可以在 `.jade` 文件中使用 `- var course = jade` 来定义变量，也可以在编译 `.jade` 文件的时候再指定变量。编译的时候指定变量的方法为：
+
+```
+jade index.jade --obj {"course": "jade"}
+```
+
+也可以先将变量写在一个 Json 文件里：
+
+```
+// course.json
+{
+    "course": "jade"
+}
+jade index.jade -O course.json
+```
 
 #### `-`
 
