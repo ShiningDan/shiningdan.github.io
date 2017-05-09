@@ -11,6 +11,7 @@ tags:
 [MongoDB 教程 | 菜鸟教程](http://www.runoob.com/mongodb/mongodb-tutorial.html)
 [mongoDB入门篇](http://www.imooc.com/learn/295)
 [MongoDB权威指南](https://book.douban.com/subject/25798102/)
+[mongoose API](http://mongoosejs.com/docs/api.html)
 
 <!--more-->
 
@@ -822,3 +823,9 @@ sequence_value 字段是序列通过自动增长后的一个值。
 
 { "_id" : 2, "product_name" : "Samsung S3", "category" : "mobiles" }
 ```
+
+## Mongoose 笔记
+
+
+
+
