@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS," />
+  <meta name="keywords" content="CentOS,Mongodb," />
 
 
 
@@ -84,23 +84,25 @@
 
 
 
-<meta name="description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
-设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta name="description" content="本文记录的是博客中系统的配置情况。使用的虚拟机是阿里云提供的 CentOS（6.8） 虚拟机，使用的数据库为 MongoDB（3.4.4）。
+MongoDB 配置博客使用 MongoDB 作为博客后台的数据库，MongoDB 的版本为 3.4.4。
+首先下载 MongoDB：
+1wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSS-注意事项">
-<meta property="og:url" content="https://shiningdan.github.io/2017/01/05/CSS-注意事项/index.html">
+<meta property="og:title" content="博客服务器配置">
+<meta property="og:url" content="https://shiningdan.github.io/2017/05/10/博客服务器配置/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
-设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
-<meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
-<meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/23.PNG">
-<meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
-<meta property="og:updated_time" content="2017-01-05T12:27:59.000Z">
+<meta property="og:description" content="本文记录的是博客中系统的配置情况。使用的虚拟机是阿里云提供的 CentOS（6.8） 虚拟机，使用的数据库为 MongoDB（3.4.4）。
+MongoDB 配置博客使用 MongoDB 作为博客后台的数据库，MongoDB 的版本为 3.4.4。
+首先下载 MongoDB：
+1wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3">
+<meta property="og:updated_time" content="2017-05-10T12:08:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSS-注意事项">
-<meta name="twitter:description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
-设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
-<meta name="twitter:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
+<meta name="twitter:title" content="博客服务器配置">
+<meta name="twitter:description" content="本文记录的是博客中系统的配置情况。使用的虚拟机是阿里云提供的 CentOS（6.8） 虚拟机，使用的数据库为 MongoDB（3.4.4）。
+MongoDB 配置博客使用 MongoDB 作为博客后台的数据库，MongoDB 的版本为 3.4.4。
+首先下载 MongoDB：
+1wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3">
 
 
 
@@ -128,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2017/01/05/CSS-注意事项/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2017/05/10/博客服务器配置/"/>
 
 
 
 
 
-  <title> CSS-注意事项 | ShiningDan的博客 </title>
+  <title> 博客服务器配置 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -290,7 +292,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/01/05/CSS-注意事项/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/05/10/博客服务器配置/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -314,7 +316,7 @@
             
             
               
-                CSS-注意事项
+                博客服务器配置
               
             
           </h2>
@@ -329,8 +331,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-05T20:26:33+08:00">
-                2017-01-05
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-10T13:57:45+08:00">
+                2017-05-10
               </time>
             
 
@@ -340,6 +342,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -348,8 +372,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/05/CSS-注意事项/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/05/CSS-注意事项/" itemprop="commentCount"></span>
+                <a href="/2017/05/10/博客服务器配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/10/博客服务器配置/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -359,7 +383,7 @@
 
           
           
-             <span id="/2017/01/05/CSS-注意事项/" class="leancloud_visitors" data-flag-title="CSS-注意事项">
+             <span id="/2017/05/10/博客服务器配置/" class="leancloud_visitors" data-flag-title="博客服务器配置">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -386,36 +410,43 @@
       
 
       
-        <h2 id="float-和-display-inline-block-的使用"><a href="#float-和-display-inline-block-的使用" class="headerlink" title="float 和 display:inline-block 的使用"></a>float 和 display:inline-block 的使用</h2><p><strong>float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。</strong></p>
-<p>设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的左边还是不允许存在任何元素与之同行显示，哪怕其它的元素的代码在前，除非也给前面的元素加上float:left后，才允许同行显示。</p>
-<p>设了display:inline的元素，允许它的前后存在其它的内联元素同行显示。关于代码在其前面的块元素之同行显示，则要让前面的元素浮动（不管是左还是右浮动）或设为display:inline，还有代码在后面的是块元素（管它有没有浮动，是左浮动还是右浮动），均不能与之同行，除非设为display:inline。</p>
-<h2 id="使用-overflow-hidden-清除浮动"><a href="#使用-overflow-hidden-清除浮动" class="headerlink" title="使用 overflow:hidden 清除浮动"></a>使用 overflow:hidden 清除浮动</h2><p>出现情况：<strong>父块没有设置指定的高宽，当子块设置为浮动后，原本包裹子块的父块的高度塌陷消失，这时给父块设置overflow:hidden就能清楚浮动造成的影响，使父块重新包裹子块。</strong></p>
-<a id="more"></a>
-<p><a href="https://www.zhihu.com/question/30938856" target="_blank" rel="external">知乎 overflow:hidden 能够清除浮动的解释</a></p>
-<p>相关知识：<a href="http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="external">BFC 的原理及其应用</a></p>
-<h2 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h2><p>可以对块添加 box-shadow 属性向框添加一个或多个阴影。</p>
-<h2 id="全字母大写，放大，加下划线"><a href="#全字母大写，放大，加下划线" class="headerlink" title="全字母大写，放大，加下划线"></a>全字母大写，放大，加下划线</h2><p>如果想实现全字母大写，放大，加下划线，如图下效果：</p>
-<p><img src="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG" alt=""></p>
-<p>直观想到的是全字母大写，然后首字母的 font-size 进行放大来进行是实现。</p>
-<pre><code>p {
-    font-variant:small-caps;
-    text-decoration: underline;
-}
-
-p:first-letter {
-    font-size: 30px;
-}
-</code></pre><p>但是这种实现效果如下图，首字母放大会影响到下划线的显示效果：</p>
-<p><img src="http://7xs2ra.com1.z0.glb.clouddn.com/23.PNG" alt=""></p>
-<hr>
-<p>所以我们的实现方法，是使用 font-variant:small-caps; 来代替 :first-letter 设置首字母大小，这样的显示效果就不会影响下划线。</p>
-<pre><code>p {
-    font-variant:small-caps;
-    text-decoration: underline;
-    text-transform: capitalize;
-}
-</code></pre><p>显示效果如下：</p>
-<p><img src="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG" alt=""></p>
+        <p>本文记录的是博客中系统的配置情况。使用的虚拟机是<a href="https://www.aliyun.com/" target="_blank" rel="external">阿里云</a>提供的 CentOS（6.8） 虚拟机，使用的数据库为 <a href="https://www.mongodb.com/" target="_blank" rel="external">MongoDB</a>（3.4.4）。</p>
+<h2 id="MongoDB-配置"><a href="#MongoDB-配置" class="headerlink" title="MongoDB 配置"></a>MongoDB 配置</h2><p>博客使用 MongoDB 作为博客后台的数据库，MongoDB 的版本为 <strong>3.4.4</strong>。</p>
+<p>首先下载 MongoDB：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.4.tgz</div></pre></td></tr></table></figure>
+<p>然后把 MongoDB 安装到 <code>/root/mongodb</code> 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -zxvf mongodb-linux-x86_64-3.4.4.tgz</div></pre></td></tr></table></figure>
+<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>修改/etc/profile, 添加如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export MONGODB_HOME=/root/mongodb/mongodb-linux-x86_64-3.4.4</div><div class="line">export PATH=$MONGODB_HOME/bin:$PATH</div></pre></td></tr></table></figure>
+<p>执行命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vim /etc/profile</div><div class="line">source /etc/profile</div></pre></td></tr></table></figure>
+<p>然后可以通过 <code>mongod -v</code> 查看 MongoDB 的版本信息。</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><h4 id="创建数据库目录"><a href="#创建数据库目录" class="headerlink" title="创建数据库目录"></a>创建数据库目录</h4><p>MongoDB需要自建数据库文件夹.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/mongodb</div><div class="line">mkdir -p /data/mongodb/log</div><div class="line">touch /data/mongodb/log/mongodb.log</div></pre></td></tr></table></figure>
+<h4 id="添加配置文件"><a href="#添加配置文件" class="headerlink" title="添加配置文件"></a>添加配置文件</h4><p>新建mongodb.conf配置文件, 通过这个配置文件进行启动.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">touch /root/mongodb/mongodb-linux-x86_64-3.4.4/mongo.conf</div></pre></td></tr></table></figure>
+<p>配置文件参数说明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mongodb的参数说明：</div><div class="line">--dbpath 数据库路径(数据文件)</div><div class="line">--logpath 日志文件路径</div><div class="line">--master 指定为主机器</div><div class="line">--slave 指定为从机器</div><div class="line">--source 指定主机器的IP地址</div><div class="line">--pologSize 指定日志文件大小不超过64M.因为resync是非常操作量大且耗时，最好通过设置一个足够大的oplogSize来避免resync(默认的 oplog大小是空闲磁盘大小的5%)。</div><div class="line">--logappend 日志文件末尾添加</div><div class="line">--port 启用端口号</div><div class="line">--fork 在后台运行</div><div class="line">--only 指定只复制哪一个数据库</div><div class="line">--slavedelay 指从复制检测的时间间隔</div><div class="line">--auth 是否需要验证权限登录(用户名和密码)</div><div class="line"></div><div class="line">注：mongodb配置文件里面的参数很多，定制特定的需求，请参考官方文档</div></pre></td></tr></table></figure>
+<p>配置文件内容:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dbpath=/data/mongodb</div><div class="line">logpath=/data/mongodb/log/mongodb.log</div><div class="line">logappend=true</div><div class="line">port=27017</div><div class="line">fork=true</div><div class="line">##auth = true #先关闭, 创建好用户再启动</div></pre></td></tr></table></figure>
+<h4 id="通过配置文件启动"><a href="#通过配置文件启动" class="headerlink" title="通过配置文件启动"></a>通过配置文件启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mongod -f /root/mongodb/mongodb-linux-x86_64-3.4.4/mongo.conf</div><div class="line">about to fork child process, waiting until server is ready for connections.</div><div class="line">forked process: 2814</div><div class="line">child process started successfully, parent exiting</div></pre></td></tr></table></figure>
+<p>出现successfully表示启动成功了.</p>
+<p>使用 <code>mongo</code> 命令可以通过命令行登录 MongoDB，如果想要关闭 Mongodb，需要先登录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">use admin;</div><div class="line">db.shutdownServer();</div></pre></td></tr></table></figure>
+<h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><p>现在可以给 MongoDB 创建一个博客使用的用户，并且给该用户读写数据库的权限。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">// root用户</div><div class="line">use admin;</div><div class="line">db.createUser(</div><div class="line">     &#123;</div><div class="line">       user: &quot;admin&quot;,</div><div class="line">       pwd: &quot;admin&quot;,</div><div class="line">       roles: [</div><div class="line">          &#123; role: &quot;root&quot;, db: &quot;admin&quot; &#125;   #root账号</div><div class="line">       ]</div><div class="line">     &#125;</div><div class="line">)</div><div class="line">//博客用户</div><div class="line">use blog;</div><div class="line">db.createUser(</div><div class="line">     &#123;</div><div class="line">       user: &quot;zyc&quot;,</div><div class="line">       pwd: &quot;zyc&quot;,</div><div class="line">       roles: [</div><div class="line">          &#123; role: &quot;readWrite&quot;, db: &quot;test&quot; &#125;   #读写帐号</div><div class="line">       ]</div><div class="line">     &#125;</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>具体的权限有以下几点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Read：允许用户读取指定数据库</div><div class="line">readWrite：允许用户读写指定数据库</div><div class="line">dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile</div><div class="line">userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户</div><div class="line">clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。</div><div class="line">readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限</div><div class="line">readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限</div><div class="line">userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限</div><div class="line">dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。</div><div class="line">root：只在admin数据库中可用。超级账号，超级权限</div></pre></td></tr></table></figure>
+<p>如果用户在登录的时候需要验证，则进入用户注册的数据库下，用 <code>auth()</code> 函数来进行用户验证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">use admin;</div><div class="line">db.auth(&apos;admin&apos;, &apos;admin&apos;);</div></pre></td></tr></table></figure>
+<h3 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h3><p>将27017端口添加到防火墙中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysconfig/iptables</div><div class="line">    -A INPUT -m state --state NEW -m tcp -p tcp --dport 27017 -j ACCEPT</div><div class="line">/etc/init.d/iptables reload</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>本文参考的文章有：</p>
+<ul>
+<li><a href="https://docs.mongodb.com/manual/mongo/" target="_blank" rel="external">MongoDB Docs</a></li>
+<li><a href="https://itjh.net/2016/07/11/centos-install-mongodb/" target="_blank" rel="external">Centos 安装MongoDB 详细教程</a></li>
+<li><a href="http://www.cnblogs.com/zhoujinyi/p/4610050.html" target="_blank" rel="external">MongoDB 3.0 用户创建</a></li>
+</ul>
 
       
     </div>
@@ -439,7 +470,9 @@ p:first-letter {
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
+            <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          
+            <a href="/tags/Mongodb/" rel="tag"># Mongodb</a>
           
         </div>
       
@@ -448,8 +481,8 @@ p:first-letter {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/02/CSS属性深入理解/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2017/05/09/CSS-字体总结/" rel="next" title="CSS 字体总结">
+                <i class="fa fa-chevron-left"></i> CSS 字体总结
               </a>
             
           </div>
@@ -457,10 +490,6 @@ p:first-letter {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/07/网页组件制作之七色卡/" rel="prev" title="网页组件制作之七色卡">
-                网页组件制作之七色卡 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -486,8 +515,8 @@ p:first-letter {
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/05/CSS-注意事项/"
-           data-title="CSS-注意事项" data-url="https://shiningdan.github.io/2017/01/05/CSS-注意事项/">
+      <div class="ds-thread" data-thread-key="2017/05/10/博客服务器配置/"
+           data-title="博客服务器配置" data-url="https://shiningdan.github.io/2017/05/10/博客服务器配置/">
       </div>
     
   </div>
@@ -587,7 +616,7 @@ p:first-letter {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#float-和-display-inline-block-的使用"><span class="nav-number">1.</span> <span class="nav-text">float 和 display:inline-block 的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-overflow-hidden-清除浮动"><span class="nav-number">2.</span> <span class="nav-text">使用 overflow:hidden 清除浮动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阴影"><span class="nav-number">3.</span> <span class="nav-text">阴影</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全字母大写，放大，加下划线"><span class="nav-number">4.</span> <span class="nav-text">全字母大写，放大，加下划线</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-配置"><span class="nav-number">1.</span> <span class="nav-text">MongoDB 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境变量"><span class="nav-number">1.1.</span> <span class="nav-text">配置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">1.2.</span> <span class="nav-text">启动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建数据库目录"><span class="nav-number">1.2.1.</span> <span class="nav-text">创建数据库目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加配置文件"><span class="nav-number">1.2.2.</span> <span class="nav-text">添加配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过配置文件启动"><span class="nav-number">1.2.3.</span> <span class="nav-text">通过配置文件启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建用户"><span class="nav-number">1.2.4.</span> <span class="nav-text">创建用户</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置防火墙"><span class="nav-number">1.3.</span> <span class="nav-text">配置防火墙</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
