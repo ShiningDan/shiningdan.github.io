@@ -1,0 +1,1085 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS,Font," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文总结了CSS字体中常见的概念，字体的注意事项。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS 字体总结">
+<meta property="og:url" content="https://shiningdan.github.io/2017/05/09/CSS-字体总结/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文总结了CSS字体中常见的概念，字体的注意事项。">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/eb66c44ff11117e0b08896b414c8ade5.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/bd102a06040a1a53e39a8009dc22e059.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/fb47aafd02223d0ee65f69de0aee7a72.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/9db133a46a80f502e971311b54ceed37.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/43865a491ee9892f73bbf2d37ad6747e.png">
+<meta property="og:updated_time" content="2017-05-10T05:56:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS 字体总结">
+<meta name="twitter:description" content="本文总结了CSS字体中常见的概念，字体的注意事项。">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/eb66c44ff11117e0b08896b414c8ade5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/05/09/CSS-字体总结/"/>
+
+
+
+
+
+  <title> CSS 字体总结 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/05/09/CSS-字体总结/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS 字体总结
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-09T20:28:39+08:00">
+                2017-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/09/CSS-字体总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/09/CSS-字体总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/05/09/CSS-字体总结/" class="leancloud_visitors" data-flag-title="CSS 字体总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文总结了CSS字体中常见的概念，字体的注意事项。</p>
+<a id="more"></a>
+<h2 id="字体的分类"><a href="#字体的分类" class="headerlink" title="字体的分类"></a>字体的分类</h2><p>就 Web 常用的一些字体而言，经常听说的字体类型，大致可以分为这几种：</p>
+<ul>
+<li>serif(衬线)</li>
+<li>sans-serif(无衬线)</li>
+<li>monospace(等宽)</li>
+<li>fantasy(梦幻)</li>
+<li>cursive(草体)</li>
+</ul>
+<p>其实大体上分为衬线字体和无衬线字体，等宽字体中也有衬线等宽和无衬线等宽字体，这 5 个分类是 <code>font-family</code> 的 5 个可用字体系列取值。</p>
+<p>下面是这五种字体中、英文的显示效果，我们可以看到，其实有的字体中文显示效果相同，有的字体英文显示效果相同，下面我们来分别看一下这几种字体的区别。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/eb66c44ff11117e0b08896b414c8ade5.png" alt=""></p>
+<h3 id="serif-衬线字体"><a href="#serif-衬线字体" class="headerlink" title="serif-衬线字体"></a>serif-衬线字体</h3><p>特点：</p>
+<ul>
+<li>字符笔画末端有叫做衬线的小细节的额外装饰</li>
+<li>笔画的粗细会有所不同</li>
+</ul>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/bd102a06040a1a53e39a8009dc22e059.png" alt=""></p>
+<p>属于衬线字体的字体有：</p>
+<h4 id="宋体（SimSun）"><a href="#宋体（SimSun）" class="headerlink" title="宋体（SimSun）"></a>宋体（SimSun）</h4><p>Windows 下大部分浏览器的默认中文字体，是为适应印刷术而出现的一种汉字字体。笔画有粗细变化，是一种衬线字体，宋体在小字号下的显示效果还可以接受，但是字号一大体验就很差了，所以使用的时候要注意，不建议做标题字体使用。</p>
+<h4 id="Times-New-Roman"><a href="#Times-New-Roman" class="headerlink" title="Times New Roman"></a>Times New Roman</h4><p>Mac 平台 Safari 下默认的英文字体，是最常见且广为人知的西文衬线字体之一，众多网页浏览器和文字处理软件都是用它作为默认字体。</p>
+<h3 id="sans-serif-无衬线字体"><a href="#sans-serif-无衬线字体" class="headerlink" title="sans-serif-无衬线字体"></a>sans-serif-无衬线字体</h3><p>特点：</p>
+<ul>
+<li>没有衬线</li>
+<li>字体线条的宽度相同</li>
+</ul>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/fb47aafd02223d0ee65f69de0aee7a72.png" alt=""></p>
+<p>中文下，无衬线字体就是<strong>黑体</strong>，黑体字也就是又称方体或等线体，没有衬线装饰，字形端庄，笔画横平竖直，笔迹全部一样粗细。</p>
+<h4 id="微软雅黑（Microsoft-Yahei）"><a href="#微软雅黑（Microsoft-Yahei）" class="headerlink" title="微软雅黑（Microsoft Yahei）"></a>微软雅黑（Microsoft Yahei）</h4><p>大名鼎鼎的微软雅黑相信都不陌生，从 windows Vista 开始，微软提供了这款新的字体，一款无衬线的黑体类字体，显著提高了字体的显示效果。现在这款字体已经成为 windows 浏览器最值得使用的中文字体。</p>
+<h4 id="华文黑体（STHeiti）、华文细黑（STXihei）"><a href="#华文黑体（STHeiti）、华文细黑（STXihei）" class="headerlink" title="华文黑体（STHeiti）、华文细黑（STXihei）"></a>华文黑体（STHeiti）、华文细黑（STXihei）</h4><p>属于同一字体家族系列，MAC OS X 10.6 之前的简体中文系统界面的默认中文字体，正常粗细就是华文细黑，粗体下则是华文黑体。</p>
+<h4 id="黑体-简（Heiti-SC）"><a href="#黑体-简（Heiti-SC）" class="headerlink" title="黑体-简（Heiti SC）"></a>黑体-简（Heiti SC）</h4><p>从 MAC OS X 10.6 开始，黑体-简代替华文黑体用作简体中文系统界面默认字体，苹果生态最常用的字体之一，包括 iPhone、iPad 等设备用的也是这款字体。</p>
+<h4 id="冬青黑体（Hiragino-Sans-GB）"><a href="#冬青黑体（Hiragino-Sans-GB）" class="headerlink" title="冬青黑体（Hiragino Sans GB）"></a>冬青黑体（Hiragino Sans GB）</h4><p>又叫苹果丽黑，Hiragino 是字游工房设计的系列字体名称。是一款清新的专业印刷字体，小字号时足够清晰，Mac OS X 10.6 开始自带有 W3 和 W6 。</p>
+<h4 id="Helvetica、Helvetica-Neue"><a href="#Helvetica、Helvetica-Neue" class="headerlink" title="Helvetica、Helvetica Neue"></a>Helvetica、Helvetica Neue</h4><p>被广泛用于全世界使用拉丁字母和西里尔字母的国家。Helvetica 是苹果电脑的默认字体，微软常用的 Arial 字体也来自于它。</p>
+<h4 id="Arial"><a href="#Arial" class="headerlink" title="Arial"></a>Arial</h4><p>Windows 平台上默认的无衬线西文字体，有多种变体，比例及字重（weight）和 Helvetica 极为相近。</p>
+<h4 id="Tahoma"><a href="#Tahoma" class="headerlink" title="Tahoma"></a>Tahoma</h4><p>十分常见的无衬线字体，字体结构和 Verdana 很相似，其字元间距较小，而且对 Unicode 字集的支持范围较大。许多不喜欢 Arial 字体的人常常会改用 Tahoma 来代替，除了是因为 Tahoma 很容易取得之外，也是因为 Tahoma 没有一些 Arial 为人诟病的缺点，例如大写“i”与小写“L”难以分辨等。。</p>
+<p>下面是各种字体的显示效果：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/9db133a46a80f502e971311b54ceed37.png" alt=""></p>
+<h3 id="monospace-等宽字体"><a href="#monospace-等宽字体" class="headerlink" title="monospace-等宽字体"></a>monospace-等宽字体</h3><p>特点：</p>
+<ul>
+<li>字符宽度相同，通常用于计算机相关书籍中排版代码块</li>
+</ul>
+<h4 id="Consolas"><a href="#Consolas" class="headerlink" title="Consolas"></a>Consolas</h4><p>这是一套等宽的字体，属无衬线字体。这个字体使用了微软的 ClearType 字型平滑技术，主要是设计做为代码的显示字型之用，特别之处是它的“0”字加入了一斜撇，以方便与字母“O”分辨。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ClearType：由微软在其操作系统中提供的屏幕亚像素微调字体平滑工具，让 Windows 字体更加漂亮。在 Windows XP 平台上，这项技术默认是关闭，到了Windows Vista 才默认为开启。</div></pre></td></tr></table></figure>
+<h4 id="Courier"><a href="#Courier" class="headerlink" title="Courier"></a>Courier</h4><p>Courier是一种常见的计算机字体，由IBM公司的Bud Ketler设计，应用于IBM和其它打字机。</p>
+<p>以上两种字体的显示效果如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/43865a491ee9892f73bbf2d37ad6747e.png" alt=""></p>
+<h3 id="fantasy-、cuisive"><a href="#fantasy-、cuisive" class="headerlink" title="fantasy 、cuisive"></a>fantasy 、cuisive</h3><p>fantasy和 cuisive 字体在浏览器中不常用，在各个浏览器中有明显的差异。</p>
+<h2 id="字体的使用"><a href="#字体的使用" class="headerlink" title="字体的使用"></a>字体的使用</h2><h3 id="字体的引号"><a href="#字体的引号" class="headerlink" title="字体的引号"></a>字体的引号</h3><p>在 <a href="http://jigsaw.w3.org/css-validator/" target="_blank" rel="external">CSS Validation Service (CSS 校验器)</a>，中，提供了一种对网站 CSS 使用格式进行校验的工具，大家不妨将自己的链接贴到校验器中，查看自己的 CSS 语法是否有错误。</p>
+<p>我们在使用字体的时候，有时会遇到一些困惑的现象，就是在 <code>font-family</code> 中，有的字体需要添加引号，有的字体中的符号需要进行转义，为什么会出现这些情况，我们又应该怎么处理呢？</p>
+<p>首先放出结论，<strong>需要判断空格包裹字体的情况大致有以下几种：</strong></p>
+<ol>
+<li>如果字体族的名字中，空格分隔的非关键字部分都是合格的标识符，则该整体可以不使用引号进行包裹。如果在字体族的名字中存在非法的 CSS 标识符，则该字体族的名字需要用字符串的形式进行替代，或者将非法的标识符进行转义</li>
+<li>如果字体族的名字和关键字一样，则需要加引号</li>
+</ol>
+<p>下面我们针对以上一点进行分析：</p>
+<p><strong>CSS 中的标识符</strong>：在CSS里，标识符(包括元素名称，类名，选择器里的ID)只能包含字符<code>[a-zA-Z0-9]</code>，ISO 10646里比<code>U+00A0</code>大的字符，还有连字符（<code>-</code>）和下划线（<code>_</code>）</p>
+<h4 id="情况一"><a href="#情况一" class="headerlink" title="情况一"></a>情况一</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">字体族的名字要么作为字符串用引号包含起来，要么作为标识符，不需要引号。</div></pre></td></tr></table></figure>
+<p>上面一句话表示，如果是没有引号包裹的字体族名称，则各个空格分隔的部分都必须满足标识符的定义。如果其中有不满足标识符的部分，则该字体族需要用引号包裹。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">如果font family的名字是一系列标识符。那么计算机识别的最终值是单个空格分隔的标识符转换成字符串后的值。标识符前后的空格会被忽略，内部的其他多个空格会被转成一个空格。</div></pre></td></tr></table></figure>
+<p>这一句话也表示出，如果一系列标识符都是合法的，则该字体族的含义和用字符串包裹的含义一致，即 <code>font-family: Comic Sans MS</code>是合法的，和<code>font-family: &#39;Comic Sans MS&#39;</code>等价</p>
+<h4 id="情况二"><a href="#情况二" class="headerlink" title="情况二"></a>情况二</h4><p>规范定义了如下的字体族关键字：<code>serif</code>, <code>sans-serif</code>, <code>cursive</code>, <code>fantasy</code>, 和 <code>monospace</code>。这些关键字可以作为普通的回退机制，以防期望的字体不可以用的时候。作者被鼓励在字体定义的最后面加上一种上面这些字体之一作为最后的可选项，来提高代码的鲁棒性。作为关键字，他们不需要引号。</p>
+<p>如果自己设计的字体族的名字和已有的关键字相同，则该字体族的名字需要加上引号。</p>
+<p>换句话说，<code>font-family: sans-serif</code>代表的是一个普通的 sans-serif 字体族。而<code>font-family: &#39;sans-serif&#39;</code>则代表了一个名字叫 sans-serif 的字体。这个区别很重要。</p>
+<h3 id="中文字体的写法"><a href="#中文字体的写法" class="headerlink" title="中文字体的写法"></a>中文字体的写法</h3><p>一些中文字体，例如font-family: ‘宋体’，由于字符编码的问题，少部分浏览器解释这个代码的时候，中文出现乱码，这个时候设定的字体无法正常显示。</p>
+<p>所以通常会转化成对应的英文写法或者是对应的 unicode 编码，<code>font-family:&#39;宋体&#39; -&gt; font-family: &#39;\5b8b\4f53&#39;</code>。</p>
+<p><code>\5b8b\4f53</code> 是宋体两个中文字的 unicode 编码表示。类似的写法还有：</p>
+<ul>
+<li>黑体：<code>\9ED1\4F53</code></li>
+<li>微软雅黑：<code>\5FAE\8F6F\96C5\9ED1</code></li>
+<li>华文细黑：<code>\534E\6587\7EC6\9ED1</code></li>
+<li>华文黑体：<code>\534E\6587\9ED1\4F53</code></li>
+</ul>
+<h3 id="字体定义的顺序"><a href="#字体定义的顺序" class="headerlink" title="字体定义的顺序"></a>字体定义的顺序</h3><p>字体定义顺序是一门学问，通常而言，我们定义字体的时候，会定义多个字体或字体系列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font: 12px/1.5 tahoma,arial,&apos;Hiragino Sans GB&apos;,&apos;\5b8b\4f53&apos;,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>别看短短 5 个字体名，其实其中门道很深。解释一下：</p>
+<ol>
+<li>使用 <code>tahoma</code> 作为首选的西文字体，小字号下结构清晰端整、阅读辨识容易；</li>
+<li>用户电脑未预装 <code>tohoma</code>，则选择 <code>arial</code> 作为替代的西文字体，覆盖 windows 和 MAC OS；</li>
+<li><code>Hiragino Sans GB</code> 为冬青黑体，首选的中文字体，保证了 MAC 用户的观看体验；</li>
+<li>Windows 下没有预装冬青黑体，则使用 <code>&#39;\5b8b\4f53&#39;</code> 宋体为替代的中文字体方案，小字号下有着不错的效果；</li>
+<li>最后使用无衬线系列字体 <code>sans-serif</code> 结尾，保证旧版本操作系统用户能选中一款电脑预装的无衬线字体，向下兼容。</li>
+</ol>
+<h3 id="书写规则"><a href="#书写规则" class="headerlink" title="书写规则"></a>书写规则</h3><p>字体 font-family 定义的原则大概遵循：</p>
+<p>1、兼顾中西</p>
+<p>中文或者西文（英文）都要考虑到。</p>
+<p>2、西文在前，中文在后</p>
+<p>由于大部分中文字体也是带有英文部分的，但是英文部分又不怎么好看，同理英文字体中大多不包含中文。</p>
+<p>所以通常会先进行英文字体的声明，选择最优的英文字体，这样不会影响到中文字体的选择，中文字体声明则紧随其次。</p>
+<p>3、兼顾多操作系统</p>
+<p>选择字体的时候要考虑多操作系统。例如 MAC OS 下的很多中文字体在 Windows 都没有预装，为了保证 MAC 用户的体验，在定义中文字体的时候，先定义 MAC 用户的中文字体，再定义 Windows 用户的中文字体。其次很多人都不知道 Android 下没有预装微软雅黑和宋体，那么 Android 机型下的中文字体设置又是很考究的。</p>
+<p>4、兼顾旧操作系统，以字体族系列 <code>serif</code> 和 <code>sans-serif</code> 结尾</p>
+<p>当使用一些非常新的字体时，要考虑向下兼容，兼顾到一些极旧的操作系统，使用字体族系列 <code>serif</code> 和 <code>sans-serif</code> 结尾总归是不错的选择。</p>
+<h3 id="现有的一些网站字体属性"><a href="#现有的一些网站字体属性" class="headerlink" title="现有的一些网站字体属性"></a>现有的一些网站字体属性</h3><p><strong>淘宝首页</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font: 12px/1.5 tahoma,arial,&apos;Hiragino Sans GB&apos;,&apos;\5b8b\4f53&apos;,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>知乎首页</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font-family: &apos;Helvetica Neue&apos;,Helvetica,Arial,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>知乎文章页面</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font-family: -apple-system, &quot;Helvetica Neue&quot;, &quot;Arial&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;</div><div class="line">    font0-weight: 400;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>GitHub README 页面</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font-family : -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>GitHub README 页面 <code>&lt;code&gt;</code> 标签</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">code &#123;</div><div class="line">    font-family : &quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>本文参考的文章有：</p>
+<ul>
+<li><a href="http://www.cnblogs.com/coco1s/p/6253154.html" target="_blank" rel="external">谈谈一些有趣的CSS题目（十二）– 你该知道的字体 font-family</a></li>
+<li><a href="http://www.lixuejiang.me/2017/01/02/css%E7%9A%84font-family%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E5%BC%95%E5%8F%B7/" target="_blank" rel="external">CSS的font family什么时候需要引号</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+            <a href="/tags/Font/" rel="tag"># Font</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/09/Elasticsearch-入门/" rel="next" title="Elasticsearch 入门">
+                <i class="fa fa-chevron-left"></i> Elasticsearch 入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/09/CSS-字体总结/"
+           data-title="CSS 字体总结" data-url="https://shiningdan.github.io/2017/05/09/CSS-字体总结/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字体的分类"><span class="nav-number">1.</span> <span class="nav-text">字体的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#serif-衬线字体"><span class="nav-number">1.1.</span> <span class="nav-text">serif-衬线字体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#宋体（SimSun）"><span class="nav-number">1.1.1.</span> <span class="nav-text">宋体（SimSun）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Times-New-Roman"><span class="nav-number">1.1.2.</span> <span class="nav-text">Times New Roman</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sans-serif-无衬线字体"><span class="nav-number">1.2.</span> <span class="nav-text">sans-serif-无衬线字体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#微软雅黑（Microsoft-Yahei）"><span class="nav-number">1.2.1.</span> <span class="nav-text">微软雅黑（Microsoft Yahei）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#华文黑体（STHeiti）、华文细黑（STXihei）"><span class="nav-number">1.2.2.</span> <span class="nav-text">华文黑体（STHeiti）、华文细黑（STXihei）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#黑体-简（Heiti-SC）"><span class="nav-number">1.2.3.</span> <span class="nav-text">黑体-简（Heiti SC）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#冬青黑体（Hiragino-Sans-GB）"><span class="nav-number">1.2.4.</span> <span class="nav-text">冬青黑体（Hiragino Sans GB）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Helvetica、Helvetica-Neue"><span class="nav-number">1.2.5.</span> <span class="nav-text">Helvetica、Helvetica Neue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Arial"><span class="nav-number">1.2.6.</span> <span class="nav-text">Arial</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tahoma"><span class="nav-number">1.2.7.</span> <span class="nav-text">Tahoma</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#monospace-等宽字体"><span class="nav-number">1.3.</span> <span class="nav-text">monospace-等宽字体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Consolas"><span class="nav-number">1.3.1.</span> <span class="nav-text">Consolas</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Courier"><span class="nav-number">1.3.2.</span> <span class="nav-text">Courier</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fantasy-、cuisive"><span class="nav-number">1.4.</span> <span class="nav-text">fantasy 、cuisive</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字体的使用"><span class="nav-number">2.</span> <span class="nav-text">字体的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字体的引号"><span class="nav-number">2.1.</span> <span class="nav-text">字体的引号</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#情况一"><span class="nav-number">2.1.1.</span> <span class="nav-text">情况一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况二"><span class="nav-number">2.1.2.</span> <span class="nav-text">情况二</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中文字体的写法"><span class="nav-number">2.2.</span> <span class="nav-text">中文字体的写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字体定义的顺序"><span class="nav-number">2.3.</span> <span class="nav-text">字体定义的顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#书写规则"><span class="nav-number">2.4.</span> <span class="nav-text">书写规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#现有的一些网站字体属性"><span class="nav-number">2.5.</span> <span class="nav-text">现有的一些网站字体属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
