@@ -1613,3 +1613,337 @@ GET /my_index/_search
 换句话说，词 peter 和 smith 都必须出现，但是可以出现在任意字段中。
 
 ### 近似匹配
+
+`match` 查询可以告知我们这大袋子中是否包含查询的词条，但却无法告知词语之间的关系。不能确定这词是否只来自于一种语境，甚至都不能确定是否来自于同一个段落。
+
+我们可能会希望得到尽可能包含这词的文档，但我们也同样需要这些**文档与分词有很高的相关度**。
+
+这就是短语匹配或者近似匹配的所属领域。
+
+#### 短语匹配
+
+```
+GET /my_index/my_type/_search
+{
+    "query": {
+        "match_phrase": {
+            "title": "quick brown fox"
+        }
+    }
+}
+```
+
+一个被认定为和短语 quick brown fox 匹配的文档，必须满足以下这些要求：
+
+1. quick 、 brown 和 fox 需要全部出现在域中。
+2. brown 的位置应该比 quick 的位置大 1 。
+3. fox 的位置应该比 quick 的位置大 2 。
+
+如果以上任何一个选项不成立，则该文档不能认定为匹配
+
+#### 混合起来
+
+精确短语匹配 或许是过于严格了。也许我们想要包含 “quick brown fox” 的文档也能够匹配 “quick fox,” ， 尽管情形不完全相同。
+
+我们能够通过使用 `slop` 参数将灵活度引入短语匹配中：
+
+```
+GET /my_index/my_type/_search
+{
+    "query": {
+        "match_phrase": {
+            "title": {
+                "query": "quick fox",
+                "slop":  1
+            }
+        }
+    }
+}
+```
+
+`slop` 参数告诉 `match_phrase` 查询词条相隔多远时仍然能将文档视为匹配 。**如果找到了多条匹配结构，则匹配结果的评分中，如果两个词的距离越近，则评分越高。**
+
+#### 多值字段
+
+对多值字段使用短语匹配时会发生奇怪的事。 想象一下你索引这个文档:
+
+```
+PUT /my_index/groups/1
+{
+    "names": [ "John Abraham", "Lincoln Smith"]
+}
+```
+
+然后运行一个对 Abraham Lincoln 的短语查询:
+
+```
+GET /my_index/groups/_search
+{
+    "query": {
+        "match_phrase": {
+            "names": "Abraham Lincoln"
+        }
+    }
+}
+```
+
+令人惊讶的是， 即使 Abraham 和 Lincoln 在 names 数组里属于两个不同的人名， 我们的文档也匹配了查询。
+
+幸运的是， 在这样的情况下有一种叫做 `position_increment_gap` 的简单的解决方案， 它在字段映射中配置 。
+
+```
+//首先删除映射 groups 以及这个类型内的所有文档。
+DELETE /my_index/groups/ 
+//然后创建一个有正确值的新的映射 groups 。
+PUT /my_index/_mapping/groups 
+{
+    "properties": {
+        "names": {
+            "type":                "string",
+            "position_increment_gap": 100
+        }
+    }
+}
+```
+
+会产生如下的结果：
+
+1. Position 1: john
+2. Position 2: abraham
+3. Position 103: lincoln
+4. Position 104: smith
+
+现在我们的短语查询可能无法匹配该文档因为 abraham 和 lincoln 之间的距离为 100 。 为了匹配这个文档你必须添加值为 100 的 `slop` 。
+
+#### 性能优化
+
+短语查询和邻近查询都比简单的 `query` 查询代价更高 。 一个 `match` 查询仅仅是看词条是否存在于倒排索引中，而一个 `match_phrase` 查询是必须计算并比较多个可能重复词项的位置。
+
+##### 结果集重新评分
+
+```
+GET /my_index/my_type/_search
+{
+    "query": {
+        "match": {  
+            "title": {
+                "query":                "quick brown fox",
+                "minimum_should_match": "30%"
+            }
+        }
+    },
+    // 先进行一次搜索排序，把所有包含词的文档都提取出来，然后对前 50 个结果进行评分排序。来减少 match_phrase 的操作时间。
+    "rescore": {
+        "window_size": 50, 
+        "query": {         
+            "rescore_query": {
+                "match_phrase": {
+                    "title": {
+                        "query": "quick brown fox",
+                        "slop":  50
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+#### 寻找相关词
+
+两个子句 `I’m not happy I’m working` 和 `I’m happy I’m not working` 包含相同 的单词，也拥有相同的邻近度，但含义截然不同。
+
+如果索引单词对而不是索引独立的单词，就能对这些单词的上下文尽可能多的保留。
+
+对句子 `Sue ate the alligator` ，不仅要将每一个单词（或者 unigram ）作为词项索引
+
+```
+["sue", "ate", "the", "alligator"]
+```
+
+也要将每个单词 以及它的邻近词 作为单个词项索引：
+
+```
+["sue ate", "ate the", "the alligator"]
+```
+
+这些单词对（或者 bigrams ）被称为 `shingles` 。
+
+查看[寻找相关词](https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/shingles.html)来学习如何创建 `shingles` 以及如何使用。
+
+`shingles `不仅比短语查询更灵活， 而且性能也更好。 `shingles` 查询跟一个简单的 `match` 查询一样高效，而不用每次搜索花费短语查询的代价。只是在索引期间因为更多词项需要被索引会付出一些小的代价， 这也意味着有 `shingles `的字段会占用更多的磁盘空间。 然而，大多数应用写入一次而读取多次，所以在索引期间优化我们的查询速度是有意义的。
+
+### 部分匹配
+
+但如果想匹配部分而不是全部的词该怎么办？ **部分匹配** 允许用户指定查找词的一部分并找出所有包含这部分片段的词。
+
+#### prefix 前缀查询
+
+为了找到所有以 `W1` 开始的邮编，可以使用简单的 `prefix` 查询：
+
+```
+GET /my_index/address/_search
+{
+    "query": {
+        "prefix": {
+            "postcode": "W1"
+        }
+    }
+}
+```
+
+`prefix` 查询是一个词级别的底层的查询，它不会在搜索之前分析查询字符串，它假定传入前缀就正是要查找的前缀
+
+```
+默认状态下， prefix 查询不做相关度评分计算，它只是将所有匹配的文档返回，并为每条结果赋予评分值 1 。它的行为更像是过滤器而不是查询。 prefix 查询和 prefix 过滤器这两者实际的区别就是过滤器是可以被缓存的，而查询不行。
+```
+
+为了支持前缀匹配，查询会做以下事情：
+
+1. 扫描词列表并查找到第一个以 `W1` 开始的词。
+2. 搜集关联的文档 ID 。
+3. 移动到下一个词。
+4. 如果这个词也是以 `W1` 开头，查询跳回到第二步再重复执行，直到下一个词不以`W1` 为止。
+
+也就是顺序匹配，非常耗时。
+
+#### 通配符与正则表达式查询
+
+ `wildcard` 通配符查询也是一种底层基于词的查询， 与前缀查询不同的是它允许指定匹配的正则式。它使用标准的 shell 通配符查询： `?` 匹配任意字符， `*` 匹配 0 或多个字符。
+
+```
+GET /my_index/address/_search
+{
+    "query": {
+        "wildcard": {
+            "postcode": "W?F*HW" 
+        }
+    }
+}
+```
+
+regexp 正则式查询允许写出更复杂的模式：
+
+```
+GET /my_index/address/_search
+{
+    "query": {
+        "regexp": {
+            "postcode": "W[0-9].+" 
+        }
+    }
+}
+```
+
+`wildcard` 和 `regexp` 查询的工作方式与 `prefix` 查询完全一样，它们也需要扫描倒排索引中的词列表才能找到所有匹配的词，然后依次获取每个词相关的文档 ID ，与 `prefix` 查询的唯一不同是：它们能支持更为复杂的匹配模式。
+
+```
+prefix 、 wildcard 和 regexp 查询是基于词操作的，如果用它们来查询 analyzed 字段，它们会检查字段里面的每个词，而不是将字段作为整体来处理。
+```
+
+#### 查询时输入即搜索
+
+用户已经渐渐习惯在输完查询内容之前，就能为他们展现搜索结果，这就是所谓的 即时搜索（instant search） 或 输入即搜索（search-as-you-type） 。不仅用户能在更短的时间内得到搜索结果，我们也能引导用户搜索索引中真实存在的结果。
+
+例如，如果用户输入 `johnnie walker bl` ，我们希望在它们完成输入搜索条件前就能得到：Johnnie Walker Black Label 和 Johnnie Walker Blue Label 。
+
+```
+{
+    "match_phrase_prefix" : {
+        "brand" : "johnnie walker bl",
+        "slop":  10
+    }
+}
+```
+
+这种查询的行为与 `match_phrase` 查询一致，不同的是它将查询字符串的最后一个词作为前缀使用，换句话说，可以将之前的例子看成如下这样：
+
+1. johnnie
+2. 跟着 walker
+3. 跟着以 bl 开始的词
+
+可以通过设置 max_expansions 参数来限制前缀扩展的影响， 一个合理的值是可能是 50 ：
+
+```
+{
+    "match_phrase_prefix" : {
+        "brand" : {
+            "query":          "johnnie walker bl",
+            "max_expansions": 50
+        }
+    }
+}
+```
+
+参数 `max_expansions` 控制着可以与前缀匹配的词的数量，它会先查找第一个与前缀 `bl` 匹配的词，然后依次查找搜集与之匹配的词（按字母顺序），直到没有更多可匹配的词或当数量超过 `max_expansions` 时结束。
+
+不要忘记，当用户每多输入一个字符时，这个查询又会执行一遍，所以查询需要快，如果第一个结果集不是用户想要的，他们会继续输入直到能搜出满意的结果为止。
+
+#### Ngrams 在部分匹配的应用
+
+但单个词的查找 确实 要比在词列表中盲目挨个查找的效率要高得多。 在搜索之前准备好供部分匹配的数据可以提高搜索的性能。但是会消耗存储的空间。
+
+在索引时准备数据意味着要选择合适的分析链，这里部分匹配使用的工具是 `n-gram` 。可以将 `n-gram` 看成一个在词语上 滑动窗口 ， n 代表这个 “窗口” 的长度。如果我们要 `n-gram` quick 这个词 —— 它的结果取决于 n 的选择长度：
+
+```
+长度 1（unigram）： [ q, u, i, c, k ]
+长度 2（bigram）： [ qu, ui, ic, ck ]
+长度 3（trigram）： [ qui, uic, ick ]
+长度 4（four-gram）： [ quic, uick ]
+长度 5（five-gram）： [ quick ]
+```
+
+朴素的 `n-gram` 对 词语内部的匹配 非常有用，即在 Ngram 匹配复合词 介绍的那样。但对于输入即搜索（search-as-you-type）这种应用场景，我们会使用一种特殊的 `n-gram` 称为 `边界 n-grams （edge n-grams）`。所谓的`边界 n-gram` 是说它会固定词语开始的一边，以单词 `quick `为例，它的边界 n-gram 的结果为：
+
+```
+q
+qu
+qui
+quic
+quick
+```
+
+##### 索引时输入即搜索
+
+如何使用 `-gram` 可以参考[
+索引时输入即搜索](https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/_index_time_search_as_you_type.html)
+
+### 处理人类语言
+
+#### 使用语言分析器
+
+可以在字段映射中将语言分析器直接指定在某字段上
+
+```
+PUT /my_index
+{
+  "mappings": {
+    "blog": {
+      "properties": {
+        "title": {
+          "type":     "string",
+          "analyzer": "english" 
+        }
+      }
+    }
+  }
+}
+```
+
+还可以每一份文档，每一个域一种语言，或者使用混合语言。
+
+#### 词汇识别
+
+需要把合并词拆成词组。
+
+#### 归一化词元
+
+我们还需要去掉有意义的差别, 让 `esta`、`ésta` 和 `está` 都能用同一个词元(token)来搜索。
+
+#### 同义词
+
+同义词扩大了一个匹配文件的范围。正如 词干提取 或者 部分匹配 ，同义词的字段不应该被单独使用，而应该与一个针对主字段的查询操作一起使用，这个主字段应该包含纯净格式的原始文本。 在使用同义词时，参阅 多数字段 的解释来维护相关性。
+
+#### 拼写错误
+
+`Fuzzy matching` 允许查询时匹配错误拼写的单词，而语音语汇单元过滤器可以在索引时用来进行 近似读音 匹配
