@@ -403,55 +403,14 @@
 
       
         
-          
-            <p>本文记录的是博客中系统的配置情况。使用的虚拟机是<a href="https://www.aliyun.com/" target="_blank" rel="external">阿里云</a>提供的 CentOS（6.8） 虚拟机，使用的数据库为 <a href="https://www.mongodb.com/" target="_blank" rel="external">MongoDB</a>（3.4.4）。</p>
-<h2 id="MongoDB-配置"><a href="#MongoDB-配置" class="headerlink" title="MongoDB 配置"></a>MongoDB 配置</h2><p>博客使用 MongoDB 作为博客后台的数据库，MongoDB 的版本为 <strong>3.4.4</strong>。</p>
-<p>首先下载 MongoDB：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.4.4.tgz</div></pre></td></tr></table></figure>
-<p>然后把 MongoDB 安装到 <code>/root/mongodb</code> 中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -zxvf mongodb-linux-x86_64-3.4.4.tgz</div></pre></td></tr></table></figure>
-<h3 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h3><p>修改/etc/profile, 添加如下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export MONGODB_HOME=/root/mongodb/mongodb-linux-x86_64-3.4.4</div><div class="line">export PATH=$MONGODB_HOME/bin:$PATH</div></pre></td></tr></table></figure>
-<p>执行命令:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vim /etc/profile</div><div class="line">source /etc/profile</div></pre></td></tr></table></figure>
-<p>然后可以通过 <code>mongod -v</code> 查看 MongoDB 的版本信息。</p>
-<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><h4 id="创建数据库目录"><a href="#创建数据库目录" class="headerlink" title="创建数据库目录"></a>创建数据库目录</h4><p>MongoDB需要自建数据库文件夹.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/mongodb</div><div class="line">mkdir -p /data/mongodb/log</div><div class="line">touch /data/mongodb/log/mongodb.log</div></pre></td></tr></table></figure>
-<h4 id="添加配置文件"><a href="#添加配置文件" class="headerlink" title="添加配置文件"></a>添加配置文件</h4><p>新建mongodb.conf配置文件, 通过这个配置文件进行启动.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">touch /root/mongodb/mongodb-linux-x86_64-3.4.4/mongo.conf</div></pre></td></tr></table></figure>
-<p>配置文件参数说明:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">mongodb的参数说明：</div><div class="line">--dbpath 数据库路径(数据文件)</div><div class="line">--logpath 日志文件路径</div><div class="line">--master 指定为主机器</div><div class="line">--slave 指定为从机器</div><div class="line">--source 指定主机器的IP地址</div><div class="line">--pologSize 指定日志文件大小不超过64M.因为resync是非常操作量大且耗时，最好通过设置一个足够大的oplogSize来避免resync(默认的 oplog大小是空闲磁盘大小的5%)。</div><div class="line">--logappend 日志文件末尾添加</div><div class="line">--port 启用端口号</div><div class="line">--fork 在后台运行</div><div class="line">--only 指定只复制哪一个数据库</div><div class="line">--slavedelay 指从复制检测的时间间隔</div><div class="line">--auth 是否需要验证权限登录(用户名和密码)</div><div class="line"></div><div class="line">注：mongodb配置文件里面的参数很多，定制特定的需求，请参考官方文档</div></pre></td></tr></table></figure>
-<p>配置文件内容:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dbpath=/data/mongodb</div><div class="line">logpath=/data/mongodb/log/mongodb.log</div><div class="line">logappend=true</div><div class="line">port=27017</div><div class="line">fork=true</div><div class="line">##auth = true #先关闭, 创建好用户再启动</div></pre></td></tr></table></figure>
-<h4 id="通过配置文件启动"><a href="#通过配置文件启动" class="headerlink" title="通过配置文件启动"></a>通过配置文件启动</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mongod -f /root/mongodb/mongodb-linux-x86_64-3.4.4/mongo.conf</div><div class="line">about to fork child process, waiting until server is ready for connections.</div><div class="line">forked process: 2814</div><div class="line">child process started successfully, parent exiting</div></pre></td></tr></table></figure>
-<p>出现successfully表示启动成功了.</p>
-<p>使用 <code>mongo</code> 命令可以通过命令行登录 MongoDB，如果想要关闭 Mongodb，需要先登录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">use admin;</div><div class="line">db.shutdownServer();</div></pre></td></tr></table></figure>
-<h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><p>现在可以给 MongoDB 创建一个博客使用的用户，并且给该用户读写数据库的权限。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">// root用户</div><div class="line">use admin;</div><div class="line">db.createUser(</div><div class="line">     &#123;</div><div class="line">       user: &quot;admin&quot;,</div><div class="line">       pwd: &quot;admin&quot;,</div><div class="line">       roles: [</div><div class="line">          &#123; role: &quot;root&quot;, db: &quot;admin&quot; &#125;   #root账号</div><div class="line">       ]</div><div class="line">     &#125;</div><div class="line">)</div><div class="line">//博客用户</div><div class="line">use blog;</div><div class="line">db.createUser(</div><div class="line">     &#123;</div><div class="line">       user: &quot;zyc&quot;,</div><div class="line">       pwd: &quot;zyc&quot;,</div><div class="line">       roles: [</div><div class="line">          &#123; role: &quot;readWrite&quot;, db: &quot;test&quot; &#125;   #读写帐号</div><div class="line">       ]</div><div class="line">     &#125;</div><div class="line">)</div></pre></td></tr></table></figure>
-<p>具体的权限有以下几点：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Read：允许用户读取指定数据库</div><div class="line">readWrite：允许用户读写指定数据库</div><div class="line">dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile</div><div class="line">userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户</div><div class="line">clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限。</div><div class="line">readAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读权限</div><div class="line">readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限</div><div class="line">userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限</div><div class="line">dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限。</div><div class="line">root：只在admin数据库中可用。超级账号，超级权限</div></pre></td></tr></table></figure>
-<p>如果用户在登录的时候需要验证，则进入用户注册的数据库下，用 <code>auth()</code> 函数来进行用户验证：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">use admin;</div><div class="line">db.auth(&apos;admin&apos;, &apos;admin&apos;);</div></pre></td></tr></table></figure>
-<h3 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h3><p>将27017端口添加到防火墙中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vi /etc/sysconfig/iptables</div><div class="line">    -A INPUT -m state --state NEW -m tcp -p tcp --dport 27017 -j ACCEPT</div><div class="line">/etc/init.d/iptables reload</div></pre></td></tr></table></figure>
-<h3 id="MongoDB-数据迁移"><a href="#MongoDB-数据迁移" class="headerlink" title="MongoDB 数据迁移"></a>MongoDB 数据迁移</h3><p>MongoDB 的数据迁移主要分为两部分，第一部分是使用 <code>mongoexport</code> 导出数据，第二部分是使用 <code>mongoimport</code> 来导入数据。</p>
-<p>也可以使用 <code>mongodump</code> 导出数据，使用 <code>momgoresotre</code> 导入数据。</p>
-<p><strong><code>mongoexport</code> 和 <code>mongodump</code> 的区别</strong>： Mongodump可以backup整个数据库，而mongoexport要对每个collection进行操作，最主要的区别也是选择的标准是mongoexport输出的JSON比Mongodump的BSON可读性更高，进而可以直接对JSON文件进行操作然后还原数据（BSON转换JSON存在潜在兼容问题）。</p>
-<p>在<a href="https://mongodb-documentation.readthedocs.io/en/latest/reference/components.html#id2" target="_blank" rel="external">MongoDB Docs</a> 可以搜索以上工具的使用方法以及需要提供的参数信息。</p>
-<p>我在迁移的时候，使用的是 <code>mongoexport</code> 工具导出 <code>blog</code> 数据库下面所有的表，因为在之前给数据库设置了权限，所以在导出的时候，需要使用权限验证：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongodump -d blog -o /Users/yuchenzhang/Desktop/blog.dat --username zyc --password zyc</div></pre></td></tr></table></figure>
-<p>然后把该文件夹传到云主机的 <code>/data/mongodb</code> 下，使用 <code>mongorestore</code> 来恢复数据库中的数据，在目的主机上也需要对 <code>blog</code> 数据库进行用户权限验证：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongorestore -d blog /data/mongodb/blog.dat/blog --username zyc --password zyc</div></pre></td></tr></table></figure>
-<p>此时，目的主机上就有我们迁移过来的数据了。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>本文参考的文章有：</p>
-<ul>
-<li><a href="https://docs.mongodb.com/manual/mongo/" target="_blank" rel="external">MongoDB Docs</a></li>
-<li><a href="https://itjh.net/2016/07/11/centos-install-mongodb/" target="_blank" rel="external">Centos 安装MongoDB 详细教程</a></li>
-<li><a href="http://www.cnblogs.com/zhoujinyi/p/4610050.html" target="_blank" rel="external">MongoDB 3.0 用户创建</a></li>
-</ul>
-
-          
+          <p>本文记录的是博客中系统的配置情况。使用的虚拟机是<a href="https://www.aliyun.com/">阿里云</a>提供的 CentOS（6.8） 虚拟机，使用的数据库为 <a href="https://www.mongodb.com/">MongoDB</a>（3.4.4）。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/10/博客服务器配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
