@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS,JavaScript," />
+  <meta name="keywords" content="CSS,JavaScript,性能优化,Image," />
 
 
 
@@ -84,12 +84,12 @@
 
 
 
-<meta name="description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。">
+<meta name="description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。在本文中，主要介绍了博客中使用的 JS、CSS 以及图片的压缩合并策略。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="性能优化之 静态资源优化">
+<meta property="og:title" content="性能优化之静态资源优化">
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/16/性能优化之-静态资源优化/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。">
+<meta property="og:description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。在本文中，主要介绍了博客中使用的 JS、CSS 以及图片的压缩合并策略。">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/224b214c920050009c1d0ecb7eb392e1.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/46adb266719dad63b145aa77ee728e0f.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/74fa86a4d31b6daad5994149983331e7.png">
@@ -99,10 +99,10 @@
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/8b82f8b5805b1cc4f18462deeffc0ab3.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/e2c52519b1fefe562e7585e6f9533234.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/7dd8350885e6760635f69c3299edae04.png">
-<meta property="og:updated_time" content="2017-05-18T09:28:27.000Z">
+<meta property="og:updated_time" content="2017-05-18T15:05:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="性能优化之 静态资源优化">
-<meta name="twitter:description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。">
+<meta name="twitter:title" content="性能优化之静态资源优化">
+<meta name="twitter:description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。在本文中，主要介绍了博客中使用的 JS、CSS 以及图片的压缩合并策略。">
 <meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/224b214c920050009c1d0ecb7eb392e1.png">
 
 
@@ -137,7 +137,7 @@
 
 
 
-  <title> 性能优化之 静态资源优化 | ShiningDan的博客 </title>
+  <title> 性能优化之静态资源优化 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -317,7 +317,7 @@
             
             
               
-                性能优化之 静态资源优化
+                性能优化之静态资源优化
               
             
           </h2>
@@ -362,7 +362,7 @@
 
           
           
-             <span id="/2017/05/16/性能优化之-静态资源优化/" class="leancloud_visitors" data-flag-title="性能优化之 静态资源优化">
+             <span id="/2017/05/16/性能优化之-静态资源优化/" class="leancloud_visitors" data-flag-title="性能优化之静态资源优化">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -389,8 +389,13 @@
       
 
       
-        <p>在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。</p>
+        <p>在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。在本文中，主要介绍了博客中使用的 JS、CSS 以及图片的压缩合并策略。</p>
 <a id="more"></a>
+<h2 id="JS-静态资源优化"><a href="#JS-静态资源优化" class="headerlink" title="JS 静态资源优化"></a>JS 静态资源优化</h2><p>博客使用 <code>gulp-uglify</code> 来压缩 JS 代码，首先安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev gulp-uglify</div><div class="line"></div><div class="line">// 如果使用了 ES6 的语法，则 gulp-uglify 编译会出错，此时先使用 babel 进行编译，再  uglify</div><div class="line">npm install --save-dev gulp-babel babel-preset-es2015</div></pre></td></tr></table></figure>
+<p>然后创建 <code>script</code> 任务，并且添加到任务流中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">gulp.task(&apos;script&apos;, function() &#123;</div><div class="line">  return gulp.src(&apos;./view/output/js/*.js&apos;)</div><div class="line">    .pipe(babel(&#123;</div><div class="line">            presets: [&apos;es2015&apos;]</div><div class="line">        &#125;))</div><div class="line">    .pipe(uglify())</div><div class="line">    .pipe(gulp.dest(&apos;./www/static/js&apos;));</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>最后，原 JS 文件通过编译以后生成新的 JS 文件在 <code>./www/static/js</code> 中。</p>
 <h2 id="CSS-静态资源优化"><a href="#CSS-静态资源优化" class="headerlink" title="CSS 静态资源优化"></a>CSS 静态资源优化</h2><h3 id="集成并压缩-CSS-文件"><a href="#集成并压缩-CSS-文件" class="headerlink" title="集成并压缩 CSS 文件"></a>集成并压缩 CSS 文件</h3><p>针对前一篇博客中提到的过多的 CSS 请求，会导致多次简历 TCP 连接，所以对网页的首屏渲染造成延迟的影响，所以我们要做的是，将不同的 CSS 文件合并成一个 CSS 文件，并且以内联的形式添加到 HTML 页面中。</p>
 <p>我的博客自动化框架使用的是 Gulp，所以针对 Gulp，使用 PostCSS 框架，来进行 CSS 的自动添加前缀，CSS 文件的合并，CSS 文件的压缩和导出。</p>
 <p>首先安装需要的插件：</p>
@@ -471,7 +476,7 @@
 <p>然后就可以测试啦：</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/7dd8350885e6760635f69c3299edae04.png" alt=""></p>
 <p>测试效果可见，当网页的还没有刷新到图片的区域时，图片就不会加载，节省了网络的传输资源和加载速度。</p>
-
+<h3 id="首页图片-Base64-处理"><a href="#首页图片-Base64-处理" class="headerlink" title="首页图片 Base64 处理"></a>首页图片 Base64 处理</h3>
       
     </div>
 
@@ -497,6 +502,10 @@
             <a href="/tags/CSS/" rel="tag"># CSS</a>
           
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+          
+            <a href="/tags/Image/" rel="tag"># Image</a>
           
         </div>
       
@@ -544,7 +553,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2017/05/16/性能优化之-静态资源优化/"
-           data-title="性能优化之 静态资源优化" data-url="https://shiningdan.github.io/2017/05/16/性能优化之-静态资源优化/">
+           data-title="性能优化之静态资源优化" data-url="https://shiningdan.github.io/2017/05/16/性能优化之-静态资源优化/">
       </div>
     
   </div>
@@ -609,7 +618,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -644,7 +653,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS-静态资源优化"><span class="nav-number">1.</span> <span class="nav-text">CSS 静态资源优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成并压缩-CSS-文件"><span class="nav-number">1.1.</span> <span class="nav-text">集成并压缩 CSS 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片优化"><span class="nav-number">2.</span> <span class="nav-text">图片优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文章页"><span class="nav-number">2.1.</span> <span class="nav-text">文章页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测-WebP-的支持"><span class="nav-number">2.2.</span> <span class="nav-text">检测 WebP 的支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片懒加载"><span class="nav-number">2.3.</span> <span class="nav-text">图片懒加载</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS-静态资源优化"><span class="nav-number">1.</span> <span class="nav-text">JS 静态资源优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS-静态资源优化"><span class="nav-number">2.</span> <span class="nav-text">CSS 静态资源优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成并压缩-CSS-文件"><span class="nav-number">2.1.</span> <span class="nav-text">集成并压缩 CSS 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片优化"><span class="nav-number">3.</span> <span class="nav-text">图片优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文章页"><span class="nav-number">3.1.</span> <span class="nav-text">文章页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测-WebP-的支持"><span class="nav-number">3.2.</span> <span class="nav-text">检测 WebP 的支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片懒加载"><span class="nav-number">3.3.</span> <span class="nav-text">图片懒加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首页图片-Base64-处理"><span class="nav-number">3.4.</span> <span class="nav-text">首页图片 Base64 处理</span></a></li></ol></li></ol></div>
             
 
           </div>
