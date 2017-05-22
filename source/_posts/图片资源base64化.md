@@ -9,6 +9,8 @@ tags:
 
 除ie外，大部分现代浏览器都已经支持原生的基于 Base64 的 encode 和 decode，例如 `window.btoa` 和 `window.atob` 函数。
 
+<!--more-->
+
 ## data URI
 
 URI 是 (uniform resource identifier) 的缩写，它定义了接受内容的协议以及附带的相关内容，如果附带的相关内容是一个地址，那么此时的 URI 也是一个 URL (uniform resource locator)
