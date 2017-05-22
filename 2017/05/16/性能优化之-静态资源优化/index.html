@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS,JavaScript,性能优化,Image," />
+  <meta name="keywords" content="CSS,JavaScript,性能优化,Base64," />
 
 
 
@@ -84,12 +84,12 @@
 
 
 
-<meta name="description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。在本文中，主要介绍了博客中使用的 JS、CSS 以及图片的压缩合并策略。">
+<meta name="description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。除了测试 JS、CSS 代码的压缩合并对博客的优化提升，还测试的使用 Base64 处理图片，以及对文章页的图片懒加载实现与优化。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="性能优化之静态资源优化">
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/16/性能优化之-静态资源优化/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。在本文中，主要介绍了博客中使用的 JS、CSS 以及图片的压缩合并策略。">
+<meta property="og:description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。除了测试 JS、CSS 代码的压缩合并对博客的优化提升，还测试的使用 Base64 处理图片，以及对文章页的图片懒加载实现与优化。">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/224b214c920050009c1d0ecb7eb392e1.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/46adb266719dad63b145aa77ee728e0f.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/74fa86a4d31b6daad5994149983331e7.png">
@@ -99,10 +99,13 @@
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/8b82f8b5805b1cc4f18462deeffc0ab3.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/e2c52519b1fefe562e7585e6f9533234.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/7dd8350885e6760635f69c3299edae04.png">
-<meta property="og:updated_time" content="2017-05-18T15:05:05.000Z">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/2dd2a8061fe71c63723870b4760679a8.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/ba8e0c9d520d3b86fc8ee7675d3ff3b1.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/74bb36669cecbce6b2b26c2c36e1d2f6.png">
+<meta property="og:updated_time" content="2017-05-22T07:08:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="性能优化之静态资源优化">
-<meta name="twitter:description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。在本文中，主要介绍了博客中使用的 JS、CSS 以及图片的压缩合并策略。">
+<meta name="twitter:description" content="在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。除了测试 JS、CSS 代码的压缩合并对博客的优化提升，还测试的使用 Base64 处理图片，以及对文章页的图片懒加载实现与优化。">
 <meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/224b214c920050009c1d0ecb7eb392e1.png">
 
 
@@ -389,7 +392,7 @@
       
 
       
-        <p>在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。客户端在接收了 CSS 文件和 JS 文件以后，会存在本地的 LocalStorage 缓存里，在下一次使用的时候就不需要再次请求了。在本文中，主要介绍了博客中使用的 JS、CSS 以及图片的压缩合并策略。</p>
+        <p>在本博客中，对 JavaScript 代码和 CSS 代码进行了压缩，并且将压缩后的代码通过内联的信息放在了 HTML 中，用来节省多次 TCP 请求的时间。除了测试 JS、CSS 代码的压缩合并对博客的优化提升，还测试的使用 Base64 处理图片，以及对文章页的图片懒加载实现与优化。</p>
 <a id="more"></a>
 <h2 id="JS-静态资源优化"><a href="#JS-静态资源优化" class="headerlink" title="JS 静态资源优化"></a>JS 静态资源优化</h2><p>博客使用 <code>gulp-uglify</code> 来压缩 JS 代码，首先安装：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev gulp-uglify</div><div class="line"></div><div class="line">// 如果使用了 ES6 的语法，则 gulp-uglify 编译会出错，此时先使用 babel 进行编译，再  uglify</div><div class="line">npm install --save-dev gulp-babel babel-preset-es2015</div></pre></td></tr></table></figure>
@@ -476,7 +479,27 @@
 <p>然后就可以测试啦：</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/7dd8350885e6760635f69c3299edae04.png" alt=""></p>
 <p>测试效果可见，当网页的还没有刷新到图片的区域时，图片就不会加载，节省了网络的传输资源和加载速度。</p>
-<h3 id="首页图片-Base64-处理"><a href="#首页图片-Base64-处理" class="headerlink" title="首页图片 Base64 处理"></a>首页图片 Base64 处理</h3>
+<h3 id="首页图片-Base64-处理"><a href="#首页图片-Base64-处理" class="headerlink" title="首页图片 Base64 处理"></a>首页图片 Base64 处理</h3><p>首页图片主要涉及两张图片：<code>avatar.png</code> 和 <code>header-bg.jpg</code>，其大小分别是：<code>36.5KB</code> 和 <code>63.5KB</code>。下面我们将对着两张图片进行 Base64 编码，并且添加到 CSS 中。</p>
+<p>测试的网络环境是 Good 3G (40ms, 1.5Mb/s, 750kb/s)</p>
+<p>首先，我们记录一下，不使用 Base64 编码的首页加载速度：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/2dd2a8061fe71c63723870b4760679a8.png" alt=""></p>
+<p>然后使用 Chrome Performance 查看首页渲染速度</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/ba8e0c9d520d3b86fc8ee7675d3ff3b1.png" alt=""></p>
+<p>从以上的图中我们可以统计如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">出现文字，无图片：     300ms 左右</div><div class="line">出现文字以及图片：     800ms 左右</div></pre></td></tr></table></figure>
+<p>下面，我们将图片使用 Base64 编码加载，使用的库是 <code>gulp-base64</code>：</p>
+<p>首先，我们先给两张图片都添加了 Base64 编码，然后使用 Performance 进行测试，测试的结果如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/74bb36669cecbce6b2b26c2c36e1d2f6.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">出现文字及图片：      830ms 左右</div></pre></td></tr></table></figure>
+<p>将图片作为 Data URI 添加到 HTML 以后，HTML 的大小变得非常大，大小大于原来的 HTML 加上两张图片的大小之和。并且我们从 Performance 上看到，只有在所有的 HTML 加载完以后，浏览器才开始渲染，所以过大的 Data URI 影响了浏览器的关键渲染路径的速度。</p>
+<p>所以，我们得到了以下的经验总结：</p>
+<ol>
+<li>一般使用 Base64 处理的图片都比较小，并且整个网站的复用程度高，不然会影响页面的首屏渲染速度。</li>
+<li>Base64 处理的场景，大多是页面只有单个小图片，多个小图片其实可以用雪碧图来进行处理</li>
+<li>针对添加了过大的 Base64 的 CSS 样式，可以用 localstorage 存储在用户的本地，但是其适用场景是该样式不经常发生变动和更新</li>
+</ol>
+<p>所以用 Base64 来处理图片添加在 CSS 样式上这种方法，不适合本博客的优化场景。不过，可以在后续的优化中，将 header 中包括 Base64 处理后的 CSS 代码缓存在 localstorage 里面，用来节约博客加载的数据量。</p>
+
       
     </div>
 
@@ -505,7 +528,7 @@
           
             <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
           
-            <a href="/tags/Image/" rel="tag"># Image</a>
+            <a href="/tags/Base64/" rel="tag"># Base64</a>
           
         </div>
       
@@ -600,7 +623,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
