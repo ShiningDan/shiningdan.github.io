@@ -92,7 +92,7 @@
 <meta property="og:description" content="在上一节性能优化之静态资源优化中，我们对博客中使用到的 CSS、JavaScript、图片等做了比如大小、合并、懒加载等优化，在这一节中，我们将使用浏览器的缓存能力，对这些资源进行进一步的优化，来提升首屏加载速度等，并且我们还将讨论，针对缓存在浏览器中的数据，如何进行缓存的更新。">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/804497a0d5fdba55c2600ea8d92abaad.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/55c9b724a9700b16b45b2e3a0f2a1bf2.png">
-<meta property="og:updated_time" content="2017-05-23T04:42:22.000Z">
+<meta property="og:updated_time" content="2017-05-23T13:34:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="性能优化之资源缓存与更新">
 <meta name="twitter:description" content="在上一节性能优化之静态资源优化中，我们对博客中使用到的 CSS、JavaScript、图片等做了比如大小、合并、懒加载等优化，在这一节中，我们将使用浏览器的缓存能力，对这些资源进行进一步的优化，来提升首屏加载速度等，并且我们还将讨论，针对缓存在浏览器中的数据，如何进行缓存的更新。">
@@ -409,7 +409,7 @@
 <h2 id="使用-LocalStorage-进行本地存储"><a href="#使用-LocalStorage-进行本地存储" class="headerlink" title="使用 LocalStorage 进行本地存储"></a>使用 LocalStorage 进行本地存储</h2><p>关于 LocalStorage 的介绍可以查看 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage" target="_blank" rel="external">Window.localStorage | MDN</a> 和 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API" target="_blank" rel="external">使用 Web Storage API</a>，我这里就不再赘述了。</p>
 <p>首先，我们需要进行本地存储的项目有，CSS 文件和 JS 文件，特别是 CSS 文件中添加了 Data URI 以后，文件的大小会增加很多，这种文件可以考虑使用 LocalStorage 进行缓存，也有一些全局的样式，全局的 JS 文件，或者一些不经常改变的文件或样式都可以考虑使用 LocalStorage 进行缓存，下面，我们将展示的是对 CSS 文件的缓存。</p>
 <h3 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h3><p>首先定义 LocalStorage Save(<code>ls</code>) 函数和 LocalStorage Load(<code>ll</code>) 函数，用来保存文件内容到 LocalStorage 里面和从 LocalStorage 读取内容，添加到 <code>&lt;head&gt;</code> 中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">function ls(name) &#123;</div><div class="line">  let target = document.getElementById(name);</div><div class="line">  if (!target) &#123;</div><div class="line">    throw new Error(&apos;ls save fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    window.localStorage.setItem(name, target.innerHTML);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">function ll(name, tag) &#123;</div><div class="line">  let storage = window.localStorage.getItem(name);</div><div class="line">  if (!storage) &#123;</div><div class="line">    // 如果 cookie 中存在，但是在 localstorage 中找不到需要如何处理？先删除 cookie，然后刷新页面。</div><div class="line">    document.cookie = &apos;v=; expires=Thu, 01 Jan 1970 00:00:01 GMT;&apos;;</div><div class="line">    window.location.reload();</div><div class="line">    throw new Error(&apos;ls load fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    let type = tag ? &apos;script&apos; : &apos;style&apos;;  // 设置 0 来添加 style，设置 1 来添加 script</div><div class="line">    let elem = document.createElement(type);</div><div class="line">    elem.innerHTML = storage;</div><div class="line">    document.head.appendChild(elem);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">function ls(name) &#123;</div><div class="line">  let target = document.getElementById(name);</div><div class="line">  if (!target) &#123;</div><div class="line">    throw new Error(&apos;ls save fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    if (window.localStorage) &#123;</div><div class="line">      try &#123;</div><div class="line">        window.localStorage.setItem(name, target.innerHTML);</div><div class="line">        document.cookie = &apos;v=0;&apos;</div><div class="line">      &#125; catch(e) &#123;</div><div class="line">        console.log(e);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">function ll(name, tag) &#123;</div><div class="line">  let storage = window.localStorage.getItem(name);</div><div class="line">  if (!storage) &#123;</div><div class="line">    // 如果 cookie 中存在，但是在 localstorage 中找不到需要如何处理？先删除 cookie，然后刷新页面。</div><div class="line">    document.cookie = &apos;v=; expires=Thu, 01 Jan 1970 00:00:01 GMT;&apos;;</div><div class="line">    window.location.reload();</div><div class="line">    throw new Error(&apos;ls load fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    let type = tag ? &apos;script&apos; : &apos;style&apos;;  // 设置 0 来添加 style，设置 1 来添加 script</div><div class="line">    let elem = document.createElement(type);</div><div class="line">    elem.innerHTML = storage;</div><div class="line">    document.head.appendChild(elem);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>除了实现添加功能以外，还需要使用 <code>cookie</code> 来标记用户。如果用户已经下载 <code>common_css</code>，则下次就不用在 HTML 页面中添加 <code>common_css</code> 的部分，而是转为调用 <code>ll(&#39;common_css&#39;, 0);</code>。这一部分的内容通过 Express 中间件来实现：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">exports.checkll = function(req, res, next) &#123;</div><div class="line">  if (req.cookies.v) &#123;</div><div class="line">    req.visited = true;</div><div class="line">  &#125; else &#123;</div><div class="line">    req.visited = false;</div><div class="line">    res.cookie(&apos;v&apos;, 0, &#123;&#125;);</div><div class="line">  &#125;</div><div class="line">  next();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>将 <code>visited</code> 获取后传给 Pug 来设置是使用 <code>ls(&#39;common_css&#39;)</code> 函数还是使用 <code>ll(&#39;common_css&#39;, 0);</code>。</p>
@@ -466,6 +466,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/23/Web缓存策略总结/" rel="prev" title="Web缓存策略总结">
+                Web缓存策略总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -539,7 +543,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-count">65</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -557,7 +561,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

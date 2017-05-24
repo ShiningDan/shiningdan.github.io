@@ -1,0 +1,1124 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="资源缓存," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文是我在学习的过程中自己总结的一些关于 Web 缓存策略的一些要点，有前端相关的，也有后端相关。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web缓存策略总结">
+<meta property="og:url" content="https://shiningdan.github.io/2017/05/23/Web缓存策略总结/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文是我在学习的过程中自己总结的一些关于 Web 缓存策略的一些要点，有前端相关的，也有后端相关。">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/89d71570371948c678ba1139c9538641.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/dbae71ff2ef6174158bbc842dd1f2c11.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/34346a1019704bd9db8ba8db1e495c67.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/25ab8adac8f687e28d091dee5805d229.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/bd6d74a330043fe64ffa9aa4b1fa24b9.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/3b34b77c5c86a397dbe6cf4ec65ab837.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/69c670aadad2beadaa0f20b295717008.png">
+<meta property="og:updated_time" content="2017-05-24T04:13:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web缓存策略总结">
+<meta name="twitter:description" content="本文是我在学习的过程中自己总结的一些关于 Web 缓存策略的一些要点，有前端相关的，也有后端相关。">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/89d71570371948c678ba1139c9538641.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/05/23/Web缓存策略总结/"/>
+
+
+
+
+
+  <title> Web缓存策略总结 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/05/23/Web缓存策略总结/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Web缓存策略总结
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-23T17:19:15+08:00">
+                2017-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/23/Web缓存策略总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/23/Web缓存策略总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/05/23/Web缓存策略总结/" class="leancloud_visitors" data-flag-title="Web缓存策略总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是我在学习的过程中自己总结的一些关于 Web 缓存策略的一些要点，有前端相关的，也有后端相关。</p>
+<a id="more"></a>
+<p>在介绍缓存与更新之前，有几篇文章大家可以参考：</p>
+<ul>
+<li><a href="https://github.com/fouber/blog/issues/3" target="_blank" rel="external">前端工程与性能优化</a></li>
+<li><a href="http://imweb.io/topic/554c5879718ba1240cc1dd8a" target="_blank" rel="external">HTTP1.1与前端性能</a></li>
+</ul>
+<h2 id="总体介绍"><a href="#总体介绍" class="headerlink" title="总体介绍"></a>总体介绍</h2><p>在下图中，展示了一些常用的缓存策略，原图以及文章可以在 <a href="http://imweb.io/topic/55c6f9bac222e3af6ce235b9" target="_blank" rel="external">缓存策略</a> 这篇博客中找到。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/89d71570371948c678ba1139c9538641.png" alt=""></p>
+<p>下面，我们会针对这张图中的一些要点，以及其他的一些要点，介绍一下 Web 缓存相关的知识。</p>
+<h2 id="用户的刷新和缓存"><a href="#用户的刷新和缓存" class="headerlink" title="用户的刷新和缓存"></a>用户的刷新和缓存</h2><p><img src="http://ojt6zsxg2.bkt.clouddn.com/dbae71ff2ef6174158bbc842dd1f2c11.png" alt=""></p>
+<p>浏览器中的操作对缓存的影响:</p>
+<ul>
+<li>强制刷新 – 当按下ctrl+F5来刷新页面（Mac 下是 Command + Shift + R）的时候, 浏览器将绕过各种缓存(本地缓存和协商缓存), 直接让服务器返回最新的资源;</li>
+<li>普通刷新 – 当按下F5来刷新页面（Mac 下是 Command + R）的时候,浏览器将绕过本地缓蹲来发送请求到服务器, 此时, 协商缓存是有效的</li>
+<li>回车或转向 – 当在地址栏上输入回车或者按下跳转按钮的时候, 所有缓存都生效</li>
+</ul>
+<h2 id="浏览器的缓存策略"><a href="#浏览器的缓存策略" class="headerlink" title="浏览器的缓存策略"></a>浏览器的缓存策略</h2><p>当一个用户发起一个静态资源请求的时候，浏览器会通过以下几步来获取资源：</p>
+<ol>
+<li><strong>本地缓存阶段</strong>：先在本地查找该资源，如果有发现该资源，而且该资源还没有过期，就使用这一个资源，完全不会发送http请求到服务器；</li>
+<li><strong>协商缓存阶段</strong>：如果在本地缓存找到对应的资源，但是不知道该资源是否过期或者已经过期，则发一个http请求到服务器,然后服务器判断这个请求，如果请求的资源在服务器上没有改动过，则返回304，让浏览器使用本地找到的那个资源；</li>
+<li><strong>缓存失败阶段</strong>：当服务器发现请求的资源已经修改过，或者这是一个新的请求(在本来没有找到资源)，服务器则返回该资源的数据，并且返回200， 当然这个是指找到资源的情况下，如果服务器上没有这个资源，则返回404。</li>
+</ol>
+<h2 id="本地缓存阶段"><a href="#本地缓存阶段" class="headerlink" title="本地缓存阶段"></a>本地缓存阶段</h2><p><img src="http://ojt6zsxg2.bkt.clouddn.com/34346a1019704bd9db8ba8db1e495c67.png" alt=""></p>
+<p>我们可以看到，本地缓存相关的设置，大多属于响应（<code>response</code>） 的，也就是服务器设置客户端什么时候才需要再次请求资源。<strong>但是有些值也可以在请求（<code>request</code>）中进行设置</strong>。上面图片中的值不一定还继续能用，在使用之前建议去查找最新的支持情况。</p>
+<h3 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h3><p>指定缓存到期GMT的绝对时间，如果设了 <code>Cache-Control: max-age</code>，<code>max-age</code> 就会覆盖 <code>Expires</code>。如果 <code>Expires</code> 到期需要重新请求。</p>
+<h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><p>每个属性值的区别可以去 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control" target="_blank" rel="external">Cache-Control | MDN</a> 查看。</p>
+<p><code>Cache-Control</code>：是http 1.1中为了弥补 <code>Expires</code> 缺陷新加入的。</p>
+<h4 id="缓存请求指令"><a href="#缓存请求指令" class="headerlink" title="缓存请求指令"></a>缓存请求指令</h4><p><strong>客户端</strong>可以在HTTP请求中使用的标准 <code>Cache-Control</code> 指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Cache-Control: max-age=&lt;seconds&gt;</div><div class="line">Cache-Control: max-stale[=&lt;seconds&gt;]</div><div class="line">Cache-Control: min-fresh=&lt;seconds&gt;</div><div class="line">Cache-control: no-cache </div><div class="line">Cache-control: no-store</div><div class="line">Cache-control: no-transform</div><div class="line">Cache-control: only-if-cached</div></pre></td></tr></table></figure>
+<p><code>Cache-Control/Expires</code> 通常和 <code>Last-Modified/ETag</code> 一起使用。</p>
+<p><code>Cache-Control/Expires</code> 的优先级要高于 <code>Last-Modified/ETag</code> 。即当本地副本根据 <code>Cache-Control/Expires</code> 发现还在有效期内时，则不会再次发送请求去服务器询问修改时间（ <code>Last-Modified</code> ）或实体标识（ <code>Etag</code> ）了。</p>
+<h4 id="缓存响应指令"><a href="#缓存响应指令" class="headerlink" title="缓存响应指令"></a>缓存响应指令</h4><p><strong>服务器</strong>可以在响应中使用的标准 <code>Cache-Control</code> 指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Cache-control: must-revalidate</div><div class="line">Cache-control: no-cache</div><div class="line">Cache-control: no-store</div><div class="line">Cache-control: no-transform</div><div class="line">Cache-control: public</div><div class="line">Cache-control: private</div><div class="line">Cache-control: proxy-revalidate</div><div class="line">Cache-Control: max-age=&lt;seconds&gt;</div><div class="line">Cache-control: s-maxage=&lt;seconds&gt;</div></pre></td></tr></table></figure>
+<h2 id="协商缓存阶段"><a href="#协商缓存阶段" class="headerlink" title="协商缓存阶段"></a>协商缓存阶段</h2><h3 id="Last-Modified-amp-If-Modified-Since"><a href="#Last-Modified-amp-If-Modified-Since" class="headerlink" title="Last-Modified &amp; If-Modified-Since"></a>Last-Modified &amp; If-Modified-Since</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/25ab8adac8f687e28d091dee5805d229.png" alt=""></p>
+<p><code>Last-Modified</code> 与 <code>If-Modified-Since</code> 是一对报文头，属于http 1.0。<br><code>Last-Modified</code> 是WEB服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间。</p>
+<p>使用的方法是，第一次服务器<strong>响应</strong>时，会设置资源的 <code>Last-Modified</code> 时间。当浏览器第二次请求同一资源的时候，会自动把前一次 <code>Last-Modified</code> 的时间发送给服务器。</p>
+<h3 id="ETag-amp-If-None-Match"><a href="#ETag-amp-If-None-Match" class="headerlink" title="ETag &amp; If-None-Match"></a>ETag &amp; If-None-Match</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/bd6d74a330043fe64ffa9aa4b1fa24b9.png" alt=""></p>
+<p><code>ETag</code> 与 <code>If-None-Match</code> 是一对报文，属于http 1.1。</p>
+<p><code>ETag</code> 可以用来解决这种问题。<code>ETag</code> 是一个文件的唯一标志符。就像一个哈希或者指纹，每个文件都有一个单独的标志，只要这个文件发生了改变，这个标志就会发生变化。</p>
+<p><code>ETag</code> 机制类似于乐观锁机制，如果请求报文的 <code>ETag</code> 与服务器的不一致，则表示该资源已经被修改过来，需要发最新的内容给浏览器。</p>
+<p>同时使用这两个报文头，在完全匹配 <code>If-Modified-Since</code> 和 <code>If-None-Match</code> 即检查完修改时间和 <code>Etag</code> 之后，如都与服务器的相符，服务器返回304，否则，发送最新内容给浏览器。</p>
+<p><code>Last-Modified</code> 与 <code>ETag</code> 是可以一起使用的，服务器会优先验证 <code>ETag</code> ，一致的情况下，才会继续比对 <code>Last-Modified</code> ，最后才决定是否返回 <code>304</code>。</p>
+<h3 id="Etag-Last-Modified过程如下："><a href="#Etag-Last-Modified过程如下：" class="headerlink" title="Etag/Last-Modified过程如下："></a>Etag/Last-Modified过程如下：</h3><ol>
+<li>客户端请求一个页面（A）。</li>
+<li>服务器返回页面A，并在给A加上一个 <code>Last-Modified/ETag</code>。</li>
+<li>客户端展现该页面，并将页面连同 <code>Last-Modified/ETag</code> 一起缓存。</li>
+<li>客户再次请求页面A，并将上次请求时服务器返回的 <code>Last-Modified/ETag</code> 一起传递给服务器。</li>
+<li>服务器检查该 <code>Last-Modified</code> 或 <code>ETag</code>，并判断出该页面自上次客户端请求之后还未被修改，直接返回响应 <code>304</code> 和一个空的响应体。</li>
+</ol>
+<h4 id="Etag-主要为了解决-Last-Modified-无法解决的一些问题"><a href="#Etag-主要为了解决-Last-Modified-无法解决的一些问题" class="headerlink" title="Etag 主要为了解决 Last-Modified 无法解决的一些问题"></a>Etag 主要为了解决 Last-Modified 无法解决的一些问题</h4><ol>
+<li>一些文件也许会周期性的更改，但是他的内容并不改变(仅仅改变的修改时间)，这个时候我们并不希望客户端认为这个文件被修改了，而重新GET</li>
+<li>某些服务器不能精确的得到文件的最后修改时间。</li>
+</ol>
+<p>一般情况下，使用 <code>Cache-Control/Expires</code> 会配合 <code>Last-Modified/ETag</code> 一起使用，因为即使服务器设置缓存时间, 当用户点击“刷新”按钮时，浏览器会忽略缓存继续向服务器发送请求，这时 <code>Last-Modified/ETag</code> 将能够很好利用 <code>304</code> ，从而减少响应开销。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/3b34b77c5c86a397dbe6cf4ec65ab837.png" alt=""></p>
+<h2 id="Vary-Accept-Encoding"><a href="#Vary-Accept-Encoding" class="headerlink" title="Vary: Accept-Encoding"></a>Vary: Accept-Encoding</h2><p>这个头对于一些人来说可能比较陌生。</p>
+<p>当一个资源启用了 gzip 压缩，并且被代理服务器缓存，客户端如果不支持 gzip 压缩，那么在这样的情况下将会得到不正确的数据（也就是，压缩过的数据）。这将会使代理服务器缓存两个版本的资源：一个是压缩过的，一个是没压缩过的。正确版本的资源将在请求头发送之后进行传输。</p>
+<p>还有一个现实的原因：IE 浏览器不缓存任何带有 <code>Vary</code> 头但值不为 <code>Accept-Encoding</code> 和 <code>User-Agent</code> 的资源。所以通过这种方式添加这个头，才能确保这些资源在 IE 下被缓存。</p>
+<h2 id="服务器端缓存"><a href="#服务器端缓存" class="headerlink" title="服务器端缓存"></a>服务器端缓存</h2><h3 id="代理服务器缓存"><a href="#代理服务器缓存" class="headerlink" title="代理服务器缓存"></a>代理服务器缓存</h3><p>代理服务器是浏览器和源服务器之间的中间服务器，浏览器先向这个中间服务器发起Web请求，经过处理后（比如权限验证，缓存匹配等），再将请求转发到源服务器。代理服务器缓存的运作原理跟浏览器的运作原理差不多，只是规模更大。可以把它理解为一个共享缓存，不只为一个用户服务，一般为大量用户提供服务，因此在减少相应时间和带宽使用方面很有效，同一个副本会被重用多次。</p>
+<h3 id="CDN缓存"><a href="#CDN缓存" class="headerlink" title="CDN缓存"></a>CDN缓存</h3><p>CDN全称是Content Delivery Network，即内容分发网络。其目的是通过在现有的Internet中增加一层新的网络架构，将网站的内容发布到最接近用户的网络“边缘”，使用户可以就近去的所需的内容</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/69c670aadad2beadaa0f20b295717008.png" alt=""></p>
+<p>我们可以了解到使用CDN缓存后的网站访问过程为：</p>
+<ol>
+<li>用户向浏览器提供要访问的域名。</li>
+<li>浏览器调用域名解析库对域名进行解析，由于CDN对域名解析过程进行了调整，所以解析函数库一般得到的是该域名对应的CNAME记录，为了得到实际的IP地址，浏览器需要再次获得对CNAME域名进行解析以得到实际的IP地址，在此过程中，使用的全局负载均衡DNS解析，如根据地理位置信息解析对应的IP地址，使得用户能就近访问。</li>
+<li>此次解析得到CDN缓存服务器的IP地址，浏览器在得到实际的IP地址以后，向缓存服务器发出访问请求。</li>
+<li>若请求文件未修改，返回304（充当服务器的角色）。若档期文件已过去，则缓存服务器根据浏览器提供的要访问的域名，通过Cache内部专用的DNS解析得到此域名的实际IP地址，再由缓存服务器向此实际IP地址提交访问请求。</li>
+<li>缓存服务器从实际IP地址得到内容以后，一方面在本地进行保存，以备以后使用，二方面把获取的数据返回给客户端，完成数据服务过程。</li>
+<li>客户端得到由缓存服务器返回的数据以后显示出来并完成整个浏览器的数据请求过程。</li>
+</ol>
+<h4 id="CDN的优势"><a href="#CDN的优势" class="headerlink" title="CDN的优势"></a>CDN的优势</h4><ul>
+<li>CDN节点解决了跨运营商和跨地域访问的问题，访问延时大大降低；</li>
+<li>大部分请求在CDN边缘节点完成，CDN起到了分流作用，减轻了源站的负载。</li>
+</ul>
+<h3 id="Combo服务"><a href="#Combo服务" class="headerlink" title="Combo服务"></a>Combo服务</h3><p>Combo服务，也就是我们在最终拼接生成页面资源引用的时候，并不是生成多个独立的link标签，而是将资源地址拼接成一个url路径，请求一种线上的动态资源合并服务，从而实现减少HTTP请求的需求。</p>
+<h4 id="Combo-缺点"><a href="#Combo-缺点" class="headerlink" title="Combo 缺点"></a>Combo 缺点</h4><ul>
+<li>浏览器有url长度限制，因此不能无限制的合并资源。</li>
+<li>如果用户在网站内有公共资源的两个页面间跳转访问，由于两个页面的combo的url不一样导致用户不能利用浏览器缓存来加快对公共资源的访问速度。</li>
+<li>如果combo的url中任何一个文件发生改变，都会导致整个url缓存失效，从而导致浏览器缓存利用率降低。</li>
+</ul>
+<h2 id="数据库数据缓存"><a href="#数据库数据缓存" class="headerlink" title="数据库数据缓存"></a>数据库数据缓存</h2><p>Web应用，特别是SNS类型的应用，往往关系比较复杂，数据库表繁多，如果频繁进行数据库查询，很容易导致数据库不堪重荷。为了提供查询的性能，会将查询后的数据放到内存中进行缓存，下次查询时，直接从内存缓存直接返回，提供响应效率。比如常用的缓存方案有 <a href="https://memcached.org/" target="_blank" rel="external">memcached</a>、<a href="https://redis.io/" target="_blank" rel="external">redis</a> 等。</p>
+<h2 id="HTML5缓存思路"><a href="#HTML5缓存思路" class="headerlink" title="HTML5缓存思路"></a>HTML5缓存思路</h2><h3 id="manifest"><a href="#manifest" class="headerlink" title="manifest"></a>manifest</h3><h4 id="离线应用访问及更新流程"><a href="#离线应用访问及更新流程" class="headerlink" title="离线应用访问及更新流程"></a>离线应用访问及更新流程</h4><ol>
+<li>第一次访问离线应用的入口页HTML（引用了manifest文件），正常发送请求，获取manifest文件并在本地缓存，陆续拉取manifest中的需要缓存的文件</li>
+<li>再次访问时，无法在线离线与否，都会直接从缓存中获取入口页HTML和其他缓存的文件进行展示。如果此时在线，浏览器会发送请求到服务器请求manifest文件，并与第一次访问的副本进行比对，如果发现版本不一致，会陆续发送请求重新拉取入口文件HTML和需要缓存的文件并更新本地缓存副本</li>
+<li>之后的访问重复第2步的行为</li>
+</ol>
+<h4 id="manifest-文件"><a href="#manifest-文件" class="headerlink" title="manifest 文件"></a>manifest 文件</h4><p>manifest文件罗列了需要被缓存的文件清单。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">CACHE MANIFEST</div><div class="line"># wanz app v1</div><div class="line"></div><div class="line"># 指明缓存入口</div><div class="line">CACHE:</div><div class="line">index.html</div><div class="line">style.css</div><div class="line">images/logo.png</div><div class="line">scripts/main.js</div><div class="line"></div><div class="line"># 以下资源必须在线访问</div><div class="line">NETWORK:</div><div class="line">login.php</div><div class="line"></div><div class="line"># 如果index.php无法访问则用404.html代替</div><div class="line">FALLBACK:</div><div class="line">/index.php /404.html</div></pre></td></tr></table></figure>
+<p>这个过程中有几个问题需要注意：</p>
+<ul>
+<li>如果服务器对离线的资源进行了更新，那么必须更新manifest文件之后这些资源才能被浏览器重新下载，如果只是更新了资源而没有更新manifest文件的话，浏览器并不会重新下载资源，也就是说还是使用原来离线存储的资源。</li>
+<li>对于manifest文件进行缓存的时候需要十分小心，因为可能出现一种情况就是你对manifest文件进行了更新，但是http的缓存规则告诉浏览器本地缓存的manifest文件还没过期，这个情况下浏览器还是使用原来的manifest文件，所以对于manifest文件最好不要设置缓存。</li>
+<li>浏览器在下载manifest文件中的资源的时候，它会一次性下载所有资源，如果某个资源由于某种原因下载失败，那么这次的所有更新就算是失败的，浏览器还是会使用原来的资源。</li>
+<li>在更新了资源之后，新的资源需要到下次再打开app才会生效，如果需要资源马上就能生效，那么可以使用 <code>window.applicationCache.swapCache()</code> 方法来使之生效，出现这种现象的原因是浏览器会先使用离线资源加载页面，然后再去检查manifest是否有更新，所以需要到下次打开页面才能生效。</li>
+</ul>
+<h3 id="localStorage"><a href="#localStorage" class="headerlink" title="localStorage"></a>localStorage</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">localStorage.fresh = &quot;shiningdan&quot;;   //设置一个键值 </div><div class="line">var a = localStorage.fresh;   //获取键值</div><div class="line"></div><div class="line">//API</div><div class="line"></div><div class="line">//清空storage </div><div class="line">localStorage.clear();</div><div class="line"></div><div class="line">//设置一个键值 </div><div class="line">localStorage.setItem(“fresh”,“vfresh.org”);</div><div class="line"></div><div class="line">//获取一个键值 </div><div class="line">localStorage.getItem(“fresh”); </div><div class="line"></div><div class="line">//return “vfresh.org” //获取指定下标的键的名称（如同Array） </div><div class="line">localStorage.key(0); </div><div class="line"></div><div class="line">//return “fresh” //删除一个键值 </div><div class="line">localStorage.removeItem(“fresh”);</div></pre></td></tr></table></figure>
+<h4 id="不总是有用"><a href="#不总是有用" class="headerlink" title="不总是有用"></a>不总是有用</h4><p>如果已经缓存的资源超过浏览器可允许的 LocalStorage 缓存的最大值，则浏览器会抛出一个错误 <code>QUOTA_EXCEEDED_ERR</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">if (window.localStorage) &#123;</div><div class="line">    try &#123;</div><div class="line">        localStorage.setItem(&apos;bla&apos;, &apos;bla&apos;);</div><div class="line">    &#125; catch (e) &#123;</div><div class="line">        if (e.name === &apos;QUOTA_EXCEEDED_ERR&apos; || e.name === &apos;NS_ERROR_DOM_QUOTA_REACHED&apos;) &#123;</div><div class="line">            // todo</div><div class="line">        &#125; else &#123;</div><div class="line">            // todo</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="使用-LocalStorage-的规划"><a href="#使用-LocalStorage-的规划" class="headerlink" title="使用 LocalStorage 的规划"></a>使用 LocalStorage 的规划</h4><ol>
+<li><p>只保存重要页面的重要数据</p>
+<ul>
+<li>典型的，首页首屏</li>
+<li>对业务庞大的站点，这点尤其重要</li>
+</ul>
+</li>
+<li><p>极大提高用户体验的数据</p>
+<ul>
+<li>比如表单的状态，可以提交之前保存，当用户刷新页面时可以还原</li>
+<li>静态资源，比如 js 和 css</li>
+</ul>
+</li>
+</ol>
+<h2 id="无法被缓存的请求"><a href="#无法被缓存的请求" class="headerlink" title="无法被缓存的请求"></a>无法被缓存的请求</h2><p>无法被浏览器缓存的请求：</p>
+<ol>
+<li>HTTP信息头中包含Cache-Control:no-cache，pragma:no-cache，或Cache-Control:max-age=0等告诉浏览器不用缓存的请求</li>
+<li>需要根据Cookie，认证信息等决定输入内容的动态请求是不能被缓存的</li>
+<li>经过HTTPS安全加密的请求（有人也经过测试发现，ie其实在头部加入 <code>Cache-Control：max-age</code> 信息，firefox在头部加入 <code>Cache-Control:Public</code> 之后，能够对HTTPS的资源进行缓存，参考<a href="http://www.ruanyifeng.com/blog/2011/02/seven_myths_about_https.html" target="_blank" rel="external">《HTTPS的七个误解》</a>）</li>
+<li>POST请求无法被缓存</li>
+<li>HTTP响应头中不包含 <code>Last-Modified/Etag</code>，也不包含 <code>Cache-Control/Expires</code> 的请求无法被缓存</li>
+</ol>
+<h2 id="缓存的建议"><a href="#缓存的建议" class="headerlink" title="缓存的建议"></a>缓存的建议</h2><h3 id="给Css、js、图片等资源增加HTTP缓存头，并强制入口Html不被缓存"><a href="#给Css、js、图片等资源增加HTTP缓存头，并强制入口Html不被缓存" class="headerlink" title="给Css、js、图片等资源增加HTTP缓存头，并强制入口Html不被缓存"></a>给Css、js、图片等资源增加HTTP缓存头，并强制入口Html不被缓存</h3><p>对于不经常修改的静态资源，比如Css，js，图片等，可以设置一个较长的过期的时间，或者至少加上 <code>Last-Modified/Etag</code> 来表示版本号 ，而对于html页面这种入口文件，不建议设置缓存。这样既能保证在静态资源不变了情况下，可以不重发请求或直接通过 <code>304</code> 避免重复下载，又能保证在资源有更新的，只要通过给资源增加时间戳或者更换路径，就能让用户访问最新的资源</p>
+<p>使用这些 HTTP 头：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Cache-Control: public, max-age=31536000</div><div class="line">Expires: (一年后的今天)</div><div class="line">ETag: (基于内容生成)</div><div class="line">Last-Modified: (过去某个时间)</div><div class="line">Vary: Accept-Encoding</div></pre></td></tr></table></figure>
+<h3 id="动态资源的缓存"><a href="#动态资源的缓存" class="headerlink" title="动态资源的缓存"></a>动态资源的缓存</h3><p>针对应用程序私密性和新鲜度方面需求的不同，我们应该使用不同的缓存控制设置。</p>
+<p>对于非私密性和经常性变动的资源（想像一下股票信息），我们应该使用下面这些：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Cache-Control: public, max-age=0</div><div class="line">Expires: (当前时间)</div><div class="line">ETag: (基于内容生成)</div><div class="line">Last-Modified: (过去某个时间)</div><div class="line">Vary: Accept-Encoding</div></pre></td></tr></table></figure>
+<p>这些设置的效果是：这些资源可以被公开地（通过浏览器和代理服务器）缓存起来。每一次在浏览器使用这些资源之前，浏览器或者代理服务器会检查这些资源是否有更新的版本，如果有，就把它们下载下来。</p>
+<p>这样的设置需要注意，浏览器在重新检查资源时效性方面有一定的灵活性。典型的是，当用户点击了「返回／前进」按钮时，浏览器不会重新检查这些资源文件，而是直接使用缓存的版本。你如果需要更严格的控制，需要告知浏览器即使当用户点击了「返回／前进」按钮，也需要重新检查这些资源文件，那么可以使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Cache-Control: public, no-cache, no-store</div></pre></td></tr></table></figure>
+<p>不是所有的动态资源都会马上变成过时的资源。如果它们可以保持至少5分钟的时效，可以使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Cache-Control: public, max-age=300</div></pre></td></tr></table></figure>
+<p>经过这样的设置，浏览器只会在5分钟之后才重新检查。在这之前，缓存的内容会被直接使用。如果在5分钟后，这些过时的内容需要严格控制，你可以添加 <code>must-revalidate</code> 字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Cache-Control: public, max-age=300, must-revalidate</div></pre></td></tr></table></figure>
+<p>对于私密或者针对用户的内容，需要把 public 替换为 private 以避免内容被代理缓存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Cache-Control: private, …</div></pre></td></tr></table></figure>
+<h3 id="减少对Cookie的依赖"><a href="#减少对Cookie的依赖" class="headerlink" title="减少对Cookie的依赖"></a>减少对Cookie的依赖</h3><p>过多的使用Cookie会大大增加HTTP请求的负担，每次GET或POST请求，都会把Cookie都带上，增加网络传输流量，导致增长交互时间；同时Cache是很难被缓存的，应该尽量少使用，或者这在动态页面上使用。</p>
+<h3 id="多用Get方式请求动态CGI"><a href="#多用Get方式请求动态CGI" class="headerlink" title="多用Get方式请求动态CGI"></a>多用Get方式请求动态CGI</h3><p>虽然POST的请求方式比Get更安全，可以避免类似密码这种敏感信息在网络传输，被代理或其他人截获，但是Get请求方式更快，效率更高，而且能被缓存，建议对于那些不涉及敏感信息提交的请求尽量使用Get方式请求</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://imweb.io/topic/55c6f9bac222e3af6ce235b9" target="_blank" rel="external">缓存策略</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control" target="_blank" rel="external">Cache-Control | MDN</a></li>
+<li><a href="http://www.alloyteam.com/2012/03/web-cache-1-web-cache-overview/" target="_blank" rel="external">Web缓存机制系列</a></li>
+<li><a href="http://www.alloyteam.com/2016/03/discussion-on-web-caching/" target="_blank" rel="external">浅谈Web缓存</a></li>
+<li><a href="https://juejin.im/entry/583e933861ff4b006ce3e71c" target="_blank" rel="external">说说 web 缓存</a></li>
+<li><a href="https://aotu.io/notes/2016/09/22/http-caching/" target="_blank" rel="external">HTTP 缓存</a></li>
+<li><a href="https://aotu.io/notes/2016/01/28/3xx-of-http-status/" target="_blank" rel="external">你所知道的3xx状态码</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/资源缓存/" rel="tag"># 资源缓存</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/22/性能优化之资源缓存与更新/" rel="next" title="性能优化之资源缓存与更新">
+                <i class="fa fa-chevron-left"></i> 性能优化之资源缓存与更新
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/23/Web缓存策略总结/"
+           data-title="Web缓存策略总结" data-url="https://shiningdan.github.io/2017/05/23/Web缓存策略总结/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总体介绍"><span class="nav-number">1.</span> <span class="nav-text">总体介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户的刷新和缓存"><span class="nav-number">2.</span> <span class="nav-text">用户的刷新和缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器的缓存策略"><span class="nav-number">3.</span> <span class="nav-text">浏览器的缓存策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地缓存阶段"><span class="nav-number">4.</span> <span class="nav-text">本地缓存阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Expires"><span class="nav-number">4.1.</span> <span class="nav-text">Expires</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache-Control"><span class="nav-number">4.2.</span> <span class="nav-text">Cache-Control</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存请求指令"><span class="nav-number">4.2.1.</span> <span class="nav-text">缓存请求指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存响应指令"><span class="nav-number">4.2.2.</span> <span class="nav-text">缓存响应指令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协商缓存阶段"><span class="nav-number">5.</span> <span class="nav-text">协商缓存阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Last-Modified-amp-If-Modified-Since"><span class="nav-number">5.1.</span> <span class="nav-text">Last-Modified & If-Modified-Since</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ETag-amp-If-None-Match"><span class="nav-number">5.2.</span> <span class="nav-text">ETag & If-None-Match</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Etag-Last-Modified过程如下："><span class="nav-number">5.3.</span> <span class="nav-text">Etag/Last-Modified过程如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Etag-主要为了解决-Last-Modified-无法解决的一些问题"><span class="nav-number">5.3.1.</span> <span class="nav-text">Etag 主要为了解决 Last-Modified 无法解决的一些问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vary-Accept-Encoding"><span class="nav-number">6.</span> <span class="nav-text">Vary: Accept-Encoding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器端缓存"><span class="nav-number">7.</span> <span class="nav-text">服务器端缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代理服务器缓存"><span class="nav-number">7.1.</span> <span class="nav-text">代理服务器缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDN缓存"><span class="nav-number">7.2.</span> <span class="nav-text">CDN缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CDN的优势"><span class="nav-number">7.2.1.</span> <span class="nav-text">CDN的优势</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Combo服务"><span class="nav-number">7.3.</span> <span class="nav-text">Combo服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Combo-缺点"><span class="nav-number">7.3.1.</span> <span class="nav-text">Combo 缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库数据缓存"><span class="nav-number">8.</span> <span class="nav-text">数据库数据缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML5缓存思路"><span class="nav-number">9.</span> <span class="nav-text">HTML5缓存思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#manifest"><span class="nav-number">9.1.</span> <span class="nav-text">manifest</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#离线应用访问及更新流程"><span class="nav-number">9.1.1.</span> <span class="nav-text">离线应用访问及更新流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#manifest-文件"><span class="nav-number">9.1.2.</span> <span class="nav-text">manifest 文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#localStorage"><span class="nav-number">9.2.</span> <span class="nav-text">localStorage</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#不总是有用"><span class="nav-number">9.2.1.</span> <span class="nav-text">不总是有用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-LocalStorage-的规划"><span class="nav-number">9.2.2.</span> <span class="nav-text">使用 LocalStorage 的规划</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无法被缓存的请求"><span class="nav-number">10.</span> <span class="nav-text">无法被缓存的请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存的建议"><span class="nav-number">11.</span> <span class="nav-text">缓存的建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#给Css、js、图片等资源增加HTTP缓存头，并强制入口Html不被缓存"><span class="nav-number">11.1.</span> <span class="nav-text">给Css、js、图片等资源增加HTTP缓存头，并强制入口Html不被缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态资源的缓存"><span class="nav-number">11.2.</span> <span class="nav-text">动态资源的缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减少对Cookie的依赖"><span class="nav-number">11.3.</span> <span class="nav-text">减少对Cookie的依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多用Get方式请求动态CGI"><span class="nav-number">11.4.</span> <span class="nav-text">多用Get方式请求动态CGI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">12.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
