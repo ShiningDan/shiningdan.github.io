@@ -1,0 +1,1016 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="性能优化,缓存,LocalStorage,MD5," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在上一节性能优化之静态资源优化中，我们对博客中使用到的 CSS、JavaScript、图片等做了比如大小、合并、懒加载等优化，在这一节中，我们将使用浏览器的缓存能力，对这些资源进行进一步的优化，来提升首屏加载速度等，并且我们还将讨论，针对缓存在浏览器中的数据，如何进行缓存的更新。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="性能优化之资源缓存与更新">
+<meta property="og:url" content="https://shiningdan.github.io/2017/05/22/博客性能优化之资源缓存与更新/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="在上一节性能优化之静态资源优化中，我们对博客中使用到的 CSS、JavaScript、图片等做了比如大小、合并、懒加载等优化，在这一节中，我们将使用浏览器的缓存能力，对这些资源进行进一步的优化，来提升首屏加载速度等，并且我们还将讨论，针对缓存在浏览器中的数据，如何进行缓存的更新。">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/804497a0d5fdba55c2600ea8d92abaad.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/55c9b724a9700b16b45b2e3a0f2a1bf2.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/c3bd7997b4a7dc25e7ec539fc92ebe2a.png">
+<meta property="og:updated_time" content="2017-05-24T11:28:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="性能优化之资源缓存与更新">
+<meta name="twitter:description" content="在上一节性能优化之静态资源优化中，我们对博客中使用到的 CSS、JavaScript、图片等做了比如大小、合并、懒加载等优化，在这一节中，我们将使用浏览器的缓存能力，对这些资源进行进一步的优化，来提升首屏加载速度等，并且我们还将讨论，针对缓存在浏览器中的数据，如何进行缓存的更新。">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/804497a0d5fdba55c2600ea8d92abaad.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/05/22/博客性能优化之资源缓存与更新/"/>
+
+
+
+
+
+  <title> 性能优化之资源缓存与更新 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/05/22/博客性能优化之资源缓存与更新/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                性能优化之资源缓存与更新
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-22T17:48:41+08:00">
+                2017-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/22/博客性能优化之资源缓存与更新/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/22/博客性能优化之资源缓存与更新/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/05/22/博客性能优化之资源缓存与更新/" class="leancloud_visitors" data-flag-title="性能优化之资源缓存与更新">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在上一节性能优化之静态资源优化中，我们对博客中使用到的 CSS、JavaScript、图片等做了比如大小、合并、懒加载等优化，在这一节中，我们将使用浏览器的缓存能力，对这些资源进行进一步的优化，来提升首屏加载速度等，并且我们还将讨论，针对缓存在浏览器中的数据，如何进行缓存的更新。</p>
+<a id="more"></a>
+<h2 id="使用-LocalStorage-进行本地存储"><a href="#使用-LocalStorage-进行本地存储" class="headerlink" title="使用 LocalStorage 进行本地存储"></a>使用 LocalStorage 进行本地存储</h2><p>关于 LocalStorage 的介绍可以查看 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage" target="_blank" rel="external">Window.localStorage | MDN</a> 和 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API" target="_blank" rel="external">使用 Web Storage API</a>，我这里就不再赘述了。</p>
+<p>首先，我们需要进行本地存储的项目有，CSS 文件和 JS 文件，特别是 CSS 文件中添加了 Data URI 以后，文件的大小会增加很多，这种文件可以考虑使用 LocalStorage 进行缓存，也有一些全局的样式，全局的 JS 文件，或者一些不经常改变的文件或样式都可以考虑使用 LocalStorage 进行缓存，下面，我们将展示的是对 CSS 文件的缓存。</p>
+<h3 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h3><p>首先定义 LocalStorage Save(<code>ls</code>) 函数和 LocalStorage Load(<code>ll</code>) 函数，用来保存文件内容到 LocalStorage 里面和从 LocalStorage 读取内容，添加到 <code>&lt;head&gt;</code> 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">function ls(name) &#123;</div><div class="line">  let target = document.getElementById(name);</div><div class="line">  if (!target) &#123;</div><div class="line">    throw new Error(&apos;ls save fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    if (window.localStorage) &#123;</div><div class="line">      try &#123;</div><div class="line">        window.localStorage.setItem(name, target.innerHTML);</div><div class="line">        document.cookie = &apos;v=0;&apos;</div><div class="line">      &#125; catch(e) &#123;</div><div class="line">        console.log(e);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">function ll(name, tag) &#123;</div><div class="line">  let storage = window.localStorage.getItem(name);</div><div class="line">  if (!storage) &#123;</div><div class="line">    // 如果 cookie 中存在，但是在 localstorage 中找不到需要如何处理？先删除 cookie，然后刷新页面。</div><div class="line">    document.cookie = &apos;v=; expires=Thu, 01 Jan 1970 00:00:01 GMT;&apos;;</div><div class="line">    window.location.reload();</div><div class="line">    throw new Error(&apos;ls load fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    let type = tag ? &apos;script&apos; : &apos;style&apos;;  // 设置 0 来添加 style，设置 1 来添加 script</div><div class="line">    let elem = document.createElement(type);</div><div class="line">    elem.innerHTML = storage;</div><div class="line">    document.head.appendChild(elem);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>除了实现添加功能以外，还需要使用 <code>cookie</code> 来标记用户。如果用户已经下载 <code>common_css</code>，则下次就不用在 HTML 页面中添加 <code>common_css</code> 的部分，而是转为调用 <code>ll(&#39;common_css&#39;, 0);</code>。这一部分的内容通过 Express 中间件来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">exports.checkll = function(req, res, next) &#123;</div><div class="line">  if (req.cookies.v) &#123;</div><div class="line">    req.visited = true;</div><div class="line">  &#125; else &#123;</div><div class="line">    req.visited = false;</div><div class="line">    res.cookie(&apos;v&apos;, 0, &#123;&#125;);</div><div class="line">  &#125;</div><div class="line">  next();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将 <code>visited</code> 获取后传给 Pug 来设置是使用 <code>ls(&#39;common_css&#39;)</code> 函数还是使用 <code>ll(&#39;common_css&#39;, 0);</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">block commonStyle</div><div class="line">  - if (!visited)</div><div class="line">    style#common_css</div><div class="line">    include ../../www/static/css/common-combo.css</div><div class="line">    script ls(&apos;common_css&apos;, 0);</div><div class="line">  - else</div><div class="line">    script ll(&apos;common_css&apos;, 0);</div></pre></td></tr></table></figure>
+<p>修改 <code>Pug</code> 模板中的内容，将需要缓存的公用的内容再重新分离出来，比如 <code>header</code>，<code>page-nav</code> 等内容。然后把不同页面转换的时候要切换的文件写在一个新的 <code>&lt;style&gt;</code> 标签中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">block commonStyle</div><div class="line">block uniqueStyle</div><div class="line"></div><div class="line">// common-combo.css 中的样式</div><div class="line">@import &apos;../../layout/layout.css&apos;;</div><div class="line">@import &apos;../../header/header.css&apos;;</div><div class="line">@import &apos;../../page-nav/page-nav.css&apos;;</div><div class="line">@import &apos;../../footer/footer.css&apos;;</div></pre></td></tr></table></figure>
+<p>最后，我们可以比较一下使用 LocalStorage 前后传输的文件的大小差距：</p>
+<p>我们测试的网络环境是 Good 3G (40ms, 1.5Mb/s, 750kb/s)</p>
+<p>当没有使用 LocalStorage 缓存的时候：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/804497a0d5fdba55c2600ea8d92abaad.png" alt=""></p>
+<p>我们可以看到，文档的大小是 43.4KB，其中有很大一部分是 CSS 的大小，因为我们把 header 的背景图片使用 Base64 编码添加到了样式中。当我们下次请求本页面或者其他页面的时候，添加了图片的样式已经在 LocalStorage 缓存：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/55c9b724a9700b16b45b2e3a0f2a1bf2.png" alt=""></p>
+<p>我们可以看到，此时请求的文档大小只有 5.4KB，节省了网络中传输的资源。</p>
+<h2 id="本地存储的更新"><a href="#本地存储的更新" class="headerlink" title="本地存储的更新"></a>本地存储的更新</h2><p>有一些不经常修改，并且比较大的文件，我们可以使用 LocalStorage 来进行本地存储，但是不经常修改并不是代表以后都不会修改，那我们如何确定本地存储的文件是最新的版本的文件呢？我们又应该如何对本地存储的文件进行更新呢？</p>
+<p>下面我们将针对几种本地缓存的协商策略进行对比，来选择一个合适的策略，使用在我们的博客系统上。</p>
+<p>我的博客使用的是 Express 作为后台，Express 默认对静态的资源开启了 <code>Etag</code>、<code>Last-Modified</code> 和 <code>max-age</code> 来支持浏览器缓存，如果我们想实现自己的缓存策略，可以选择关闭已有的缓存策略，然后自定义自己的缓存策略。</p>
+<p>比如说，我们在开启了 <code>Etag</code> 之后，每一次浏览器打开该页面，还是会向服务器询问一次该文件是否更新，然后服务器返回 <code>304</code> 回应来声明资源没有被修改，浏览器向服务器进行请求的时候就会消耗一些交互资源。</p>
+<p>所以，在设置更新的时候，我选择离开如下的设置方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Cache-Control: public, max-age=31536000</div><div class="line">Expires: (一年后的今天)</div><div class="line">ETag: (基于内容生成)</div><div class="line">Last-Modified: (过去某个时间)</div></pre></td></tr></table></figure>
+<p>使用如上的方式，可以在过期时间内不发送请求而是直接使用缓存，又能保证在资源有更新的，只要通过给资源增加时间戳或者更换路径，就能让用户访问最新的资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">app.use(express.static(path.join(__dirname, &apos;./www/static&apos;), &#123;</div><div class="line">  maxAge: &apos;365d&apos;,</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<p>针对非私密性和经常性变动的资源，比如我们的 CSS 文件需要经常调整，所以我们不能设置 <code>max-age</code> 和 <code>expires</code> 缓存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Cache-Control: public, max-age=0</div><div class="line">Expires: (当前时间)</div><div class="line">ETag: (基于内容生成)</div></pre></td></tr></table></figure>
+<p>除此以外，我们还需要对存在 LocalStorage 中的数据进行更新。更新的方法是，在我们原来定义 <code>ls</code> 和 <code>ll</code> 函数的时候，需要添加一个标签定义该文件的版本号，并且将该版本号存在 cookie 中，当浏览器请求数据的时候，如果我们从 cookie 中解析得到的版本号不是最新的，则该资源还需要重新下载。所以，我们将修改 <code>ls</code> 函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function ls(name, tag) &#123;</div><div class="line">  let target = document.getElementById(name);</div><div class="line">  if (!target) &#123;</div><div class="line">    throw new Error(&apos;ls save fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    if (window.localStorage) &#123;</div><div class="line">      try &#123;</div><div class="line">        window.localStorage.setItem(name, target.innerHTML);</div><div class="line">        document.cookie = &apos;v=&apos;+tag;</div><div class="line">      &#125; catch(e) &#123;</div><div class="line">        console.log(e);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>也就是，我们在缓存文件的到 LocalStorage 的时候，需要赋值一个 <code>v</code> 参数来计算该文件的版本。在我的博客中，针对 <code>common_css</code> 这个文件，我们使用 MD5 算法在运行 Express 的时候自动生成一个摘要作为 <code>v</code> 的值，如果文件发生了变化，则该 <code>v</code> 的值会自动根据文件内容生成。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/c3bd7997b4a7dc25e7ec539fc92ebe2a.png" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+          
+            <a href="/tags/缓存/" rel="tag"># 缓存</a>
+          
+            <a href="/tags/LocalStorage/" rel="tag"># LocalStorage</a>
+          
+            <a href="/tags/MD5/" rel="tag"># MD5</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/22/图片资源base64化/" rel="next" title="图片资源base64化">
+                <i class="fa fa-chevron-left"></i> 图片资源base64化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/23/Web缓存策略总结/" rel="prev" title="Web缓存策略总结">
+                Web缓存策略总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/22/博客性能优化之资源缓存与更新/"
+           data-title="性能优化之资源缓存与更新" data-url="https://shiningdan.github.io/2017/05/22/博客性能优化之资源缓存与更新/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-LocalStorage-进行本地存储"><span class="nav-number">1.</span> <span class="nav-text">使用 LocalStorage 进行本地存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数的定义"><span class="nav-number">1.1.</span> <span class="nav-text">函数的定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地存储的更新"><span class="nav-number">2.</span> <span class="nav-text">本地存储的更新</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
