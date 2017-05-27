@@ -86,10 +86,11 @@
 
 <meta name="description" content="Redis 是一个key-value存储系统，值（value）可以是 字符串(String), 表(Hash), 列表(List), 集合(Sets) 和 有序集合(Sorted Sets)等类型。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis入门">
+<meta property="og:title" content="redis入门">
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/26/Redis入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="Redis 是一个key-value存储系统，值（value）可以是 字符串(String), 表(Hash), 列表(List), 集合(Sets) 和 有序集合(Sorted Sets)等类型。">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/ac49e0d920ceb9ba1cc087efc8951d27.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/f90e341f0fb9cd6270367b41c7a2a36d.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/37e366197085ec1aa0fd2aeec10e51db.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/6c5c0bf36a37ee7f8afb1315e3baf136.png">
@@ -102,11 +103,15 @@
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/4b277047e08d554cdd7ed654db3067ac.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/54c2df197aa058fcfb9dc2bde5337151.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/d8b5a73e9d54075b7afa5142c6064356.png">
-<meta property="og:updated_time" content="2017-05-26T14:40:14.000Z">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/29837f8a1504ecdddee4a7b0db864312.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/caa84e357a42a748a8aa139fa9179b17.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/bdbdd164ff4c8d93bf58e3ba74cd5a5c.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/371ca1a0523726d41e96976c48c2590a.png">
+<meta property="og:updated_time" content="2017-05-27T13:05:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis入门">
+<meta name="twitter:title" content="redis入门">
 <meta name="twitter:description" content="Redis 是一个key-value存储系统，值（value）可以是 字符串(String), 表(Hash), 列表(List), 集合(Sets) 和 有序集合(Sorted Sets)等类型。">
-<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/f90e341f0fb9cd6270367b41c7a2a36d.png">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/ac49e0d920ceb9ba1cc087efc8951d27.png">
 
 
 
@@ -140,7 +145,7 @@
 
 
 
-  <title> Redis入门 | ShiningDan的博客 </title>
+  <title> redis入门 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -320,7 +325,7 @@
             
             
               
-                Redis入门
+                redis入门
               
             
           </h2>
@@ -387,7 +392,7 @@
 
           
           
-             <span id="/2017/05/26/Redis入门/" class="leancloud_visitors" data-flag-title="Redis入门">
+             <span id="/2017/05/26/Redis入门/" class="leancloud_visitors" data-flag-title="redis入门">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -418,14 +423,20 @@
 <a id="more"></a>
 <h2 id="Redis-简介"><a href="#Redis-简介" class="headerlink" title="Redis 简介"></a>Redis 简介</h2><p>Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。</p>
 <p>Redis的所有操作都是原子性的，同时Redis还支持对几个操作全并后的原子性执行。</p>
+<h2 id="Redis-应用场景"><a href="#Redis-应用场景" class="headerlink" title="Redis 应用场景"></a>Redis 应用场景</h2><p>因为 Redis 是基于内存来存储数据的，所以 Redis 对数据读取的速度远远大于使用硬盘来读取数据的速度，因此经常被用作缓存。</p>
+<p>因为 Redis 的列表提供 <code>POP</code> 和 <code>PUSH</code> 操作，所以可以使用 Redis 作为队列。</p>
+<p>虽然 Redis 是基于内存的，但是 Redis 提供了持久化机制，定期存储数据到硬盘中。</p>
+<p>除此之外，Redis 还经常使用在应用排行榜、网站访问统计、数据过期处理、商品秒杀（队列机制）等地方。</p>
 <h2 id="Redis-配置"><a href="#Redis-配置" class="headerlink" title="Redis 配置"></a>Redis 配置</h2><p>Redis 的配置文件位于 Redis 安装目录下，文件名为 redis.conf。<br>你可以通过 <code>CONFIG</code> 命令查看或设置配置项。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; CONFIG GET CONFIG_SETTING_NAME</div></pre></td></tr></table></figure>
 <p>比如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; CONFIG GET loglevel</div><div class="line">1) &quot;loglevel&quot;</div><div class="line">2) &quot;notice&quot;</div></pre></td></tr></table></figure>
 <p>使用 <code>*</code> 可以获得所有的配置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; CONFIG GET *</div></pre></td></tr></table></figure>
-<p>关于所有的参数说明，可以参考<a href="http://www.runoob.com/redis/redis-conf.html" target="_blank" rel="external">Redis 配置
+<p>关于所有的参数说明，可以参考 f<a href="http://www.runoob.com/redis/redis-conf.html" target="_blank" rel="external">Redis 配置
 </a></p>
+<p>常用要修改的配置有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">daemonize yes      // 设置 Redis 后台启动</div><div class="line">port 7200          // 设置 Redis 的启动端口</div></pre></td></tr></table></figure>
 <p>在 Mac 下面，可以使用 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install redis</div></pre></td></tr></table></figure>
 <p>来安装 Redis，在 Mac 下面，安装完 Redis 之后，直接输入 <code>redis-server</code> 就可以使用 Redis 了，如果需要配置文件启动参数，可以使用和修改默认的参数：</p>
@@ -434,6 +445,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis-cli</div><div class="line">127.0.0.1:6379&gt; </div><div class="line">/* 由于是本机连接，所以默认ip为127.0.0.1，默认端口为6379*/</div></pre></td></tr></table></figure>
 <p>如果设置了密码，或者配置了新的端口，则需要在使用 <code>redis-cli</code> 的时候声明端口和密码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis-cli -h host -p port -a password</div><div class="line">// 举例</div><div class="line">redis-cli -h 127.0.0.1 -p 6379 -a &quot;mypass&quot;</div></pre></td></tr></table></figure>
+<h3 id="连接命令"><a href="#连接命令" class="headerlink" title="连接命令"></a>连接命令</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/ac49e0d920ceb9ba1cc087efc8951d27.png" alt=""></p>
+<h3 id="查看-Redis-信息"><a href="#查看-Redis-信息" class="headerlink" title="查看 Redis 信息"></a>查看 Redis 信息</h3><p>获得 Redis 服务器的统计信息，可以输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; info</div></pre></td></tr></table></figure>
 <h3 id="退出-Redis"><a href="#退出-Redis" class="headerlink" title="退出 Redis"></a>退出 Redis</h3><p>在 <code>redis-cli</code> 里面输入 <code>shutdown</code>，就可以关闭 Redis 服务器，然后输入 <code>exit</code> 就可以退出 Redis 客户端。</p>
 <h2 id="Redis-键-key"><a href="#Redis-键-key" class="headerlink" title="Redis 键(key)"></a>Redis 键(key)</h2><p>查看所有的 key</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; keys *</div></pre></td></tr></table></figure>
@@ -442,19 +456,19 @@
 <p>具体的解释可以查看<a href="http://www.runoob.com/redis/redis-keys.html" target="_blank" rel="external">Redis 键(key)</a></p>
 <h2 id="Redis-数据类型"><a href="#Redis-数据类型" class="headerlink" title="Redis 数据类型"></a>Redis 数据类型</h2><p>Redis支持五种数据类型：string（字符串），hash（哈希），list（列表），set（集合）及zset(sorted set：有序集合)。</p>
 <p><a href="https://redis.io/commands" target="_blank" rel="external">查询所有 Redis 命令</a></p>
-<h3 id="String（字符串）"><a href="#String（字符串）" class="headerlink" title="String（字符串）"></a>String（字符串）</h3><p>string是redis最基本的类型，你可以理解成与Memcached一模一样的类型，一个key对应一个value。</p>
-<p>string类型是二进制安全的。意思是redis的string可以包含任何数据。比如jpg图片或者序列化的对象 。</p>
-<p>string类型是Redis最基本的数据类型，一个值最大能存储512MB。其他语言的数据类型都会被转换为 string 类型，并且在 Redis 中，键也是 string 类型的。</p>
+<h3 id="String（字符串）"><a href="#String（字符串）" class="headerlink" title="String（字符串）"></a>String（字符串）</h3><p>string是Redis最基本的类型，你可以理解成与Memcached一模一样的类型，一个key对应一个value。</p>
+<p>string类型是二进制安全的。意思是Redis的string可以包含任何数据。比如jpg图片或者序列化的对象 。</p>
+<p>string类型是Redis最基本的数据类型，一个值最大能存储512MB。其他语言的数据类型都会被转换为 string 类型，并且在 Redis 中，键也是 string 类型的。String 类型的值<strong>可以包裹的是字符串，整数和浮点数，并且可以对整数和浮点数进行增减，对字符串进行操作</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; SET name 1</div><div class="line">OK</div><div class="line">redis 127.0.0.1:6379&gt; GET name</div><div class="line">&quot;1&quot;</div></pre></td></tr></table></figure>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/6c5c0bf36a37ee7f8afb1315e3baf136.png" alt=""></p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/9af6118777adbf5980b235db4788e83e.png" alt=""></p>
-<h3 id="Hash（哈希）"><a href="#Hash（哈希）" class="headerlink" title="Hash（哈希）"></a>Hash（哈希）</h3><p>Redis hash 是一个键名对集合。<br>Redis hash是一个string类型的field和value的映射表，hash特别适合用于存储对象。</p>
+<h3 id="Hash（哈希）"><a href="#Hash（哈希）" class="headerlink" title="Hash（哈希）"></a>Hash（哈希）</h3><p>Redis hash 是一个键名对集合。<br>Redis hash是一个string类型的field和value的映射表，hash特别适合用于存储对象。<strong>值可以是 String 类型，也可以是 整数，或者 浮点数 类型</strong></p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/ddbb807f152bd4bcce56e24fd92ce845.png" alt=""></p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/fb8e9b067b7b1a8817f96d9920aa6b0b.png" alt=""></p>
 <p>使用 <code>HMSET</code> 和 <code>HGETALL</code> 来设置和获取 Hash 值。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; HMSET user:1 username runoob password runoob points 200</div><div class="line">OK</div><div class="line">127.0.0.1:6379&gt; HGETALL user:1</div><div class="line">1) &quot;username&quot;</div><div class="line">2) &quot;runoob&quot;</div><div class="line">3) &quot;password&quot;</div><div class="line">4) &quot;runoob&quot;</div><div class="line">5) &quot;points&quot;</div><div class="line">6) &quot;200&quot;</div></pre></td></tr></table></figure>
 <p>每个 hash 可以存储 2^32 -1 键值对（40多亿）。</p>
-<h3 id="List（列表）"><a href="#List（列表）" class="headerlink" title="List（列表）"></a>List（列表）</h3><p>Redis 列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）。</p>
+<h3 id="List（列表）"><a href="#List（列表）" class="headerlink" title="List（列表）"></a>List（列表）</h3><p>Redis 列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）。<strong>值可以是 String 类型，也可以是 整数，或者 浮点数 类型</strong></p>
 <p>其中 <code>LINDEX</code> 表示了在 Redis 中数据的下表是如何计算的，具体可以参考：<a href="https://redis.io/commands/lindex" target="_blank" rel="external">LINDEX key index</a></p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/00f9abc43b090d868426e089c21b271f.png" alt=""></p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/2f4dcf56f421e2e0e025614fffa09b63.png" alt=""></p>
@@ -469,14 +483,55 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; sadd runoob redis</div><div class="line">(integer) 1</div><div class="line">redis 127.0.0.1:6379&gt; sadd runoob mongodb</div><div class="line">(integer) 1</div><div class="line">redis 127.0.0.1:6379&gt; sadd runoob rabitmq</div><div class="line">(integer) 1</div><div class="line">redis 127.0.0.1:6379&gt; sadd runoob rabitmq</div><div class="line">(integer) 0</div><div class="line">redis 127.0.0.1:6379&gt; smembers runoob</div><div class="line">1) &quot;rabitmq&quot;</div><div class="line">2) &quot;mongodb&quot;</div><div class="line">3) &quot;redis&quot;</div></pre></td></tr></table></figure>
 <h3 id="zset-sorted-set：有序集合"><a href="#zset-sorted-set：有序集合" class="headerlink" title="zset(sorted set：有序集合)"></a>zset(sorted set：有序集合)</h3><p>Redis zset 和 set 一样也是string类型元素的集合,且不允许重复的成员。</p>
+<p><strong>值可以是 String 类型，也可以是 整数，或者 浮点数 类型</strong></p>
 <p>不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。</p>
-<p><strong>zset的成员是唯一的,但分数(score)却可以重复</strong>。</p>
+<p><strong>zset的 value 是唯一的,但分数(score)却可以重复</strong>。 如果两个元素的 score 是一样的，则排名顺序按照这两个元素的 value 的字典排列顺序。</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/54c2df197aa058fcfb9dc2bde5337151.png" alt=""></p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/d8b5a73e9d54075b7afa5142c6064356.png" alt=""></p>
 <ul>
 <li><code>ZADD key score member</code>：添加元素到集合</li>
 <li><code>ZRANGEBYSCORE runoob start stop</code>：显示分数 <code>start</code> 到 <code>stop</code> 的元素</li>
 </ul>
+<h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><p>Redis HyperLogLog 是用来做基数统计的算法，HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定 的、并且是很小的。</p>
+<h3 id="什么是基数"><a href="#什么是基数" class="headerlink" title="什么是基数?"></a>什么是基数?</h3><p>比如数据集 <code>{1, 3, 5, 7, 5, 7, 8}</code>， 那么这个数据集的基数集为 <code>{1, 3, 5 ,7, 8}</code>, 基数(不重复元素)为 <code>5</code>。 基数估计就是在误差可接受的范围内，快速计算基数。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/29837f8a1504ecdddee4a7b0db864312.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; PFADD runoobkey &quot;redis&quot;</div><div class="line">1) (integer) 1</div><div class="line">redis 127.0.0.1:6379&gt; PFADD runoobkey &quot;mongodb&quot;</div><div class="line">1) (integer) 1</div><div class="line">redis 127.0.0.1:6379&gt; PFADD runoobkey &quot;mysql&quot;</div><div class="line">1) (integer) 1</div><div class="line">redis 127.0.0.1:6379&gt; PFCOUNT runoobkey</div><div class="line">(integer) 3</div></pre></td></tr></table></figure>
+<h2 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h2><p>Redis 发布订阅(pub/sub)是一种消息通信模式：发送者(pub)发送消息，订阅者(sub)接收消息。</p>
+<p>Redis 客户端可以订阅任意数量的频道。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/caa84e357a42a748a8aa139fa9179b17.png" alt=""></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/bdbdd164ff4c8d93bf58e3ba74cd5a5c.png" alt=""></p>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>Redis 事务可以一次执行多个命令， 并且带有以下两个重要的保证：</p>
+<ul>
+<li>事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。</li>
+<li>事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。</li>
+</ul>
+<p>以 <code>MULTI</code> 开始一个事务， 然后将多个命令入队到事务中， 最后由 <code>EXEC</code> 命令触发事务， 一并执行事务中的所有命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; MULTI</div><div class="line">OK</div><div class="line">redis 127.0.0.1:6379&gt; SET book-name &quot;Mastering C++ in 21 days&quot;</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; GET book-name</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; SADD tag &quot;C++&quot; &quot;Programming&quot; &quot;Mastering Series&quot;</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; SMEMBERS tag</div><div class="line">QUEUED</div><div class="line">redis 127.0.0.1:6379&gt; EXEC</div><div class="line">1) OK</div><div class="line">2) &quot;Mastering C++ in 21 days&quot;</div><div class="line">3) (integer) 3</div><div class="line">4) 1) &quot;Mastering Series&quot;</div><div class="line">   2) &quot;C++&quot;</div><div class="line">   3) &quot;Programming&quot;</div></pre></td></tr></table></figure>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/371ca1a0523726d41e96976c48c2590a.png" alt=""></p>
+<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>Redis 脚本使用 Lua 解释器来执行脚本。 Reids 2.6 版本通过内嵌支持 Lua 环境。执行脚本的常用命令为 <code>EVAL</code>。</p>
+<h2 id="数据备份与恢复"><a href="#数据备份与恢复" class="headerlink" title="数据备份与恢复"></a>数据备份与恢复</h2><p>Redis <code>SAVE</code> 命令用于创建当前数据库的备份。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; SAVE </div><div class="line">OK</div></pre></td></tr></table></figure>
+<p>该命令将在 redis 安装目录中创建 <code>dump.rdb</code> 文件。</p>
+<p>如果需要恢复数据，只需将备份文件 (<code>dump.rdb</code>) 移动到 Redis 安装目录并启动服务即可。获取 Redis 目录可以使用 <code>CONFIG</code> 命令，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">redis 127.0.0.1:6379&gt; CONFIG GET dir</div><div class="line">1) &quot;dir&quot;</div><div class="line">2) &quot;/usr/local/redis/bin&quot;</div></pre></td></tr></table></figure>
+<p><strong>默认路径就是在哪个文件夹下运行的 <code>redis-server</code></strong></p>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><p>我们可以通过以下命令查看是否设置了密码验证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; CONFIG get requirepass</div><div class="line">1) &quot;requirepass&quot;</div><div class="line">2) &quot;&quot;</div></pre></td></tr></table></figure>
+<p>默认情况下 <code>requirepass</code> 参数是空的，这就意味着你无需通过密码验证就可以连接到 Redis 服务。<br>你可以通过以下命令来修改该参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; CONFIG set requirepass &quot;runoob&quot;</div><div class="line">OK</div><div class="line">127.0.0.1:6379&gt; CONFIG get requirepass</div><div class="line">1) &quot;requirepass&quot;</div><div class="line">2) &quot;runoob&quot;</div></pre></td></tr></table></figure>
+<p>设置密码后，客户端连接 Redis 服务就需要密码验证，否则无法执行命令。</p>
+<p>AUTH 命令基本语法格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">127.0.0.1:6379&gt; AUTH runoob</div></pre></td></tr></table></figure>
+<h2 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h2><p>redis 性能测试的基本命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-benchmark [option] [option value]</div></pre></td></tr></table></figure>
+<h2 id="管道技术"><a href="#管道技术" class="headerlink" title="管道技术"></a>管道技术</h2><p>Redis是一种基于客户端-服务端模型以及请求/响应协议的TCP服务。这意味着通常情况下一个请求会遵循以下步骤：</p>
+<ul>
+<li>客户端向服务端发送一个查询请求，并监听Socket返回，通常是以阻塞模式，等待服务端响应。</li>
+<li>服务端处理命令，并将结果返回给客户端。</li>
+</ul>
+<p>Redis 管道技术可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$(echo -en &quot;PING\r\n SET runoobkey redis\r\nGET runoobkey\r\nINCR visitor\r\nINCR visitor\r\nINCR visitor\r\n&quot;; sleep 10) | nc localhost 6379</div><div class="line"></div><div class="line">+PONG</div><div class="line">+OK</div><div class="line">redis</div><div class="line">:1</div><div class="line">:2</div><div class="line">:3</div></pre></td></tr></table></figure>
+<p>以上实例中我们通过使用 PING 命令查看redis服务是否可用， 之后我们们设置了 runoobkey 的值为 redis，然后我们获取 runoobkey 的值并使得 visitor 自增 3 次。<br>在返回的结果中我们可以看到这些命令一次性向 redis 服务提交，并最终一次性读取所有服务端的响应</p>
 
       
     </div>
@@ -544,7 +599,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2017/05/26/Redis入门/"
-           data-title="Redis入门" data-url="https://shiningdan.github.io/2017/05/26/Redis入门/">
+           data-title="redis入门" data-url="https://shiningdan.github.io/2017/05/26/Redis入门/">
       </div>
     
   </div>
@@ -644,7 +699,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-简介"><span class="nav-number">1.</span> <span class="nav-text">Redis 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-配置"><span class="nav-number">2.</span> <span class="nav-text">Redis 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#退出-Redis"><span class="nav-number">2.1.</span> <span class="nav-text">退出 Redis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-键-key"><span class="nav-number">3.</span> <span class="nav-text">Redis 键(key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-数据类型"><span class="nav-number">4.</span> <span class="nav-text">Redis 数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#String（字符串）"><span class="nav-number">4.1.</span> <span class="nav-text">String（字符串）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash（哈希）"><span class="nav-number">4.2.</span> <span class="nav-text">Hash（哈希）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List（列表）"><span class="nav-number">4.3.</span> <span class="nav-text">List（列表）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set（集合）"><span class="nav-number">4.4.</span> <span class="nav-text">Set（集合）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zset-sorted-set：有序集合"><span class="nav-number">4.5.</span> <span class="nav-text">zset(sorted set：有序集合)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-简介"><span class="nav-number">1.</span> <span class="nav-text">Redis 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-应用场景"><span class="nav-number">2.</span> <span class="nav-text">Redis 应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-配置"><span class="nav-number">3.</span> <span class="nav-text">Redis 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连接命令"><span class="nav-number">3.1.</span> <span class="nav-text">连接命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看-Redis-信息"><span class="nav-number">3.2.</span> <span class="nav-text">查看 Redis 信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出-Redis"><span class="nav-number">3.3.</span> <span class="nav-text">退出 Redis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-键-key"><span class="nav-number">4.</span> <span class="nav-text">Redis 键(key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-数据类型"><span class="nav-number">5.</span> <span class="nav-text">Redis 数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#String（字符串）"><span class="nav-number">5.1.</span> <span class="nav-text">String（字符串）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash（哈希）"><span class="nav-number">5.2.</span> <span class="nav-text">Hash（哈希）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List（列表）"><span class="nav-number">5.3.</span> <span class="nav-text">List（列表）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set（集合）"><span class="nav-number">5.4.</span> <span class="nav-text">Set（集合）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zset-sorted-set：有序集合"><span class="nav-number">5.5.</span> <span class="nav-text">zset(sorted set：有序集合)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HyperLogLog"><span class="nav-number">6.</span> <span class="nav-text">HyperLogLog</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是基数"><span class="nav-number">6.1.</span> <span class="nav-text">什么是基数?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布订阅"><span class="nav-number">7.</span> <span class="nav-text">发布订阅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务"><span class="nav-number">8.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脚本"><span class="nav-number">9.</span> <span class="nav-text">脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据备份与恢复"><span class="nav-number">10.</span> <span class="nav-text">数据备份与恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全"><span class="nav-number">11.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能测试"><span class="nav-number">12.</span> <span class="nav-text">性能测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道技术"><span class="nav-number">13.</span> <span class="nav-text">管道技术</span></a></li></ol></div>
             
 
           </div>
