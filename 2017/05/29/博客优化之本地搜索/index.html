@@ -1,0 +1,1015 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在本博客中，本来想使用 bing 搜索或者 Google 搜索来实现站内搜索的功能，尽管我已经设置了在发布和更新文章的时候通知不同的搜索引擎，但是它们什么时候更新索引却不能受到我的控制，所以，我最后选择使用 Elasticsearch 来实现站内搜索的功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博客优化之本地搜索">
+<meta property="og:url" content="https://shiningdan.github.io/2017/05/29/博客优化之本地搜索/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="在本博客中，本来想使用 bing 搜索或者 Google 搜索来实现站内搜索的功能，尽管我已经设置了在发布和更新文章的时候通知不同的搜索引擎，但是它们什么时候更新索引却不能受到我的控制，所以，我最后选择使用 Elasticsearch 来实现站内搜索的功能。">
+<meta property="og:updated_time" content="2017-05-30T14:58:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博客优化之本地搜索">
+<meta name="twitter:description" content="在本博客中，本来想使用 bing 搜索或者 Google 搜索来实现站内搜索的功能，尽管我已经设置了在发布和更新文章的时候通知不同的搜索引擎，但是它们什么时候更新索引却不能受到我的控制，所以，我最后选择使用 Elasticsearch 来实现站内搜索的功能。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/05/29/博客优化之本地搜索/"/>
+
+
+
+
+
+  <title> 博客优化之本地搜索 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/05/29/博客优化之本地搜索/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                博客优化之本地搜索
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-29T22:15:33+08:00">
+                2017-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/29/博客优化之本地搜索/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/29/博客优化之本地搜索/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/05/29/博客优化之本地搜索/" class="leancloud_visitors" data-flag-title="博客优化之本地搜索">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在本博客中，本来想使用 bing 搜索或者 Google 搜索来实现站内搜索的功能，尽管我已经设置了在发布和更新文章的时候通知不同的搜索引擎，但是它们什么时候更新索引却不能受到我的控制，所以，我最后选择使用 Elasticsearch 来实现站内搜索的功能。</p>
+<a id="more"></a>
+<p>这篇文章很多地方的实现参考了 <a href="https://imququ.com/post/elasticsearch.html" target="_blank" rel="external">使用 Elasticsearch 实现博客站内搜索 | QuQu</a> QuQu 老师的这篇文章，在此表示感谢。</p>
+<h2 id="安装-Elasticsearch"><a href="#安装-Elasticsearch" class="headerlink" title="安装 Elasticsearch"></a>安装 Elasticsearch</h2><h3 id="下载和安装-Elasticsearch"><a href="#下载和安装-Elasticsearch" class="headerlink" title="下载和安装 Elasticsearch"></a>下载和安装 Elasticsearch</h3><p>下载和安装 Elasticsearch 的步骤很简单，就是安装包下载下来解压就行，具体的步骤可以查看官方文档 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html" target="_blank" rel="external">Installation Elasticsearch</a></p>
+<p>然后运行 <code>&lt;es&gt;/bin/elasticsearch</code> 脚本，就可以启动 Elasticsearch 了。</p>
+<p>使用 curl 来验证 Elasticsearch 是否运行成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">curl -XGET http://127.0.0.1:9200/\?pretty</div><div class="line"></div><div class="line">&#123;</div><div class="line">  &quot;name&quot; : &quot;Yy0Pe-N&quot;,</div><div class="line">  &quot;cluster_name&quot; : &quot;elasticsearch&quot;,</div><div class="line">  &quot;cluster_uuid&quot; : &quot;VnbxeqF_QpG9Xv62p1nePA&quot;,</div><div class="line">  &quot;version&quot; : &#123;</div><div class="line">    &quot;number&quot; : &quot;5.4.0&quot;,</div><div class="line">    &quot;build_hash&quot; : &quot;780f8c4&quot;,</div><div class="line">    &quot;build_date&quot; : &quot;2017-04-28T17:43:27.229Z&quot;,</div><div class="line">    &quot;build_snapshot&quot; : false,</div><div class="line">    &quot;lucene_version&quot; : &quot;6.5.0&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果返回值和上面类似，就是运行成功了。</p>
+<h3 id="配置启动和关闭脚本"><a href="#配置启动和关闭脚本" class="headerlink" title="配置启动和关闭脚本"></a>配置启动和关闭脚本</h3><h2 id="安装-IK-Analysis"><a href="#安装-IK-Analysis" class="headerlink" title="安装 IK Analysis"></a>安装 IK Analysis</h2><p>Elasticsearch 自带的分词器会粗暴地把每个汉字直接分开，没有根据词库来分词。为了处理中文搜索，还需要安装中文分词插件。所以需要使用 <a href="https://github.com/medcl/elasticsearch-analysis-ik/" target="_blank" rel="external">IK Analysis for Elasticsearch</a> 来支持 Elasticsearch 的中文分词能力。</p>
+<p>具体的下载以及安装过程可以参考 <a href="https://github.com/medcl/elasticsearch-analysis-ik/" target="_blank" rel="external">IK Analysis for Elasticsearch</a> 文档中的内容。</p>
+<p>首先查看 Elasticsearch 的版本号，然后在 <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases" target="_blank" rel="external">elasticsearch-analysis-ik | release</a> 中找到对应的版本下载。</p>
+<p>查看版本号的方法，就和上面 <strong>使用 curl 来验证 Elasticsearch 是否运行成功</strong> 的方法相同，其中，返回值里面有一个 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;number&quot; : &quot;5.4.0&quot;</div></pre></td></tr></table></figure>
+<p>表示当前 Elasticsearch 的版本，就可以下载对应的 elasticsearch-analysis-ik 版本。</p>
+<p>根据要求，解压 <code>target/releases/elasticsearch-analysis-ik-{version}.zip</code> 到 <code>your-es-root/plugins/ik</code></p>
+<p>然后重启 Elasticsearch。</p>
+<p>在启动的时候，看到下面的信息，就说明 analysis-ik 安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[o.e.p.PluginsService     ] [Yy0Pe-N] loaded plugin [analysis-ik]</div></pre></td></tr></table></figure>
+<p>在 elasticsearch-analysis-ik 中有两种不同的分词方法，根据官方分档的解释，分为：</p>
+<ul>
+<li><code>ik_max_word</code>: 会将文本做最细粒度的拆分，比如会将“中华人民共和国国歌”拆分为“中华人民共和国,中华人民,中华,华人,人民共和国,人民,人,民,共和国,共和,和,国国,国歌”，会穷尽各种可能的组合；</li>
+<li><code>ik_smart</code>: 会做最粗粒度的拆分，比如会将“中华人民共和国国歌”拆分为“中华人民共和国,国歌”。</li>
+</ul>
+<p>我在使用的时候使用的是最细粒度的拆分</p>
+<h2 id="创建-Mapping-和-Query-DSL"><a href="#创建-Mapping-和-Query-DSL" class="headerlink" title="创建 Mapping 和 Query DSL"></a>创建 Mapping 和 Query DSL</h2><p>在使用 Elastic 存储需要被检索的数据之前，我们要先为其创建一个 Index，然后在该 Index 下定义 Document 中数据的类型，所使用的 analyzer、是否索引等属性。创建 Mapping 的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">curl -XDELETE &apos;http://localhost:9200/articles&apos;</div><div class="line"></div><div class="line">curl -XPUT &apos;http://localhost:9200/articles&apos; -d &apos;</div><div class="line">&#123;</div><div class="line">	&quot;settings&quot;: &#123; &quot;number_of_shards&quot;: 1 &#125;, </div><div class="line">    &quot;mappings&quot; : &#123;</div><div class="line">        &quot;article&quot;: &#123;</div><div class="line">            &quot;properties&quot;: &#123;</div><div class="line">                &quot;title&quot;: &#123;</div><div class="line">                    &quot;type&quot;: &quot;text&quot;,</div><div class="line">                    &quot;term_vector&quot;: &quot;with_positions_offsets&quot;,</div><div class="line">                    &quot;analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">                    &quot;search_analyzer&quot;: &quot;ik_max_word&quot;</div><div class="line">                &#125;,</div><div class="line">                &quot;content&quot;: &#123;</div><div class="line">                    &quot;type&quot;: &quot;text&quot;,</div><div class="line">                    &quot;term_vector&quot;: &quot;with_positions_offsets&quot;,</div><div class="line">                    &quot;analyzer&quot;: &quot;ik_max_word&quot;,</div><div class="line">                    &quot;search_analyzer&quot;: &quot;ik_max_word&quot;</div><div class="line">                &#125;,</div><div class="line">                &quot;link&quot;: &#123;</div><div class="line">                    &quot;type&quot;: &quot;text&quot;</div><div class="line">                &#125;,</div><div class="line">                &quot;categories&quot;: &#123;</div><div class="line">                    &quot;type&quot;: &quot;keyword&quot;,</div><div class="line">                    &quot;index&quot; : &quot;true&quot;</div><div class="line">                &#125;,</div><div class="line">                &quot;create_date&quot;: &#123;</div><div class="line">                    &quot;type&quot; : &quot;date&quot;,</div><div class="line">                    &quot;index&quot; : &quot;not_analyzed&quot;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;&apos;</div></pre></td></tr></table></figure>
+<p>其中，相关配置的含义为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;term_vector&quot;: &quot;with_positions_offsets&quot; // 保存值和token位置信息和Token的offset</div></pre></td></tr></table></figure>
+<p>设置 <code>title</code> 和 <code>content</code>，使用 <code>ik_max_word</code> 作为分词器。然后将 <code>create_data</code> 和 <code>categories</code> 设置不分词。</p>
+<p>然后在保存新的文章和更新文章的时候，可以将数据写入到 Elasticsearch 以供搜索：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">res.es.index(&#123;</div><div class="line">    index: &apos;articles&apos;,</div><div class="line">    type: &apos;article&apos;,</div><div class="line">    id: _article.link.slice(6),</div><div class="line">    body: &#123;</div><div class="line">      title: _article.title,</div><div class="line">      content: _article.md,</div><div class="line">      link: _article.link.slice(6),</div><div class="line">      categories: _article.categories,</div><div class="line">      create_data: _article.meta.createAt</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>在我们的博客中，需要实现对于 <code>content</code>、<code>title</code>、<code>link</code>、<code>categories</code> 的复杂搜索，并且为不同检索区域的内容涉及不同的权重，具体的权重以及复杂检索如下，参考的是 QuQu 老师的检索策略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    index : &apos;articles&apos;,</div><div class="line">    type : &apos;article&apos;,</div><div class="line">    from : start,</div><div class="line">    body : &#123;</div><div class="line">      query : &#123; </div><div class="line">        dis_max : &#123; </div><div class="line">          queries : [</div><div class="line">            &#123;</div><div class="line">              match : &#123;</div><div class="line">                title : &#123; </div><div class="line">                  query : s, </div><div class="line">                  minimum_should_match : &apos;50%&apos;,</div><div class="line">                  boost : 4,</div><div class="line">                &#125;</div><div class="line">              &#125; </div><div class="line">            &#125;, &#123;</div><div class="line">              match : &#123;</div><div class="line">                content : &#123; </div><div class="line">                  query : s, </div><div class="line">                  minimum_should_match : &apos;75%&apos;,</div><div class="line">                  boost : 4,</div><div class="line">                &#125;</div><div class="line">              &#125; </div><div class="line">            &#125;, &#123;</div><div class="line">              match : &#123;</div><div class="line">                categories : &#123; </div><div class="line">                  query : s, </div><div class="line">                  minimum_should_match : &apos;100%&apos;,</div><div class="line">                  boost : 2,</div><div class="line">                &#125;</div><div class="line">              &#125; </div><div class="line">            &#125;, &#123;</div><div class="line">              match : &#123;</div><div class="line">                link : &#123; </div><div class="line">                  query : s, </div><div class="line">                  minimum_should_match : &apos;100%&apos;,</div><div class="line">                  boost : 1,</div><div class="line">                &#125;</div><div class="line">              &#125; </div><div class="line">            &#125;</div><div class="line">          ],</div><div class="line">            tie_breaker : 0.3</div><div class="line">          &#125;</div><div class="line">        &#125;,</div><div class="line">        highlight : &#123;</div><div class="line">          pre_tags : [&apos;&lt;b&gt;&apos;],</div><div class="line">          post_tags : [&apos;&lt;/b&gt;&apos;],</div><div class="line">          fields : &#123;</div><div class="line">            title : &#123;&#125;,</div><div class="line">            content : &#123;&#125;,</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>因为我的原文没有保存只有文字格式的，而是直接编辑 Markdown 来呈现文章的，所以，我在检索的时候，直接检索的是原文的 Markdown 文件。</p>
+<p>当然，检索得到的 Markdown 格式不适合直接在浏览器上进行显示，所以需要将其中的 Markdown 语法相关的标记都删除，这里我使用的是 <a href="https://github.com/stiang/remove-markdown" target="_blank" rel="external">remove-markdown</a> 这个库来实现将标记溢出的功能。当然，这个库中有一些处理的地方不合我的要求，比如：</p>
+<ol>
+<li>Markdown 原文中，如果搜索出来的结果包含 <code>&lt;!--more--&gt;</code> 标记，则通过该库的编辑后，会成为 <code>!--more--</code> 格式</li>
+<li>通过 Elasticsearch 中， <code>higtlight</code> 返回的字段有 <code>&lt;b&gt;</code> 和 <code>&lt;/b&gt;</code> 标签的包裹，但是通过该库的编辑后，会变成 <code>b</code> 和 <code>/b</code></li>
+</ol>
+<p>所以针对以上两点，我也使用了正则表达式进行了修正：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">(value) =&gt; &#123;</div><div class="line">  let reg = /b([\S]&#123;1,20&#125;?)\/b/g;</div><div class="line">  let moreReg = /!--more--/g;</div><div class="line">  value.hits.hits.map((a) =&gt; &#123;</div><div class="line">    a.highlight.content = a.highlight.content.map((c) =&gt; &#123;</div><div class="line">      c = removeMd(c);</div><div class="line">      c = c.replace(moreReg, () =&gt; &quot;&quot;);</div><div class="line">      return c.replace(reg, (v, p1) =&gt; &#123;</div><div class="line">        return &apos;&lt;b&gt;&apos;+p1+&apos;&lt;/b&gt;&apos;;</div><div class="line">      &#125;)</div><div class="line">    &#125;);</div><div class="line">    return a;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://imququ.com/post/elasticsearch.html" target="_blank" rel="external">使用 Elasticsearch 实现博客站内搜索 | QuQu</a></li>
+<li><a href="https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/" target="_blank" rel="external">Elasticsearch: 权威指南</a></li>
+<li><a href="http://www.tuicool.com/articles/NRBFJjj" target="_blank" rel="external">string类型已死, 字符串数据永生</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/27/博客性能优化之热门数据缓存/" rel="next" title="博客性能优化之热门数据缓存">
+                <i class="fa fa-chevron-left"></i> 博客性能优化之热门数据缓存
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/29/博客优化之本地搜索/"
+           data-title="博客优化之本地搜索" data-url="https://shiningdan.github.io/2017/05/29/博客优化之本地搜索/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Elasticsearch"><span class="nav-number">1.</span> <span class="nav-text">安装 Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载和安装-Elasticsearch"><span class="nav-number">1.1.</span> <span class="nav-text">下载和安装 Elasticsearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置启动和关闭脚本"><span class="nav-number">1.2.</span> <span class="nav-text">配置启动和关闭脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-IK-Analysis"><span class="nav-number">2.</span> <span class="nav-text">安装 IK Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Mapping-和-Query-DSL"><span class="nav-number">3.</span> <span class="nav-text">创建 Mapping 和 Query DSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
