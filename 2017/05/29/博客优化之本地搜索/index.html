@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/29/博客优化之本地搜索/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="在本博客中，本来想使用 bing 搜索或者 Google 搜索来实现站内搜索的功能，尽管我已经设置了在发布和更新文章的时候通知不同的搜索引擎，但是它们什么时候更新索引却不能受到我的控制，所以，我最后选择使用 Elasticsearch 来实现站内搜索的功能。">
-<meta property="og:updated_time" content="2017-05-30T14:58:04.000Z">
+<meta property="og:updated_time" content="2017-05-31T07:56:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="博客优化之本地搜索">
 <meta name="twitter:description" content="在本博客中，本来想使用 bing 搜索或者 Google 搜索来实现站内搜索的功能，尽管我已经设置了在发布和更新文章的时候通知不同的搜索引擎，但是它们什么时候更新索引却不能受到我的控制，所以，我最后选择使用 Elasticsearch 来实现站内搜索的功能。">
@@ -409,7 +409,19 @@
 <p>使用 curl 来验证 Elasticsearch 是否运行成功：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">curl -XGET http://127.0.0.1:9200/\?pretty</div><div class="line"></div><div class="line">&#123;</div><div class="line">  &quot;name&quot; : &quot;Yy0Pe-N&quot;,</div><div class="line">  &quot;cluster_name&quot; : &quot;elasticsearch&quot;,</div><div class="line">  &quot;cluster_uuid&quot; : &quot;VnbxeqF_QpG9Xv62p1nePA&quot;,</div><div class="line">  &quot;version&quot; : &#123;</div><div class="line">    &quot;number&quot; : &quot;5.4.0&quot;,</div><div class="line">    &quot;build_hash&quot; : &quot;780f8c4&quot;,</div><div class="line">    &quot;build_date&quot; : &quot;2017-04-28T17:43:27.229Z&quot;,</div><div class="line">    &quot;build_snapshot&quot; : false,</div><div class="line">    &quot;lucene_version&quot; : &quot;6.5.0&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>如果返回值和上面类似，就是运行成功了。</p>
-<h3 id="配置启动和关闭脚本"><a href="#配置启动和关闭脚本" class="headerlink" title="配置启动和关闭脚本"></a>配置启动和关闭脚本</h3><h2 id="安装-IK-Analysis"><a href="#安装-IK-Analysis" class="headerlink" title="安装 IK Analysis"></a>安装 IK Analysis</h2><p>Elasticsearch 自带的分词器会粗暴地把每个汉字直接分开，没有根据词库来分词。为了处理中文搜索，还需要安装中文分词插件。所以需要使用 <a href="https://github.com/medcl/elasticsearch-analysis-ik/" target="_blank" rel="external">IK Analysis for Elasticsearch</a> 来支持 Elasticsearch 的中文分词能力。</p>
+<p>在配置的时候遇到了以下几个错误：</p>
+<h3 id="JVM-内存不足"><a href="#JVM-内存不足" class="headerlink" title="JVM 内存不足"></a>JVM 内存不足</h3><p>Elasticsearch 默认情况下最小需要 2G 内存才能运行，但是我的虚拟机最多只有 2G 内存，所以，需要设置以下 Elasticsearch 启动的内存大小：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;es-root&gt;/config/jvm.options</div><div class="line"></div><div class="line">-Xms1g </div><div class="line">-Xmx1g</div></pre></td></tr></table></figure>
+<p>将对应最小启动内存设置成 1G，就可以启动了</p>
+<h3 id="Elasticsearch-不能-root-运行"><a href="#Elasticsearch-不能-root-运行" class="headerlink" title="Elasticsearch 不能 root 运行"></a>Elasticsearch 不能 root 运行</h3><p>Elasticsearch 由于安全的原因，在 &gt;= 5.0 版本之后，不允许使用 root 用户来运行，现有的解决方法有：</p>
+<p>修改源代码并且编译来支持使用 root 用户：<a href="https://stackoverflow.com/questions/42807114/how-to-run-elasticsearch-5-2-1-as-root-user-in-linux-machine" target="_blank" rel="external">How to run Elasticsearch 5.2.1 as root user in linux machine
+</a></p>
+<p>或者创建一个新的用户来执行 Elasticsearch，我这里选择的是第二种方法。<a href="https://my.oschina.net/topeagle/blog/591451?fromerr=mzOr2qzZ" target="_blank" rel="external">CENTOS安装ElasticSearch</a></p>
+<h3 id="配置启动和关闭脚本"><a href="#配置启动和关闭脚本" class="headerlink" title="配置启动和关闭脚本"></a>配置启动和关闭脚本</h3><p>后面为了使用 root 用户来运行 Elasticsearch，我最后使用了 docker 来进行 Elasticsearch。</p>
+<p>具体安装 docker Elasticsearch 的步骤可以参考 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_next_steps_5" target="_blank" rel="external">Install Elasticsearch </a></p>
+<p>在官网中下载的 Elasticsearch 默认开启了 X-Pack 权限验证，我在运行 docker 的时候取消了该权限验证，具体可以参考 <a href="https://www.elastic.co/guide/en/x-pack/5.4/security-settings.html#security-settings" target="_blank" rel="external">Security Settings</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -p 9200:9200 -e &quot;http.host=0.0.0.0&quot; -e &quot;transport.host=127.0.0.1&quot; -e &quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot; -e &quot;xpack.security.enabled=false&quot; -e &quot;plugins=/usr/share/elasticsearch/plugin&quot; docker.elastic.co/elasticsearch/elasticsearch:5.4.0</div></pre></td></tr></table></figure>
+<h2 id="安装-IK-Analysis"><a href="#安装-IK-Analysis" class="headerlink" title="安装 IK Analysis"></a>安装 IK Analysis</h2><p>Elasticsearch 自带的分词器会粗暴地把每个汉字直接分开，没有根据词库来分词。为了处理中文搜索，还需要安装中文分词插件。所以需要使用 <a href="https://github.com/medcl/elasticsearch-analysis-ik/" target="_blank" rel="external">IK Analysis for Elasticsearch</a> 来支持 Elasticsearch 的中文分词能力。</p>
 <p>具体的下载以及安装过程可以参考 <a href="https://github.com/medcl/elasticsearch-analysis-ik/" target="_blank" rel="external">IK Analysis for Elasticsearch</a> 文档中的内容。</p>
 <p>首先查看 Elasticsearch 的版本号，然后在 <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases" target="_blank" rel="external">elasticsearch-analysis-ik | release</a> 中找到对应的版本下载。</p>
 <p>查看版本号的方法，就和上面 <strong>使用 curl 来验证 Elasticsearch 是否运行成功</strong> 的方法相同，其中，返回值里面有一个 </p>
@@ -489,6 +501,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/05/31/开始使用Docker/" rel="prev" title="开始使用Docker">
+                开始使用Docker <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -561,7 +577,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">71</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -614,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Elasticsearch"><span class="nav-number">1.</span> <span class="nav-text">安装 Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载和安装-Elasticsearch"><span class="nav-number">1.1.</span> <span class="nav-text">下载和安装 Elasticsearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置启动和关闭脚本"><span class="nav-number">1.2.</span> <span class="nav-text">配置启动和关闭脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-IK-Analysis"><span class="nav-number">2.</span> <span class="nav-text">安装 IK Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Mapping-和-Query-DSL"><span class="nav-number">3.</span> <span class="nav-text">创建 Mapping 和 Query DSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Elasticsearch"><span class="nav-number">1.</span> <span class="nav-text">安装 Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载和安装-Elasticsearch"><span class="nav-number">1.1.</span> <span class="nav-text">下载和安装 Elasticsearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM-内存不足"><span class="nav-number">1.2.</span> <span class="nav-text">JVM 内存不足</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch-不能-root-运行"><span class="nav-number">1.3.</span> <span class="nav-text">Elasticsearch 不能 root 运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置启动和关闭脚本"><span class="nav-number">1.4.</span> <span class="nav-text">配置启动和关闭脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-IK-Analysis"><span class="nav-number">2.</span> <span class="nav-text">安装 IK Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Mapping-和-Query-DSL"><span class="nav-number">3.</span> <span class="nav-text">创建 Mapping 和 Query DSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
