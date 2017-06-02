@@ -373,8 +373,53 @@ function jumpFloorII(number)
 
 其实这也是一个斐波那契数的问题，`f(n) = f(n-1) + f(n-2)`。
 
+**像这种动态规划的问题，其实求解的方法都类似于数学归纳法，找到 `f(n)` 和之前状态的直接关系，然后构造公式，并且提供初始值。**
 
+```
+function rectCover(number)
+{
+    if (number === 0) {
+        return 0;
+    } else if (number === 1) {
+        return 1;
+    } else if (number === 2) {
+        return 2;
+    } else {
+        var rNum1 = 1, rNum2 = 2, tmp;
+        while(number > 2) {
+            tmp = rNum2;
+            rNum2 = rNum1 + rNum2;
+            rNum1 = tmp;
+            --number;
+        }
+        return rNum2;
+    }
+}
+```
 
+## 二进制中 1 的个数
+
+### 题目描述
+
+输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。
+
+```
+function NumberOf1(n)
+{
+    var count = 0;
+    while(n) {
+        ++ count;
+        n = n & (n - 1);
+    }
+    return count;
+}
+```
+
+解答详解可以参见 [详解]（https://www.nowcoder.com/profile/1498510/codeBookDetail?submissionId=8851153）这里我要谈的是 JS 中的数值的二进制表达。
+
+默认在 JS 中，数值是用 64 位的浮点型二进制进行存储的，但是只要对 JS 中的任何数字做位运算操作系统内部都会将其转换成 32 位的整型。
+
+在计算机中，正整数存储的是正常的二进制真值，负数存储的是二进制补码（真值码取反加一后加上符号位）。所以计算负数二进制中 1 的个数的时候，得到的是正整数补码中 1 的位数。并且在进行位运算的时候，负数使用的是补码。
 
 
 
