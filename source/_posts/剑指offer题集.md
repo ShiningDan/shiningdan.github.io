@@ -422,6 +422,126 @@ function NumberOf1(n)
 在计算机中，正整数存储的是正常的二进制真值，负数存储的是二进制补码（真值码取反加一后加上符号位）。所以计算负数二进制中 1 的个数的时候，得到的是正整数补码中 1 的位数。并且在进行位运算的时候，负数使用的是补码。
 
 
+## 数值的整数次方
+
+### 题目描述
+
+给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。
+
+**在这道题中，我们可能还需要考虑指数是 0 或者负数的情况！**
+
+所以，第一次的解法如此：
+
+```
+function Power(base, exponent)
+{
+    if (exponent < 0) {
+        if (base === 0) {
+            throw new Error('the deno should not be 0');
+        } else {
+            var absexponent = -exponent, result = 1;
+            for (var i = 0; i < absexponent; i++) {
+                result *= base;
+            }
+			result = 1/result;
+            return result;
+        }
+    } else if (exponent === 0) {
+        return 1;
+    } else {
+        var result = 1;
+        for (var i = 0; i < exponent; i++) {
+            result *= base;
+        }
+        return result;
+    }
+}
+```
+
+但是，使用这种解法的问题就在于，如果 `exponent` 的值为 `32`，我们就需要计算 32 次，其实 32 次方就等于 16 的平方的平方，这个问题就变成了之前的斐波拉契数列的问题，我们可以由此来减少计算的步骤：
+
+```
+function PowerPosExp(base, exponent) {
+    var result = base;
+    while(exponent > 1) {
+        if (exponent & 0x01 === 1) {
+            result = result * result * base;
+            exponent = (exponent - 1) / 2;
+        } else {
+            result = result * result;
+            exponent = exponent / 2;
+        }
+    }
+    return result;
+}
+function Power(base, exponent)
+{
+    if (exponent < 0) {
+        if (base === 0) {
+            throw new Error('the deno should not be 0');
+        } else {
+            var result = PowerPosExp(base, -exponent);
+						result = 1/result;
+            return result;
+        }
+    } else if (exponent === 0) {
+        return 1;
+    } else {
+        var result = PowerPosExp(base, exponent);
+        return result;
+    }
+}
+```
+
+## 调整数组顺序使奇数位于偶数前面
+
+### 题目描述
+
+输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+
+```
+/**
+ * 1.要想保证原有次序，则只能顺次移动或相邻交换。
+ * 2.i从左向右遍历，找到第一个偶数。
+ * 3.j从i+1开始向后找，直到找到第一个奇数。
+ * 4.将[i,...,j-1]的元素整体后移一位，最后将找到的奇数放入i位置，然后i++。
+ * 5.终止条件：j向后遍历查找失敗。
+ */
+function reOrderArray(array)
+{
+    for (var i = 0; i < array.length; i++) {
+        if (array[i]%2 == 1) {
+            continue;
+        }
+        var j = i + 1;
+        while(j < array.length) {
+            if (array[j]%2 == 1) {
+            	while(j > i) {
+                    var tmp = array[j];
+                    array[j] = array[j - 1];
+                    array[j - 1] = tmp;
+                    --j;
+                }  
+                break;
+            }
+            ++j;
+        }
+    }
+		return array;
+}
+
+let a = [1, 2, 3, 4, 5, 6, 6, 7];
+console.log(reOrderArray(a));
+```
+
+## 链表中倒数第k个结点
+
+### 题目描述
+
+输入一个链表，输出该链表中倒数第k个结点。
+
+
+
 
 
 
