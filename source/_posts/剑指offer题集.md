@@ -540,6 +540,113 @@ console.log(reOrderArray(a));
 
 输入一个链表，输出该链表中倒数第k个结点。
 
+为了实现一次遍历就找到倒数第 k 个节点，我们可以定义两个指针，他们之间的节点数相差 `k - 1`。
+
+然后，这道题考虑的是鲁棒性，所以，我们要考虑
+
+1. 如果头指针为空
+2. 如果链表数少于 k
+3. 如果输入的 `k` 为 `0`
+
+```
+function FindKthToTail(head, k)
+{
+    if (head === null || k <= 0) {
+        return null;
+    }
+    var pA = head, pB = null;
+    for (var i = 0; i < k - 1; i++) {
+        if (pA.next === null) {
+            return null;
+        }
+        pA = pA.next;
+    }
+    pB = head;
+    while(pA.next !== null) {
+        pA = pA.next;
+        pB = pB.next;
+    }
+    return pB;
+}
+```
+
+## 翻转链表
+
+### 题目描述
+
+输入一个链表，反转链表后，输出链表的所有元素。
+
+这道题需要考虑，链表头为 `null`，链表只有一个节点和多个节点的情况。
+
+```
+function ReverseList(pHead)
+{
+    if (pHead) {
+        if (pHead.next === null) {
+            return pHead;
+        }
+        var pNext = pHead.next,
+            p = pHead,
+            pPrev = null;
+        p.next = pPrev;
+        while(pNext.next !== null) {
+            pPrev = p;
+            p = pNext;
+            pNext = pNext.next;
+            p.next = pPrev;
+        }
+        pNext.next = p;
+        return pNext;
+    }
+    return null;
+}
+```
+
+## 合并两个排序的链表
+
+### 题目描述
+
+输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+
+我们需要考虑的是如果给的链表是 `null`，该如何处理
+
+```
+function Merge(pHead1, pHead2)
+{
+    if (pHead1 === null) {
+        return pHead2;
+    } else if (pHead2 === null) {
+        return pHead1;
+    } else {
+        if (pHead1.val <= pHead2.val) {
+            pHead1.next = Merge(pHead1.next, pHead2);
+            return pHead1;
+        } else {
+            pHead2.next = Merge(pHead1, pHead2.next);
+            return pHead2;
+        }
+        
+    }
+}
+```
+
+## 树的子结构
+
+### 题目描述
+
+输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
