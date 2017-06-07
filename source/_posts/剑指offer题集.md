@@ -636,6 +636,122 @@ function Merge(pHead1, pHead2)
 
 输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
 
+**在解决链表，树等类型的题，一定要注意判断输入是否为 null**
+
+```
+function HasSubtree(pRoot1, pRoot2)
+{
+    if (pRoot1 === null || pRoot2 === null) {
+        return false;
+    }
+    return isSubtree(pRoot1, pRoot2) || HasSubtree(pRoot1.left, pRoot2) || HasSubtree(pRoot1.right, pRoot2);
+    
+}
+function isSubtree(pRoot1, pRoot2) {
+    if (pRoot2 === null) {
+        return true;
+    }
+    if (pRoot1 === null) {
+        return false;
+    }
+    if (pRoot1.val === pRoot2.val) {
+        return isSubtree(pRoot1.left, pRoot2.left) && isSubtree(pRoot1.right, pRoot2.right);
+    }
+    return false;
+}
+```
+
+## 二叉树的镜像
+
+### 题目描述
+
+操作给定的二叉树，将其变换为源二叉树的镜像。 
+输入描述:
+二叉树的镜像定义：源二叉树 
+
+```
+    	    8
+    	   /  \
+    	  6   10
+    	 / \  / \
+    	5  7 9 11
+    	镜像二叉树
+    	    8
+    	   /  \
+    	  10   6
+    	 / \  / \
+    	11 9 7  5
+
+```
+
+```
+function Mirror(root)
+{
+    if (root === null) {
+        return null;
+    }
+    var tmp = root.left;
+    root.left = root.right;
+    root.right = tmp;
+    root.left = Mirror(root.left);
+    root.right = Mirror(root.right);
+    return root;
+}
+```
+
+## 顺时针打印矩阵
+
+### 题目描述
+
+输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+
+
+```
+function printMatrix(matrix)
+{
+    if (matrix === null || matrix.length === 0) {
+        return ;
+    }
+    var row = matrix.length, col = matrix[0].length;
+		if (col === undefined) {
+        return matrix;
+    }
+    var result = [], start = 0;
+    while(row > 2 * start && col > 2 * start){
+				var endx = col - start;
+				var endy = row - start;
+				for (var i = start; i < endx; i++) {
+						result.push(matrix[start][i])
+				}
+				if(start<endy-1){
+						for (var j= (start + 1); j < endy; j++) {
+						result.push(matrix[j][endx-1]);
+						}
+				}
+				if(start<(endx-1)&&start<(endy-1)){
+						for (var  m = endx-2; m >= start; m--) {
+								result.push(matrix[endy-1][m])
+						}
+				}
+				if(start<(endx-1)&&start<endy){
+						for (var n = endy - 2; n >= start+1; n--) {
+								result.push(matrix[n][start])
+						}
+				}
+				start++
+		}
+    return result;
+}
+```
+
+## 包含 min 函数的栈
+
+### 题目描述
+
+定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。在该栈中，调用 min、push、pop 的时间复杂度为 O(1)
+
+
+
 
 
 
