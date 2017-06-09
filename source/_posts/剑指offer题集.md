@@ -750,10 +750,108 @@ function printMatrix(matrix)
 
 定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。在该栈中，调用 min、push、pop 的时间复杂度为 O(1)
 
+```
+var d_data = [];
+var m_data = [];
+function push(node)
+{
+    d_data.push(node);
+    var min = m_data[m_data.length - 1];
+    if (min === undefined) {
+        m_data.push(node);
+    } else {
+        m_data.push(Math.min(min, node))
+    }
+}
+function pop()
+{
+    if (m_data.length === 0) {
+        throw new Error('Stack is Empty')
+    } else {
+        m_data.pop();
+    	return d_data.pop();
+    }
+}
+function top()
+{
+    // write code here
+}
+function min()
+{
+    if (m_data.length === 0) {
+        throw new Error('Stack is Empty')
+    } else {
+        return m_data[m_data.length - 1];
+    }
+}
+```
 
+## 栈的压入、弹出序列
 
+### 题目描述
 
+输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4，5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
 
+**这道题使用了一个新的辅助栈来解决问题**
+
+```
+var stack = [];
+function IsPopOrder(pushV, popV){
+    for (var i = 0; i < pushV.length; i++) {
+        if (pushV[i] === popV[0]) {
+            popV.shift();
+			while(stack.length > 0) {
+				if (stack[stack.length - 1] === popV[0]) {
+					stack.pop();
+					popV.shift();
+				} else {
+					break;
+				}
+			}
+        } else {
+			stack.push(pushV[i]);
+		}
+    }
+    if (stack.length === 0) {
+        return true;
+    }
+    return false;
+}
+```
+
+## 从上往下打印二叉树
+
+### 题目描述
+
+从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+
+**这道题就是广度优先遍历，使用一个辅助的队列进行遍历**
+
+```
+function PrintFromTopToBottom(root)
+{
+    if (root === null) {
+        return [];
+    }
+    var a = [], result = [];
+    a.push(root);
+    while(a.length > 0) {
+        var elem = a.shift();
+        if (elem) {
+            result.push(elem.val);
+            a.push(elem.left);
+            a.push(elem.right);
+        } 
+    }
+    return result;
+}
+```
+
+## 二叉搜索树的后序遍历序列
+
+### 题目描述
+
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
 
 
 
