@@ -409,6 +409,118 @@ store.subscribe(render);
 
 ### 中间件
 
+如果要添加功能，你会在哪个环节添加？
+
+```
+（1）Reducer：纯函数，只承担计算 State 的功能，不合适承担其他功能，也承担不了，因为理论上，纯函数不能进行读写操作。
+（2）View：与 State 一一对应，可以看作 State 的视觉层，也不合适承担其他功能。
+（3）Action：存放数据的对象，即消息的载体，只能被别人操作，自己不能进行任何操作。
+```
+
+只有发送 Action 的这个步骤，即 `store.dispatch()` 方法，可以添加功能。举例来说，要添加日志功能，把 Action 和 State 打印出来，可以对 `store.dispatch` 进行如下改造。
+
+```
+let next = store.dispatch;
+store.dispatch = function dispatchAndLog(action) {
+  console.log('dispatching', action);
+  next(action);
+  console.log('next state', store.getState());
+}
+```
+
+#### 中间件的用法
+
+（1）`createStore` 方法可以接受整个应用的初始状态作为参数，那样的话`，applyMiddleware` 就是第三个参数了。
+
+```
+const store = createStore(
+  reducer,
+  initial_state,
+  applyMiddleware(logger)
+);
+```
+
+（2）中间件的次序有讲究。
+
+```
+const store = createStore(
+  reducer,
+  applyMiddleware(thunk, promise, logger)
+);
+```
+
+上面代码中，`applyMiddleware` 方法的三个参数，就是三个中间件。有的中间件有次序要求，使用前要查一下文档。比如，`logger` 就一定要放在最后，否则输出结果会不正确。
+
+#### applyMiddlewares()
+
+它是 Redux 的原生方法，作用是将所有中间件组成一个数组，依次执行。下面是它的源码。
+
+```
+export default function applyMiddleware(...middlewares) {
+  return (createStore) => (reducer, preloadedState, enhancer) => {
+    var store = createStore(reducer, preloadedState, enhancer);
+    var dispatch = store.dispatch;
+    var chain = [];
+
+    var middlewareAPI = {
+      getState: store.getState,
+      dispatch: (action) => dispatch(action)
+    };
+    chain = middlewares.map(middleware => middleware(middlewareAPI));
+    dispatch = compose(...chain)(store.dispatch);
+
+    return {...store, dispatch}
+  }
+}
+```
+
+常用的中间件有：
+
+* redux-thunk 中间件：如果需要 `store.dispatch` 方法接收的参数可以是一个函数，比如异步执行的函数，就可以使用 redux-thunk
+* redux-promise 中间件：如果需要 `store.dispatch` 方法接收的参数可以是一个 Promise 对象，可以使用 redux-promise
+
+## React-Redux 的用法
+
+React-Redux 将所有组件分成两大类：UI 组件（presentational component）和容器组件（container component）。
+
+UI 组件负责 UI 的呈现，容器组件负责管理数据和逻辑。
+
+### UI 组件
+
+UI 组件有以下几个特征。
+
+```
+只负责 UI 的呈现，不带有任何业务逻辑
+没有状态（即不使用this.state这个变量）
+所有数据都由参数（this.props）提供
+不使用任何 Redux 的 API
+```
+
+下面就是一个 UI 组件的例子。
+
+```
+const Title =
+  value => <h1>{value}</h1>;
+```
+
+UI 组件又称为"纯组件"，即它纯函数一样，纯粹由参数决定它的值。
+
+### 容器组件
+
+容器组件的特征恰恰相反。
+
+```
+负责管理数据和业务逻辑，不负责 UI 的呈现
+带有内部状态
+使用 Redux 的 API
+```
+
+
+
+
+
+
+
 
 
 
