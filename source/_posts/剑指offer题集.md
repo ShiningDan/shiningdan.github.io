@@ -853,6 +853,177 @@ function PrintFromTopToBottom(root)
 
 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
 
+```
+function VerifySquenceOfBST(sequence)
+{
+    if (sequence === null || sequence.length === 0) {
+        return false;
+    } 
+    if (sequence.length < 3) {
+        return true;
+    }
+    var i = 0, root = sequence[sequence.length - 1];
+    for (; i < sequence.length - 1; i++) {
+        if (sequence[i] > root) {
+            break;
+        }
+    }
+	var j = i;
+	for(;j < sequence.length - 1; j++) {
+		if (sequence[j] < root) {
+			return false;
+		}
+	}
+	if (i > 0 && i < sequence.length - 1) {
+		return (VerifySquenceOfBST(sequence.slice(0, i)) && VerifySquenceOfBST(sequence.slice(i, sequence.length - 1)))
+	} else if (i > 0) {
+		return VerifySquenceOfBST(sequence.slice(0, i));
+	} else if (i < sequence.length - 1) {
+		return VerifySquenceOfBST(sequence.slice(i, sequence.length - 1));
+	}
+}
+```
+
+## 二叉树中和为某一值的路径
+
+### 题目描述
+
+输入一颗二叉树和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。
+
+**这道题其实是深度优先遍历，并且使用一个栈结构来存储路径**
+
+在计算每个节点的时候，要先把节点的值入栈，执行完该节点以及该节点的子节点的时候，要把该节点出栈。
+
+**在 `result` 中存储的值是 `path` 的一个深拷贝，所以使用 `path.slice()` 创建一个新的数组**
+
+```
+var result = [], path = [];
+function FindPath(root, expectNumber)
+{
+    if (root === null) {
+        return []
+    }
+    cal(root, expectNumber);
+    return result;
+}
+function cal(root, expectNumber) {
+	path.push(root.val);
+ 	if (expectNumber === root.val && root.left === null && root.right === null) {
+        result.push(path.slice());
+    } else {
+        if (root.left !== null) {
+            cal(root.left, expectNumber - root.val);
+        }
+        if (root.right !== null) {
+            cal(root.right, expectNumber - root.val);
+        }
+    } 
+	path.pop();
+}
+```
+
+## 复杂链表的复制
+
+### 题目描述
+
+输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+
+**这个算法中，指向任意一个节点的寻找，是 O(n ^ 2) 时间复杂度。**为了简化寻找任意一个节点，我们可以在创建下一个节点的时候，使用 HashMap 存储一个`<N, N'>` 的哈希表，这就是一个用空间换时间的方法。
+
+第二种方法是：创建的 `N'` 链接到 `N` 的后面，这样就可以根据 `N` 找到 `N'` 指向的的任意节点
+
+```
+function RandomListNode(x){
+    this.label = x;
+    this.next = null;
+    this.random = null;
+}
+function Clone(pHead)
+{
+    if (pHead !== null) {
+        cloneNodes(pHead);
+        ConnectRandomNodes(pHead);
+        return ReconnectNodes(pHead);
+    } else {
+        return null
+    }
+}
+function cloneNodes(pHead) {
+    var cNode = new RandomListNode(pHead.label);
+    var nextNode = pHead.next;
+    pHead.next = cNode;
+    cNode.next = nextNode;
+    if(nextNode !==  null) {
+        cloneNodes(nextNode);
+    }
+}
+function ConnectRandomNodes(pHead) {
+    if (pHead.random) {
+        var rNode = pHead.random,
+            cNode = pHead.next;
+        cNode.random = rNode.next;
+    }
+    if (pHead.next.next) {
+        ConnectRandomNodes(pHead.next.next);
+    }
+}
+function ReconnectNodes(pHead) {
+    var cPHead = pHead.next, nNode = pHead.next;
+    while(nNode.next) {
+        nNode.next = nNode.next.next;
+        nNode = nNode.next;
+    }
+    return cPHead;
+}
+```
+
+## 二叉搜索树与双向链表
+
+### 题目描述
+
+输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
+
+二叉搜索树中，左节点的值总是小于右节点的值，生成的双向链表中，前一项的值总是小于后一项的值。
+
+**相当于对二叉搜索树的中序遍历。**
+
+在这里使用的是非递归方法：
+
+```
+function Convert(pRootOfTree)
+{
+    if (pRootOfTree === null) {
+        return null;
+    }
+    var stack = [], p = pRootOfTree, head, pre;
+    var isFirst = true;
+    while(p !== null || stack.length !== 0) {
+        while(p) {
+            stack.push(p);
+            p = p.left;
+        }
+        var node = stack.pop();
+        if (isFirst) {
+            head = node;
+            pre = node;
+            isFirst = false;
+        } else {
+            pre.right = node;
+            node.left = pre;
+            pre = node;
+        }
+        p = node.right;
+    }
+    return head;
+}
+```
+
+## 字符串的排列
+
+### 题目描述
+
+输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。 
+
 
 
 
