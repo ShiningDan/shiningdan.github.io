@@ -1024,11 +1024,123 @@ function Convert(pRootOfTree)
 
 输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。 
 
+```
+function Permutation(str)
+{
+    var result = [];
+    if (str === null || str.length === 0) {
+        return result;
+    }
+    var arr = Array.from(str);
+    reformStr(arr, 0, result);
+	result = Array.from(new Set(result));
+    return result;
+}
+function reformStr(arr, start, result) {
+	result.push(arr.join(""));
+	for (var i = start; i < arr.length; i++) {
+		if (arr[start] !== arr[i]) {
+			[arr[start], arr[i]] = [arr[i], arr[start]];
+			reformStr(arr, start + 1, result);
+			[arr[start], arr[i]] = [arr[i], arr[start]]; 
+		} else {
+			reformStr(arr, start + 1, result);
+		}
+	}
+}
+```
 
+## 数组中出现次数超过一半的数字
 
+### 题目描述
 
+数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
 
+**方法一，可以对数组进行排序，因为该数出现的次数超过数组长度的一半，所以排序后该数字必定出现在排序数组中的第 `n/2` 个位置上。**
 
+**方法二，我们在遍历数组的时候保存两个值，第一个是数组的数字，第二个是出现的次数。如果遍历下一个数字和保存的数字相同，则该次数加一；如果不同，则该次数减一。如果次数减到 0，则保存下一个数字。**
+
+这里用的是第二种方法，第二种方法的时间复杂度是 O(n)，比排序的时间复杂度要小。
+
+```
+function MoreThanHalfNum_Solution(numbers)
+{
+    if (numbers === null || numbers.length === 0) {
+		return 0;
+	}
+    var val = numbers[0], time = 0;
+    for (var i = 0; i < numbers.length; i++) {
+        if (val === numbers[i]) {
+            ++time;
+        } else if (time > 0) {
+            --time;
+        } else {
+            val = numbers[i];
+            ++time;
+        }
+    }
+    var k = 0;
+	for (var i = 0; i < numbers.length; i++) {
+		if (numbers[i] == val) {
+			k++;
+		}
+	}
+	return (k > Math.floor(numbers.length/2) ? val : 0);
+}
+```
+
+## 最小的K个数
+
+### 题目描述
+
+[解题思路](https://www.nowcoder.com/profile/7551561/codeBookDetail?submissionId=11048551)
+
+输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+
+**如果是先对所有的数据进行排序后再获得最小的 K 个数，这种思路的时间复杂度是 O(n)**
+
+**还可以参考快排的方法，首先找到第 K 小的数字，然后用快排，将数组左右分割即可，该算法的时间复杂度是 O(n)**
+
+**还可以构造最小堆，时间复杂度是 O(nlogk)，或者维护一个只有 K 大小的排序数组。**
+
+我这里使用的是类似快排的方法。
+
+```
+function GetLeastNumbers_Solution(input, k)
+{
+    if (input === null || input.length < k) {
+        return []
+    }
+    if (input.length === k) {
+        return input;
+    }
+    var start = 0, end = input.length - 1, len = 0;
+    var index = Partition(input, start, end);
+    while(index != k - 1) {
+        if (index < k - 1) {
+            index = Partition(input, index + 1, end);
+        } else {
+            index = Partition(input, start, index - 1);
+        }
+    }
+    return input.slice(0, k);
+}
+function Partition(input, start, end) {
+	var key = input[start], low = start, high = end;
+    while(low < high) {
+        while(low < high && key < input[high]) {
+            --high;
+        }
+        input[low] = input[high];
+        while(low < high && key > input[low]) {
+            ++low;
+        }
+        input[high] = input[low];	
+    }
+    input[low] = key;
+    return low;
+}
+```
 
 
 
