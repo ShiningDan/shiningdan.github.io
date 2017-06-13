@@ -1142,9 +1142,39 @@ function Partition(input, start, end) {
 }
 ```
 
+## 连续子数组的最大和
+
+### 题目描述
+
+HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。今天测试组开完会后,他又发话了:在古老的一维模式识别中,常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。但是,如果向量中包含负数,是否应该包含某个负数,并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},连续子向量的最大和为8(从第0个开始,到第3个为止)。你会不会被他忽悠住？(子向量的长度至少是1)
+
+[解答](https://www.nowcoder.com/profile/284008/codeBookDetail?submissionId=9704055)
 
 
+本方法是使用动态规划的方法：
 
+```
+function FindGreatestSumOfSubArray(array)
+{
+    if (array.length === 0) {
+        return 0;
+    }
+    var max = array[0], temp = array[0];
+    for (var i = 1; i < array.length; i++) {
+        temp = temp < 0 ? array[i] : array[i] + temp;
+        max = max > temp ? max : temp;
+    }
+    return max;
+}
+```
+
+## 整数中1出现的次数（从1到n整数中1出现的次数）
+
+### 题目描述
+
+求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数。
+
+[解答](https://www.nowcoder.com/profile/9571580/codeBookDetail?submissionId=12601864)
 
 
 
