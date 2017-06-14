@@ -1176,9 +1176,210 @@ function FindGreatestSumOfSubArray(array)
 
 [解答](https://www.nowcoder.com/profile/9571580/codeBookDetail?submissionId=12601864)
 
+## 把数组排成最小的数
+
+### 题目描述
+
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+
+解决的方法是，使用 `Array.protorype.sort` 方法中接收的比较函数来比较两个数字。由于数字组成的新的数值可能溢出，所以比较的方法就是把数字组成字符串，然后比较字符串的大小。
+
+```
+function PrintMinNumber(numbers)
+{
+    if (numbers.length === 0) {
+        return "";
+    }
+    var a = numbers.sort(compare);
+    return a.join("");
+}
+function compare(a, b) {
+    return a + "" + b > b + "" + a ? 1 : -1 ;
+}
+```
+
+## 丑数
+
+### 题目描述
+
+把只包含因子2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
+
+在这道题上，每个丑数都是前一个丑数乘以 2、3、5 得到的，关键在于如何确保数组中的丑数是排好序的。
+
+**我们没有必要把每个丑数都乘以 2、3、5，而是记录上一个被乘以 2、3、5的丑数即可。**
 
 
+**所以，我们在迭代数组中的数据计算下一个数据的时候，可以保存上一次迭代的节点。这样既方便计算，又减少了时间复杂度。**
+
+```
+function min(n1, n2, n3) {
+    return n1 < n2 ? (n1 < n3 ? n1 : n3) : (n2 < n3 ? n2 : n3);
+}
+function GetUglyNumber_Solution(index)
+{
+    if (index < 1) {
+        return 0;
+    }
+    var gulyNumber = [1];
+    var nextIndex = 0;
+    var T2index = 0, T3index = 0, T5index = 0;
+    
+    while (nextIndex + 1 < index) {
+        var minNum = min(gulyNumber[T2index] * 2, gulyNumber[T3index] * 3, gulyNumber[T5index] * 5);
+        gulyNumber.push(minNum);
+        ++nextIndex;
+        while(gulyNumber[T2index] * 2 <= gulyNumber[nextIndex]) {
+            ++ T2index;
+        }
+        while(gulyNumber[T3index] * 3 <= gulyNumber[nextIndex]) {
+            ++ T3index;
+        }
+        while(gulyNumber[T5index] * 5 <= gulyNumber[nextIndex]) {
+            ++ T5index;
+        }
+    }
+    return gulyNumber[nextIndex];
+} 
+```
+
+## 第一个只出现一次的字符位置
+
+### 题目描述
+
+在一个字符串(1<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置
+
+这个题的解法，是用 map 或者对象存储字符串出现的位置。
+
+```
+function FirstNotRepeatingChar(str)
+{
+    if (str.length === 0) {
+        return -1;
+    }
+    var map = {};
+    for (var i = 0; i < str.length; i++) {
+        var x = str[i];
+        if (map[x]) {
+           map[x] = -1; 
+        } else {
+            map[x] = i + 1;
+        }
+    }
+    for (var i = 0; i < str.length; i++) {
+    	if (map[str[i]] >= 0) {
+            return i;
+        }        
+    }
+}
+```
+
+## 数组中的逆序对
+
+### 题目描述
+
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007 
+输入描述:
+
+```
+题目保证输入的数组中没有的相同的数字
+数据范围：
+	对于%50的数据,size<=10^4
+	对于%75的数据,size<=10^5
+	对于%100的数据,size<=2*10^5
+```
+
+输入例子:
+
+```
+1,2,3,4,5,6,7,0
+```
+
+输出例子:
+
+```
+7
+```
+
+[解答](https://www.nowcoder.com/profile/6050759/codeBookDetail?submissionId=12615137)
+
+```
+function InversePairs(data)
+{
+    if (data === null || data.length < 2) {
+        return 0;
+    } 
+    var copy = data.slice();
+    return mergeSort(data, copy, 0, data.length - 1);
+}
+function mergeSort(data, copy, start, end) {
+    if (start === end) return 0;
+    var mid = Math.floor((start + end) / 2);
+    var left = mergeSort(data, copy, start, mid);
+    var right = mergeSort(data, copy, mid+1, end);    
+    var count = 0, p1 = mid, p2 = end , p3 = end;
+    while(p1 >= start && p2 >= mid + 1) {
+        if (copy[p1] > copy[p2]) {
+            count += p2 - mid;
+            data[p3--] = copy[p1--];
+        } else {
+            data[p3--] = copy[p2--];
+        }
+    }
+    while (p1 >= start) {
+        data[p3--] = copy[p1--];
+    }
+    while (p2 >= mid + 1) {
+        data[p3--] = copy[p2--];
+    }
+    for (var i = start; i <= end; i++) {
+        copy[i] = data[i];
+    }
+    return left + right + count
+}
+```
+
+## 两个链表的第一个公共结点
+
+### 题目描述
 
 
+输入两个链表，找出它们的第一个公共结点。
 
+```
+function FindFirstCommonNode(pHead1, pHead2)
+{
+    if (pHead1 === null || pHead2 === null) {
+        return null;
+    }
+    var pNext1 = pHead1, pNext2 = pHead2;
+    var len = getlen(pHead1, pHead2);
+    for (var i = 0; i < len; i++) {
+        if (pNext1 === null) {
+            pNext1 = pHead2;
+        }
+        if (pNext2 === null) {
+            pNext2 = pHead1;
+        }
+        if (pNext1 === pNext2) {
+            return pNext1;
+        } else {
+            pNext1 = pNext1.next;
+            pNext2 = pNext2.next;
+        }
+    }
+    return null;
+}
 
+function getlen(pHead1, pHead2) {
+    var len = 0;
+    while (pHead1 !== null) {
+        ++len;
+        pHead1 = pHead1.next;
+    }
+    while (pHead2 !== null) {
+        ++len;
+        pHead2 = pHead2.next;
+    }
+    return len;
+}
+```
