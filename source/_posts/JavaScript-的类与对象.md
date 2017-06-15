@@ -167,6 +167,7 @@ Object.defineProperty( myObject, "a", {
 
 这个性质控制着一个属性是否能在特定的对象属性枚举操作中出现，比如 `for..in` 循环。设置为 `false` 将会阻止它出现在这样的枚举中，即使它依然完全是可以访问的。设置为 `true` 会使它出现。
 
+
 #### [[Get]]
 
 ```
@@ -249,7 +250,6 @@ myObject.a = 2;
 
 myObject.a; // 4
 ```
-
 
 
 ### Object.getOwnPropertyDescriptor
@@ -347,6 +347,175 @@ myObject.b; // undefined
 
 你可以“深度冻结”一个对象：在这个对象上调用 `Object.freeze(..)`，然后递归地迭代所有它引用的对象（目前还没有受过影响的），然后在它们上也调用 `Object.freeze(..)`。但是要小心，这可能会影响其他（共享的）对象。
 
+## Object 函数方法之存在性
+
+### in
+
+```
+var myObject = {
+	a: 2
+};
+
+("a" in myObject);				// true
+("b" in myObject);				// false
+```
+
+`in` 操作符会检查属性是否存在于对象 中，**无论是否可枚举**，或者是否存在于[[Prototype]]链对象遍历的更高层中。相比之下，`hasOwnProperty(..)` **仅仅** 检查 `myObject` 是否拥有属性，但 **不会** 查询[[Prototype]]链。
+
+```
+注意：
+
+4 in [2, 4, 6] 的结果是 false，因为这个数组中包含的属性名是 0、1、2，没有 4
+```
+
+`for...in...` 会返回所有的存在于对象，或者否存在于[[Prototype]]链对象遍历的更高层中，**所有的可枚举** 属性值。**这一点和 `in` 操作符有区别。**最好将 `for..in` 循环 **仅** 用于对象。
+
+```
+注意：
+
+（当下）没有与in操作符的查询方式（在整个[[Prototype]]链上遍历所有的属性）等价的，内建的方法可以得到一个 所有属性 的列表。你可以近似地模拟一个这样的工具：递归地遍历一个对象的[[Prototype]]链，在每一层都从Object.keys(..)中取得一个列表——仅包含可枚举属性。
+```
+
+
+### propertyIsEnumerable(..)
+
+`propertyIsEnumerable(..)` 测试一个给定的属性名是否直接存在于对象上（而不是在原型链上），并且是 `enumerable:true`。
+
+```
+var myObject = { };
+
+Object.defineProperty(
+	myObject,
+	"a",
+	// 使`a`可枚举，如一般情况
+	{ enumerable: true, value: 2 }
+);
+
+Object.defineProperty(
+	myObject,
+	"b",
+	// 使`b`不可枚举
+	{ enumerable: false, value: 3 }
+);
+
+myObject.propertyIsEnumerable( "a" ); // true
+myObject.propertyIsEnumerable( "b" ); // false
+```
+
+### Object.keys(..)
+
+`Object.keys(..) `只会查找对象直接包含的属性，而不查找[[prototype]] 链。
+
+`Object.keys(..)` 返回一个所有 **可枚举** 属性的数组
+
+### Object.getOwnPropertyNames(..)
+
+`Object.getOwnPropertyNames(..) `只会查找对象直接包含的属性，而不查找[[prototype]] 链。
+
+`Object.getOwnPropertyNames(..)` 返回一个 **所有** 属性的数组，不论能不能枚举。
+
+```
+var myObject = { };
+
+Object.defineProperty(
+	myObject,
+	"a",
+	// 使`a`可枚举，如一般情况
+	{ enumerable: true, value: 2 }
+);
+
+Object.defineProperty(
+	myObject,
+	"b",
+	// 使`b`不可枚举
+	{ enumerable: false, value: 3 }
+);
+
+Object.keys( myObject ); // ["a"]
+Object.getOwnPropertyNames( myObject ); // ["a", "b"]
+```
+
+## Object 函数方法之 Prototype 相关
+
+### getPrototypeOf(...)
+
+所有的函数默认都会得到一个公有的，不可枚举的属性，称为prototype，它可以指向一个对象。
+
+这个函数会返回某个对象的构造函数的 prototype。
+
+```
+function Foo() {
+	// ...
+}
+
+var a = new Foo();
+
+Object.getPrototypeOf( a ) === Foo.prototype; // true
+```
+
+### create(...)
+
+`Object.create(..)` 凭空 创建 了一个“新”对象，并将这个新对象内部的[[Prototype]]链接到你指定的对象上
+
+```
+function Foo(name) {
+	this.name = name;
+}
+
+Foo.prototype.myName = function() {
+	return this.name;
+};
+
+function Bar(name,label) {
+	Foo.call( this, name );
+	this.label = label;
+}
+
+// 这里，我们创建一个新的`Bar.prototype`链接链到`Foo.prototype`
+Bar.prototype = Object.create( Foo.prototype );
+
+// 注意！现在`Bar.prototype.constructor`不存在了，
+// 如果你有依赖这个属性的习惯的话，可以被手动“修复”。
+
+Bar.prototype.myLabel = function() {
+	return this.label;
+};
+
+var a = new Bar( "a", "obj a" );
+
+a.myName(); // "a"
+a.myLabel(); // "obj a"
+```
+
+
+## Object.prototype 的方法
+
+### hasOwnProperty(..)
+
+通过委托到 `Object.prototype`，所有的普通对象都可以访问 `hasOwnProperty(..)`。但是创建一个不链接到 `Object.prototype` 的对象也是可能的（通过 `Object.create(null)`）。这种情况下，像 `myObject.hasOwnProperty(..)` 这样的方法调用将会失败。
+
+在这种场景下，一个进行这种检查的更健壮的方式是 `Object.prototype.hasOwnProperty.call(myObject,"a")` ，它借用基本的 `hasOwnProperty(..)` 方法而且使用 明确的 `this` 绑定
+
+`hasOwnProperty(..)` **仅仅** 检查 `myObject` 是否拥有属性，**无论能不能枚举**，但 **不会** 查询[[Prototype]]链。
+
+### isPrototypeOf(...)
+
+某个对象是否出现在另一个对象的 **整条** [[prototype]] 链中。
+
+```
+Foo.prototype.isPrototypeOf( a ); // true
+```
+
+表示：在a的整个[[Prototype]]链中，`Foo.prototype` 出现过吗。
+
+
+### toString()
+
+返回的是代表该对象的 String 类型的值。
+
+### valueOf()
+
+返回的是该 object 对应的基本数据类型的值（string, boolean, number, null, undifined, symbol）。
 
 ## 参考
 
