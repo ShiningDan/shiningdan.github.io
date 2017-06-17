@@ -57,7 +57,137 @@ plugins: [
 
 ![](http://ojt6zsxg2.bkt.clouddn.com/dd59fdb0822ae625101bf72e3524329d.png)
 
-## 分别打包不同的页面
+## 页面按需加载
+
+目前我们的 `bundle.js` 中打包了除了首页以外的不同页面，比如归档、专题、查询等，既然这些页面不会在首屏中出现，我们就不应该在首屏渲染之前加载该页面的代码，这样会延迟首屏渲染的时间。虽然在本博客项目中，涉及到的其他页面很简单，不会带来特别多的代码加载，但是，作为一个合格的网站，我们还是需要具有考虑这些优化方面的思维。所以，在下面的步骤中，我们将针对 React-Router v4 版本，进行页面按需加载的实现。
+
+在 v4 版本中，官方使用了一种新的方式来实现页面按需加载。我们首先要安装 [bundle-loader](https://github.com/webpack-contrib/bundle-loader) 来实现按需加载的能力：
+
+```
+npm install --save-dev bundle-loader
+```
+
+然后，再创建一个 `Bundle` 组件，专门用来封装需要按需加载的组件：
+
+```
+import React from 'react';
+
+export default class Bundle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mod: null,
+    }
+  }
+
+  componentWillMount() {
+    this.load(this.props);
+  }
+
+  componentWillReceoveProps(nextProps) {
+    if (nextProps.load !== this.props.load) {
+      this.load(nextProps);
+    }
+  }
+
+  load(props) {
+    // 重置状态
+    this.setState({
+      mod: null
+    });
+    props.load((mod) => {
+      this.setState({
+        mod: mod.default ? mod.default : mod,
+      })
+    })
+  }
+
+  render() {
+    return this.state.mod ? this.props.children(this.state.mod) : null;
+  }
+}
+```
+
+在封装完该组件后，我们就可以对原来的首屏加载的 React-Router 相关的代码进行重写了。
+
+在原来的代码中，我们使用以下的方法来实现 React-Router 的跳转：
+
+```
+<div id="content">
+    <Switch>
+      <Route exact path='/' component={Home} />
+      <Route path='/archives' component={Archives}/>
+      <Route path='/series' component={Series}/>
+      <Route path='/search' component={Search}/> 
+      <Route path='/post/:link' component={Article}/> 
+      <Route component={Error} />              
+    </Switch>
+</div>
+```
+
+现在，我们将使用 `Bundle` 来重新封装需要按需加载的组件，如 `Archives、Series、Search、Article`：
+
+首先，`import` 组件的时候，我们要使用 `bundle-loader` 来处理：
+
+```
+import Archives from 'bundle-loader?lazy&name=[name]!../archives/archives.jsx';
+```
+
+然后，再定义一个新的组件 `ArchivesLazy` 来包裹原来的 `Archives` 组件：
+
+```
+const ArchivesLazy = (props) => {
+  return (
+    <Bundle load={Archives}>
+      {/*//这里只是给this.props.child传一个方法，最后在Bundle的render里面调用*/}
+      {(Container) => <Container />}
+    </Bundle>
+  );
+} 
+```
+
+最后，我们把包裹好的组件来替换原来组件的位置：
+
+```
+<div id="content">
+  <Switch>
+    <Route exact path='/' component={Home} />
+    <Route path='/archives' component={ArchivesLazy}/>
+    <Route path='/series' component={SeriesLazy}/>
+    <Route path='/search' component={SearchLazy}/> 
+    <Route path='/post/:link' component={ArticleLazy}/> 
+    <Route component={ErrorLazy} />              
+  </Switch>
+</div>
+```
+
+并且，修改 `webpack.config.js`，来将这几部分的组件代码提取出来：
+
+```
+output: {
+    path: path.resolve(__dirname, 'www/static/js'),
+    filename: '[name].js',
+    // 新添加的
+    publicPath: 'js/',
+    chunkFilename: '[name].[chunkhash:5].chunk.js',
+  },
+```
+
+这样，在我们使用 Webpack 编译的时候，就可以得到只包含该组件的文件，如 `archives.00739.chunk.js`。这个文件在跳转到该目录下的时候会被自动下载，下面我们来看一下优化的效果：
+
+在我们使用异步加载之前，可以看到，我们需要加载 `vendor.js` 中代码的大小为 `671KB`：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/b94d2722a0254480c77211d5525cb698.png)
+
+在我们使用异步加载之后，可以看到，首屏下载的 `vendor.js` 中代码的大小为 `628KB` ：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/ff6c49b2c887a9620ea979beec19be46.png)
+
+然后，当我们跳转到其他的页面上时，才会去获取并加载其他页面：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/249a99c03d8b5de21076755a8f63cbd1.png)
+
+`bundle-loader` 是如何实现页面异步加载的呢？我们可以查看一下它的源代码：
 
 
 
