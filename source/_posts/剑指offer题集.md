@@ -1383,3 +1383,161 @@ function getlen(pHead1, pHead2) {
     return len;
 }
 ```
+
+## 数字在排序数组中出现的次数
+
+### 题目描述
+
+统计一个数字在排序数组中出现的次数。
+
+因为是排序的数组，所以考虑使用二分查找法找到数组中第一个数字和最后一个数字。
+
+```
+function GetNumberOfK(data, k)
+{
+    if (data === null) {
+        return 0;
+    } else if (data.length === 0) {
+        return 0;
+    }
+    var start = getFirstK(data, 0, data.length - 1, k);
+    var end = getLastK(data, 0, data.length - 1, k);
+		if (start === -1) {
+			return 0;
+		}
+		return end - start + 1;
+}
+function getFirstK(data, start, end, k) {
+    if (data.length === 0) {
+        return -1;
+    } else if (start === end) {
+			if (data[start] === k) {
+				return start;
+			} else {
+				return -1;
+			}
+		}
+    var mid = Math.floor((start + end)/2);
+    if (data[mid] === k) {
+        if (mid === 0) {
+            return mid;
+        } else if (data[mid - 1] !== k) {
+            return mid;
+        } else {
+					return getFirstK(data, start, mid - 1, k);
+				}
+    } else if (data[mid] < k) {
+        return getFirstK(data, mid + 1, end, k)
+    } else {
+        return getFirstK(data, start, mid - 1, k);
+    }
+}
+function getLastK(data, start, end, k) {
+    if (data.length === 0) {
+        return -1;
+    } else if (start === end) {
+			if (data[start] === k) {
+				return start;
+			} else {
+				return -1;
+			}
+		}
+    var mid = Math.floor((start + end)/2);
+    if (data[mid] === k) {
+        if (mid === data.length - 1) {
+            return mid;
+        } else if (data[mid + 1] !== k) {
+            return mid;
+        } else {
+					return getLastK(data, mid + 1, end, k);
+				}
+    } else if (data[mid] < k) {
+        return getLastK(data, mid + 1, end, k);
+    } else {
+        return getLastK(data, start, end - 1, k);
+    }
+}
+```
+
+## 二叉树的深度
+
+### 题目描述
+
+输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。
+
+
+```
+function TreeDepth(pRoot)
+{
+    if (pRoot === null) {
+        return 0;
+    } else if (pRoot.left === null && pRoot.right === null) {
+        return 1;
+    }
+    var len = 0, stack = [[pRoot]];
+    while(stack.length !== 0) {
+        var tmp = stack.pop(), nextStack = [];
+        tmp.forEach(function(node) {
+            if (node.left !== null) {
+                nextStack.push(node.left)
+            }
+            if (node.right !== null) {
+                nextStack.push(node.right);
+            }
+        });
+        if (nextStack.length > 0) {
+            stack.push(nextStack);
+        }
+        ++len;
+    } 
+    return len;
+}
+```
+
+这道题还可以使用递归的方法来求解：
+
+```
+function TreeDepth(pRoot)
+{
+ 
+    if(pRoot == null){
+        return 0;
+    }
+    var left = TreeDepth(pRoot.left)+1;
+    var right = TreeDepth(pRoot.right)+1;
+    return Math.max(left, right);
+}
+```
+
+## 平衡二叉树
+
+### 题目描述
+
+输入一棵二叉树，判断该二叉树是否是平衡二叉树。
+
+使用后序遍历来解决这个问题
+
+```
+function IsBalanced_Solution(pRoot)
+{
+    var result = isBalanced(pRoot);
+    return result[0];
+}
+function isBalanced(root) {
+    if (root === null) {
+        return [true, 0];
+    }
+    var left = isBalanced(root.left);
+    var right = isBalanced(root.right);
+    if (left[0] && right[0]) {
+        if (Math.abs(left[1] - right[1]) > 1) {
+            return [false, 0];
+        } else {
+            return [true, left[1] > right[1] ? left[1] + 1: right[1] + 1];
+        }
+    } else {
+        return [left[0] && right[0], 0]
+    }
+}
+```
+
