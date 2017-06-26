@@ -1,0 +1,1304 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="AntV,JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文记录的是我在 AntV 的学习经历，AntV 分为 G2 和 G6，G2 是一个语义化图表生成工具，G6 是一个关系图基础技术框架，下面我将对 AntV 这两部分的使用进行简单的介绍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AntV入门">
+<meta property="og:url" content="https://shiningdan.github.io/2017/06/25/AntV入门/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文记录的是我在 AntV 的学习经历，AntV 分为 G2 和 G6，G2 是一个语义化图表生成工具，G6 是一个关系图基础技术框架，下面我将对 AntV 这两部分的使用进行简单的介绍。">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/5ce512ca6d408a2974684c7ae962491a.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/dd560b28927894f75bedb1b75fbb4873.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/2f66fc5ffb225d2b98ab213b5c6341e9.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/ab04e5358c821d6478064beaa9616031.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/ce518f992921bc5c8c0b47889afb64f4.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/400bb5e77b65e3d5a1f2a3f38cfa79d1.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/f560a691cc6e59014c30fece0c3aa587.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/2c1c1e82f579c2cdca109ada07dd0f4d.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/9d946600f3ae8e2e4cefa6c5da09f53e.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/49ef6228f8a2245a6e4744bfb338de25.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/f8d8bec0338836f6a73d3b14bd7eebe7.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/d274600a228dd3e34124941bbeecc7d1.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/ecff4c09c613df48eaaadd3aa783406b.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/516f80a18207db2ab03863fe67e472b4.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/433740053dcb84c1e7b096c6952cdca7.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/04f1f9ab8f7050e66ac633340cf2d583.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/9cb005301e55268952cee3cb6417f1e3.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/573f517534ac01f1b92ab207e893ad92.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/cd0af1e781f8dc24d2a98a39beccc8f4.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/527fef994d45775973364d75f4efb216.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/79595032ee058f82986a61b5d0d28e54.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/bb92d037eb7f2b7b61bf616c201e2602.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/c6953727fbd8fc9e8a61a1a22b332aae.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/69c26ddb3e160302b6f57baa38a0845e.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/d4a00ad216e4751be69a926ab59c9d13.png">
+<meta property="og:updated_time" content="2017-06-26T15:51:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AntV入门">
+<meta name="twitter:description" content="本文记录的是我在 AntV 的学习经历，AntV 分为 G2 和 G6，G2 是一个语义化图表生成工具，G6 是一个关系图基础技术框架，下面我将对 AntV 这两部分的使用进行简单的介绍。">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/5ce512ca6d408a2974684c7ae962491a.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/06/25/AntV入门/"/>
+
+
+
+
+
+  <title> AntV入门 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/06/25/AntV入门/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                AntV入门
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-25T22:56:48+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/25/AntV入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/25/AntV入门/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/06/25/AntV入门/" class="leancloud_visitors" data-flag-title="AntV入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文记录的是我在 AntV 的学习经历，AntV 分为 G2 和 G6，G2 是一个语义化图表生成工具，G6 是一个关系图基础技术框架，下面我将对 AntV 这两部分的使用进行简单的介绍。</p>
+<a id="more"></a>
+<p><a href="https://antv.alipay.com/vis/doc/chart/classify/compare.html" target="_blank" rel="external">不同类型的数据如何选用合适的图展示</a></p>
+<h2 id="图表用法"><a href="#图表用法" class="headerlink" title="图表用法"></a>图表用法</h2><h3 id="柱状图"><a href="#柱状图" class="headerlink" title="柱状图"></a>柱状图</h3><p>柱状图<strong>有别于直方图，柱状图无法显示数据在一个区间内的连续变化趋势</strong>。柱状图描述的是分类数据，回答的是每一个分类中“有多少？”这个问题。 </p>
+<h4 id="纵向柱状图"><a href="#纵向柱状图" class="headerlink" title="纵向柱状图"></a>纵向柱状图</h4><p><img src="http://ojt6zsxg2.bkt.clouddn.com/5ce512ca6d408a2974684c7ae962491a.png" alt=""></p>
+<h4 id="横向柱状图-（条形图）"><a href="#横向柱状图-（条形图）" class="headerlink" title="横向柱状图 （条形图）"></a>横向柱状图 （条形图）</h4><p><img src="http://ojt6zsxg2.bkt.clouddn.com/dd560b28927894f75bedb1b75fbb4873.png" alt=""></p>
+<p><strong>分类太多不适合使用纵向柱状图</strong>，使用横向柱状图，文本可以横向排布，便于用户的阅读</p>
+<p><strong>不适合表示趋势</strong>，随着有序的时间变化的数值趋势，更适合使用折线图或者区域图</p>
+<h4 id="柱状图与其他图表的对比"><a href="#柱状图与其他图表的对比" class="headerlink" title="柱状图与其他图表的对比"></a>柱状图与其他图表的对比</h4><p>柱状图和折线图、饼图</p>
+<ul>
+<li>柱状图主要用于多个分类间的数据（大小、数值）的对比</li>
+<li>折线图主要用于展示连续数值（例如时间）或者有序分类的变化趋势</li>
+<li>饼图主要是展示分类之间的占比情况</li>
+</ul>
+<p>柱状图和南丁格尔图（玫瑰图）</p>
+<ul>
+<li>南丁格尔图（玫瑰图）通过半径的大小来对比数据</li>
+<li>柱状图根据矩形的长度来对比数据</li>
+</ul>
+<h3 id="双向柱状图"><a href="#双向柱状图" class="headerlink" title="双向柱状图"></a>双向柱状图</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/2f66fc5ffb225d2b98ab213b5c6341e9.png" alt=""></p>
+<p><strong>适合的场景：正反分类数据对比 </strong></p>
+<p><strong>双向柱状图不适合不含相反含义的数据</strong></p>
+<h4 id="双向柱状图与其他图表的对比"><a href="#双向柱状图与其他图表的对比" class="headerlink" title="双向柱状图与其他图表的对比"></a>双向柱状图与其他图表的对比</h4><p>双向柱状图和柱状图</p>
+<ul>
+<li>柱状图只能绘制在同一个坐标轴内，每个柱子只能表示一个数据</li>
+<li>双向柱状图包含正向和反向两个坐标轴，每个柱子可以表示一个正向数据和一个反向数据</li>
+</ul>
+<h3 id="色块图"><a href="#色块图" class="headerlink" title="色块图"></a>色块图</h3><p>色块图，由小色块有序且紧凑的组成的图表。色块图的最大好处是，2维画布上的空间利用率非常高。</p>
+<p>另外，关于颜色的用法有两点需要强调一下：</p>
+<ol>
+<li>如果是应对展示用的场景，数据量不大、颜色分类数量小于或等于7个，可以采用分类的颜色映射。</li>
+<li>如果应对，分析相关的需求，为了更有效率的使用色块图，我们建议使用连续（渐变）的颜色映射数值。由于人眼对颜色的分辨力有限，所以用于编码的颜色不宜过多，我们推荐的颜色的数量在3～11个之间。</li>
+</ol>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/ab04e5358c821d6478064beaa9616031.png" alt=""></p>
+<h4 id="色块图与其他图表的对比"><a href="#色块图与其他图表的对比" class="headerlink" title="色块图与其他图表的对比"></a>色块图与其他图表的对比</h4><p>色块图和热力图</p>
+<ul>
+<li>数据类型上看：热力图是用<strong>两个连续字段</strong>确定数值点的位置，色块图是用<strong>两个分类字段</strong>确定数值点的位置。</li>
+<li>功能上看：热力图主要用于展示数据的分布情况，色块图在观察数据分布以外，还能进行列对比和行对比。</li>
+</ul>
+<h3 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/ce518f992921bc5c8c0b47889afb64f4.png" alt=""></p>
+<p>直方图与其他图表的对比</p>
+<p>直方图与柱状图</p>
+<ul>
+<li>柱状图是以矩形的长度表示每一组的频数或数量，其宽度(表示类别)则是固定的，<strong>利于较小的数据集</strong>分析。</li>
+<li>直方图是以矩形的长度表示每一组的频数或数量，宽度则表示各组的组距，因此其<strong>高度与宽度均有意义</strong>，利于展示<strong>大量数据集的统计</strong>结果。</li>
+<li>由于分组数据具有连续性，<strong>直方图的各矩形通常是连续排列</strong>，而柱状图则是分开排列。</li>
+</ul>
+<h3 id="雷达图"><a href="#雷达图" class="headerlink" title="雷达图"></a>雷达图</h3><p>传统的雷达图被认为是一种<strong>表现多维（4维以上）数据的图表</strong>。它将多个维度的数据量映射到坐标轴上，这些坐标轴起始于同一个圆心点，通常结束于圆周边缘，将同一组的点使用线连接起来就称为了雷达图。它可以将多维数据进行展示，但是点的相对位置和坐标轴之间的夹角是没有任何信息量的。在坐标轴设置恰当的情况下雷达图所围面积能表现出一些信息量。</p>
+<p>雷达图还可以展示出数据集中各个变量的权重高低情况，<strong>非常适用于展示性能数据</strong>。</p>
+<p><strong>雷达图更注重于同类图表之间的对比（即雷达图与雷达图之间的对比）</strong></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/400bb5e77b65e3d5a1f2a3f38cfa79d1.png" alt=""></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/f560a691cc6e59014c30fece0c3aa587.png" alt=""></p>
+<h3 id="南丁格尔玫瑰图"><a href="#南丁格尔玫瑰图" class="headerlink" title="南丁格尔玫瑰图"></a>南丁格尔玫瑰图</h3><p>南丁格尔玫瑰图是在极坐标下绘制的柱状图，使用圆弧的半径长短表示数据的大小（数量的多少）。</p>
+<ul>
+<li>由于半径和面积的关系是平方的关系，南丁格尔玫瑰图会将数据的比例大小夸大，尤其适合对比大小相近的数值。</li>
+<li>由于圆形有周期的特性，所以玫瑰图也适用于表示一个周期内的时间概念，比如星期、月份。</li>
+</ul>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/2c1c1e82f579c2cdca109ada07dd0f4d.png" alt=""></p>
+<p><strong>适合的场景：对比不同分类的大小</strong></p>
+<p><strong>不适合的场景：分类过少的场景、部分分类数值过小的场景</strong></p>
+<h4 id="南丁格尔玫瑰图的扩展"><a href="#南丁格尔玫瑰图的扩展" class="headerlink" title="南丁格尔玫瑰图的扩展"></a>南丁格尔玫瑰图的扩展</h4><p>扇形玫瑰图</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/9d946600f3ae8e2e4cefa6c5da09f53e.png" alt=""></p>
+<p>层叠的玫瑰图</p>
+<h4 id="南丁格尔玫瑰图与其他图表的对比"><a href="#南丁格尔玫瑰图与其他图表的对比" class="headerlink" title="南丁格尔玫瑰图与其他图表的对比"></a>南丁格尔玫瑰图与其他图表的对比</h4><p>南丁格尔玫瑰图与柱状图</p>
+<ul>
+<li>南丁格尔玫瑰图本质上是柱状图在极坐标上的展示。</li>
+<li>柱状图使用矩形的高度表示数值的大小</li>
+<li>南丁格尔玫瑰图使用扇形的半径大小表示数值的大小。</li>
+</ul>
+<p>南丁格尔玫瑰图与饼图</p>
+<ul>
+<li>南丁格尔玫瑰图使用<strong>扇形的半径表示数值的大小，饼图使用扇形的弧度表示数据的大小</strong>。</li>
+<li>南丁格尔玫瑰图可以同时表现的分类多于饼图。</li>
+</ul>
+<h3 id="层叠面积图"><a href="#层叠面积图" class="headerlink" title="层叠面积图"></a>层叠面积图</h3><p>层叠面积图上的最大的面积代表了所有的数据量的总和，是一个整体。各个叠起来的面积表示各个数据量的大小，这些堆叠起来的面积图在表现大数据的总量分量的变化情况时格外有用，所以层叠面积图不适用于表示带有负值的数据集。非常适用于对比多变量随时间变化的情况。</p>
+<p><strong>该图并不能反映总量的变化，但是可以清晰的反应每个数值所占百分比随时间或类别变化的趋势线，对于分析自变量是大数据、时变数据、有序数据时各个指标分量占比极为有用。</strong></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/49ef6228f8a2245a6e4744bfb338de25.png" alt=""></p>
+<p><strong>适合场景：百分比层叠面积图</strong></p>
+<p><strong>不适合的场景：分类数据的比较不要使用面积图。</strong></p>
+<h3 id="与其他图表的对比"><a href="#与其他图表的对比" class="headerlink" title="与其他图表的对比"></a>与其他图表的对比</h3><p>与面积图的对比</p>
+<ul>
+<li>层叠面积图是一种特殊的面积图，都是表现数据在连续一段时间、一个数据区间内的趋势</li>
+<li>层叠面积图侧重于表现不同时间段（数据区间）的多个分类累加值之间的趋势</li>
+<li>百分比层叠面积图表现不同时间段（数据区间）的多个分类占比的变化趋势</li>
+</ul>
+<p>与层叠柱状图的对比</p>
+<ul>
+<li>层叠柱状图和层叠面积图都可以呈现不同分类的累加值</li>
+<li>层叠柱状图和层叠面积图的差别在于，<strong>层叠面积图的x轴上只能表示连续数据（时间或者数值），层叠柱状图的x轴上只能表示分类数据</strong></li>
+</ul>
+<h3 id="矩形树图"><a href="#矩形树图" class="headerlink" title="矩形树图"></a>矩形树图</h3><p>矩形树图的好处在于，相比起传统的树形结构图，矩形树图能更有效得利用空间，并且拥有展示<strong>占比</strong>的功能。矩形树图的缺点在于，当分类占比太小的时候文本会变得很难排布。相比起分叉树图，矩形树图的树形数据结构表达的不够直观、明确。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/f8d8bec0338836f6a73d3b14bd7eebe7.png" alt=""></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/d274600a228dd3e34124941bbeecc7d1.png" alt=""></p>
+<p><strong>不适合的场景：没有权重关系，且需要明显展示层级关系，用分叉树图更合适</strong></p>
+<h4 id="矩形树图与其他图表的对比"><a href="#矩形树图与其他图表的对比" class="headerlink" title="矩形树图与其他图表的对比"></a>矩形树图与其他图表的对比</h4><p>矩形树图和分叉树图（分叉树图介绍敬请期待）</p>
+<ul>
+<li>矩形树图用于展示带权的数据，分叉树图用于展示不带权的数据</li>
+<li>两个图表都用于展示层次数据，但是分叉树图展示的层次关系更清晰</li>
+<li>矩形树图能更多的展现树形结构内部的占比关系，分叉树图没有这个能力</li>
+</ul>
+<h3 id="气泡图"><a href="#气泡图" class="headerlink" title="气泡图"></a>气泡图</h3><p>气泡图是一种多变量图表，是散点图的变体，也可以认为是散点图和百分比区域图的组合。</p>
+<p>气泡图通常用于比较和展示不同类别圆点（这里我们称为气泡）之间的关系，通过气泡的位置以及面积大小。从整体上看，气泡图可用于分析数据之间的相关性。</p>
+<p>需要注意的是，气泡图的数据大小容量有限，气泡太多会使图表难以阅读。但是可以通过增加一些交互行为弥补：隐藏一些信息，当鼠标点击或者悬浮时显示，或者添加一个选项用于重组或者过滤分组类别。</p>
+<p><strong>另外，气泡的大小是映射到面积而不是半径或者直径绘制的。</strong>因为如果是基于半径或者直径的话，圆的大小不仅会呈指数级变化，而且还会导致视觉误差。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/ecff4c09c613df48eaaadd3aa783406b.png" alt=""></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/516f80a18207db2ab03863fe67e472b4.png" alt=""></p>
+<h4 id="与地图的结合（Bubble-Map）"><a href="#与地图的结合（Bubble-Map）" class="headerlink" title="与地图的结合（Bubble Map）"></a>与地图的结合（Bubble Map）</h4><p>气泡图的另一个广泛用途，就是气泡图与地图的结合，即带气泡的地图，来展示具有地域特征的数据。具体详见Bubble Map，这里只简单展示一个例子。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/433740053dcb84c1e7b096c6952cdca7.png" alt=""></p>
+<h3 id="子弹图"><a href="#子弹图" class="headerlink" title="子弹图"></a>子弹图</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/04f1f9ab8f7050e66ac633340cf2d583.png" alt=""></p>
+<p><strong>适合的场景：显示阶段性数据信息</strong></p>
+<h4 id="子弹图与其他图表的对比"><a href="#子弹图与其他图表的对比" class="headerlink" title="子弹图与其他图表的对比"></a>子弹图与其他图表的对比</h4><p>子弹图和柱状图</p>
+<ul>
+<li>柱状图主要用于多个分类间的数据（大小、数值）的对比</li>
+<li>子弹图图主要用于分类各自的数值所处状态和与测量标记的对比，突出的是每个分类自身的情况，没有分类间的比较，用于展示各个分类的子弹图单元相对独立。</li>
+</ul>
+<h2 id="G2"><a href="#G2" class="headerlink" title="G2"></a>G2</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="浏览器引入"><a href="#浏览器引入" class="headerlink" title="浏览器引入"></a>浏览器引入</h4><p>既可以通过将脚本下载到本地也可以直接引入在线资源；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 引入在线资源 --&gt;</div><div class="line">&lt;script src=&quot;https://a.alipayobjects.com/g/datavis/g2/2.3.5/g2.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;!-- 引入本地脚本 --&gt;</div><div class="line">&lt;script src=&quot;./g2.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<h4 id="通过-npm-安装"><a href="#通过-npm-安装" class="headerlink" title="通过 npm 安装"></a>通过 npm 安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install g2 --save</div></pre></td></tr></table></figure>
+<p>成功安装完成之后，即可使用 import 或 require 进行引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var G2 = require(&apos;g2&apos;);</div><div class="line">var chart = new G2.Chart(&#123;</div><div class="line">  id: &apos;c1&apos;,</div><div class="line">  width: 600,</div><div class="line">  height: 300</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="使用-G2"><a href="#使用-G2" class="headerlink" title="使用 G2"></a>使用 G2</h3><h4 id="创建-div-图表容器"><a href="#创建-div-图表容器" class="headerlink" title="创建 div 图表容器"></a>创建 div 图表容器</h4><p>在页面的 body 部分创建一个 div，并制定必须的属性 <code>id</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;c1&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<h4 id="编写图表绘制代码"><a href="#编写图表绘制代码" class="headerlink" title="编写图表绘制代码"></a>编写图表绘制代码</h4><p>创建 <code>div</code> 容器后，我们就可以进行简单的图表绘制:</p>
+<ol>
+<li>创建 Chart 图表对象，指定图表所在的容器 ID、指定图表的宽高、边距等信息；</li>
+<li>载入图表数据源；</li>
+<li>使用图形语法进行图表的绘制；</li>
+<li>渲染图表。</li>
+</ol>
+<p>整体例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">    &lt;title&gt;柱状图&lt;/title&gt;</div><div class="line">    &lt;!-- 引入 G2 文件 --&gt;</div><div class="line">    &lt;script src=&quot;https://a.alipayobjects.com/g/datavis/g2/2.3.5/g2.js&quot;&gt;&lt;/script&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;!-- 创建图表容器 --&gt;</div><div class="line">    &lt;div id=&quot;c1&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;script&gt;</div><div class="line">      var data = [</div><div class="line">        &#123;genre: &apos;Sports&apos;, sold: 275&#125;,</div><div class="line">        &#123;genre: &apos;Strategy&apos;, sold: 115&#125;,</div><div class="line">        &#123;genre: &apos;Action&apos;, sold: 120&#125;,</div><div class="line">        &#123;genre: &apos;Shooter&apos;, sold: 350&#125;,</div><div class="line">        &#123;genre: &apos;Other&apos;, sold: 150&#125;,</div><div class="line">      ]; // G2 对数据源格式的要求，仅仅是 JSON 数组，数组的每个元素是一个标准 JSON 对象。</div><div class="line">      // Step 1: 创建 Chart 对象</div><div class="line">      var chart = new G2.Chart(&#123;</div><div class="line">        id: &apos;c1&apos;, // 指定图表容器 ID</div><div class="line">        width : 600, // 指定图表宽度</div><div class="line">        height : 300 // 指定图表高度</div><div class="line">      &#125;);</div><div class="line">      // Step 2: 载入数据源,定义列信息</div><div class="line">      chart.source(data, &#123;</div><div class="line">        genre: &#123;</div><div class="line">          alias: &apos;游戏种类&apos; // 列定义，定义该属性显示的别名</div><div class="line">        &#125;,</div><div class="line">        sold: &#123;</div><div class="line">          alias: &apos;销售量&apos;</div><div class="line">        &#125;</div><div class="line">      &#125;);</div><div class="line">      // Step 3：创建图形语法，绘制柱状图，由 genre 和 sold 两个属性决定图形位置，genre 映射至 x 轴，sold 映射至 y 轴</div><div class="line">      chart.interval().position(&apos;genre*sold&apos;).color(&apos;genre&apos;)</div><div class="line">      // Step 4: 渲染图表</div><div class="line">      chart.render();</div><div class="line">    &lt;/script&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<h3 id="G2-图表的主要组成"><a href="#G2-图表的主要组成" class="headerlink" title="G2 图表的主要组成"></a>G2 图表的主要组成</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/9cb005301e55268952cee3cb6417f1e3.png" alt=""></p>
+<p>观察最后绘制的图表的 dom 结构，你会发现其实它是由三层 canvas 构成的</p>
+<p>这三层 canvas 分别对应 chart 对象的如下三个属性：</p>
+<ol>
+<li>frontCanvas 最上层 canvas，图例 legend、提示信息 tooltip、和 text tag html 这三种类型的辅助标记 guide 在这一层绘制；</li>
+<li>canvas 中间层，绘制图表的主体内容几何标记 geom；</li>
+<li>backCanvas 最下层 canvas，坐标轴 axis 和 line image rect arc 这四种类型的辅助标记 guide 在这一层绘制。</li>
+<li>通过 <code>chart.get(&#39;frontCanvas&#39;)</code> 方式即可获取这些 canvas 对象。</li>
+</ol>
+<h3 id="图表对象配置（chart）"><a href="#图表对象配置（chart）" class="headerlink" title="图表对象配置（chart）"></a>图表对象配置（chart）</h3><h4 id="图表容器"><a href="#图表容器" class="headerlink" title="图表容器"></a>图表容器</h4><p>实例化 Chart 对象时，绑定 dom 容器的方式有两种：</p>
+<ol>
+<li>传入 dom 容器的 id</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var chart = new G2.Chart(&#123;</div><div class="line">  id: &apos;c1&apos;,</div><div class="line">  width: 1000,</div><div class="line">  height: 500</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ol>
+<li>传入 dom 容器的 html 节点对象</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var chart = new G2.Chart(&#123;</div><div class="line">  container: document.getElementById(&apos;c1&apos;),</div><div class="line">  width: 1000,</div><div class="line">  height: 500</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="图表样式"><a href="#图表样式" class="headerlink" title="图表样式"></a>图表样式</h4><p>图表的样式 对图表样式进行配置时，需要设置 <code>plotCfg</code> 属性，该属性包含 <code>border background margin</code> 属性：</p>
+<ol>
+<li>border：用于设置整个 chart 的图表背景样式，包括边框，背景色，透明度，圆角等;</li>
+<li>background：用于设置 chart 绘图区域的背景样式，包括边框，背景色，透明度，圆角等；</li>
+<li>margin：用于设置边距，用法同 CSS 中的 margin 属性相同, [上，右，下，左]</li>
+</ol>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/573f517534ac01f1b92ab207e893ad92.png" alt=""></p>
+<h4 id="图表宽度自适应"><a href="#图表宽度自适应" class="headerlink" title="图表宽度自适应"></a>图表宽度自适应</h4><p>默认情况下，G2 图表的宽度需要用户手动设置 <code>width</code> 参数，当需要图表跟随图表容器响应式时，则需要开启 <code>forceFit</code> 属性，默认其值为 false，开启方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var chart = new G2.Chart(&#123;</div><div class="line">  id: &apos;c1&apos;,</div><div class="line">  forceFit: true,</div><div class="line">  height : 400</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>另外还可以手动得调用自适应函数 <code>chart.forceFit()</code> 来响应页面变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chart.forceFit(); // 手动调用自适应函数</div></pre></td></tr></table></figure>
+<h4 id="图表动画"><a href="#图表动画" class="headerlink" title="图表动画"></a>图表动画</h4><p>默认情况下，G2 的图表动画处于开启状态，可以通过如下两种方式关闭图表动画：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 方式一： 设置 animate 属性</div><div class="line">var chart = new G2.Chart(&#123;</div><div class="line">  id: &apos;c1&apos;,</div><div class="line">  width: 800,</div><div class="line">  height : 400,</div><div class="line">  animate: false // 关闭图表动画</div><div class="line">&#125;);</div><div class="line">// 方式二： 手动调用 animate 函数</div><div class="line">chart.animate(false); // 关闭动画</div></pre></td></tr></table></figure>
+<h3 id="data-数据"><a href="#data-数据" class="headerlink" title="data 数据"></a>data 数据</h3><p>chart 对象支持两种数据载入的方式：</p>
+<p>方式 1：data 属性传入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var chart = new G2.Chart(&#123;</div><div class="line">id: &apos;c1&apos;,</div><div class="line">width: 600,</div><div class="line">height: 300,</div><div class="line">data: [</div><div class="line">&#123;x: &apos;a&apos;, y: 1&#125;,</div><div class="line">&#123;x: &apos;b&apos;, y: 2&#125;,</div><div class="line">...</div><div class="line">]</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>方式 2：调用 <code>chart.source(data)</code> 方法</p>
+<h4 id="支持的数据格式"><a href="#支持的数据格式" class="headerlink" title="支持的数据格式"></a>支持的数据格式</h4><p>G2 支持两种格式的数据源：</p>
+<ul>
+<li>JSON 数组</li>
+<li>Frame 对象</li>
+</ul>
+<p>如果数据源是 JSON 数组，<strong>G2 在内部会将其转换成一个 Frame 对象</strong>。</p>
+<h5 id="JSON-数组"><a href="#JSON-数组" class="headerlink" title="JSON 数组"></a>JSON 数组</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var data = [</div><div class="line">  &#123;&quot;gender&quot;:&quot;男&quot;,&quot;count&quot;:40&#125;,</div><div class="line">  &#123;&quot;gender&quot;:&quot;女&quot;,&quot;count&quot;:30&#125;</div><div class="line">];</div></pre></td></tr></table></figure>
+<h5 id="Frame-对象"><a href="#Frame-对象" class="headerlink" title="Frame 对象"></a>Frame 对象</h5><p>G2 的图表设置数据源后，在内部都会把数据转换成 Frame 对象，我们称之为数据集合，<strong>其是 JSON 数组的每条记录进行列合并的结果</strong>。</p>
+<p>Frame 对象的格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  names: array, // 源数据中所有数据属性的集合。</div><div class="line">  arr: array, // 一个二维数组，同 names 元素顺序对应，存储每个数据属性对应的数据值。</div><div class="line">  data: array, // 存储原始 JSON 数组。</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的 JSON 数组转换为 Frame 对象后，结构如下表格所示：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/cd0af1e781f8dc24d2a98a39beccc8f4.png" alt=""></p>
+<h3 id="Frame-常见操作"><a href="#Frame-常见操作" class="headerlink" title="Frame 常见操作"></a>Frame 常见操作</h3><h4 id="创建-Frame"><a href="#创建-Frame" class="headerlink" title="创建 Frame"></a>创建 Frame</h4><p>通过 <code>G2.Frame</code> 来获取 Frame 对象。</p>
+<p>Example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var data = [</div><div class="line">  &#123;gender:&apos;男&apos;,count:40&#125;,</div><div class="line">  &#123;gender:&apos;女&apos;,count:30&#125;</div><div class="line">];</div><div class="line">var Frame = G2.Frame;</div><div class="line">var frame = new Frame(data); // 将 data 转换为 Frame 对象</div><div class="line">console.log(frame); // &#123;data: Array[2], names: Array[2], arr: Array[2]&#125;</div></pre></td></tr></table></figure>
+<p>我们为 Frame (数据集合)对象封装了大量的数据操作方法，基本上都是列操作，方便用户快捷得对数据进行增删查改。</p>
+<p>一旦对Frame对象进行操作后，data中的数据跟Frame对象不一致，arr中的数据是一个个的数组不方便查看，所以Frame 提供了格式化函数 <code>.s()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var data = [</div><div class="line">  &#123;gender:&apos;男&apos;,count:40&#125;,</div><div class="line">  &#123;gender:&apos;女&apos;,count:30&#125;</div><div class="line">];</div><div class="line">var Frame = G2.Frame;</div><div class="line">var frame = new Frame(data); // 将 data 转换为 Frame 对象</div><div class="line">console.log(frame.s());</div><div class="line">/** 结果</div><div class="line">&quot;gender count</div><div class="line">男 40</div><div class="line">女 30&quot;</div><div class="line"> */</div></pre></td></tr></table></figure>
+<h3 id="度量"><a href="#度量" class="headerlink" title="度量"></a>度量</h3><p>度量 Scale，是数据空间到图形空间的转换桥梁，负责原始数据到 [0, 1] 区间数值的相互转换工作，从原始数据到 [0, 1] 区间的转换我们称之为归一化操作。</p>
+<p>不同的数据类型对应不同的度量，如</p>
+<p>连续数据类型，如 <code>0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10</code> 一组数据，在其原始数值范围 <code>[0, 10]</code> 内通过度量转换至 <code>[0, 1]</code> 范围的数据，变成 <code>0, 0.1, 0.2, ..., 0.9, 1</code>，同时通过 <code>invert</code>反转，还需要度量后的数值恢复至原始值；<br>分类数据类型，如 <code>[&#39;男&#39;, &#39;女&#39;]</code> 这一组数据，通过度量转换后变成 <code>[0, 1]</code>，同样时通过 <code>invert</code> 反转可恢复至原始值。</p>
+<p>在 G2 中度量用于完成以下功能：</p>
+<ol>
+<li>将数据转换到 [0, 1] 范围内，方便将数据映射到位置、颜色、大小等图形属性；</li>
+<li>将归一化后的数据反转回原始值。例如 分类a 转换成 0.2，那么对应 0.2 需要反转回 分类a；</li>
+<li>划分数据，用于在坐标轴、图例显示数值的范围、分类等信息。</li>
+</ol>
+<p>G2 提供了不同的度量类型</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/527fef994d45775973364d75f4efb216.png" alt=""></p>
+<p>对于 G2 生成的所有度量对象，均拥有以下属性，这些属性均可以由用户进行配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  type: string, // 度量的类型</div><div class="line">  range: array, // 数值范围区间，即度量转换的范围，默认为 [0, 1]</div><div class="line">  alias: string, // 为数据属性定义别名，用于图例、坐标轴、tooltip 的个性化显示</div><div class="line">  ticks: array, // 存储坐标轴上的刻度点文本信息</div><div class="line">  tickCount: number, // 坐标轴上刻度点的个数，不同的度量类型对应不同的默认值</div><div class="line">  formatter: function, // 回调函数，用于格式化坐标轴刻度点的文本显示，会影响数据在坐标轴、图例、tooltip 上的显示</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="列定义操作（指定度量）"><a href="#列定义操作（指定度量）" class="headerlink" title="列定义操作（指定度量）"></a>列定义操作（指定度量）</h3><p>所谓的列定义，即是对度量 scale 的操作。</p>
+<p>G2 提供了两种列定义操作方式：</p>
+<ol>
+<li><code>chart.source(data, defs);</code> 用于多个数据字段的列定义。</li>
+<li><code>chart.col(&#39;dim&#39;, defs);</code> 用于一个字段的列定义，该方法会覆盖 <code>chart.source()</code> 中定义的对应字段的列定义且必须先于图形语法语句<code>（chart.&lt;geomType&gt;.position()...）</code>进行声明。</li>
+</ol>
+<h3 id="geom-几何标记-图表类型"><a href="#geom-几何标记-图表类型" class="headerlink" title="geom 几何标记(图表类型)"></a>geom 几何标记(图表类型)</h3><p>创建好 chart 对象之后，就可以通过如下方式选择几何标记的类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chart.point().xx().xx(); // 这里使用了 point 类型的 geom</div></pre></td></tr></table></figure>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/79595032ee058f82986a61b5d0d28e54.png" alt=""></p>
+<h3 id="attr-图形属性"><a href="#attr-图形属性" class="headerlink" title="attr 图形属性"></a>attr 图形属性</h3><p>图形属性对应视觉编码中的视觉通道，是 G2 语法元素非常重要和灵活的一部分，不同的几何标记拥有自己的图形属性。G2 中支持的视觉通道有下面几种：</p>
+<ul>
+<li>position，位置，二维坐标系内映射至 x 轴、y 轴，三维坐标系可以映射到 x 轴、y 轴、z 轴;</li>
+<li>color，颜色，包含了色调、饱和度和亮度；</li>
+<li>size，大小，不同的几何标记对大小的定义有差异；</li>
+<li>shape，形状，几何标记的形状决定了某个具体图表类型的表现形式，例如点图，可以使用圆点、三角形、图片表示；线图可以有折线、曲线、点线等表现形式；</li>
+<li>opacity，透明度，图形的透明度，这个属性从某种意义上来说可以使用颜色代替，需要使用 ‘rgba’ 的形式，所以在 G2 中我们独立出来。</li>
+</ul>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/bb92d037eb7f2b7b61bf616c201e2602.png" alt=""></p>
+<h3 id="coord-坐标系"><a href="#coord-坐标系" class="headerlink" title="coord 坐标系"></a>coord 坐标系</h3><p>G2 包含了 8 种不同的坐标系，目前所有的坐标系均是 2 维的。</p>
+<p>G2 默认提供的坐标系类型为笛卡尔坐标系，当不满足用户需求时，可以通过调用下面的语法声明需要使用的坐标系：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chart.coord(&apos;coordType&apos;[, cfg]);</div></pre></td></tr></table></figure>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/c6953727fbd8fc9e8a61a1a22b332aae.png" alt=""></p>
+<h3 id="axis-坐标轴"><a href="#axis-坐标轴" class="headerlink" title="axis 坐标轴"></a>axis 坐标轴</h3><p>G2 生成的坐标轴由如下五部分组成：</p>
+<ol>
+<li>标题 title</li>
+<li>坐标轴线 line</li>
+<li>文本 labels</li>
+<li>刻度线 tickLine</li>
+<li>网格 grid</li>
+</ol>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/69c26ddb3e160302b6f57baa38a0845e.png" alt=""></p>
+<h3 id="legend-图例"><a href="#legend-图例" class="headerlink" title="legend 图例"></a>legend 图例</h3><p>图例（legend）是图表的辅助元素，使用颜色、大小、形状区分不同的数据类型，用于图表中数据的筛选。G2 会根据设置图形属性映射以及数据的类型自动生成不同的图例。</p>
+<p>shape, color, size 这三个图形属性如果判断接收的参数是数据源的字段时，会自动生成不同的图例；</p>
+<ol>
+<li>shape 属性，会根据不同的 shape 类型生成图例；</li>
+<li>color 属性, 会赋予不同的图例项不同的颜色来区分图形；</li>
+<li>size 属性, 在图例上显示图形的大小。</li>
+</ol>
+<p>通过 <code>chart.legend([dim, ]false)</code> 可以关闭图例。</p>
+<h3 id="tooltip-提示信息"><a href="#tooltip-提示信息" class="headerlink" title="tooltip 提示信息"></a>tooltip 提示信息</h3><p>提示信息(tooltip)，是指当鼠标悬停在图标上的某点时，以框的形式提示该点的数据，比如该点的值，数据单位等。tooltip 内显示的信息完全可以通过格式化函数动态指定；通过调用 <code>chart.tooltip(false)</code> 即可不启用提示信息功能。</p>
+<h3 id="guide-辅助标记"><a href="#guide-辅助标记" class="headerlink" title="guide 辅助标记"></a>guide 辅助标记</h3><p>G2 目前支持 6 种辅助标记类型：</p>
+<ol>
+<li>辅助线，例如表示平均值或者预期分布的直线；</li>
+<li>辅助图片，在图表上添加辅助图片；</li>
+<li>辅助文本，指定位置添加文本说明；</li>
+<li>辅助框，框选一段图区，设置背景、边框等；</li>
+<li>辅助标签(tag)，包含文本标识和辅助线的辅助标记，会从目标到说明文本之间绘制一条线；</li>
+<li>辅助 html，指定位置添加自定义html，显示自定义信息。</li>
+</ol>
+<h3 id="stat-统计变换"><a href="#stat-统计变换" class="headerlink" title="stat 统计变换"></a>stat 统计变换</h3><p>根据对数据的处理方式的不同，G2 中提供了以下几种统计变换函数：</p>
+<p>传统统计函数</p>
+<ol>
+<li>summary：汇总统计，主要计算数据集合的最大值、最小值、平均数等；</li>
+<li>bin：封箱统计，将数据划分成一个个的区域，然后在外面嵌套汇总统计；</li>
+<li>smooth：线性回归、非线性回归以及各种平滑插值算法，用于查找数据的规律；</li>
+<li>density：样本估计总体的概率密度；</li>
+<li>region：计算数值区间，误差区间等；</li>
+</ol>
+<p>数据变换函数</p>
+<ol>
+<li>map：用于地图的绘制计算；</li>
+<li>treemap：用于矩阵树图的绘制计算。</li>
+<li>link：用于计算关系图中边的坐标。</li>
+</ol>
+<h3 id="facet-分面"><a href="#facet-分面" class="headerlink" title="facet 分面"></a>facet 分面</h3><p>分面，将一份数据按照某个维度分隔成若干子集，然后创建一个图表的矩阵，将每一个数据子集绘制到图形矩阵的窗格中，所有子图采用相同的图表类型，并进行了一定的设计，使得它们之间方便进行比较。</p>
+<p>总结起来，分面其实提供了两个功能：</p>
+<ol>
+<li>按照指定的维度划分数据集；</li>
+<li>对图表进行排版。</li>
+</ol>
+<h3 id="theme-图表样式"><a href="#theme-图表样式" class="headerlink" title="theme 图表样式"></a>theme 图表样式</h3><p>G2 默认提供了三种图表主题： default、dark、cheery。</p>
+<h3 id="label-文本标签"><a href="#label-文本标签" class="headerlink" title="label 文本标签"></a>label 文本标签</h3><p>恰当的文本标注可以提高可视化图表的可读性。除了提供文本标签标注的功能之外，G2 还支持文本的格式化以及自定义 html 文本标签的功能。</p>
+<p>在每个几何标记 geom 上调用 label 方法，指定需要显示的数据维度即可</p>
+<h3 id="图表事件-event"><a href="#图表事件-event" class="headerlink" title="图表事件 event"></a>图表事件 event</h3><p>G2 中的事件用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chart.on(&apos;eventType&apos;, fn); // 绑定事件</div><div class="line">chart.off(&apos;eventType&apos;, fn); // 移除事件</div></pre></td></tr></table></figure>
+<p>其中 eventType 对应时间名称，均使用小写。</p>
+<p>对于事件的移除，<code>chart.off(&#39;eventType&#39;, fn)</code> 其中如果 fn 不指定，表示删除所有 eventType 事件，如果 eventType 和 fn 都不指定，则表示删除 chart 上所有的事件。</p>
+<p>目前 G2 提供的事件可以分为三种：</p>
+<p>图表坐标系内的事件： </p>
+<ol>
+<li>plotmove、plotenter、plotleave、plotclick、plotdblclick、rangeselectstart、rangeselectend</li>
+<li>图形元素上的事件：itemselected、itemunselected、itemselectedchange</li>
+<li>tooltip 上的事件：tooltipchange、tooltipshow、tooltiphide</li>
+</ol>
+<h3 id="图表交互"><a href="#图表交互" class="headerlink" title="图表交互"></a>图表交互</h3><p>各个几何标记 geom 选中的模式包含如下三种：</p>
+<p>不可选中；<br>单选；<br>多选。</p>
+<p>图表框选交互</p>
+<p>默认框选的功能是关闭的，通过调用如下方法开启和关闭框选功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chart.setMode(&apos;select&apos;); // 开启框选模式</div><div class="line">chart.setMode(false); // 关闭</div></pre></td></tr></table></figure>
+<p>目前我们提供了如下三种框选交互形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">chart.select(&apos;rangeX&apos;); // 使用 X 轴范围的框选</div><div class="line">chart.selcet(&apos;rangeY&apos;); // 使用 Y 轴范围的框选</div><div class="line">chart.select(&apos;rangeXY&apos;); // 使用 X 和 Y 轴的框选</div></pre></td></tr></table></figure>
+<h3 id="数据异步加载与动态更新"><a href="#数据异步加载与动态更新" class="headerlink" title="数据异步加载与动态更新"></a>数据异步加载与动态更新</h3><p>有时候我们需要先绘制图表，然后再加载完整的数据，即刚开始的时候数据源是个空的。</p>
+<p>当数据加载进来之后，再调用 <code>chart.changeData(data);</code> 即可绘制。</p>
+<h3 id="数据滑动条插件使用"><a href="#数据滑动条插件使用" class="headerlink" title="数据滑动条插件使用"></a>数据滑动条插件使用</h3><h3 id="在-react-中使用-G2"><a href="#在-react-中使用-G2" class="headerlink" title="在 react 中使用 G2"></a>在 react 中使用 G2</h3><h2 id="G2-高级教程"><a href="#G2-高级教程" class="headerlink" title="G2 高级教程"></a>G2 高级教程</h2><p>为了更好地在 react 组件中使用 G2，我们封装了 <a href="https://github.com/antvis/g2-react" target="_blank" rel="external">g2-react</a> 组件。</p>
+<p>具体的封装形式可查看源码： <a href="https://github.com/antvis/g2-react/blob/master/src/index.js" target="_blank" rel="external">https://github.com/antvis/g2-react/blob/master/src/index.js</a></p>
+<h3 id="层叠图"><a href="#层叠图" class="headerlink" title="层叠图"></a>层叠图</h3><p>G2 默认提供了如下 8 种几何标记和数据调整组合，直接通过如下代码即可调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chart.intervalStack().position(&apos;x*y&apos;);</div></pre></td></tr></table></figure>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/d4a00ad216e4751be69a926ab59c9d13.png" alt=""></p>
+<h3 id="使用-G2-绘制词云"><a href="#使用-G2-绘制词云" class="headerlink" title="使用 G2 绘制词云"></a>使用 G2 绘制词云</h3><p>词云，又称文字云，由词汇组成类似云的彩色图形，用于展示大量文本数据。</p>
+<h2 id="G6"><a href="#G6" class="headerlink" title="G6"></a>G6</h2><p>G6 是一个由纯 JavaScript 编写的关系图基础技术框架。开发者能基于 G6 进行关系图的查看视图和编辑视图进行快速的二次开发</p>
+<h3 id="图"><a href="#图" class="headerlink" title="图"></a>图</h3><p>图 Graph 是所有上层图类的基类，如：Net 网、 Tree 树，都继承于Graph。与以往不同，1.0 后，Graph 已沉为一个抽象类(Abstract)，只实现了基础的功能，定义了接口规范，用户可基于 Graph 进行拓展，但不能直接用于画关系图。以后 G6 里还要容纳更多的关系图如 UML、Flow、Force都将基于 Graph</p>
+<h3 id="网"><a href="#网" class="headerlink" title="网"></a>网</h3><p>网图 Net 是 G6 提供的、可用于直接画关系图的、最基础的图类。它不仅能画由一组nodes、edges，确定的关系图，还集成了，如：拖拽节点（dragNode）、拖拽画布（dragCanvas）、拖拽边（dragEdge）、节点变形（resizeNode）等等，一系列的基础的编辑交互模式，用户可以比较方便的基于该类，绘制做一个关系图的展示视图或图编辑器。</p>
+<h3 id="树"><a href="#树" class="headerlink" title="树"></a>树</h3><h3 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h3><p>在使用关系图开发的过程中，我们常常需要导出导入数据，以满足关系图的存储、分享、编辑的功能。 G6 1.0 后，我们对这部分的需求做了总结。在 Graph 定义了一对相互对照的接口，read &lt;==&gt; save，后面用户应该严格通过这两个该接口导入导出数据。</p>
+<h3 id="事件-–-event"><a href="#事件-–-event" class="headerlink" title="事件 – event"></a>事件 – event</h3><p>G6 封装了一套基础的鼠标事件。通过 <code>graph.on()</code> 绑定，<code>graph.off()</code> 解除。</p>
+<h3 id="行为-–-behaviour"><a href="#行为-–-behaviour" class="headerlink" title="行为 – behaviour"></a>行为 – behaviour</h3><p>行为由事件组成，所描述的交互，比事件更具体，如 拖动节点（dragNode），滚轮缩放画布（wheelZoom），拖动画布（dragCanvas）。用户可以根据自己的需要选择对应的行为。</p>
+<p>行为列表详见：Handle API</p>
+<h3 id="模式-–-mode"><a href="#模式-–-mode" class="headerlink" title="模式 – mode"></a>模式 – mode</h3><p>大多数行为可以随意相互组合，也有部分行为之间有可能发生矛盾，比如 拖动画布（dragCanvas）行为和多选行为（multiSelect），这个时候需要用户自己维护各种行为集合组成模式，比如拖拽模式（drag），编辑模式（edit），以便管理、切换。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://antv.alipay.com/index.html" target="_blank" rel="external">AntV 官网</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AntV/" rel="tag"># AntV</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/24/博客优化之-Google-Analytics-代理/" rel="next" title="博客优化之 Google-Analytics 代理">
+                <i class="fa fa-chevron-left"></i> 博客优化之 Google-Analytics 代理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/06/25/AntV入门/"
+           data-title="AntV入门" data-url="https://shiningdan.github.io/2017/06/25/AntV入门/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图表用法"><span class="nav-number">1.</span> <span class="nav-text">图表用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#柱状图"><span class="nav-number">1.1.</span> <span class="nav-text">柱状图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#纵向柱状图"><span class="nav-number">1.1.1.</span> <span class="nav-text">纵向柱状图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#横向柱状图-（条形图）"><span class="nav-number">1.1.2.</span> <span class="nav-text">横向柱状图 （条形图）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#柱状图与其他图表的对比"><span class="nav-number">1.1.3.</span> <span class="nav-text">柱状图与其他图表的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双向柱状图"><span class="nav-number">1.2.</span> <span class="nav-text">双向柱状图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#双向柱状图与其他图表的对比"><span class="nav-number">1.2.1.</span> <span class="nav-text">双向柱状图与其他图表的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#色块图"><span class="nav-number">1.3.</span> <span class="nav-text">色块图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#色块图与其他图表的对比"><span class="nav-number">1.3.1.</span> <span class="nav-text">色块图与其他图表的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直方图"><span class="nav-number">1.4.</span> <span class="nav-text">直方图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#雷达图"><span class="nav-number">1.5.</span> <span class="nav-text">雷达图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#南丁格尔玫瑰图"><span class="nav-number">1.6.</span> <span class="nav-text">南丁格尔玫瑰图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#南丁格尔玫瑰图的扩展"><span class="nav-number">1.6.1.</span> <span class="nav-text">南丁格尔玫瑰图的扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#南丁格尔玫瑰图与其他图表的对比"><span class="nav-number">1.6.2.</span> <span class="nav-text">南丁格尔玫瑰图与其他图表的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#层叠面积图"><span class="nav-number">1.7.</span> <span class="nav-text">层叠面积图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与其他图表的对比"><span class="nav-number">1.8.</span> <span class="nav-text">与其他图表的对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矩形树图"><span class="nav-number">1.9.</span> <span class="nav-text">矩形树图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#矩形树图与其他图表的对比"><span class="nav-number">1.9.1.</span> <span class="nav-text">矩形树图与其他图表的对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#气泡图"><span class="nav-number">1.10.</span> <span class="nav-text">气泡图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#与地图的结合（Bubble-Map）"><span class="nav-number">1.10.1.</span> <span class="nav-text">与地图的结合（Bubble Map）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子弹图"><span class="nav-number">1.11.</span> <span class="nav-text">子弹图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#子弹图与其他图表的对比"><span class="nav-number">1.11.1.</span> <span class="nav-text">子弹图与其他图表的对比</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G2"><span class="nav-number">2.</span> <span class="nav-text">G2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器引入"><span class="nav-number">2.1.1.</span> <span class="nav-text">浏览器引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过-npm-安装"><span class="nav-number">2.1.2.</span> <span class="nav-text">通过 npm 安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-G2"><span class="nav-number">2.2.</span> <span class="nav-text">使用 G2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建-div-图表容器"><span class="nav-number">2.2.1.</span> <span class="nav-text">创建 div 图表容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写图表绘制代码"><span class="nav-number">2.2.2.</span> <span class="nav-text">编写图表绘制代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#G2-图表的主要组成"><span class="nav-number">2.3.</span> <span class="nav-text">G2 图表的主要组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图表对象配置（chart）"><span class="nav-number">2.4.</span> <span class="nav-text">图表对象配置（chart）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图表容器"><span class="nav-number">2.4.1.</span> <span class="nav-text">图表容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图表样式"><span class="nav-number">2.4.2.</span> <span class="nav-text">图表样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图表宽度自适应"><span class="nav-number">2.4.3.</span> <span class="nav-text">图表宽度自适应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图表动画"><span class="nav-number">2.4.4.</span> <span class="nav-text">图表动画</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-数据"><span class="nav-number">2.5.</span> <span class="nav-text">data 数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#支持的数据格式"><span class="nav-number">2.5.1.</span> <span class="nav-text">支持的数据格式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JSON-数组"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">JSON 数组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Frame-对象"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">Frame 对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Frame-常见操作"><span class="nav-number">2.6.</span> <span class="nav-text">Frame 常见操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建-Frame"><span class="nav-number">2.6.1.</span> <span class="nav-text">创建 Frame</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#度量"><span class="nav-number">2.7.</span> <span class="nav-text">度量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列定义操作（指定度量）"><span class="nav-number">2.8.</span> <span class="nav-text">列定义操作（指定度量）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#geom-几何标记-图表类型"><span class="nav-number">2.9.</span> <span class="nav-text">geom 几何标记(图表类型)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#attr-图形属性"><span class="nav-number">2.10.</span> <span class="nav-text">attr 图形属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#coord-坐标系"><span class="nav-number">2.11.</span> <span class="nav-text">coord 坐标系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#axis-坐标轴"><span class="nav-number">2.12.</span> <span class="nav-text">axis 坐标轴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#legend-图例"><span class="nav-number">2.13.</span> <span class="nav-text">legend 图例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tooltip-提示信息"><span class="nav-number">2.14.</span> <span class="nav-text">tooltip 提示信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#guide-辅助标记"><span class="nav-number">2.15.</span> <span class="nav-text">guide 辅助标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stat-统计变换"><span class="nav-number">2.16.</span> <span class="nav-text">stat 统计变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#facet-分面"><span class="nav-number">2.17.</span> <span class="nav-text">facet 分面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#theme-图表样式"><span class="nav-number">2.18.</span> <span class="nav-text">theme 图表样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#label-文本标签"><span class="nav-number">2.19.</span> <span class="nav-text">label 文本标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图表事件-event"><span class="nav-number">2.20.</span> <span class="nav-text">图表事件 event</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图表交互"><span class="nav-number">2.21.</span> <span class="nav-text">图表交互</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据异步加载与动态更新"><span class="nav-number">2.22.</span> <span class="nav-text">数据异步加载与动态更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据滑动条插件使用"><span class="nav-number">2.23.</span> <span class="nav-text">数据滑动条插件使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-react-中使用-G2"><span class="nav-number">2.24.</span> <span class="nav-text">在 react 中使用 G2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G2-高级教程"><span class="nav-number">3.</span> <span class="nav-text">G2 高级教程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#层叠图"><span class="nav-number">3.1.</span> <span class="nav-text">层叠图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-G2-绘制词云"><span class="nav-number">3.2.</span> <span class="nav-text">使用 G2 绘制词云</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#G6"><span class="nav-number">4.</span> <span class="nav-text">G6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图"><span class="nav-number">4.1.</span> <span class="nav-text">图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网"><span class="nav-number">4.2.</span> <span class="nav-text">网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树"><span class="nav-number">4.3.</span> <span class="nav-text">树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据"><span class="nav-number">4.4.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件-–-event"><span class="nav-number">4.5.</span> <span class="nav-text">事件 – event</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行为-–-behaviour"><span class="nav-number">4.6.</span> <span class="nav-text">行为 – behaviour</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模式-–-mode"><span class="nav-number">4.7.</span> <span class="nav-text">模式 – mode</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

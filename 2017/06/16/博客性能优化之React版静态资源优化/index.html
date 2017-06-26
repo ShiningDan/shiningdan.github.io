@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS,JavaScript,React,性能优化," />
+  <meta name="keywords" content="JavaScript,CSS,React,性能优化," />
 
 
 
@@ -95,7 +95,13 @@
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/b94d2722a0254480c77211d5525cb698.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/ff6c49b2c887a9620ea979beec19be46.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/249a99c03d8b5de21076755a8f63cbd1.png">
-<meta property="og:updated_time" content="2017-06-17T12:56:32.000Z">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/275990c495ea26e93d5ed6db251d6248.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/f75f2fd5afaac1f556cabc74ee56ec33.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/bad36806c739feb7f67385fdffb51678.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/f5c761bf9456a8df5da25f5e49da2c97.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/2d90ead132bca7d4f0d60277c4ab9c18.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/d03a8b4fc714cd8b05a381439f163256.png">
+<meta property="og:updated_time" content="2017-06-20T14:02:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="博客性能优化之React版静态资源优化">
 <meta name="twitter:description" content="本博客使用 React 重新构建了一遍，最基础的部分是导出了一个 JS 文件，然后再前端页面上引用。但是本博客，作为一个很小的前端项目，打包后的 JS 文件都达到了 1.4M，相比于后端渲染的架构，传输的数据过于庞大，这样很不利于首屏渲染。在本文中，介绍了我对于使用 React 来进行按需加载等静态资源的一些探索。">
@@ -424,7 +430,48 @@
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/ff6c49b2c887a9620ea979beec19be46.png" alt=""></p>
 <p>然后，当我们跳转到其他的页面上时，才会去获取并加载其他页面：</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/249a99c03d8b5de21076755a8f63cbd1.png" alt=""></p>
-<p><code>bundle-loader</code> 是如何实现页面异步加载的呢？我们可以查看一下它的源代码：</p>
+<p><code>bundle-loader</code> 是如何实现页面异步加载的呢？我们可以查看一下它的源代码。</p>
+<p>它输出的源码就如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">Output format:</div><div class="line"></div><div class="line">	var cbs = [],</div><div class="line">		data;</div><div class="line">	module.exports = function(cb) &#123;</div><div class="line">		if(cbs) cbs.push(cb);</div><div class="line">		else cb(data);</div><div class="line">	&#125;</div><div class="line">	require.ensure([], function(require) &#123;</div><div class="line">		data = require(&quot;xxx&quot;);</div><div class="line">		var callbacks = cbs;</div><div class="line">		cbs = null;</div><div class="line">		for(var i = 0, l = callbacks.length; i &lt; l; i++) &#123;</div><div class="line">			callbacks[i](data);</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line"></div><div class="line">*/</div></pre></td></tr></table></figure>
+<p>再配合 <code>Bundle</code> 组件，我们来分析它的处理流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;;</div><div class="line"></div><div class="line">export default class Bundle extends React.Component &#123;</div><div class="line">  constructor(props) &#123;</div><div class="line">    super(props);</div><div class="line">    this.state = &#123;</div><div class="line">      mod: null,</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillMount() &#123;</div><div class="line">    this.load(this.props);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillReceoveProps(nextProps) &#123;</div><div class="line">    if (nextProps.load !== this.props.load) &#123;</div><div class="line">      this.load(nextProps);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  load(props) &#123;</div><div class="line">    // 重置状态</div><div class="line">    this.setState(&#123;</div><div class="line">      mod: null</div><div class="line">    &#125;);</div><div class="line">    props.load((mod) =&gt; &#123;</div><div class="line">      this.setState(&#123;</div><div class="line">        mod: mod.default ? mod.default : mod,</div><div class="line">      &#125;)</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    return this.state.mod ? this.props.children(this.state.mod) : null;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当我们在页面加载 <code>Bundle</code> 组件的时候，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const ArticleLazy = (props) =&gt; &#123;</div><div class="line">  return (</div><div class="line">    &lt;Bundle load=&#123;Article&#125;&gt;</div><div class="line">      &#123;(Container) =&gt; &lt;Container &#123;...props&#125;/&gt;&#125;</div><div class="line">    &lt;/Bundle&gt;</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们首先会调用 <code>Bundle</code> 组件的 <code>componentWillMount</code> 方法，这个方法会调用 <code>load</code> 方法。当传入的参数为 <code>Article</code> 的时候，<code>load</code> 函数会调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">this.setState(&#123;</div><div class="line">    mod: mod.default ? mod.default : mod,</div><div class="line">  &#125;)</div></pre></td></tr></table></figure>
+<p>那 <code>mod</code> 又是什么呢？我们打印 <code>mod</code>，可以看到它其实是 <code>Article</code> 的构造函数：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/275990c495ea26e93d5ed6db251d6248.png" alt=""></p>
+<p>所以，我们在 <code>componentWillMount</code> 中做的事情，就是把对应组件的构造函数传给 <code>state.mod</code>。</p>
+<p>接下来，React 的组件声明周期运行到 <code>render</code> 方法，我们可以看到 <code>render</code> 方法中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">    return this.state.mod ? this.props.children(this.state.mod) : null;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>做的事情，就是使用 <code>this.props.children(this.state.mod)</code>，也就是使用 <code>this.props.children</code> 来处理 <code>Article</code> 构造函数。那 <code>this.props.children</code> 是什么呢？</p>
+<p>返回 <code>ArticleLazy</code> 的定义，我们可以在 <code>Bundle</code> 组件中找到 <code>this.props.children</code> 的内容，就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(Container) =&gt; &lt;Container &#123;...props&#125;/&gt;</div></pre></td></tr></table></figure>
+<p>其实也就是把 <code>Article</code> 构造函数作为组件添加到页面中，就完成了对组件的按需加载了。</p>
+<h2 id="LocalStorage-缓存"><a href="#LocalStorage-缓存" class="headerlink" title="LocalStorage 缓存"></a>LocalStorage 缓存</h2><p>为了节省用户重复访问的时候，多次加载 JS 文件，我们可以将网页涉及到的 JS 文件，如 <code>vendor.js</code> 和 <code>bundle.js</code> 预先缓存到浏览器的 LocalStorage 中，并且通过 Cookie 标识 LocalStorage 中存储的文件的版本。如果文件缓存版本和服务器的版本相同，则脚本文件就从本地进行加载。</p>
+<p>首先，我们定义将文件保存在 LocalStorage 的函数 <code>ls</code> 和从 LocalStorage 读取文件的函数 <code>ll</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">function ls(name, tag) &#123;</div><div class="line">  let target = document.getElementById(name);</div><div class="line">  if (!target) &#123;</div><div class="line">    throw new Error(&apos;ls save fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    if (window.localStorage) &#123;</div><div class="line">      try &#123;</div><div class="line">        window.localStorage.setItem(name, target.innerHTML);</div><div class="line">        document.cookie = name + &apos;=&apos; +tag;</div><div class="line">      &#125; catch(e) &#123;</div><div class="line">        console.log(e);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">function ll(name, isScript) &#123;</div><div class="line">  let storage = window.localStorage.getItem(name);</div><div class="line">  if (!storage) &#123;</div><div class="line">    // 如果 cookie 中存在，但是在 localstorage 中找不到需要如何处理？先删除 cookie，然后刷新页面。</div><div class="line">    document.cookie = &apos;v=; expires=Thu, 01 Jan 1970 00:00:01 GMT;&apos;;</div><div class="line">    // window.location.reload();</div><div class="line">    throw new Error(&apos;ls load fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    let type = isScript ? &apos;script&apos; : &apos;style&apos;;  // 设置 0 来添加 style，设置 1 来添加 script</div><div class="line">    let elem = document.createElement(type);</div><div class="line">    elem.innerHTML = storage;</div><div class="line">    document.head.appendChild(elem);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>并且在 HTML 加载的时候将该函数先执行。</p>
+<p>然后在后台设置逻辑，判断用户请求附带的 Cookie 是否表示该用户已经缓存的资源，并且要验证该资源是否为最新的资源。这一部分的工作可以作为 middleware 来执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">exports.checkll = function(req, res, next) &#123;</div><div class="line">  if (req.cookies.vendor &amp;&amp; req.cookies.vendor === vendorTag) &#123;</div><div class="line">    req.vendor = true;</div><div class="line">  &#125; else &#123;</div><div class="line">    req.vendor = false;</div><div class="line">    req.vendorTag = vendorTag;</div><div class="line">  &#125;</div><div class="line">  if (req.cookies.bundle &amp;&amp; req.cookies.bundle === bundleTag) &#123;</div><div class="line">    req.bundle = true;</div><div class="line">  &#125; else &#123;</div><div class="line">    req.bundle = false;</div><div class="line">    req.bundleTag = bundleTag;</div><div class="line">  &#125;</div><div class="line">  next();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后，将 req 参数传给 Pug 模板，通过在模板中判断中间件验证的结果，来决定传输附带 JS 文件还是不附带 JS 文件的 HTML：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">body</div><div class="line">  #entry</div><div class="line">  - if (vendor)</div><div class="line">    script ll(&apos;vendor&apos;, 1)</div><div class="line">  - else</div><div class="line">    script#vendor</div><div class="line">      include ../../www/static/js/vendor.js</div><div class="line">    script ls(&apos;vendor&apos;, &apos;#&#123;vendorTag&#125;&apos;)</div><div class="line">  - if (bundle)</div><div class="line">    script ll(&apos;bundle&apos;, 1)</div><div class="line">  - else</div><div class="line">    script#bundle</div><div class="line">      include ../../www/static/js/bundle.js</div><div class="line">    script ls(&apos;bundle&apos;, &apos;#&#123;bundleTag&#125;&apos;)</div></pre></td></tr></table></figure>
+<p>当我们首次请求的时候：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/f75f2fd5afaac1f556cabc74ee56ec33.png" alt=""></p>
+<p>可以看到请求的文件大小是 1.4MB，然后返回的 DOM 内容如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/bad36806c739feb7f67385fdffb51678.png" alt=""></p>
+<p>返回的是附带脚本以及执行 <code>ls</code> 函数的 DOM，表示下载执行脚本，并且把该脚本存储在 LocalStorage 里面。</p>
+<p>当再次访问的时候；</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/f5c761bf9456a8df5da25f5e49da2c97.png" alt=""></p>
+<p>我们可以看到，请求文件的大小变得非常小，因为此次请求没有下载脚本文件：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/2d90ead132bca7d4f0d60277c4ab9c18.png" alt=""></p>
+<p>取而代之的是执行 <code>ll</code> 函数，从 LocalStorage 中获取代码，并且添加到 DOM 树中执行。</p>
+<h2 id="Webpack-代码压缩"><a href="#Webpack-代码压缩" class="headerlink" title="Webpack 代码压缩"></a>Webpack 代码压缩</h2><p>虽然我们已经把代码放在了 LocalStorage 里面，但其实代码量还是很大的，所以，我们要对 Webpack 打包的代码进行压缩。</p>
+<p>webpack 自带了一个压缩插件 UglifyJsPlugin，只需要在配置文件中引入即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  plugins: [</div><div class="line">    new webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">      compress: &#123;</div><div class="line">        warnings: false</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>加入了这个插件之后，编译的速度会明显变慢，所以一般只在生产环境启用。</p>
+<p>在使用了这个插件以后，我们可以看到，首次加载网页的时候，代码的大小从原来的 1.4MB 减小到了现在的 540KB ，效果非常好。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/d03a8b4fc714cd8b05a381439f163256.png" alt=""></p>
 
       
     </div>
@@ -448,9 +495,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
-          
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
           
             <a href="/tags/React/" rel="tag"># React</a>
           
@@ -472,6 +519,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/24/博客优化之-Google-Analytics-代理/" rel="prev" title="博客优化之 Google-Analytics 代理">
+                博客优化之 Google-Analytics 代理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -545,7 +596,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">75</span>
+                <span class="site-state-item-count">77</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -563,7 +614,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -598,7 +649,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#打包公共库"><span class="nav-number">1.</span> <span class="nav-text">打包公共库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面按需加载"><span class="nav-number">2.</span> <span class="nav-text">页面按需加载</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#打包公共库"><span class="nav-number">1.</span> <span class="nav-text">打包公共库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面按需加载"><span class="nav-number">2.</span> <span class="nav-text">页面按需加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LocalStorage-缓存"><span class="nav-number">3.</span> <span class="nav-text">LocalStorage 缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Webpack-代码压缩"><span class="nav-number">4.</span> <span class="nav-text">Webpack 代码压缩</span></a></li></ol></div>
             
 
           </div>

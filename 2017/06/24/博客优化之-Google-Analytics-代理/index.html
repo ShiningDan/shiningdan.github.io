@@ -1,0 +1,1018 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Google Analytics," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在博客中，我使用了 Google 的静态统计脚本来统计博客的访问量，页面访问信息，用户的地理位置等数据，当然这里面并没有暴露用户个人隐私的数据，而是我希望通过统计数据，得到热门的文章，从而实现对热门文章的缓存策略。默认的 Google 统计是下载了一个脚本文件并且在浏览器上运行，然后将统计数据发回到 Google 的统计服务器，但是由于网络的问题，可能用户所在的网络无法连接到服务器，所以我用自己的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博客优化之 Google-Analytics 代理">
+<meta property="og:url" content="https://shiningdan.github.io/2017/06/24/博客优化之-Google-Analytics-代理/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="在博客中，我使用了 Google 的静态统计脚本来统计博客的访问量，页面访问信息，用户的地理位置等数据，当然这里面并没有暴露用户个人隐私的数据，而是我希望通过统计数据，得到热门的文章，从而实现对热门文章的缓存策略。默认的 Google 统计是下载了一个脚本文件并且在浏览器上运行，然后将统计数据发回到 Google 的统计服务器，但是由于网络的问题，可能用户所在的网络无法连接到服务器，所以我用自己的">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/fdd66f8611d5b47727d559559afbc899.png">
+<meta property="og:updated_time" content="2017-06-24T14:52:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博客优化之 Google-Analytics 代理">
+<meta name="twitter:description" content="在博客中，我使用了 Google 的静态统计脚本来统计博客的访问量，页面访问信息，用户的地理位置等数据，当然这里面并没有暴露用户个人隐私的数据，而是我希望通过统计数据，得到热门的文章，从而实现对热门文章的缓存策略。默认的 Google 统计是下载了一个脚本文件并且在浏览器上运行，然后将统计数据发回到 Google 的统计服务器，但是由于网络的问题，可能用户所在的网络无法连接到服务器，所以我用自己的">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/fdd66f8611d5b47727d559559afbc899.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/06/24/博客优化之-Google-Analytics-代理/"/>
+
+
+
+
+
+  <title> 博客优化之 Google-Analytics 代理 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/06/24/博客优化之-Google-Analytics-代理/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                博客优化之 Google-Analytics 代理
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-24T20:46:24+08:00">
+                2017-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/24/博客优化之-Google-Analytics-代理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/24/博客优化之-Google-Analytics-代理/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/06/24/博客优化之-Google-Analytics-代理/" class="leancloud_visitors" data-flag-title="博客优化之 Google-Analytics 代理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在博客中，我使用了 Google 的静态统计脚本来统计博客的访问量，页面访问信息，用户的地理位置等数据，当然这里面并没有暴露用户个人隐私的数据，而是我希望通过统计数据，得到热门的文章，从而实现对热门文章的缓存策略。默认的 Google 统计是下载了一个脚本文件并且在浏览器上运行，然后将统计数据发回到 Google 的统计服务器，但是由于网络的问题，可能用户所在的网络无法连接到服务器，所以我用自己的服务器作为一个代理，获得用户的统计请求，然后再转发给 Google 服务器。这篇文章主要讲的是我如何实现这一功能。</p>
+<a id="more"></a>
+<h2 id="开通-Google-Analytics-并下载代码"><a href="#开通-Google-Analytics-并下载代码" class="headerlink" title="开通 Google-Analytics 并下载代码"></a>开通 Google-Analytics 并下载代码</h2><p>开通 Google-Analytics 很简单，这一部分我就不再详述了，大家可以点击 <a href="https://www.google.com/analytics/" target="_blank" rel="external">Google Analytics（分析）</a> 这一链接跳转到注册和登录首页。不过该网站在国内访问的速度比较慢，大家可以挂 VPN 进行访问或者。。。耐心等待（手动微笑）</p>
+<p>注册完成以后，在 <code>管理 -&gt; &lt;你的网站名称&gt; -&gt; JS 跟踪信息 -&gt; 跟踪代码</code> 中，可以找到为你生成的 Google 统计代码，类似于下面的样子，普通情况下，我们用一个 <code>&lt;script&gt;</code> 标签包裹这段代码，添加在 <code>&lt;body&gt;</code> 的最后面即可（像这种独立，并且首屏不依赖的脚本，建议添加在代码的最后面）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">  (function(i,s,o,g,r,a,m)&#123;i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function()&#123;</div><div class="line">  (i[r].q=i[r].q||[]).push(arguments)&#125;,i[r].l=1*new Date();a=s.createElement(o),</div><div class="line">  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)</div><div class="line">  &#125;)(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);</div><div class="line"></div><div class="line">  ga(&apos;create&apos;, &apos;&lt;Your ID&gt;&apos;, &apos;auto&apos;);</div><div class="line">  ga(&apos;send&apos;, &apos;pageview&apos;);</div><div class="line"></div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>代码的内容大致如上，做的事情是，从 <code>https://www.google-analytics.com/analytics.js</code> 中下载并执行其中的 <code>ga</code> 函数。</p>
+<p>当我们在页面上添加该脚本之后，重启页面，打开 Chrome 调试工具，查看该脚本发送给 Google 服务器的信息。</p>
+<p>从 Network 中我们可以看到，打开该页面以后，请求的文件变多了两个，一个是 <code>https://www.google-analytics.com/analytics.js</code>，当然这是 Google 的统计代码，另一个是一个以 <code>collec</code> 开头的 GET 请求。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/fdd66f8611d5b47727d559559afbc899.png" alt=""></p>
+<p>这个 GET 请求中 query 中附带的参数以及 Cookie 附带的参数，就是网站当前用户浏览的数据统计值，也就是我需要用服务器转发的请求。</p>
+<h2 id="测试服务器的连通性"><a href="#测试服务器的连通性" class="headerlink" title="测试服务器的连通性"></a>测试服务器的连通性</h2><p>为了避免因为用户网络的问题导致统计请求无法发送到 Google 服务器，我们的做法是接收该 GET 请求，然后在我的服务器上再 <strong>模拟用户数据发送一个 GET 请求给 Google 服务器</strong>，当然，这首先要求我们的服务器可以连接到 Google 服务器。</p>
+<p>在这里，我写了一个简易的脚本，周期性地请求 GET 请求的目的地址，也就是 <code>http://www.google-analytics.com</code>，然后在服务器上运行，获得我的服务器（阿里云上买的 ECS）到 Google 统计服务器的联通时间。脚本内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">let schedule = require(&apos;node-schedule&apos;);</div><div class="line">let request = require(&apos;superagent&apos;);</div><div class="line">let fs = require(&apos;fs&apos;);</div><div class="line"></div><div class="line">function testGaTime() &#123;</div><div class="line">  let startTime = new Date();</div><div class="line">  let endTime;</div><div class="line">  request.get(&quot;http://www.google-analytics.com/collect&quot;)</div><div class="line">    .query(&quot;v=1&amp;_v=j56&amp;a=54916858&amp;t=pageview&amp;_s=1&amp;...&lt;你的 GET 中 query 的值&gt;..._gid=1961109138.1497964145&amp;z=1668004735&quot;)</div><div class="line">    .end((err, data) =&gt; &#123;</div><div class="line">      if (err) &#123;</div><div class="line">        console.log(err)</div><div class="line">      &#125;</div><div class="line">      endTime = new Date();</div><div class="line">      console.log(endTime.getTime() - startTime.getTime());</div><div class="line">      fs.appendFileSync(&apos;./galog.txt&apos;, endTime.getTime() - startTime.getTime() + &quot; &quot;, (err) =&gt; &#123;</div><div class="line">        console.log(err);</div><div class="line">      &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">try &#123;</div><div class="line">  var rule = new schedule.RecurrenceRule();</div><div class="line">  rule.minute = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];</div><div class="line">  schedule.scheduleJob(rule, function()&#123;</div><div class="line">    testGaTime();</div><div class="line">  &#125;); </div><div class="line">&#125; catch(e) &#123;</div><div class="line">  console.log(e);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中的 query 参数是我打开页面后发送的 query 的值，你也可以换成自己的 query 值，然后将该代码做成一个脚本，运行在服务器上，最后，可以在 <code>./galog.txt</code> 中获得每次请求所需要的时间。</p>
+<p>在运行了一天的脚本以后，我大致看了一下，从我的 ECS 发送请求，到获取 Google 统计服务器数据的时间，大致在 120ms 左右，可以接受，所以我决定使用 ECS 来发送用户的统计请求。</p>
+<h2 id="修改-Google-Analytics-脚本"><a href="#修改-Google-Analytics-脚本" class="headerlink" title="修改 Google-Analytics 脚本"></a>修改 Google-Analytics 脚本</h2><p>原来脚本中，当获得完 query 参数以后，默认情况下是发送到 <code>http://www.google-analytics.com</code>，我们需要求改，发送到本地服务器，这段代码在 <code>oc</code> 函数中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var oc = function () &#123;</div><div class="line">    return (Ba || Ud() ? &quot;https:&quot; : &quot;http:&quot;) + &quot;//www.google-analytics.com&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们只需要修改返回值为 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return &apos;&apos;;</div></pre></td></tr></table></figure>
+<p>即可。这样，发送的 GET 请求不会去寻找 <code>http://www.google-analytics.com</code> 域名，而是寻找网站的域名</p>
+<p>接着，在 Express 中设置处理该路由的函数，我们在这里需要处理的路由有 <code>/collect</code> 和 <code>/r/collect</code>。前者是新用户的请求路径，后者是老用户的请求路径。</p>
+<p>我在 <code>/collect</code> 中处理该请求的逻辑如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">let request = require(&apos;superagent&apos;);</div><div class="line"></div><div class="line">exports.ga = function(req, res) &#123;</div><div class="line">  let headers = req.headers;</div><div class="line">  delete headers.host;</div><div class="line">  let query = req.query;</div><div class="line">  let queryZ = query.z;</div><div class="line">  delete query.z;</div><div class="line">  query[&apos;uip&apos;] = req.connection.remoteAddress.split(&quot;:&quot;).reverse()[0];</div><div class="line">  query[&apos;z&apos;] = queryZ;</div><div class="line">  request.get(&apos;http://www.google-analytics.com/collect&apos;)</div><div class="line">    .query(query)</div><div class="line">    .set(headers)</div><div class="line">    .end((err, data) =&gt; &#123;</div><div class="line">      if (err) &#123;</div><div class="line">        console.log(err);</div><div class="line">      &#125; else &#123;</div><div class="line">        // console.log(data);        </div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  res.end();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码的逻辑很简单，获取了用户请求中的 <code>headers</code> 和 <code>query</code> 中的参数，然后在服务器构造 HTTP GET 请求，将该参数赋值给新请求，由服务器来发送请求。</p>
+<p>其中有几点需要注意：</p>
+<h3 id="删除-host"><a href="#删除-host" class="headerlink" title="删除 host"></a>删除 host</h3><p>因为这里的 <code>host</code> 指的是本博客的域名 <code>http://zyuchen.com</code>，而不是 Google 统计的域名，所以讲该 <code>host</code> 放在新请求中发出，会导致该请求无法被接收。</p>
+<h3 id="重新设置-IP"><a href="#重新设置-IP" class="headerlink" title="重新设置 IP"></a>重新设置 IP</h3><p>Google 统计中，判断用户的地理位置是根据请求的 IP 地址来寻址的。因为新请求是由我的 ECS 发出，IP 地址是我的虚拟服务器的地址，所以每一次 Google 统计所获得的地址都是 ECS 所在的云数据中心的地址。但是，根据 <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/reference?hl=zh-cn" target="_blank" rel="external">Google Analytics Measurement Protocol 参考</a>，我们可以在 query 中设置 <code>uip</code> 字段，来主动设置请求相关的 IP 地址，所以，在处理逻辑上，会获得用户的 IP 地址，然后设置在 <code>uip</code> 中</p>
+<p>重设 z 字段</p>
+<p>由于我们设置了 <code>uip</code> 字段，在 <code>superagent</code> 解析 query 的时候，会将 <code>uip</code> 作为 query 中最后一个值，但是根据  <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/reference?hl=zh-cn#header" target="_blank" rel="external">Measurement Protocol 缓存无效化</a> 要求，需要将 <code>z</code> 作为 query 中最后一个参数，所以我们需要删掉已有的 <code>z</code>，然后在最后重新赋值</p>
+<p>这样，我们就完成了服务器对用户 Google 统计请求的转发功能了，当然，Google 统计中有很多我们不需要的统计的项目，我们可以阅读 <a href="https://developers.google.com/analytics/devguides/collection/?hl=zh-cn" target="_blank" rel="external">设置 Google Analytics（分析）</a> 这篇文档，然后选择我们需要的项目，来自定义我们的统计数据。</p>
+<h2 id="设置-LocalStorage-缓存"><a href="#设置-LocalStorage-缓存" class="headerlink" title="设置 LocalStorage 缓存"></a>设置 LocalStorage 缓存</h2><p>完整的 <code>analytics.js</code> 文件的大小有 68KB 左右，没有必要每一次打开页面都进行下载一遍，所以，通过设置 Cookie，来判断用户是否已经下载过 <code>analytics.js</code> 文件。如果用户是首次访问网站，则将 <code>analytics.js</code> 作为内联脚本添加到 HTML 中，并且将该脚本的内容下载到 LocalStorage 里面。如果用户不是是首次访问，并且在本地拥有 <code>analytics.js</code> 的副本，则调用本地的脚本内容，在浏览器端添加到页面中即可。</p>
+<p>首先定义将脚本内容存储到 LocalStorage 中的函数 <code>ls</code> 和从 LocalStorage 中读取内容的函数 <code>ll</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">function ls(name, tag) &#123;</div><div class="line">  let target = document.getElementById(name);</div><div class="line">  if (!target) &#123;</div><div class="line">    throw new Error(&apos;ls save fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    if (window.localStorage) &#123;</div><div class="line">      try &#123;</div><div class="line">        window.localStorage.setItem(name, target.innerHTML);</div><div class="line">        document.cookie = name + &apos;=&apos; +tag;</div><div class="line">      &#125; catch(e) &#123;</div><div class="line">        console.log(e);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">function ll(name, isScript) &#123;</div><div class="line">  let storage = window.localStorage.getItem(name);</div><div class="line">  if (!storage) &#123;</div><div class="line">    // 如果 cookie 中存在，但是在 localstorage 中找不到需要如何处理？先删除 cookie，然后刷新页面。</div><div class="line">    document.cookie = &apos;v=; expires=Thu, 01 Jan 1970 00:00:01 GMT;&apos;;</div><div class="line">    // window.location.reload();</div><div class="line">    throw new Error(&apos;ls load fn not find &apos; + name);</div><div class="line">  &#125; else &#123;</div><div class="line">    let type = isScript ? &apos;script&apos; : &apos;style&apos;;  // 设置 0 来添加 style，设置 1 来添加 script</div><div class="line">    let elem = document.createElement(type);</div><div class="line">    elem.innerHTML = storage;</div><div class="line">    document.head.appendChild(elem);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后，对用户的 Cookie 进行验证，判断用户是否在本地拥有 <code>analytics.js</code> 的代码，这里设置的 <code>analytics.js</code> 的版本和 Google 为 <code>analytics.js</code> 设置的脚本保持一致，都为 <code>1</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let gavTag = &quot;1&quot;;</div><div class="line"></div><div class="line">if (req.cookies.analytics &amp;&amp; req.cookies.analytics === gavTag) &#123;</div><div class="line">    req.gav = true;</div><div class="line">&#125; else &#123;</div><div class="line">    req.gav = false;</div><div class="line">    req.gavTag = gavTag;</div><div class="line">&#125;</div><div class="line">next();</div></pre></td></tr></table></figure>
+<p>最后，设置模板引擎逻辑，判断根据 <code>gav</code> 来判断是否要内联 <code>analytics.js</code> 中的代码，我这里用的模板库为 Pug：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">block googleAnalystic</div><div class="line">  - if (!gav)</div><div class="line">    script#analytics</div><div class="line">      include ../../www/static/js/analytics.js</div><div class="line">    script ls(&apos;analytics&apos;, &apos;#&#123;gavTag&#125;&apos;);</div><div class="line">  - else</div><div class="line">    script ll(&apos;analytics&apos;, true)</div></pre></td></tr></table></figure>
+<p>在这里，我对 <code>analytics.js</code> 中的内容做了一点小加工，第一是，修改 <code>oc</code> 函数中返回值，设置为 <code>return &quot;&quot;</code>，第二是，将原来 Google 统计推荐的 JS 追踪代码逻辑放在了 <code>analytics.js</code> 的最底部，在运行 <code>analytics.js</code> 中配置函数的逻辑之后，就会调用配置好的函数，添加在最底部的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">window[&apos;GoogleAnalyticsObject&apos;] = &apos;ga&apos;;</div><div class="line">window[&apos;ga&apos;] = window[&apos;ga&apos;] || function() &#123;</div><div class="line">  (window[&apos;ga&apos;].q = window[&apos;ga&apos;].q || []).push(window, document, &apos;script&apos;, &apos;/js/analytics.js&apos;, &apos;ga&apos;);</div><div class="line">&#125;</div><div class="line">window[&apos;ga&apos;].l = 1 * new Date();</div><div class="line"></div><div class="line">ga(&apos;create&apos;, &apos;UA-101336456-1&apos;, &apos;auto&apos;);</div><div class="line">ga(&apos;send&apos;, &apos;pageview&apos;);</div></pre></td></tr></table></figure>
+<p>这样，在用户加载了 <code>analytics.js</code> 文件中的内容以后，就会自动调用并执行 <code>ga</code> 函数了。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developers.google.com/analytics/devguides/collection/?hl=zh-cn" target="_blank" rel="external">设置 Google Analytics（分析）</a> </li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Google-Analytics/" rel="tag"># Google Analytics</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/16/博客性能优化之React版静态资源优化/" rel="next" title="博客性能优化之React版静态资源优化">
+                <i class="fa fa-chevron-left"></i> 博客性能优化之React版静态资源优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/25/AntV入门/" rel="prev" title="AntV入门">
+                AntV入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/06/24/博客优化之-Google-Analytics-代理/"
+           data-title="博客优化之 Google-Analytics 代理" data-url="https://shiningdan.github.io/2017/06/24/博客优化之-Google-Analytics-代理/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开通-Google-Analytics-并下载代码"><span class="nav-number">1.</span> <span class="nav-text">开通 Google-Analytics 并下载代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试服务器的连通性"><span class="nav-number">2.</span> <span class="nav-text">测试服务器的连通性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改-Google-Analytics-脚本"><span class="nav-number">3.</span> <span class="nav-text">修改 Google-Analytics 脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#删除-host"><span class="nav-number">3.1.</span> <span class="nav-text">删除 host</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新设置-IP"><span class="nav-number">3.2.</span> <span class="nav-text">重新设置 IP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置-LocalStorage-缓存"><span class="nav-number">4.</span> <span class="nav-text">设置 LocalStorage 缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
