@@ -1541,3 +1541,159 @@ function isBalanced(root) {
 }
 ```
 
+
+## 数组中只出现一次的数字
+
+### 题目描述
+
+一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。时间复杂度 O(n)，空间复杂度 O(1)
+
+**每个数字异或自己都等于 0**
+
+可以用位运算实现，如果将所有所有数字相异或，则最后的结果肯定是那两个只出现一次的数字异或
+ 的结果，所以根据异或的结果1所在的最低位，把数字分成两半，每一半里都还有只出现一次的数据和成对出现的数据
+ 这样继续对每一半相异或则可以分别求出两个只出现一次的数字
+
+```
+function FindNumsAppearOnce(array)
+{
+    if (array === null || array.length < 3) {
+        return ;
+    }
+    var a = array.reduce(function(acc, val) {
+        return acc ^ val;
+    }, 1) ^ 1;
+    var pos = findFirst1(a);
+    var has1 = [], nothas1 = [];
+    array.forEach(function(num) {
+        if (isBit1(num, pos)) {
+            has1.push(num);
+        } else {
+            nothas1.push(num);
+        }
+    })
+    var first = has1.reduce(function(acc, val) {
+        return acc ^ val;
+    }, 1) ^ 1;
+    var second = nothas1.reduce(function(acc, val) {
+        return acc ^ val;
+    }, 1) ^ 1;
+    return [first, second]
+}
+function findFirst1(num) {
+    var index = 0;
+    while(!(num & 1)) {
+        num = num >> 1;
+        ++ index;
+    }
+    return index;
+}
+function isBit1(num, index) {
+    num = num >> index;
+    return num & 1;
+}
+```
+
+## 和为S的连续正数序列
+
+### 题目描述
+
+小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列? Good Luck! 
+
+输出描述:
+
+```
+输出所有和为S的连续正数序列。序列内按照从小至大的顺序，序列间按照开始数字从小到大的顺序
+```
+
+
+```
+//根据数学公式计算:(a1+an)*n/2=s  n=an-a1+1
+
+//(an+a1)*(an-a1+1)=2*s=k*l(k>l)
+
+//an=(k+l-1)/2 a1=(k-l+1)/2
+```
+
+解答为：
+
+```
+function FindContinuousSequence(sum)
+{
+    if (sum < 3) {
+        return [];
+    }
+    sum = sum * 2;
+    var s = Math.floor(Math.sqrt(2 *sum)), result = [];
+    for (var i = s; i >= 2; i--) {
+        if (sum % i === 0) {
+            var k = sum/i;
+            var list = [];
+            if ((i ^ k) & 1 && k > i) {  // k应该大于i，并且 k 和 i 应该一奇一偶
+                for (var j = (k - i + 1)/2; j <= (k + i - 1)/2; j ++) {
+                    list.push(j);
+                }
+                result.push(list);
+            }
+        }
+    }
+    return result;
+}
+```
+
+## 	和为S的两个数字
+
+### 题目描述
+
+输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。 
+输出描述:
+
+```
+对应每个测试案例，输出两个数，小的先输出。
+```
+
+一个指针指向头，一个指向尾，如果和小于 sum，则头指针后移，如果和大于 sum，则尾指针前移。
+
+```
+function FindNumbersWithSum(array, sum)
+{
+    var result = []
+    if (array === null || array.length < 2) {
+        return result;
+    }
+    var start = 0, end = array.length - 1;
+    while(start < end) {
+        var s = array[start] + array[end];
+        if ( s === sum ) {
+            result.push(array[start]);
+            result.push(array[end]);
+            break;
+        } else if (s < sum) {
+            ++start;
+        } else {
+            --end;
+        }
+    }
+    return result;
+}
+```
+
+## 	翻转单词顺序列
+
+### 题目描述
+
+牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+
+
+
+
+
+## 	左旋转字符串
+
+### 题目描述
+
+汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
+
+
+
+

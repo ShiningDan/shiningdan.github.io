@@ -187,8 +187,237 @@ output: {
 
 ![](http://ojt6zsxg2.bkt.clouddn.com/249a99c03d8b5de21076755a8f63cbd1.png)
 
-`bundle-loader` 是如何实现页面异步加载的呢？我们可以查看一下它的源代码：
+`bundle-loader` 是如何实现页面异步加载的呢？我们可以查看一下它的源代码。
 
+它输出的源码就如下所示：
 
+```
+/*
+Output format:
 
+	var cbs = [],
+		data;
+	module.exports = function(cb) {
+		if(cbs) cbs.push(cb);
+		else cb(data);
+	}
+	require.ensure([], function(require) {
+		data = require("xxx");
+		var callbacks = cbs;
+		cbs = null;
+		for(var i = 0, l = callbacks.length; i < l; i++) {
+			callbacks[i](data);
+		}
+	});
+
+*/
+```
+
+再配合 `Bundle` 组件，我们来分析它的处理流程：
+
+```
+import React from 'react';
+
+export default class Bundle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mod: null,
+    }
+  }
+
+  componentWillMount() {
+    this.load(this.props);
+  }
+
+  componentWillReceoveProps(nextProps) {
+    if (nextProps.load !== this.props.load) {
+      this.load(nextProps);
+    }
+  }
+
+  load(props) {
+    // 重置状态
+    this.setState({
+      mod: null
+    });
+    props.load((mod) => {
+      this.setState({
+        mod: mod.default ? mod.default : mod,
+      })
+    })
+  }
+
+  render() {
+    return this.state.mod ? this.props.children(this.state.mod) : null;
+  }
+}
+```
+
+当我们在页面加载 `Bundle` 组件的时候，如下所示：
+
+```
+const ArticleLazy = (props) => {
+  return (
+    <Bundle load={Article}>
+      {(Container) => <Container {...props}/>}
+    </Bundle>
+  );
+}
+```
+
+我们首先会调用 `Bundle` 组件的 `componentWillMount` 方法，这个方法会调用 `load` 方法。当传入的参数为 `Article` 的时候，`load` 函数会调用
+
+```
+this.setState({
+    mod: mod.default ? mod.default : mod,
+  })
+```
+
+那 `mod` 又是什么呢？我们打印 `mod`，可以看到它其实是 `Article` 的构造函数：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/275990c495ea26e93d5ed6db251d6248.png)
+
+所以，我们在 `componentWillMount` 中做的事情，就是把对应组件的构造函数传给 `state.mod`。
+
+接下来，React 的组件声明周期运行到 `render` 方法，我们可以看到 `render` 方法中：
+
+```
+render() {
+    return this.state.mod ? this.props.children(this.state.mod) : null;
+  }
+```
+
+做的事情，就是使用 `this.props.children(this.state.mod)`，也就是使用 `this.props.children` 来处理 `Article` 构造函数。那 `this.props.children` 是什么呢？
+
+返回 `ArticleLazy` 的定义，我们可以在 `Bundle` 组件中找到 `this.props.children` 的内容，就是：
+
+```
+(Container) => <Container {...props}/>
+```
+
+其实也就是把 `Article` 构造函数作为组件添加到页面中，就完成了对组件的按需加载了。
+
+## LocalStorage 缓存
+
+为了节省用户重复访问的时候，多次加载 JS 文件，我们可以将网页涉及到的 JS 文件，如 `vendor.js` 和 `bundle.js` 预先缓存到浏览器的 LocalStorage 中，并且通过 Cookie 标识 LocalStorage 中存储的文件的版本。如果文件缓存版本和服务器的版本相同，则脚本文件就从本地进行加载。
+
+首先，我们定义将文件保存在 LocalStorage 的函数 `ls` 和从 LocalStorage 读取文件的函数 `ll`。
+
+```
+function ls(name, tag) {
+  let target = document.getElementById(name);
+  if (!target) {
+    throw new Error('ls save fn not find ' + name);
+  } else {
+    if (window.localStorage) {
+      try {
+        window.localStorage.setItem(name, target.innerHTML);
+        document.cookie = name + '=' +tag;
+      } catch(e) {
+        console.log(e);
+      }
+    }
+  }
+}
+function ll(name, isScript) {
+  let storage = window.localStorage.getItem(name);
+  if (!storage) {
+    // 如果 cookie 中存在，但是在 localstorage 中找不到需要如何处理？先删除 cookie，然后刷新页面。
+    document.cookie = 'v=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    // window.location.reload();
+    throw new Error('ls load fn not find ' + name);
+  } else {
+    let type = isScript ? 'script' : 'style';  // 设置 0 来添加 style，设置 1 来添加 script
+    let elem = document.createElement(type);
+    elem.innerHTML = storage;
+    document.head.appendChild(elem);
+  }
+}
+```
+
+并且在 HTML 加载的时候将该函数先执行。
+
+然后在后台设置逻辑，判断用户请求附带的 Cookie 是否表示该用户已经缓存的资源，并且要验证该资源是否为最新的资源。这一部分的工作可以作为 middleware 来执行：
+
+```
+exports.checkll = function(req, res, next) {
+  if (req.cookies.vendor && req.cookies.vendor === vendorTag) {
+    req.vendor = true;
+  } else {
+    req.vendor = false;
+    req.vendorTag = vendorTag;
+  }
+  if (req.cookies.bundle && req.cookies.bundle === bundleTag) {
+    req.bundle = true;
+  } else {
+    req.bundle = false;
+    req.bundleTag = bundleTag;
+  }
+  next();
+}
+```
+
+最后，将 req 参数传给 Pug 模板，通过在模板中判断中间件验证的结果，来决定传输附带 JS 文件还是不附带 JS 文件的 HTML：
+
+```
+  body
+    #entry
+    - if (vendor)
+      script ll('vendor', 1)
+    - else
+      script#vendor
+        include ../../www/static/js/vendor.js
+      script ls('vendor', '#{vendorTag}')
+    - if (bundle)
+      script ll('bundle', 1)
+    - else
+      script#bundle
+        include ../../www/static/js/bundle.js
+      script ls('bundle', '#{bundleTag}')
+```
+
+当我们首次请求的时候：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/f75f2fd5afaac1f556cabc74ee56ec33.png)
+
+可以看到请求的文件大小是 1.4MB，然后返回的 DOM 内容如下：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/bad36806c739feb7f67385fdffb51678.png)
+
+返回的是附带脚本以及执行 `ls` 函数的 DOM，表示下载执行脚本，并且把该脚本存储在 LocalStorage 里面。
+
+当再次访问的时候；
+
+![](http://ojt6zsxg2.bkt.clouddn.com/f5c761bf9456a8df5da25f5e49da2c97.png)
+
+我们可以看到，请求文件的大小变得非常小，因为此次请求没有下载脚本文件：
+
+![](http://ojt6zsxg2.bkt.clouddn.com/2d90ead132bca7d4f0d60277c4ab9c18.png)
+
+取而代之的是执行 `ll` 函数，从 LocalStorage 中获取代码，并且添加到 DOM 树中执行。
+
+## Webpack 代码压缩
+
+虽然我们已经把代码放在了 LocalStorage 里面，但其实代码量还是很大的，所以，我们要对 Webpack 打包的代码进行压缩。
+
+webpack 自带了一个压缩插件 UglifyJsPlugin，只需要在配置文件中引入即可。
+
+```
+{
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ]
+}
+```
+
+加入了这个插件之后，编译的速度会明显变慢，所以一般只在生产环境启用。
+
+在使用了这个插件以后，我们可以看到，首次加载网页的时候，代码的大小从原来的 1.4MB 减小到了现在的 540KB ，效果非常好。
+
+![](http://ojt6zsxg2.bkt.clouddn.com/d03a8b4fc714cd8b05a381439f163256.png)
 
