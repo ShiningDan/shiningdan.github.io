@@ -90,10 +90,16 @@
 <meta property="og:url" content="https://shiningdan.github.io/2017/07/02/博客优化之Disqus定制化及国内代理/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="Disqus 是一个第三方整合的留言系统，除了可以让使用者通过第三方账户进行登录留言外，还支持匿名留言选项。在多说关闭以后，Disqus 成为了一个最好的选择。虽然在博客上使用 Disqus 很简单，但是在国内却会被墙，所以我最终使用 Disqus API 加国外 VPS 的模式为博客下留言的用户提供了代理。并且针对 Disqus 加载时会下载过多资源的现象，自己实现了一个针对博客定制版的评论系统">
-<meta property="og:updated_time" content="2017-07-02T16:11:47.000Z">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/c08cb067cf75703dc8aa99fa793b30fb.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/42dff48ede51ca0db9969e9d636d7331.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/fd42082a7f7bf88550edb504efde6cf9.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/2adca079cf49c21df8adbc4ba9dff6a7.png">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/cd94f1a59a5d4dc462c9f46db37affc9.png">
+<meta property="og:updated_time" content="2017-07-03T14:08:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="博客优化之Disqus定制化及代理">
 <meta name="twitter:description" content="Disqus 是一个第三方整合的留言系统，除了可以让使用者通过第三方账户进行登录留言外，还支持匿名留言选项。在多说关闭以后，Disqus 成为了一个最好的选择。虽然在博客上使用 Disqus 很简单，但是在国内却会被墙，所以我最终使用 Disqus API 加国外 VPS 的模式为博客下留言的用户提供了代理。并且针对 Disqus 加载时会下载过多资源的现象，自己实现了一个针对博客定制版的评论系统">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/c08cb067cf75703dc8aa99fa793b30fb.png">
 
 
 
@@ -403,6 +409,30 @@
       
         <p>Disqus 是一个第三方整合的留言系统，除了可以让使用者通过第三方账户进行登录留言外，还支持匿名留言选项。在多说关闭以后，Disqus 成为了一个最好的选择。虽然在博客上使用 Disqus 很简单，但是在国内却会被墙，所以我最终使用 Disqus API 加国外 VPS 的模式为博客下留言的用户提供了代理。并且针对 Disqus 加载时会下载过多资源的现象，自己实现了一个针对博客定制版的评论系统。</p>
 <a id="more"></a>
+<h2 id="Disqus-分析"><a href="#Disqus-分析" class="headerlink" title="Disqus 分析"></a>Disqus 分析</h2><h3 id="使用-Disqus-自带的脚本"><a href="#使用-Disqus-自带的脚本" class="headerlink" title="使用 Disqus 自带的脚本"></a>使用 Disqus 自带的脚本</h3><p>如果在页面中使用 Disqus 自带的脚本，其实是一个不复杂的事情，我们要做的就是在 Disqus 上注册，然后为自己的域名创建一个 site，在 Disqus 上下载在网页中插入的脚本代码。在本站中，我的脚本代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.</div><div class="line">*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/</div><div class="line">/*</div><div class="line">var disqus_config = function () &#123;</div><div class="line">this.page.url = PAGE_URL;  // Replace PAGE_URL with your page&apos;s canonical URL variable</div><div class="line">this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page&apos;s unique identifier variable</div><div class="line">&#125;;</div><div class="line">*/</div><div class="line">var disqus_identifier = window.location.href.split(&apos;/post/&apos;)[1];</div><div class="line">// var disqus_url = window.location.href;</div><div class="line"></div><div class="line">(function() &#123; // DON&apos;T EDIT BELOW THIS LINE</div><div class="line">var d = document, s = d.createElement(&apos;script&apos;);</div><div class="line">s.src = &apos;https://www-zyuchen-com.disqus.com/embed.js&apos;;</div><div class="line">s.setAttribute(&apos;data-timestamp&apos;, +new Date());</div><div class="line">(d.head || d.body).appendChild(s);</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<p>其中，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var disqus_identifier = window.location.href.split(&apos;/post/&apos;)[1];</div></pre></td></tr></table></figure>
+<p>是我自己添加的，用来为当前页面设定一个 identifier url，以便于使用该 url 查询该页面上的所有评论信息。</p>
+<p>以上的脚本内容可以添加到需要添加评论框的页面中，刷新页面就可以运行以上代码，在页面中嵌入评论框并且获取历史评论。</p>
+<p>接下来，我们来分析一下，Disqus 在页面上的表现。</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/c08cb067cf75703dc8aa99fa793b30fb.png" alt=""></p>
+<p>这张图中展示的是我在 <code>http://zyuchen.com/post/TCP-flow-congestion-control</code> 中添加的测试评论，Disqus 在页面中显示的样式，我们可以看到，评论框的布局很合理，Disqus 还是很值得使用的~</p>
+<p>接下来，我们来分析一下使用 Disqus 的缺点。</p>
+<h3 id="国内访问被墙"><a href="#国内访问被墙" class="headerlink" title="国内访问被墙"></a>国内访问被墙</h3><p>上面显示 Disqus 评论框，是在我本地的机器已经翻墙的条件下才能下载相关的 JS 资源。如果作为一个用户，其本地的浏览器并没有翻墙能力的时候，Disqus 的表现又如何呢？</p>
+<p>当我关闭本地的翻墙软件后，Disqus 的加载效果如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/42dff48ede51ca0db9969e9d636d7331.png" alt=""></p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/fd42082a7f7bf88550edb504efde6cf9.png" alt=""></p>
+<p>我们可以看到，Disqus 相关的脚本在用户浏览器没有翻墙的情况下，是无法下载的，此时，页面中的显示效果如下：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/2adca079cf49c21df8adbc4ba9dff6a7.png" alt=""></p>
+<p>原来评论框的部分完全没有显示。作为一个博客，我们很难要求访问的用户都具备翻墙的能力，或者当前就处在翻墙的状态下。所以，针对不能翻墙的用户，我们还是需要提供代理，为他们获得“墙外”的留言。</p>
+<h3 id="Disqus-资源加载"><a href="#Disqus-资源加载" class="headerlink" title="Disqus 资源加载"></a>Disqus 资源加载</h3><p>在使用 Disqus，还有一点让我最不能忍受的，可以见下图：</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/cd94f1a59a5d4dc462c9f46db37affc9.png" alt=""></p>
+<p>明明我博客的内容很快就加载完了，但是 Disqus 在加载自己的评论框的时候，居然加载了这么多的资源！从图中我们可以看到，在最开始的紫色竖线之前是加载我的博客的内容，紫色竖线之后全部都是加载 Disqus 的内容，整整运行了 10s，即使是这一部分作为懒加载来处理，需要 10s 才能加载完成所有的评论框内容，这是不能忍受的。因为这一点，我才下决心为博客中评论框的部分使用代理来获取数据，并且自己进行评论框的渲染。下面是我的做法</p>
+<h2 id="为-Disqus-搭建代理"><a href="#为-Disqus-搭建代理" class="headerlink" title="为 Disqus 搭建代理"></a>为 Disqus 搭建代理</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://disqus.com/api/docs/" target="_blank" rel="external">Disqus API Resources</a></li>
+<li><a href="https://imququ.com/post/back-to-disqus.html" target="_blank" rel="external">Disqus，我又回来了！| 屈屈老师</a></li>
+</ul>
 
       
     </div>
@@ -498,8 +528,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
@@ -555,6 +594,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Disqus-分析"><span class="nav-number">1.</span> <span class="nav-text">Disqus 分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Disqus-自带的脚本"><span class="nav-number">1.1.</span> <span class="nav-text">使用 Disqus 自带的脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#国内访问被墙"><span class="nav-number">1.2.</span> <span class="nav-text">国内访问被墙</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Disqus-资源加载"><span class="nav-number">1.3.</span> <span class="nav-text">Disqus 资源加载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为-Disqus-搭建代理"><span class="nav-number">2.</span> <span class="nav-text">为 Disqus 搭建代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
