@@ -334,6 +334,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -382,7 +404,49 @@
       
         
           
-            
+            <h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><p>find是一个基于查找的功能非常强大的命令，相对而言，它的使用也相对较为复杂，参数也比较多，所以在这里将给把它们分类列出，它的基本语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">find [PATH] [option] [action]  </div><div class="line">  </div><div class="line"># 与时间有关的参数：  </div><div class="line">-mtime n : n为数字，意思为在n天之前的“一天内”被更改过的文件；  </div><div class="line">-mtime +n : 列出在n天之前（不含n天本身）被更改过的文件名；  </div><div class="line">-mtime -n : 列出在n天之内（含n天本身）被更改过的文件名；  </div><div class="line">-newer file : 列出比file还要新的文件名  </div><div class="line"># 例如：  </div><div class="line">find /root -mtime 0 # 在当前目录下查找今天之内有改动的文件  </div><div class="line">  </div><div class="line"># 与用户或用户组名有关的参数：  </div><div class="line">-user name : 列出文件所有者为name的文件  </div><div class="line">-group name : 列出文件所属用户组为name的文件  </div><div class="line">-uid n : 列出文件所有者为用户ID为n的文件  </div><div class="line">-gid n : 列出文件所属用户组为用户组ID为n的文件  </div><div class="line"># 例如：  </div><div class="line">find /home/ljianhui -user ljianhui # 在目录/home/ljianhui中找出所有者为ljianhui的文件  </div><div class="line">  </div><div class="line"># 与文件权限及名称有关的参数：  </div><div class="line">-name filename ：找出文件名为filename的文件  </div><div class="line">-size [+-]SIZE ：找出比SIZE还要大（+）或小（-）的文件  </div><div class="line">-tpye TYPE ：查找文件的类型为TYPE的文件，TYPE的值主要有：一般文件（f)、设备文件（b、c）、  </div><div class="line">             目录（d）、连接文件（l）、socket（s）、FIFO管道文件（p）；  </div><div class="line">-perm mode ：查找文件权限刚好等于mode的文件，mode用数字表示，如0755；  </div><div class="line">-perm -mode ：查找文件权限必须要全部包括mode权限的文件，mode用数字表示  </div><div class="line">-perm +mode ：查找文件权限包含任一mode的权限的文件，mode用数字表示  </div><div class="line"># 例如：  </div><div class="line">find / -name passwd # 查找文件名为passwd的文件  </div><div class="line">find . -perm 0755 # 查找当前目录中文件权限的0755的文件</div></pre></td></tr></table></figure>
+<h3 id="ps命令"><a href="#ps命令" class="headerlink" title="ps命令"></a>ps命令</h3><p>该命令用于将某个时间点的进程运行情况选取下来并输出，process之意，它的常用参数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-A ：所有的进程均显示出来  </div><div class="line">-a ：不与terminal有关的所有进程  </div><div class="line">-u ：有效用户的相关进程  </div><div class="line">-x ：一般与a参数一起使用，可列出较完整的信息  </div><div class="line">-l ：较长，较详细地将PID的信息列出</div></pre></td></tr></table></figure>
+<p>其实我们只要记住ps一般使用的命令参数搭配即可，它们并不多，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ps aux # 查看系统所有的进程数据  </div><div class="line">ps ax # 查看不与terminal有关的所有进程  </div><div class="line">ps -lA # 查看系统所有的进程数据  </div><div class="line">ps axjf # 查看连同一部分进程树状态</div></pre></td></tr></table></figure>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/c505746b69951a6a7f7f55c1d223161d.png" alt=""></p>
+<p>其中显示了：</p>
+<p>USER 哪个用户启动了这个命令<br>PID 进程ID<br>CPU CPU占用率<br>MEM 内存使用量<br>VSZ 如果一个程序完全驻留在内存的话需要占用多少内存空间<br>RSS 当前实际占用了多少内存<br>TTY: 终端的次要装置号码 (minor device number of tty)<br>STAT 进程当前的状态(“S”:中断 sleeping,进程处在睡眠状态,表明这些进程在等待某些事件发生–可能是用户输入或者系统资源的可用性;”D”:不可中断 uninterruptible sleep;”R”:运行 runnable;”T”:停止 traced or stopped;”Z”:僵死 a defunct zombie process)<br>START 启动命令的时间点<br>TIME 进程执行起到现在总的CPU暂用时间<br>COMMAND 启动这个进程的命令</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/35730fac98a30beafbb705618109bde2.png" alt=""></p>
+<p>其中显示了：</p>
+<p>UID 用户号<br>PID 进程ID<br>PPID 父进程号<br>C CPU占用率<br>TTY 终端的次要装置号码 (minor device number of tty)<br>TIME 进程执行起到现在总的CPU暂用时间<br>COMMAND 启动这个进程的命令</p>
+<h3 id="jps-命令"><a href="#jps-命令" class="headerlink" title="jps 命令"></a>jps 命令</h3><p>jps位于jdk的bin目录下，其作用是显示当前系统的java进程情况，及其id号。 jps相当于Solaris进程工具ps。</p>
+<h3 id="kill命令"><a href="#kill命令" class="headerlink" title="kill命令"></a>kill命令</h3><p>该命令用于向某个工作（%jobnumber）或者是某个PID（数字）传送一个信号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">kill -signal PID  </div><div class="line"></div><div class="line">1：SIGHUP，启动被终止的进程  </div><div class="line">2：SIGINT，相当于输入ctrl+c，中断一个程序的进行  </div><div class="line">9：SIGKILL，强制中断一个进程的进行  </div><div class="line">15：SIGTERM，以正常的结束进程方式来终止进程  </div><div class="line">17：SIGSTOP，相当于输入ctrl+z，暂停一个进程的进行</div></pre></td></tr></table></figure>
+<h3 id="tar命令"><a href="#tar命令" class="headerlink" title="tar命令"></a>tar命令</h3><p>该命令用于对文件进行打包，默认情况并不会压缩，如果指定了相应的参数，它还会调用相应的压缩程序（如gzip和bzip等）进行压缩和解压。它的常用参数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-c ：新建打包文件  </div><div class="line">-t ：查看打包文件的内容含有哪些文件名  </div><div class="line">-x ：解打包或解压缩的功能，可以搭配-C（大写）指定解压的目录，注意-c,-t,-x不能同时出现在同一条命令中  </div><div class="line">-j ：通过bzip2的支持进行压缩/解压缩  </div><div class="line">-z ：通过gzip的支持进行压缩/解压缩  </div><div class="line">-v ：在压缩/解压缩过程中，将正在处理的文件名显示出来  </div><div class="line">-f filename ：filename为要处理的文件  </div><div class="line">-C dir ：指定压缩/解压缩的目录dir</div></pre></td></tr></table></figure>
+<h3 id="cat、more、less-命令"><a href="#cat、more、less-命令" class="headerlink" title="cat、more、less 命令"></a>cat、more、less 命令</h3><p>cat、more、less均可用来查看文件内容，主要区别有：</p>
+<p>cat是一次性显示整个文件的内容，还可以将多个文件连接起来显示，它常与重定向符号配合使用，适用于文件内容少的情况；</p>
+<p>more和less一般用于显示文件内容超过一屏的内容，并且提供翻页的功能。more比cat强大，提供分页显示的功能</p>
+<p>less比more更强大，提供翻页，跳转，查找等命令。而且more和less都支持：用空格显示下一页，按键b显示上一页。</p>
+<h3 id="df"><a href="#df" class="headerlink" title="df"></a>df</h3><p>df -k 查看各文件系统剩余的空间，-k说明单位是千字节(kb)</p>
+<h3 id="du"><a href="#du" class="headerlink" title="du"></a>du</h3><p>查看目录所占磁盘容量</p>
+<p>du [-s] 目录<br>du dir1 显示目录 dir1 的总容量及其子目录的容量(以KB 为单位)。<br>du -s dir1 显示目录 dir1 的总容量。</p>
+<h3 id="passwd"><a href="#passwd" class="headerlink" title="passwd"></a>passwd</h3><p>passwd<br>Old password: &lt;输入旧密码&gt;<br>New password: &lt;输入新密码〉<br>Retype new password: &lt;再输入一次密码&gt;</p>
+<h3 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h3><p>查看所定义的命令的别名</p>
+<p> alias 查看自己目前定义的所有命令，及所对应的别名。</p>
+<p> alias name 查看指定的name 命令的别名。</p>
+<p> 定义命令的别名： alias name‘command line’</p>
+<p> 删除所定义的别名：unalias name</p>
+<h3 id="history"><a href="#history" class="headerlink" title="history"></a>history</h3><p> 查看命令记录表的内容</p>
+<p> 重复执行前第 n 个命令： !n，n：命令记录表的命令编号。</p>
+<p> 重复执行前一个命令：!!</p>
+<h3 id=""><a href="#" class="headerlink" title="|"></a><code>|</code></h3><p> 命令1 | 命令2 将命令1的执行结果送到命令2，做为命令2的输入。</p>
+<p> ls -Rl | more 以分页方式列出当前目录及其子目录下所有文件的名称。<br>cat file1 | more 以分页方式列出文件 file1 的内容。</p>
+<h3 id="输入-输出控制"><a href="#输入-输出控制" class="headerlink" title="输入/输出控制"></a>输入/输出控制</h3><h4 id="将文件做为命令的输入：命令-lt-文件"><a href="#将文件做为命令的输入：命令-lt-文件" class="headerlink" title="将文件做为命令的输入：命令 &lt; 文件"></a>将文件做为命令的输入：命令 &lt; 文件</h4><p>mail -s “mail test” 电子邮件地址 &lt; file1     将文件file 当做信件的内容</p>
+<h4 id="将命令的执行结果送至指定的文件中：命令-gt-文件"><a href="#将命令的执行结果送至指定的文件中：命令-gt-文件" class="headerlink" title="将命令的执行结果送至指定的文件中：命令 &gt; 文件"></a>将命令的执行结果送至指定的文件中：命令 &gt; 文件</h4><p>ls -l &gt; list 将执行 “ls -l” 命令的结果写入文件list 中。</p>
+<h4 id="命令-gt-文件-将命令的执行结果送至指定的文件中，若文件已经存在，则覆盖。"><a href="#命令-gt-文件-将命令的执行结果送至指定的文件中，若文件已经存在，则覆盖。" class="headerlink" title="命令&gt;! 文件 将命令的执行结果送至指定的文件中，若文件已经存在，则覆盖。"></a>命令&gt;! 文件 将命令的执行结果送至指定的文件中，若文件已经存在，则覆盖。</h4><p>ls -lg &gt;! list 将执行 “ls - lg” 命令的结果覆盖写入文件 list 中</p>
+<h4 id="命令-gt-amp-文件-将命令执行时屏幕上所产生的任何信息写入指定的文件中。"><a href="#命令-gt-amp-文件-将命令执行时屏幕上所产生的任何信息写入指定的文件中。" class="headerlink" title="命令 &gt;&amp; 文件 将命令执行时屏幕上所产生的任何信息写入指定的文件中。"></a>命令 &gt;&amp; 文件 将命令执行时屏幕上所产生的任何信息写入指定的文件中。</h4><p>cc file1.c &gt;&amp; error 将编译 file1.c 文件时所产生的任何信息写入文件 error 中</p>
+<h4 id="命令-gt-gt-文件-将命令执行的结果附加到指定的文件中。"><a href="#命令-gt-gt-文件-将命令执行的结果附加到指定的文件中。" class="headerlink" title="命令&gt;&gt; 文件 将命令执行的结果附加到指定的文件中。"></a>命令&gt;&gt; 文件 将命令执行的结果附加到指定的文件中。</h4><p>ls - lag &gt;&gt; list 将执行 “ls - lag” 命令的结果附加到文件 list 中。</p>
+<h4 id="命令-gt-gt-amp-文件-将命令执行时屏幕上所产生的任何信息附加到指定的文件中。"><a href="#命令-gt-gt-amp-文件-将命令执行时屏幕上所产生的任何信息附加到指定的文件中。" class="headerlink" title="命令 &gt;&gt;&amp; 文件 将命令执行时屏幕上所产生的任何信息附加到指定的文件中。"></a>命令 &gt;&gt;&amp; 文件 将命令执行时屏幕上所产生的任何信息附加到指定的文件中。</h4><p>cc file2.c &gt;&gt;&amp; error 将编译 file2.c 文件时屏幕所产生的任何信息附加到文件error 中。</p>
+<h3 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h3><p>常见参数<br>-a (all)显示所有选项，默认不显示LISTEN相关<br>-t (tcp)仅显示tcp相关选项<br>-u (udp)仅显示udp相关选项<br>-n 拒绝显示别名，能显示数字的全部转化成数字。<br>-l 仅列出有在 Listen (监听) 的服務状态</p>
+
           
         
       
@@ -446,7 +510,7 @@
               
                 
                 <a class="post-title-link" href="/2017/07/23/现有布线算法/" itemprop="url">
-                  现有布线算法
+                  数据可视化之布线算法
                 </a>
               
             
@@ -514,7 +578,7 @@
 
           
           
-             <span id="/2017/07/23/现有布线算法/" class="leancloud_visitors" data-flag-title="现有布线算法">
+             <span id="/2017/07/23/现有布线算法/" class="leancloud_visitors" data-flag-title="数据可视化之布线算法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -544,14 +608,21 @@
         
           
             <p>本文中介绍的是现有的布线算法</p>
-<h2 id="A-star-算法"><a href="#A-star-算法" class="headerlink" title="A star 算法"></a>A star 算法</h2><p><code>A*</code> 是一种single source single destination的算法，它的时间复杂度是O(|E|), E是地图上所有路径点所形成的路径网络的edge的数目。也就是说A*可以用来计算从一个点到另外一个点的最优路径。</p>
-<h2 id="Potential-Field"><a href="#Potential-Field" class="headerlink" title="Potential Field"></a>Potential Field</h2><p>它是将地图用一个矩阵来表示，矩阵储存着大小不同的电势</p>
+<h2 id="寻路算法"><a href="#寻路算法" class="headerlink" title="寻路算法"></a>寻路算法</h2><h3 id="A-star-算法"><a href="#A-star-算法" class="headerlink" title="A star 算法"></a>A star 算法</h3><p><code>A*</code> 是一种single source single destination的算法，它的时间复杂度是O(|E|), E是地图上所有路径点所形成的路径网络的edge的数目。也就是说A*可以用来计算从一个点到另外一个点的最优路径。</p>
+<p>A Star（又称A*），是结合了Dijkstra算法和贪心算法优点的算法，A Star的核心在于将游戏背景分为一个又一个格子，每个格子有自己的靠谱值，然后通过遍历起点的格子去找到周围靠谱的格子，接着继续遍历周围……最终找到终点。</p>
+<ul>
+<li><a href="http://www.cnblogs.com/technology/archive/2011/05/26/2058842.html" target="_blank" rel="external">理解A*寻路算法具体过程</a></li>
+<li><a href="https://github.com/qiao/PathFinding.js/" target="_blank" rel="external">PathFinding.js</a></li>
+<li><a href="http://www.alloyteam.com/2016/03/and-a-star-on-different-pixel-pathfinding-algorithm/" target="_blank" rel="external">与 A star 不同的像素级寻路算法-上</a></li>
+<li><a href="http://www.alloyteam.com/2016/03/with-a-star-under-different-pixel-pathfinding-algorithm/" target="_blank" rel="external">与 A star 不同的像素级寻路算法-下</a></li>
+</ul>
+<h3 id="Potential-Field"><a href="#Potential-Field" class="headerlink" title="Potential Field"></a>Potential Field</h3><p>它是将地图用一个矩阵来表示，矩阵储存着大小不同的电势</p>
 <p>单位本身是一个负电势，游戏以一个数组储存所有单位的电势和位置 。这样，在计算一个单位需要怎么从A点到B点时，我们可以用一个新的矩阵将目的地B点设成正电势，并以不同方式（如圆形、四边形等）辐射开来，离B点越远电势越低，直到0。然后将地图矩阵，目的地矩阵，和所有单位数组的电势相加，得出一个新的、反映当前游戏世界的电势矩阵，然后单位再选择周围所有电势点中的最高电势点去走。</p>
 <ul>
 <li><a href="http://aigamedev.com/open/tutorials/potential-fields/" target="_blank" rel="external">Using Potential Fields in a Real-time Strategy Game Scenario (Tutorial)</a></li>
 <li><a href="http://www.n-created.com/2013/08/24/potential-fields-ai-13-hello-potentials/" target="_blank" rel="external">Potential Fields AI, 1/3: hello potentials.</a></li>
 </ul>
-<h2 id="Flocking-Behavior"><a href="#Flocking-Behavior" class="headerlink" title="Flocking Behavior"></a>Flocking Behavior</h2><h3 id="Steering-Behavior"><a href="#Steering-Behavior" class="headerlink" title="Steering Behavior"></a>Steering Behavior</h3><p>在对于一大群单位的寻路，计算量是很大的，而且往往会有很多的重复，这些都是可以避免的。如果单位的移动是利用Steering Behavior 来实现的话，那么就可以为其中一个单位，称之为Leader，计算路径（例如用导航网格），然后其他单位按照以下Flocking原则来移动：</p>
+<h3 id="Flocking-Behavior"><a href="#Flocking-Behavior" class="headerlink" title="Flocking Behavior"></a>Flocking Behavior</h3><h4 id="Steering-Behavior"><a href="#Steering-Behavior" class="headerlink" title="Steering Behavior"></a>Steering Behavior</h4><p>在对于一大群单位的寻路，计算量是很大的，而且往往会有很多的重复，这些都是可以避免的。如果单位的移动是利用Steering Behavior 来实现的话，那么就可以为其中一个单位，称之为Leader，计算路径（例如用导航网格），然后其他单位按照以下Flocking原则来移动：</p>
 <ol>
 <li>分离，避开相邻单位</li>
 <li>一致，和整体的移动方向一致，这里应该是Leader的移动方向</li>
@@ -2198,7 +2269,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
