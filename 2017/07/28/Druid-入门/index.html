@@ -1,0 +1,1042 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库,Druid," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文记录的是我在学习实时 OLAP 数据分析存储系统 Druid 的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Druid 入门">
+<meta property="og:url" content="https://shiningdan.github.io/2017/07/28/Druid-入门/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文记录的是我在学习实时 OLAP 数据分析存储系统 Druid 的笔记">
+<meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/a4721de03eeffd09e75180d93e414b77.png">
+<meta property="og:updated_time" content="2017-07-29T08:53:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Druid 入门">
+<meta name="twitter:description" content="本文记录的是我在学习实时 OLAP 数据分析存储系统 Druid 的笔记">
+<meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/a4721de03eeffd09e75180d93e414b77.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/07/28/Druid-入门/"/>
+
+
+
+
+
+  <title> Druid 入门 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/07/28/Druid-入门/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Druid 入门
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-28T11:56:05+08:00">
+                2017-07-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/28/Druid-入门/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/28/Druid-入门/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/07/28/Druid-入门/" class="leancloud_visitors" data-flag-title="Druid 入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文记录的是我在学习实时 OLAP 数据分析存储系统 Druid 的笔记</p>
+<a id="more"></a>
+<h2 id="Druid是否适合我？"><a href="#Druid是否适合我？" class="headerlink" title="Druid是否适合我？"></a>Druid是否适合我？</h2><p>许多组织部署Druid用于分析广告技术、 运维、 网络流量、 云安全、 网站流量、 金融， 以及传感器数据。 如果你存在以下需求，那么Druid会是不错的选择：</p>
+<ul>
+<li>你正在构建一个需要快速聚合和探索分析的应用</li>
+<li>你需要基于正在发生的数据进行分析（实时）</li>
+<li>你拥有大量的数据（万亿级事件，PB级数据）</li>
+<li>你需要一个无单点问题，始终可用的数据存储</li>
+</ul>
+<h2 id="什么是-OLAP"><a href="#什么是-OLAP" class="headerlink" title="什么是 OLAP"></a>什么是 OLAP</h2><p>数据处理大致可以分成两大类：联机事务处理OLTP（on-line transaction processing）、联机分析处理OLAP（On-Line Analytical Processing）。OLTP是传统的关系型数据库的主要应用，主要是基本的、日常的事务处理，例如银行交易。OLAP是数据仓库系统的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。</p>
+<p>OLTP，也叫联机事务处理（Online Transaction Processing），表示事务性非常高的系统，一般都是高可用的在线系统，以小的事务以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及Execute SQL的数量。在这样的系统中，单个数据库每秒处理的Transaction往往超过几百个，或者是几千个，Select 语句的执行量每秒几千甚至几万个。典型的OLTP系统有电子商务系统、银行、证券等，如美国eBay的业务数据库，就是很典型的OLTP数据库。</p>
+<p>对于OLAP系统，在内存上可优化的余地很小，增加CPU 处理速度和磁盘I/O 速度是最直接的提高数据库性能的方法，当然这也意味着系统成本的增加。比如我们要对几亿条或者几十亿条数据进行聚合处理，这种海量的数据，全部放在内存中操作是很难的，同时也没有必要，因为这些数据快很少重用，缓存起来也没有实际意义，而且还会造成物理I/O相当大。 所以这种系统的瓶颈往往是磁盘I/O上面的。</p>
+<p><a href="http://blog.csdn.net/jiangshouzhuang/article/details/46884707" target="_blank" rel="external">OLAP、OLTP的介绍和比较</a></p>
+<h2 id="Druid-大数据实时统计分析数据存储"><a href="#Druid-大数据实时统计分析数据存储" class="headerlink" title="Druid (大数据实时统计分析数据存储)"></a>Druid (大数据实时统计分析数据存储)</h2><p>Druid是一个为在大数据集之上做实时统计分析而设计的开源数据存储。</p>
+<h3 id="Hadoop-的缺点"><a href="#Hadoop-的缺点" class="headerlink" title="Hadoop 的缺点"></a>Hadoop 的缺点</h3><p>Hadoop擅长的是存储和获取大规模数据，但是它并不提供任何性能上的保证它能多快获取到数据。</p>
+<p>此外，虽然Hadoop是一个高可用的系统，但是在高并发负载下性能会下降。</p>
+<p>最后，Hadoop对于存储数据可以工作得很好，但是并没有对数据导入进行优化，使导入的数据立即可读。</p>
+<h3 id="Druid-优点"><a href="#Druid-优点" class="headerlink" title="Druid 优点"></a>Druid 优点</h3><p><a href="https://github.com/QLeelulu/research/blob/master/druid/White_Paper/druid_cn.md" target="_blank" rel="external">Druid (大数据实时统计分析数据存储)</a></p>
+<p>Druid 的最初目的是设计来解决导入和分析大规模交易事件（日志数据）。这种时间序列形式的数据通常在OALP类工作流中比较常见，且数据的本质是非常重的<strong>追加写</strong>（实时写入）。</p>
+<p>之所以需要Druid，是因为现实情况是现有的开源关系型数据库(RDBMS)和NoSQL key/value 数据库没办法为一些交互式应用提供低延迟的数据导入和查询。</p>
+<p>从一个事件数据被创建，到这个事件数据可以被查询的时间，决定了利益相关方能够在他们的系统出现潜在灾难性情况时多快做出反应。流行的开源数据仓库系统，例如Hadoop，并不能达到我们所需要的秒级的数据导入和查询的要求。</p>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p>Druid集群的构成和数据流向</p>
+<p><img src="http://ojt6zsxg2.bkt.clouddn.com/a4721de03eeffd09e75180d93e414b77.png" alt=""></p>
+<h4 id="实时节点"><a href="#实时节点" class="headerlink" title="实时节点"></a>实时节点</h4><p>实时节点封装了导入和查询事件数据的功能，经由这些节点导入的事件数据可以立刻被查询。实时节点只关心一小段时间内的事件数据，并定期把这段时间内收集的这批不可变事件数据导入到Druid集群里面另外一个专门负责处理不可变的批量数据的节点中去。实时节点通过Zookeeper的协调和Druid集群的其他节点协调工作。实时节点通过Zookeeper来宣布他们的在线状态和他们提供的数据。</p>
+<p>实时节点为所有传入的事件数据维持一个内存中的索引缓存。为了避免堆溢出问题，实时节点会定期地、或者在达到设定的最大行限制的时候，把内存中的索引持久化到磁盘去。这个持久化进程会把保存于内存缓存中的数据转换为基于列存储的格式</p>
+<p>所有的实时节点都会周期性的启动后台的计划任务搜索本地的持久化索引，后台计划任务将这些持久化的索引合并到一起并生成一块不可变的数据</p>
+<h4 id="可用性与可扩展性"><a href="#可用性与可扩展性" class="headerlink" title="可用性与可扩展性"></a>可用性与可扩展性</h4><p>实时节点是一个数据的消费者，需要有相应的生产商为其提供数据流。通常，为了数据耐久性的目的，会在生产商与实时节点间放置一个类似于Kafka这样的消息总线来进行连接</p>
+<p>消息总线作为传入数据的缓冲区。类似于Kafka这样的消息总线会维持一个指示当前消费者（实时节点）从事件数据流中已经读取数据的位置偏移量，实时节点每次持久化内存中的缓存到磁盘的时候，都会更新这个偏移量。</p>
+<p>多个实时节点可以从数据总线导入同一组数据，为数据创建一个副本。这样当一个节点完全挂掉并且磁盘上的数据也丢失了，副本可以确保不会丢失任何数据。</p>
+<h4 id="历史节点"><a href="#历史节点" class="headerlink" title="历史节点"></a>历史节点</h4><p>历史节点封装了加载和处理由实时节点创建的不可变数据块（segment）的功能。</p>
+<p>类似于实时节点，历史节点在Zookeeper中通告它们的在线状态和为哪些数据提供服务。</p>
+<h4 id="Broker节点"><a href="#Broker节点" class="headerlink" title="Broker节点"></a>Broker节点</h4><p>Broker节点扮演着历史节点和实时节点的查询路由的角色。Broker节点知道发布于Zookeeper中的关于哪些segment是可查询的和这些segment是保存在哪里的，Broker节点就可以将到来的查询请求路由到正确的历史节点或者是实时节点，Broker节点也会将历史节点和实时节点的局部结果进行合并，然后返回最终的合并后的结果给调用者。</p>
+<h4 id="协调节点"><a href="#协调节点" class="headerlink" title="协调节点"></a>协调节点</h4><p>Druid的协调节点主要负责数据的管理和在历史节点上的分布。协调节点告诉历史节点加载新数据、卸载过期数据、复制数据、和为了负载均衡移动数据。</p>
+<h4 id="存储格式"><a href="#存储格式" class="headerlink" title="存储格式"></a>存储格式</h4><p>Druid中的数据表（称为数据源）是一个时间序列事件数据的集合，并分割到一组segment中，而每一个segment通常是0.5-1千万行。在形式上，我们定义一个segment为跨越一段时间的数据行的集合。Segment是Druid里面的基本存储单元，复制和分布都是在segment基础之上进行的。</p>
+<h3 id="其他依赖"><a href="#其他依赖" class="headerlink" title="其他依赖"></a>其他依赖</h3><p>Druid 包含3个外部依赖 ：Mysql、Deep storage、Zookeeper</p>
+<h4 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h4><p>Mysql：存储关于Druid中的metadata而不是存储实际数据，包含3张表：”druid_config”（通常是空的）, “druid_rules”（协作节点使用的一些规则信息，比如哪个segment从哪个node去load）和“druid_segments”（存储 每个segment的metadata信息）；</p>
+<h4 id="Deep-storage"><a href="#Deep-storage" class="headerlink" title="Deep storage"></a>Deep storage</h4><p>Deep storage: 存储segments，Druid目前已经支持本地磁盘，NFS挂载磁盘，HDFS，S3等。Deep Storage的数据有2个来源，一个是批数据摄入, 另一个来自实时节点；</p>
+<h4 id="ZooKeeper"><a href="#ZooKeeper" class="headerlink" title="ZooKeeper"></a>ZooKeeper</h4><p>ZooKeeper: 被Druid用于管理当前cluster的状态，比如记录哪些segments从实时节点移到了历史节点；</p>
+<h2 id="Druid-vs-其他系统"><a href="#Druid-vs-其他系统" class="headerlink" title="Druid vs 其他系统"></a>Druid vs 其他系统</h2><h3 id="Druid-vs-Impala-Shark"><a href="#Druid-vs-Impala-Shark" class="headerlink" title="Druid vs Impala/Shark"></a>Druid vs Impala/Shark</h3><p>Druid和Impala、Shark 的比较基本上可以归结为需要设计什么样的系统</p>
+<p>Druid被设计用于：</p>
+<ol>
+<li>一直在线的服务</li>
+<li>获取实时数据</li>
+<li>处理slice-n-dice式的即时查询</li>
+</ol>
+<h4 id="查询速度不同："><a href="#查询速度不同：" class="headerlink" title="查询速度不同："></a>查询速度不同：</h4><p>Druid是列存储方式，数据经过压缩加入到索引结构中，压缩增加了RAM中的数据存储能力，能够使RAM适应更多的数据快速存取。索引结构意味着，当添加过滤器来查询，Druid少做一些处理，将会查询的更快。<br>Impala/Shark可以认为是HDFS之上的后台程序缓存层。 但是他们没有超越缓存功能，真正的提高查询速度。</p>
+<h4 id="数据的获取不同："><a href="#数据的获取不同：" class="headerlink" title="数据的获取不同："></a>数据的获取不同：</h4><p>Druid可以获取实时数据。<br>Impala/Shark是基于HDFS或者其他后备存储，限制了数据获取的速度。</p>
+<h5 id="查询的形式不同："><a href="#查询的形式不同：" class="headerlink" title="查询的形式不同："></a>查询的形式不同：</h5><p>Druid支持时间序列和groupby样式的查询，但不支持join。<br>Impala/Shark支持SQL样式的查询。</p>
+<h3 id="Druid-vs-Elasticsearch"><a href="#Druid-vs-Elasticsearch" class="headerlink" title="Druid vs Elasticsearch"></a>Druid vs Elasticsearch</h3><p>Elasticsearch(ES) 是基于Apache Lucene的搜索服务器。它提供了全文搜索的模式，并提供了访问原始事件级数据。 Elasticsearch还提供了分析和汇总支持。根据研究，ES在数据获取和聚集用的资源比在Druid高。</p>
+<p>Druid侧重于OLAP工作流程。Druid是高性能（快速聚集和获取）以较低的成本进行了优化，并支持广泛的分析操作。Druid提供了结构化的事件数据的一些基本的搜索支持。</p>
+<h3 id="Druid-vs-Spark"><a href="#Druid-vs-Spark" class="headerlink" title="Druid vs Spark"></a>Druid vs Spark</h3><p>Spark 是围绕弹性分布式数据集（ RDD ）的概念，建立了一个集群计算框架，可以被看作是一个后台分析平台。 RDD启用数据复用保持中间结果存在内存中，给Spark提供快速计算的迭代算法。这对于某些工作流程，如机器学习，相同的操作可应用一遍又一遍，直到有 结果后收敛尤其有益。Spark提供分析师与不同算法各种各样运行查询和分析大量数据的能力。</p>
+<p>Druid重点是数据获取和提供查询数据的服务，如果建立一个web界面，用户可以随意查看数据。</p>
+<h2 id="查询-API"><a href="#查询-API" class="headerlink" title="查询 API"></a>查询 API</h2><p><a href="http://druidio.cn/" target="_blank" rel="external">Druid | 大规模交互式查询</a></p>
+<p><a href="http://druidio.cn/docs/0.9.0/design/index.html" target="_blank" rel="external">说明文档</a></p>
+<p>我们看看一个数据集的例子 (来源于线上广告):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">timestamp             publisher          advertiser  gender  country  click  price</div><div class="line">2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA      0      0.65</div><div class="line">2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA      0      0.62</div><div class="line">2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA      1      0.45</div><div class="line">2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.87</div><div class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.99</div><div class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       1      1.53</div></pre></td></tr></table></figure>
+<p>这个数据集有三部分组成。如果你比较熟悉OLAP的术语的话,应该会很熟悉下面的概念。</p>
+<ul>
+<li><strong>Timestamp</strong> 列: 我们将timestamp区别开是因为我们所有的查询都以时间为中心。</li>
+<li><strong>Dimension</strong> 列: Dimensions对应事件的维度,通常用于筛选过滤数据。 在我们例子中的数据有四个dimensions: publisher, advertiser, gender, and country。 它们每一个都可以看作是我们已选都数据的主体。</li>
+<li><strong>Metric</strong> 列: Metrics是用于聚合和计算的列。在我们的例子中,click和price就是metrics。 Metrics通常是数字,并且包含支持count、sum、mean等计算操作。 在OLAP的术语中也被叫做measures。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://blog.csdn.net/jiangshouzhuang/article/details/46884707" target="_blank" rel="external">OLAP、OLTP的介绍和比较</a></li>
+<li><a href="https://github.com/QLeelulu/research/blob/master/druid/White_Paper/druid_cn.md" target="_blank" rel="external">Druid (大数据实时统计分析数据存储)</a></li>
+<li><a href="https://my.oschina.net/betaoo/blog/530088" target="_blank" rel="external">Druid 实时数据分析存储系统</a></li>
+<li><a href="http://druidio.cn/" target="_blank" rel="external">Druid | 大规模交互式查询</a></li>
+<li><a href="http://druidio.cn/docs/0.9.0/design/index.html" target="_blank" rel="external">说明文档</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+            <a href="/tags/Druid/" rel="tag"># Druid</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/27/leaflet-入门/" rel="next" title="leaflet 入门">
+                <i class="fa fa-chevron-left"></i> leaflet 入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/07/28/Druid-入门/"
+           data-title="Druid 入门" data-url="https://shiningdan.github.io/2017/07/28/Druid-入门/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">84</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Druid是否适合我？"><span class="nav-number">1.</span> <span class="nav-text">Druid是否适合我？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-OLAP"><span class="nav-number">2.</span> <span class="nav-text">什么是 OLAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Druid-大数据实时统计分析数据存储"><span class="nav-number">3.</span> <span class="nav-text">Druid (大数据实时统计分析数据存储)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop-的缺点"><span class="nav-number">3.1.</span> <span class="nav-text">Hadoop 的缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Druid-优点"><span class="nav-number">3.2.</span> <span class="nav-text">Druid 优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#架构"><span class="nav-number">3.3.</span> <span class="nav-text">架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实时节点"><span class="nav-number">3.3.1.</span> <span class="nav-text">实时节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可用性与可扩展性"><span class="nav-number">3.3.2.</span> <span class="nav-text">可用性与可扩展性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#历史节点"><span class="nav-number">3.3.3.</span> <span class="nav-text">历史节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Broker节点"><span class="nav-number">3.3.4.</span> <span class="nav-text">Broker节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协调节点"><span class="nav-number">3.3.5.</span> <span class="nav-text">协调节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储格式"><span class="nav-number">3.3.6.</span> <span class="nav-text">存储格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他依赖"><span class="nav-number">3.4.</span> <span class="nav-text">其他依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mysql"><span class="nav-number">3.4.1.</span> <span class="nav-text">Mysql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-storage"><span class="nav-number">3.4.2.</span> <span class="nav-text">Deep storage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZooKeeper"><span class="nav-number">3.4.3.</span> <span class="nav-text">ZooKeeper</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Druid-vs-其他系统"><span class="nav-number">4.</span> <span class="nav-text">Druid vs 其他系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Druid-vs-Impala-Shark"><span class="nav-number">4.1.</span> <span class="nav-text">Druid vs Impala/Shark</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查询速度不同："><span class="nav-number">4.1.1.</span> <span class="nav-text">查询速度不同：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据的获取不同："><span class="nav-number">4.1.2.</span> <span class="nav-text">数据的获取不同：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#查询的形式不同："><span class="nav-number">4.1.2.1.</span> <span class="nav-text">查询的形式不同：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Druid-vs-Elasticsearch"><span class="nav-number">4.2.</span> <span class="nav-text">Druid vs Elasticsearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Druid-vs-Spark"><span class="nav-number">4.3.</span> <span class="nav-text">Druid vs Spark</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询-API"><span class="nav-number">5.</span> <span class="nav-text">查询 API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

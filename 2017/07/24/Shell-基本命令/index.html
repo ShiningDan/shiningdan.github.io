@@ -84,21 +84,18 @@
 
 
 
-<meta name="description" content="findfind是一个基于查找的功能非常强大的命令，相对而言，它的使用也相对较为复杂，参数也比较多，所以在这里将给把它们分类列出，它的基本语法如下：
-1234567891011121314151617181920212223242526272829find [PATH] [option] [action]    # 与时间有关的参数：  -mtime n : n为数字，意思为在n天之前的“一天内”">
+<meta name="description" content="本文记录的是一些基本的 Shell 命令，仅供自己参考">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Shell 基本命令">
 <meta property="og:url" content="https://shiningdan.github.io/2017/07/24/Shell-基本命令/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="findfind是一个基于查找的功能非常强大的命令，相对而言，它的使用也相对较为复杂，参数也比较多，所以在这里将给把它们分类列出，它的基本语法如下：
-1234567891011121314151617181920212223242526272829find [PATH] [option] [action]    # 与时间有关的参数：  -mtime n : n为数字，意思为在n天之前的“一天内”">
+<meta property="og:description" content="本文记录的是一些基本的 Shell 命令，仅供自己参考">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/c505746b69951a6a7f7f55c1d223161d.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/35730fac98a30beafbb705618109bde2.png">
-<meta property="og:updated_time" content="2017-07-25T11:23:33.000Z">
+<meta property="og:updated_time" content="2017-07-25T16:17:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shell 基本命令">
-<meta name="twitter:description" content="findfind是一个基于查找的功能非常强大的命令，相对而言，它的使用也相对较为复杂，参数也比较多，所以在这里将给把它们分类列出，它的基本语法如下：
-1234567891011121314151617181920212223242526272829find [PATH] [option] [action]    # 与时间有关的参数：  -mtime n : n为数字，意思为在n天之前的“一天内”">
+<meta name="twitter:description" content="本文记录的是一些基本的 Shell 命令，仅供自己参考">
 <meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/c505746b69951a6a7f7f55c1d223161d.png">
 
 
@@ -407,7 +404,9 @@
       
 
       
-        <h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><p>find是一个基于查找的功能非常强大的命令，相对而言，它的使用也相对较为复杂，参数也比较多，所以在这里将给把它们分类列出，它的基本语法如下：</p>
+        <p>本文记录的是一些基本的 Shell 命令，仅供自己参考</p>
+<a id="more"></a>
+<h3 id="find"><a href="#find" class="headerlink" title="find"></a>find</h3><p>find是一个基于查找的功能非常强大的命令，相对而言，它的使用也相对较为复杂，参数也比较多，所以在这里将给把它们分类列出，它的基本语法如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">find [PATH] [option] [action]  </div><div class="line">  </div><div class="line"># 与时间有关的参数：  </div><div class="line">-mtime n : n为数字，意思为在n天之前的“一天内”被更改过的文件；  </div><div class="line">-mtime +n : 列出在n天之前（不含n天本身）被更改过的文件名；  </div><div class="line">-mtime -n : 列出在n天之内（含n天本身）被更改过的文件名；  </div><div class="line">-newer file : 列出比file还要新的文件名  </div><div class="line"># 例如：  </div><div class="line">find /root -mtime 0 # 在当前目录下查找今天之内有改动的文件  </div><div class="line">  </div><div class="line"># 与用户或用户组名有关的参数：  </div><div class="line">-user name : 列出文件所有者为name的文件  </div><div class="line">-group name : 列出文件所属用户组为name的文件  </div><div class="line">-uid n : 列出文件所有者为用户ID为n的文件  </div><div class="line">-gid n : 列出文件所属用户组为用户组ID为n的文件  </div><div class="line"># 例如：  </div><div class="line">find /home/ljianhui -user ljianhui # 在目录/home/ljianhui中找出所有者为ljianhui的文件  </div><div class="line">  </div><div class="line"># 与文件权限及名称有关的参数：  </div><div class="line">-name filename ：找出文件名为filename的文件  </div><div class="line">-size [+-]SIZE ：找出比SIZE还要大（+）或小（-）的文件  </div><div class="line">-tpye TYPE ：查找文件的类型为TYPE的文件，TYPE的值主要有：一般文件（f)、设备文件（b、c）、  </div><div class="line">             目录（d）、连接文件（l）、socket（s）、FIFO管道文件（p）；  </div><div class="line">-perm mode ：查找文件权限刚好等于mode的文件，mode用数字表示，如0755；  </div><div class="line">-perm -mode ：查找文件权限必须要全部包括mode权限的文件，mode用数字表示  </div><div class="line">-perm +mode ：查找文件权限包含任一mode的权限的文件，mode用数字表示  </div><div class="line"># 例如：  </div><div class="line">find / -name passwd # 查找文件名为passwd的文件  </div><div class="line">find . -perm 0755 # 查找当前目录中文件权限的0755的文件</div></pre></td></tr></table></figure>
 <h3 id="ps命令"><a href="#ps命令" class="headerlink" title="ps命令"></a>ps命令</h3><p>该命令用于将某个时间点的进程运行情况选取下来并输出，process之意，它的常用参数如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-A ：所有的进程均显示出来  </div><div class="line">-a ：不与terminal有关的所有进程  </div><div class="line">-u ：有效用户的相关进程  </div><div class="line">-x ：一般与a参数一起使用，可列出较完整的信息  </div><div class="line">-l ：较长，较详细地将PID的信息列出</div></pre></td></tr></table></figure>
@@ -491,6 +490,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/07/26/Spring-Boot-入门/" rel="prev" title="Spring Boot 入门">
+                Spring Boot 入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -563,7 +566,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -581,7 +584,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
