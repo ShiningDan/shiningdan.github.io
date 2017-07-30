@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://shiningdan.github.io/2017/07/27/leaflet-入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="leaflet是领先的开源JavaScript库为移动设备设计的互动地图，下面介绍的是我的 leaflet 学习笔记">
-<meta property="og:updated_time" content="2017-07-27T15:42:52.000Z">
+<meta property="og:updated_time" content="2017-07-29T16:14:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="leaflet 入门">
 <meta name="twitter:description" content="leaflet是领先的开源JavaScript库为移动设备设计的互动地图，下面介绍的是我的 leaflet 学习笔记">
@@ -403,7 +403,7 @@
       
         <p>leaflet是领先的开源JavaScript库为移动设备设计的互动地图，下面介绍的是我的 leaflet 学习笔记</p>
 <a id="more"></a>
-<h2 id="开始使用-Leaflet"><a href="#开始使用-Leaflet" class="headerlink" title="开始使用 Leaflet"></a>开始使用 Leaflet</h2><h2 id="GeoJSON-介绍"><a href="#GeoJSON-介绍" class="headerlink" title="GeoJSON 介绍"></a>GeoJSON 介绍</h2><p>GeoJSON是一种地理数据的描述格式。GeoJSON可以描述的对象包括：几何体，要素和要素集</p>
+<h2 id="开始使用-Leaflet"><a href="#开始使用-Leaflet" class="headerlink" title="开始使用 Leaflet"></a>开始使用 Leaflet</h2><h3 id="GeoJSON-介绍"><a href="#GeoJSON-介绍" class="headerlink" title="GeoJSON 介绍"></a>GeoJSON 介绍</h3><p>GeoJSON是一种地理数据的描述格式。GeoJSON可以描述的对象包括：几何体，要素和要素集</p>
 <p>这里几何体(Geometry)的类型有我们熟悉的点(Point),线(LineString),面(Polygon), 多点(MultiPoint),多线(MultiLineString),多面( MultiPolygon)和几何体集合(GeometryCollection)。</p>
 <p>要素(Feature)包含了几何体信息以及附加的一些属性信息。</p>
 <ul>
@@ -411,6 +411,10 @@
 <li><a href="http://geojson.org/geojson-spec.html#examples" target="_blank" rel="external">geojson-spec</a></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;type&quot;: &quot;FeatureCollection&quot;,</div><div class="line">   &quot;features&quot;: [&#123;</div><div class="line">       &quot;type&quot;: &quot;Feature&quot;,</div><div class="line">       &quot;geometry&quot;: &#123;</div><div class="line">           &quot;type&quot;: &quot;Point&quot;,</div><div class="line">           &quot;coordinates&quot;: [102.0, 0.5]</div><div class="line">       &#125;,</div><div class="line">       &quot;properties&quot;: &#123;</div><div class="line">           &quot;prop0&quot;: &quot;value0&quot;</div><div class="line">       &#125;</div><div class="line">   &#125;, &#123;</div><div class="line">       &quot;type&quot;: &quot;Feature&quot;,</div><div class="line">       &quot;geometry&quot;: &#123;</div><div class="line">           &quot;type&quot;: &quot;LineString&quot;,</div><div class="line">           &quot;coordinates&quot;: [</div><div class="line">               [102.0, 0.0],</div><div class="line">               [103.0, 1.0],</div><div class="line">               [104.0, 0.0],</div><div class="line">               [105.0, 1.0]</div><div class="line">           ]</div><div class="line">       &#125;,</div><div class="line">       &quot;properties&quot;: &#123;</div><div class="line">           &quot;prop0&quot;: &quot;value0&quot;,</div><div class="line">           &quot;prop1&quot;: 0.0</div><div class="line">       &#125;</div><div class="line">   &#125;, &#123;</div><div class="line">       &quot;type&quot;: &quot;Feature&quot;,</div><div class="line">       &quot;geometry&quot;: &#123;</div><div class="line">           &quot;type&quot;: &quot;Polygon&quot;,</div><div class="line">           &quot;coordinates&quot;: [</div><div class="line">               [</div><div class="line">                   [100.0, 0.0],</div><div class="line">                   [101.0, 0.0],</div><div class="line">                   [101.0, 1.0],</div><div class="line">                   [100.0, 1.0],</div><div class="line">                   [100.0, 0.0]</div><div class="line">               ]</div><div class="line">           ]</div><div class="line">       &#125;,</div><div class="line">       &quot;properties&quot;: &#123;</div><div class="line">           &quot;prop0&quot;: &quot;value0&quot;,</div><div class="line">           &quot;prop1&quot;: &#123;</div><div class="line">               &quot;this&quot;: &quot;that&quot;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Using-GeoJSON-with-Leaflet"><a href="#Using-GeoJSON-with-Leaflet" class="headerlink" title="Using GeoJSON with Leaflet"></a>Using GeoJSON with Leaflet</h3><p><a href="http://leafletjs.com/examples/geojson/" target="_blank" rel="external">Using GeoJSON with Leaflet</a></p>
+<p>介绍的是如何在 Leaflet 中添加 GeoJSON 部分，以及如何对 GeoJSON 部分绘制的地图进行部分定制化。</p>
+<h3 id="绘制带有交互的等值线地图"><a href="#绘制带有交互的等值线地图" class="headerlink" title="绘制带有交互的等值线地图"></a>绘制带有交互的等值线地图</h3><p><a href="http://leafletjs.com/examples/choropleth/" target="_blank" rel="external">Interactive Choropleth Map</a></p>
+<p>这个是一个官网的教程，介绍如何对地图进行功能拓展，绘制带有交互性质的等值线地图。</p>
 
       
     </div>
@@ -586,7 +590,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用-Leaflet"><span class="nav-number">1.</span> <span class="nav-text">开始使用 Leaflet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GeoJSON-介绍"><span class="nav-number">2.</span> <span class="nav-text">GeoJSON 介绍</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用-Leaflet"><span class="nav-number">1.</span> <span class="nav-text">开始使用 Leaflet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GeoJSON-介绍"><span class="nav-number">1.1.</span> <span class="nav-text">GeoJSON 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Using-GeoJSON-with-Leaflet"><span class="nav-number">1.2.</span> <span class="nav-text">Using GeoJSON with Leaflet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制带有交互的等值线地图"><span class="nav-number">1.3.</span> <span class="nav-text">绘制带有交互的等值线地图</span></a></li></ol></li></ol></div>
             
 
           </div>

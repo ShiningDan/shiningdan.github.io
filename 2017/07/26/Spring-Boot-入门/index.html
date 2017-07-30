@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://shiningdan.github.io/2017/07/26/Spring-Boot-入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="这篇文章是我学习 Spring Boot 的总结">
-<meta property="og:updated_time" content="2017-07-28T03:55:44.000Z">
+<meta property="og:updated_time" content="2017-07-30T05:47:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot 入门">
 <meta name="twitter:description" content="这篇文章是我学习 Spring Boot 的总结">
@@ -405,8 +405,6 @@
 <a id="more"></a>
 <h2 id="Spring-Boot介绍"><a href="#Spring-Boot介绍" class="headerlink" title="Spring Boot介绍"></a>Spring Boot介绍</h2><p>Spring Boot简化了基于Spring的应用开发，你只需要”run”就能创建一个独立的，产品级别的Spring应用。 </p>
 <p>提供一系列大型项目常用的非功能性特征，比如：内嵌服务器，安全，指标，健康检测，外部化配置。</p>
-<h3 id="Spring-Boot-安装"><a href="#Spring-Boot-安装" class="headerlink" title="Spring Boot 安装"></a>Spring Boot 安装</h3><p>对于java开发者来说，使用Spring Boot就跟使用其他Java库一样，只需要在你的classpath下引入适当的 <code>spring-boot-*.jar</code> 文件。</p>
-<p>Spring Boot依赖使用的groupId为org.springframework.boot。通常，你的Maven POM文件会继承 <code>spring-boot-starter-parent</code> 工程，并声明一个或多个“Starter POMs”依赖。</p>
 <h3 id="为什么使用-JavaBean"><a href="#为什么使用-JavaBean" class="headerlink" title="为什么使用 JavaBean"></a>为什么使用 JavaBean</h3><p>Java语言欠缺属性、事件、多重继承功能。所以，如果要在Java程序中实现一些面向对象编程的常见需求，只能手写大量胶水代码。Java Bean正是编写这套胶水代码的惯用模式或约定。</p>
 <p>这些约定包括getXxx、setXxx、isXxx、addXxxListener、XxxEvent等。</p>
 <p><a href="https://www.zhihu.com/question/19773379" target="_blank" rel="external">Java bean 是个什么概念？</a></p>
@@ -414,6 +412,14 @@
 <p>Class A中用到了Class B的对象b，一般情况下，需要在A的代码中显式的new一个B的对象。</p>
 <p>采用依赖注入技术之后，A的代码只需要定义一个私有的B对象，不需要直接new来获得这个对象，而是通过相关的容器控制程序来将B对象在外部new出来并注入到A类里的引用中。而具体获取的方法、对象被获取时的状态由配置文件（如XML）来指定。</p>
 <p><a href="https://www.zhihu.com/question/23277575" target="_blank" rel="external">Spring IoC有什么好处呢？</a></p>
+<h3 id="Spring-Boot-安装"><a href="#Spring-Boot-安装" class="headerlink" title="Spring Boot 安装"></a>Spring Boot 安装</h3><p>对于java开发者来说，使用Spring Boot就跟使用其他Java库一样，只需要在你的classpath下引入适当的 <code>spring-boot-*.jar</code> 文件。</p>
+<p>Spring Boot依赖使用的 groupId 为 org.springframework.boot。通常，你的Maven POM文件会继承 <code>spring-boot-starter-parent</code> 工程，并声明一个或多个“Starter POMs”依赖。</p>
+<h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>Maven默认会编译 <code>src/main/java</code> 下的源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">import org.springframework.boot.*;</div><div class="line">import org.springframework.boot.autoconfigure.*;</div><div class="line">import org.springframework.stereotype.*;</div><div class="line">import org.springframework.web.bind.annotation.*;</div><div class="line"></div><div class="line">@RestController</div><div class="line">@EnableAutoConfiguration</div><div class="line">public class Example &#123;</div><div class="line"></div><div class="line">    @RequestMapping(&quot;/&quot;)</div><div class="line">    String home() &#123;</div><div class="line">        return &quot;Hello World!&quot;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) throws Exception &#123;</div><div class="line">        SpringApplication.run(Example.class, args);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="RestController和-RequestMapping注解"><a href="#RestController和-RequestMapping注解" class="headerlink" title="@RestController和@RequestMapping注解"></a>@RestController和@RequestMapping注解</h4><p><code>@RequestMapping</code> 注解提供路由信息，它告诉Spring任何来自 “/“ 路径的HTTP请求都应该被映射到 <code>home</code> 方法。</p>
+<p><code>@RestController</code> 注解告诉 Spring 以字符串的形式渲染结果，并直接返回给调用者。</p>
+<h4 id="EnableAutoConfiguration注解"><a href="#EnableAutoConfiguration注解" class="headerlink" title="@EnableAutoConfiguration注解"></a>@EnableAutoConfiguration注解</h4><p>第二个类级别的注解是 <code>@EnableAutoConfiguration</code>，这个注解告诉Spring Boot根据添加的jar依赖猜测你想如何配置Spring。由于 <code>spring-boot-starter-web</code> 添加了Tomcat和Spring MVC，所以auto-configuration将假定你正在开发一个web应用，并对Spring进行相应地设置。</p>
+<h4 id="main方法"><a href="#main方法" class="headerlink" title="main方法"></a>main方法</h4><p>应用程序的最后部分是 <code>main方法，这是一个标准的方法，它遵循Java对于一个应用程序入口点的约定。我们的</code>main<code>方法通过调用</code>run<code>，将业务委托给了Spring Boot的</code>SpringApplication<code>类。</code>SpringApplication<code>将引导我们的应用，启动Spring，相应地启动被自动配置的Tomcat web服务器。我们需要将Example.class作为参数传递给run方法，以此告诉</code>SpringApplication` 谁是主要的Spring组件，并传递args数组以暴露所有的命令行参数。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://qbgbook.gitbooks.io/spring-boot-reference-guide-zh/content/" target="_blank" rel="external">Spring-Boot-Reference-Guide</a></li>
 <li><a href="https://www.zhihu.com/question/19773379" target="_blank" rel="external">Java bean 是个什么概念？</a></li>
@@ -592,7 +598,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot介绍"><span class="nav-number">1.</span> <span class="nav-text">Spring Boot介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Boot-安装"><span class="nav-number">1.1.</span> <span class="nav-text">Spring Boot 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用-JavaBean"><span class="nav-number">1.2.</span> <span class="nav-text">为什么使用 JavaBean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于JavaBeans的采用控制反转"><span class="nav-number">1.3.</span> <span class="nav-text">基于JavaBeans的采用控制反转</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot介绍"><span class="nav-number">1.</span> <span class="nav-text">Spring Boot介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用-JavaBean"><span class="nav-number">1.1.</span> <span class="nav-text">为什么使用 JavaBean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于JavaBeans的采用控制反转"><span class="nav-number">1.2.</span> <span class="nav-text">基于JavaBeans的采用控制反转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Boot-安装"><span class="nav-number">1.3.</span> <span class="nav-text">Spring Boot 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写代码"><span class="nav-number">1.4.</span> <span class="nav-text">编写代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RestController和-RequestMapping注解"><span class="nav-number">1.4.1.</span> <span class="nav-text">@RestController和@RequestMapping注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EnableAutoConfiguration注解"><span class="nav-number">1.4.2.</span> <span class="nav-text">@EnableAutoConfiguration注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#main方法"><span class="nav-number">1.4.3.</span> <span class="nav-text">main方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
