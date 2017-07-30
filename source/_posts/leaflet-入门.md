@@ -14,7 +14,7 @@ leaflet是领先的开源JavaScript库为移动设备设计的互动地图，下
 
 ## 开始使用 Leaflet
 
-## GeoJSON 介绍
+### GeoJSON 介绍
 
 GeoJSON是一种地理数据的描述格式。GeoJSON可以描述的对象包括：几何体，要素和要素集
 
@@ -75,5 +75,18 @@ GeoJSON是一种地理数据的描述格式。GeoJSON可以描述的对象包括
    }]
 }
 ```
+
+### Using GeoJSON with Leaflet
+
+[Using GeoJSON with Leaflet](http://leafletjs.com/examples/geojson/)
+
+介绍的是如何在 Leaflet 中添加 GeoJSON 部分，以及如何对 GeoJSON 部分绘制的地图进行部分定制化。
+
+### 绘制带有交互的等值线地图
+
+[Interactive Choropleth Map](http://leafletjs.com/examples/choropleth/)
+
+这个是一个官网的教程，介绍如何对地图进行功能拓展，绘制带有交互性质的等值线地图。
+
 
 
