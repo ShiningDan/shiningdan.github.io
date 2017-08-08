@@ -84,22 +84,16 @@
 
 
 
-<meta name="description" content="本文中介绍的是现有的布线算法
-寻路算法A star 算法A* 是一种single source single destination的算法，它的时间复杂度是O(|E|), E是地图上所有路径点所形成的路径网络的edge的数目。也就是说A*可以用来计算从一个点到另外一个点的最优路径。
-A Star（又称A*），是结合了Dijkstra算法和贪心算法优点的算法，A Star的核心在于将游戏背景分为一个">
+<meta name="description" content="本文中介绍的是现有的布线算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据可视化之布线算法">
 <meta property="og:url" content="https://shiningdan.github.io/2017/07/23/现有布线算法/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="本文中介绍的是现有的布线算法
-寻路算法A star 算法A* 是一种single source single destination的算法，它的时间复杂度是O(|E|), E是地图上所有路径点所形成的路径网络的edge的数目。也就是说A*可以用来计算从一个点到另外一个点的最优路径。
-A Star（又称A*），是结合了Dijkstra算法和贪心算法优点的算法，A Star的核心在于将游戏背景分为一个">
-<meta property="og:updated_time" content="2017-07-24T09:48:44.000Z">
+<meta property="og:description" content="本文中介绍的是现有的布线算法">
+<meta property="og:updated_time" content="2017-08-05T08:02:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据可视化之布线算法">
-<meta name="twitter:description" content="本文中介绍的是现有的布线算法
-寻路算法A star 算法A* 是一种single source single destination的算法，它的时间复杂度是O(|E|), E是地图上所有路径点所形成的路径网络的edge的数目。也就是说A*可以用来计算从一个点到另外一个点的最优路径。
-A Star（又称A*），是结合了Dijkstra算法和贪心算法优点的算法，A Star的核心在于将游戏背景分为一个">
+<meta name="twitter:description" content="本文中介绍的是现有的布线算法">
 
 
 
@@ -408,6 +402,7 @@ A Star（又称A*），是结合了Dijkstra算法和贪心算法优点的算法�
 
       
         <p>本文中介绍的是现有的布线算法</p>
+<a id="more"></a>
 <h2 id="寻路算法"><a href="#寻路算法" class="headerlink" title="寻路算法"></a>寻路算法</h2><h3 id="A-star-算法"><a href="#A-star-算法" class="headerlink" title="A star 算法"></a>A star 算法</h3><p><code>A*</code> 是一种single source single destination的算法，它的时间复杂度是O(|E|), E是地图上所有路径点所形成的路径网络的edge的数目。也就是说A*可以用来计算从一个点到另外一个点的最优路径。</p>
 <p>A Star（又称A*），是结合了Dijkstra算法和贪心算法优点的算法，A Star的核心在于将游戏背景分为一个又一个格子，每个格子有自己的靠谱值，然后通过遍历起点的格子去找到周围靠谱的格子，接着继续遍历周围……最终找到终点。</p>
 <ul>
