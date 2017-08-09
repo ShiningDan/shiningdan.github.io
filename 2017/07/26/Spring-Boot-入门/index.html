@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://shiningdan.github.io/2017/07/26/Spring-Boot-入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="这篇文章是我学习 Spring Boot 的总结">
-<meta property="og:updated_time" content="2017-08-08T16:50:44.000Z">
+<meta property="og:updated_time" content="2017-08-09T16:56:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot 入门">
 <meta name="twitter:description" content="这篇文章是我学习 Spring Boot 的总结">
@@ -431,6 +431,7 @@
 <p>为了实现IOC，最基础的就是在xml种配置一个一个的bean，IOC将根据xml中的配置（主要是类名）返回对应的对象。</p>
 <p>一般来说，这个对象内有一些属性需要初始化，那么传统做法就是在xml对应bean下继续配置属性，这样IOC会继续分析每个属性对应哪个bean，再根据xml分配这些依赖的bean。</p>
 <p>但是后来出了注解，那么就可以取代在xml中配置属性的这个做法了（配置类还是要的），可以直接在对应的class中为每个属性写一个注解，即标明它应该赋值为哪个bean，这样IOC在运行时创建对象会首先反射分析这个类的每个属性上的注解，从而得知应该用哪个bean来赋值，这就是spring注解的用途了。</p>
+<p>tomcat是servlet的运行容器，而servlet是规范，那tomcat自然是实现了这种规范的，它底层的执行单元也是基于servlet来运行的。spring里面分很多东西，比如core是可以脱离tomcat环境，mvc需要tomcat环境。</p>
 <ul>
 <li><a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-iocannt/" target="_blank" rel="external">详解 Spring 3.0 基于 Annotation 的依赖注入实现</a></li>
 <li><a href="http://blog.csdn.net/zhang6622056/article/details/7659489" target="_blank" rel="external"> Spring的xml配置bean文件原理-[Java反射机制]</a></li>
@@ -441,6 +442,15 @@
 <h2 id="Spring-boot与-Spring-cloud"><a href="#Spring-boot与-Spring-cloud" class="headerlink" title="Spring boot与 Spring cloud"></a>Spring boot与 Spring cloud</h2><p>Spring Boot就是一个内嵌Web服务器（tomcat/jetty）的可执行程序的框架。你开发的web应用不需要作为war包部署到web服务器中，而是作为一个可执行程序，启动时把Web服务器配置好，加载起来。</p>
 <p>Spring Boot比较适合微服务部署方式，不再是把一堆应用放到一个Web服务器下，重启Web服务器会影响到其他应用，而是每个应用独立使用一个Web服务器，重启动和更新都很容易。比如 REST 和 RabbitMQ 组件</p>
 <p>Spring Cloud是一套微服务开发和治理框架，来自Netflex的OSS，包含了微服务运行的功能，比如远程过程调用，动态服务发现，负载均衡，限流等。</p>
+<h2 id="tomcat-与-nginx，apache的区别"><a href="#tomcat-与-nginx，apache的区别" class="headerlink" title="tomcat 与 nginx，apache的区别"></a>tomcat 与 nginx，apache的区别</h2><p>HTTP服务器本质上也是一种应用程序——它通常运行在服务器之上，绑定服务器的IP地址并监听某一个tcp端口来接收并处理HTTP请求</p>
+<p>Apache，指的应该是Apache软件基金会下的一个项目——Apache HTTP Server Project</p>
+<p>Nginx同样也是一款开源的HTTP服务器软件</p>
+<p>Apache HTTP Server和Nginx都能够将某一个文本文件的内容通过HTTP协议返回到客户端，但是这个文本文件的内容是固定的——也就是说无论何时、任何人访问它得到的内容都是完全相同的，这样的资源我们称之为静态资源。</p>
+<p>Apache Tomcat则是Apache基金会下的另外一个项目，与Apache HTTP Server相比，Tomcat能够动态的生成资源并返回到客户端。</p>
+<p>Java Servlet技术以及衍生的Java Server Pages技术可以让Java程序也具有处理HTTP请求并且返回内容（由程序动态控制）的能力，Tomcat正是支持运行Servlet/JSP应用程序的容器（Container）</p>
+<ul>
+<li><a href="https://www.zhihu.com/question/32212996" target="_blank" rel="external">tomcat 与 nginx，apache的区别是什么？</a></li>
+</ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://qbgbook.gitbooks.io/spring-boot-reference-guide-zh/content/" target="_blank" rel="external">Spring-Boot-Reference-Guide</a></li>
 <li><a href="https://www.zhihu.com/question/19773379" target="_blank" rel="external">Java bean 是个什么概念？</a></li>
@@ -620,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot介绍"><span class="nav-number">1.</span> <span class="nav-text">Spring Boot介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用-JavaBean"><span class="nav-number">1.1.</span> <span class="nav-text">为什么使用 JavaBean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于JavaBeans的采用控制反转"><span class="nav-number">1.2.</span> <span class="nav-text">基于JavaBeans的采用控制反转</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Beans和依赖注入"><span class="nav-number">1.2.1.</span> <span class="nav-text">Spring Beans和依赖注入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Boot-安装"><span class="nav-number">1.3.</span> <span class="nav-text">Spring Boot 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写代码"><span class="nav-number">1.4.</span> <span class="nav-text">编写代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RestController和-RequestMapping注解"><span class="nav-number">1.4.1.</span> <span class="nav-text">@RestController和@RequestMapping注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EnableAutoConfiguration注解"><span class="nav-number">1.4.2.</span> <span class="nav-text">@EnableAutoConfiguration注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#main方法"><span class="nav-number">1.4.3.</span> <span class="nav-text">main方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-SpringBootApplication注解"><span class="nav-number">1.4.4.</span> <span class="nav-text">使用@SpringBootApplication注解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-MVC和-Spring"><span class="nav-number">2.</span> <span class="nav-text">Spring MVC和 Spring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot和-Spring-MVC"><span class="nav-number">3.</span> <span class="nav-text">Spring Boot和 Spring MVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-boot与-Spring-cloud"><span class="nav-number">4.</span> <span class="nav-text">Spring boot与 Spring cloud</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot介绍"><span class="nav-number">1.</span> <span class="nav-text">Spring Boot介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用-JavaBean"><span class="nav-number">1.1.</span> <span class="nav-text">为什么使用 JavaBean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于JavaBeans的采用控制反转"><span class="nav-number">1.2.</span> <span class="nav-text">基于JavaBeans的采用控制反转</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Beans和依赖注入"><span class="nav-number">1.2.1.</span> <span class="nav-text">Spring Beans和依赖注入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Boot-安装"><span class="nav-number">1.3.</span> <span class="nav-text">Spring Boot 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写代码"><span class="nav-number">1.4.</span> <span class="nav-text">编写代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RestController和-RequestMapping注解"><span class="nav-number">1.4.1.</span> <span class="nav-text">@RestController和@RequestMapping注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EnableAutoConfiguration注解"><span class="nav-number">1.4.2.</span> <span class="nav-text">@EnableAutoConfiguration注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#main方法"><span class="nav-number">1.4.3.</span> <span class="nav-text">main方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-SpringBootApplication注解"><span class="nav-number">1.4.4.</span> <span class="nav-text">使用@SpringBootApplication注解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-MVC和-Spring"><span class="nav-number">2.</span> <span class="nav-text">Spring MVC和 Spring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot和-Spring-MVC"><span class="nav-number">3.</span> <span class="nav-text">Spring Boot和 Spring MVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-boot与-Spring-cloud"><span class="nav-number">4.</span> <span class="nav-text">Spring boot与 Spring cloud</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tomcat-与-nginx，apache的区别"><span class="nav-number">5.</span> <span class="nav-text">tomcat 与 nginx，apache的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
