@@ -386,3 +386,6 @@ redis
 以上实例中我们通过使用 PING 命令查看redis服务是否可用， 之后我们们设置了 runoobkey 的值为 redis，然后我们获取 runoobkey 的值并使得 visitor 自增 3 次。
 在返回的结果中我们可以看到这些命令一次性向 redis 服务提交，并最终一次性读取所有服务端的响应
 
+### Redis的Java客户端Jedis的八种调用方式(事务、管道、分布式…)介绍
+
+* [Redis的Java客户端Jedis的八种调用方式(事务、管道、分布式…)介绍](http://www.blogways.net/blog/2013/06/02/jedis-demo.html)

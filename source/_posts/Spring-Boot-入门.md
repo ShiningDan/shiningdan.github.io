@@ -113,6 +113,9 @@ Spring最早就一个项目，它是基于反射机制实现的，目的就是�
 
 但是后来出了注解，那么就可以取代在xml中配置属性的这个做法了（配置类还是要的），可以直接在对应的class中为每个属性写一个注解，即标明它应该赋值为哪个bean，这样IOC在运行时创建对象会首先反射分析这个类的每个属性上的注解，从而得知应该用哪个bean来赋值，这就是spring注解的用途了。
 
+tomcat是servlet的运行容器，而servlet是规范，那tomcat自然是实现了这种规范的，它底层的执行单元也是基于servlet来运行的。spring里面分很多东西，比如core是可以脱离tomcat环境，mvc需要tomcat环境。
+
+
 * [详解 Spring 3.0 基于 Annotation 的依赖注入实现](https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-iocannt/)
 * [ Spring的xml配置bean文件原理-[Java反射机制]](http://blog.csdn.net/zhang6622056/article/details/7659489)
 
@@ -132,8 +135,21 @@ Spring Boot比较适合微服务部署方式，不再是把一堆应用放到一
 
 Spring Cloud是一套微服务开发和治理框架，来自Netflex的OSS，包含了微服务运行的功能，比如远程过程调用，动态服务发现，负载均衡，限流等。
 
+## tomcat 与 nginx，apache的区别
 
+HTTP服务器本质上也是一种应用程序——它通常运行在服务器之上，绑定服务器的IP地址并监听某一个tcp端口来接收并处理HTTP请求
 
+Apache，指的应该是Apache软件基金会下的一个项目——Apache HTTP Server Project
+
+Nginx同样也是一款开源的HTTP服务器软件
+
+Apache HTTP Server和Nginx都能够将某一个文本文件的内容通过HTTP协议返回到客户端，但是这个文本文件的内容是固定的——也就是说无论何时、任何人访问它得到的内容都是完全相同的，这样的资源我们称之为静态资源。
+
+Apache Tomcat则是Apache基金会下的另外一个项目，与Apache HTTP Server相比，Tomcat能够动态的生成资源并返回到客户端。
+
+Java Servlet技术以及衍生的Java Server Pages技术可以让Java程序也具有处理HTTP请求并且返回内容（由程序动态控制）的能力，Tomcat正是支持运行Servlet/JSP应用程序的容器（Container）
+
+* [tomcat 与 nginx，apache的区别是什么？](https://www.zhihu.com/question/32212996)
 
 
 ## 参考
