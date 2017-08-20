@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://shiningdan.github.io/2017/08/19/白帽子讲WEB安全笔记/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="本文是我读《白帽子讲 WEB 安全的笔记》">
-<meta property="og:updated_time" content="2017-08-19T11:32:55.000Z">
+<meta property="og:updated_time" content="2017-08-20T06:28:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="白帽子讲WEB安全笔记">
 <meta name="twitter:description" content="本文是我读《白帽子讲 WEB 安全的笔记》">
@@ -410,7 +410,7 @@
 <p>如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=&apos;http://b.com/b.js&apos;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
 <p>这段代码是加载在 <code>a.com</code> 这个页面下的，则 <code>b.js</code> 的 Origin 应该是 <code>a.com</code> 而不是 <code>b.com</code></p>
-<p>在浏览器中，<code>&lt;script&gt;、&lt;img&gt;、&lt;iframe&gt;、&lt;link&gt;</code> 等标签都可以通过 src 属性加载资源，但是<strong>通过 src 加载的资源，浏览器限制了 JavaScript 的权限，使其不能读写返回的内容</strong></p>
+<p>在浏览器中，<code>&lt;script&gt;、&lt;img&gt;、&lt;iframe&gt;、&lt;link&gt;</code> 等标签都可以通过 src 属性加载资源，但是<strong>通过 src 加载的资源，浏览器限制了 JavaScript 的权限，使其不能读写返回的内容</strong>。并且，在通过 src 访问资源的时候，会附带被请求域的 cookie。</p>
 <p><strong>浏览器的策略是，不阻止向另一个域名发送请求（表单，img，iframe，link 等 src 都可以跨域），但是不得读取另一个域名的内容</strong></p>
 <p>W3C 委员会制定了 XMLHttpRequest 跨域访问的标准，它需要通过目标域返回的 HTTP 头 Origin 来授权是否允许跨域访问。并且 <strong>JavaScript 无法控制该 HTTP 头</strong></p>
 <h2 id="跨站脚本攻击（XSS）"><a href="#跨站脚本攻击（XSS）" class="headerlink" title="跨站脚本攻击（XSS）"></a>跨站脚本攻击（XSS）</h2><p>XSS 的定义：XSS 攻击，通常指黑客通过 “HTML 注入”篡改了网页，插入了恶意的脚本，从而在用户浏览网页的时候，控制用户浏览器的一种攻击</p>
@@ -439,7 +439,61 @@
 <h5 id="CSS-History-Hack"><a href="#CSS-History-Hack" class="headerlink" title="CSS History Hack"></a>CSS History Hack</h5><p>用户在访问过某些链接后，链接的颜色会变成其他的颜色，通过 <code>window.defaultView.getComputedStyle</code> 可以获得链接的颜色，然后判断用户是否访问过哪些链接。</p>
 <p>现在这种通过 CSS 泄露用户信息的问题已经被浏览器修复了</p>
 <h5 id="获取用户真实-IP"><a href="#获取用户真实-IP" class="headerlink" title="获取用户真实 IP"></a>获取用户真实 IP</h5><p>JavaScript 本身没有获得本地 IP 的能力，但是可以通过第三方软件来完成，比如客户端安装 Java 环境（JRE），使用 Attack API 等框架可以实现访问本地 JRE 的能力，然后获得 IP 等信息。</p>
-<h3 id="XSS-的防御"><a href="#XSS-的防御" class="headerlink" title="XSS 的防御"></a>XSS 的防御</h3>
+<h3 id="XSS-的防御"><a href="#XSS-的防御" class="headerlink" title="XSS 的防御"></a>XSS 的防御</h3><h4 id="HttpOnly"><a href="#HttpOnly" class="headerlink" title="HttpOnly"></a>HttpOnly</h4><p>标有 HttpOnly 的 Cookie，页面的 JavaScript 都不允许访问</p>
+<p>服务器可能设置多个 Cookie，而 HttpOnly 可以选择性地加在任何一个 Cookie 上面。然后在输入 <code>document.cookie</code> 的时候，返回的值是没有设置 HttpOnly 的 Cookie 值。</p>
+<h4 id="输入检查"><a href="#输入检查" class="headerlink" title="输入检查"></a>输入检查</h4><p>常见的 Web 漏洞如 XSS，SQL 注入，都要求攻击者构造一些特殊字符串，这些字符串可能是用户不会用到的，所以输入检查就很有必要了。</p>
+<p><strong>前端的输入检查很容易被攻击者绕过，目前的做法是在客户端 JavaScript 和服务器端代码中实现相同的输入检查，客户端的输入检查可以节约服务器资源。</strong></p>
+<p>比如：</p>
+<ol>
+<li>用户的用户名只能限为字母，数字和某些符号（不包括：<code>&lt;</code>、<code>&gt;</code>、<code>、</code> 等危险字符）的组合</li>
+<li>比如电话、邮件、生日等都有自己特殊的规范格式</li>
+<li>比较智能的 XSS 输入检查，还可以匹配 XSS 的特征，比如用户输入的数据中是否包含 <code>&lt;script&gt;</code>，<code>javascript</code> 等敏感信息</li>
+</ol>
+<h4 id="输出检查"><a href="#输出检查" class="headerlink" title="输出检查"></a>输出检查</h4><p>除了富文本输入外，在变量输出到 HTML 页面时，可以使用编码或转义的方式来防御 XSS 攻击</p>
+<h5 id="针对-HTML-的编码"><a href="#针对-HTML-的编码" class="headerlink" title="针对 HTML 的编码"></a>针对 HTML 的编码</h5><p>为了对抗 XSS，在 HTMLEncode 中要求至少转义以下的字符：<code>&amp;, &lt;, &gt;, &quot;, &#39;, /</code>，将其转义为 <code>&amp;amp;, &amp;lt;, &amp;gt;, &amp;quot;, &amp;#x27;, &amp;#x2F</code></p>
+<h5 id="针对-JavaScript-的转义"><a href="#针对-JavaScript-的转义" class="headerlink" title="针对 JavaScript 的转义"></a>针对 JavaScript 的转义</h5><p>JavaScript 中对于特殊字符的转义方法和 HTMLEncode 的方法不同，它需要使用 <code>\</code> 符号进行转义。</p>
+<p>在对抗 XSS 的时候，<strong>还需要输出的变量在引号内部，避免造成安全问题</strong>。</p>
+<p>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var x = escapeJavaScript($evil);</div><div class="line">var y = &apos;&quot;&apos; + escapeJavaScript($evil) + &apos;&quot;&apos;;</div></pre></td></tr></table></figure>
+<p>转义后输出就变成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var x = 1;alert(2);</div><div class="line">var y = &quot;1;alert(2);&quot;</div></pre></td></tr></table></figure>
+<p>还有更加严格的 JavaScript 编码方式：除了数字，字母以外的所有字符，都使用十六进制的 <code>\xHH</code> 的方式进行编码。</p>
+<h5 id="结合多种编码方式"><a href="#结合多种编码方式" class="headerlink" title="结合多种编码方式"></a>结合多种编码方式</h5><p>XSS 攻击主要发生在 MVC 中的 View 层，也就是将变量输出到模板的时候。</p>
+<p>使用单一的编码方式也不能完全防御 XSS 攻击，还需要针对不同的情况使用多种编码方式结合的方法来防御。</p>
+<p>如何针对不同的情景防御 XSS，请参考《白帽子讲 WEB 安全》3.3.4 节，正确地防御 XSS。</p>
+<h4 id="处理富文本"><a href="#处理富文本" class="headerlink" title="处理富文本"></a>处理富文本</h4><p>一些网站允许用户提交自定义的 HTML 代码，被称为富文本，这些富文本也需要进行 XSS 防御。</p>
+<p>针对富文本的防御机制有：</p>
+<ol>
+<li>“事件”应该被明确禁止</li>
+<li>一些危险的标签，比如<code>&lt;iframe&gt;、&lt;script&gt;、&lt;base&gt;、&lt;form&gt;</code>等标签也需要被禁止。</li>
+<li>在标签的选择上，应该使用白名单，而不是黑名单。</li>
+<li>允许用户自定义 CSS，style 也可能导致 XSS 攻击</li>
+</ol>
+<h4 id="防御-DOM-Based-XSS"><a href="#防御-DOM-Based-XSS" class="headerlink" title="防御 DOM Based XSS"></a>防御 DOM Based XSS</h4><p>DOM Based XSS 是<strong>从 JavaScript 中直接输出数据到 HTML 页面中导致的，前面的方法都是针对服务器直接输出变量到模板 HTML 导致的</strong></p>
+<p>针对 DOM Based XSS，防御方法也是要进行输入检查和输出检查：</p>
+<ol>
+<li>变量输入的时候，要进行一次 JavaScriptEncode</li>
+<li>变量输出的时候，如果输出到事件或者脚本中，则需要再做一次 JavaScriptEncode，如果是输出到 HTML 内容或者属性中，则要做一次 HTMLEncode。</li>
+</ol>
+<p>DOM Based XSS <strong>需要关注的输入</strong>的地方</p>
+<ol>
+<li>页面中所有的 input 框</li>
+<li>window.location(href, hash 等)</li>
+<li>window.name</li>
+<li>document.cookie</li>
+<li>localstorage</li>
+<li>XMLHttpRequest 返回的数据</li>
+</ol>
+<p>DOM Based XSS <strong>需要关注的输出</strong>的地方：</p>
+<ol>
+<li>document.write() / docuemnt.writeln()</li>
+<li>xxx.innetHTML / xxx.outerHTML</li>
+<li>innerHTML.replace</li>
+<li>document.attachEvent / window.attachEvent</li>
+<li>document.location.replace()</li>
+<li>document.location.saaign()</li>
+</ol>
+
       
     </div>
 
@@ -608,7 +662,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器安全"><span class="nav-number">1.</span> <span class="nav-text">浏览器安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同源策略"><span class="nav-number">1.1.</span> <span class="nav-text">同源策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨站脚本攻击（XSS）"><span class="nav-number">2.</span> <span class="nav-text">跨站脚本攻击（XSS）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-攻击的技巧"><span class="nav-number">2.1.</span> <span class="nav-text">XSS 攻击的技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-攻击进阶"><span class="nav-number">2.2.</span> <span class="nav-text">XSS 攻击进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XSS-攻击能够实现的能力"><span class="nav-number">2.2.1.</span> <span class="nav-text">XSS 攻击能够实现的能力</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Cookie-劫持"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Cookie 劫持</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#构造-GET、POST-请求"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">构造 GET、POST 请求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#XSS-钓鱼"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">XSS 钓鱼</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#识别用户浏览器"><span class="nav-number">2.2.1.4.</span> <span class="nav-text">识别用户浏览器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#识别用户安装的软件"><span class="nav-number">2.2.1.5.</span> <span class="nav-text">识别用户安装的软件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CSS-History-Hack"><span class="nav-number">2.2.1.6.</span> <span class="nav-text">CSS History Hack</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取用户真实-IP"><span class="nav-number">2.2.1.7.</span> <span class="nav-text">获取用户真实 IP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-的防御"><span class="nav-number">2.3.</span> <span class="nav-text">XSS 的防御</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器安全"><span class="nav-number">1.</span> <span class="nav-text">浏览器安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同源策略"><span class="nav-number">1.1.</span> <span class="nav-text">同源策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨站脚本攻击（XSS）"><span class="nav-number">2.</span> <span class="nav-text">跨站脚本攻击（XSS）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-攻击的技巧"><span class="nav-number">2.1.</span> <span class="nav-text">XSS 攻击的技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-攻击进阶"><span class="nav-number">2.2.</span> <span class="nav-text">XSS 攻击进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XSS-攻击能够实现的能力"><span class="nav-number">2.2.1.</span> <span class="nav-text">XSS 攻击能够实现的能力</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Cookie-劫持"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Cookie 劫持</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#构造-GET、POST-请求"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">构造 GET、POST 请求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#XSS-钓鱼"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">XSS 钓鱼</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#识别用户浏览器"><span class="nav-number">2.2.1.4.</span> <span class="nav-text">识别用户浏览器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#识别用户安装的软件"><span class="nav-number">2.2.1.5.</span> <span class="nav-text">识别用户安装的软件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CSS-History-Hack"><span class="nav-number">2.2.1.6.</span> <span class="nav-text">CSS History Hack</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取用户真实-IP"><span class="nav-number">2.2.1.7.</span> <span class="nav-text">获取用户真实 IP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-的防御"><span class="nav-number">2.3.</span> <span class="nav-text">XSS 的防御</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HttpOnly"><span class="nav-number">2.3.1.</span> <span class="nav-text">HttpOnly</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输入检查"><span class="nav-number">2.3.2.</span> <span class="nav-text">输入检查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出检查"><span class="nav-number">2.3.3.</span> <span class="nav-text">输出检查</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#针对-HTML-的编码"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">针对 HTML 的编码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#针对-JavaScript-的转义"><span class="nav-number">2.3.3.2.</span> <span class="nav-text">针对 JavaScript 的转义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结合多种编码方式"><span class="nav-number">2.3.3.3.</span> <span class="nav-text">结合多种编码方式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理富文本"><span class="nav-number">2.3.4.</span> <span class="nav-text">处理富文本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#防御-DOM-Based-XSS"><span class="nav-number">2.3.5.</span> <span class="nav-text">防御 DOM Based XSS</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
