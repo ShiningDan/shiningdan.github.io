@@ -195,3 +195,133 @@ DOM Based XSS **需要关注的输出**的地方：
 5. document.location.replace()
 6. document.location.saaign()
 
+## 跨站点请求伪造（CSRF）
+
+诱导用户访问了攻击的页面，然后通过 img 或者其他标签的 src 来发送 GET 请求，并且该请求可以附带用户的 Cookie，就以用户的身份执行了一次操作。
+
+### 浏览器的 Cookie 策略
+
+浏览器的 Cookie 分为两种：
+
+1. session cookie：没有指定 Expire 时间，所以在浏览器关闭之后，cookie 会消失
+2. 本地 cookie（第三方 Cookie）：指定了 Expire 时间，只有到 Expire 时间后 Cookie 才会消失
+
+**Session Cookie 的生存时间为浏览器进程的生存之间，即浏览器打开了新的 Tab 页面，Session Cookie 也是有效的。Session Cookie 保存在浏览器进程的内存空间中。**
+
+如果浏览器从一个域的页面中，要加载另一个域的资源，某些浏览器会阻止本地 Cookie 的发送（IE、Safari），也有的浏览器不会阻止（FireFox、Opera、Chrome、Android 等）
+
+如果浏览器不会阻止用于验证的本地 Cookie 的发送，则很容易导致 CSRF 攻击成功。
+
+而对于 IE 浏览器，可以先诱导用户在当前浏览器中访问目标站点，使得 Session Cookie 有效，然后实施 CSRF。
+
+### P3P 头的副作用
+
+P3P Header 全称是 The Platform for Privacy Preferences。用于允许跨域设置 Cookie，并且允许浏览器的 `<iframe>、<script>` 等标签发送第三方 Cookie。这样可能导致可以发送第三方 Cookie 使得 CSRF 攻击成功。
+
+### GET？POST?
+
+CSRF 攻击大多使用的 HTML 标签 `<img>、<iframe>、<script>` 等带 src 属性发送 GET 请求。
+
+如果服务器针对 GET 请求进行 CSRF 防御，攻击者也可以通过构造 POST 请求来发起攻击，比如攻击页面使用 `<form>` 标签构造 POST 请求，提交到目标网站。通过 `<form>` 的 action 中设置的目标网站的地址，发送的 Cookie 是目标网站的 Cookie，则完成 POST CSRF 攻击。
+
+### CSRF 的防御
+
+#### 验证码
+
+CSRF 攻击在于用户不知情的情况下构造了网络请求，而验证码强制用户与应用进行交互，才能完成最终请求。
+
+#### Referer Check
+
+Referer Check 目前最常见的应用就是“防止图片盗链”。
+
+Refer 的值指向请求来自的页面，不过缺点是**服务器并非什么时候都能取得 Referer 的值**
+
+#### Anti CSRF Token
+
+CSRF 攻击的本质是，攻击者发送的请求中包含用户的信息，以及用户的身份认证 Cookie。如果浏览器允许发送本地 Cookie 的值，只能在验证用户的信息中进行设置，如：
+
+一个删除操作：
+
+```
+http://host/path/delete?username=abc&item=123
+```
+
+可以把 username 改成哈希值
+
+```
+http://host/path/delete?username=md5(salt+abc)&item=123
+```
+
+使用 salt 或者随机数来验证请求参数。
+
+目前最常用的解决 CSRF 的方法是 URL 中新增一个参数 Token，这个 Token 为用户与服务器共同所有，不能被第三者知晓。这个 Token 可以放在用户的 Session 或者浏览器 Cookie 中。并且这个 Token 会在发送一次请求后消耗，然后再重新生成一次 Token。
+
+并且，Token 的发送最好放在表单中，作为一个隐藏的 Input 进行发送，而不是添加到链接中，否则可能会被发送给攻击者的 Referer 捕获。
+
+**Token 只是用来对抗 CSRF，但如果网站还存在 XSS 或其他漏洞的情况下，Token 就可能被攻击者捕获，这种方案就不可行，这个过程被称为 XSRF**
+
+## 点击劫持
+
+点击劫持，是攻击者使用一个透明的，不可见的 iframe，或者图片，或者定义拖拽行为，覆盖在网页上，当用户点击或进行任何操作的时候，就正好将事件传输到 iframe 上。
+
+### 点击劫持的防御
+
+#### frame busting
+
+可以写一段 JavaScript 代码，用来防止 iframe 的嵌套。但是这种方法很容易被绕过。frame busting 的大意为：
+
+```
+if (top != self)
+if (top.location != self.location)
+if (top.location != location)
+if (parent.frame.length > 0)
+if (window != top)
+if (window.top != window,self)
+......
+```
+
+#### X-Frame-Options
+
+使用 X-Frame-Options 头，里面有三个可选值：`DENY、SAMEORIGIN、ALLOW_FROM origin`，可以选择是否拒绝当前页面下加载任何 frame 页面。
+
+## HTML5 安全
+
+### Cross-Origin Resource Sharing
+
+可以在 HTTP Headers 中设置多种跨域安全访问权限，进行精细的控制：
+
+```
+Access-Control-Allow-Origin:指定了允许访问该资源的外域 URI
+Access-Control-Max-Age:preflight请求的结果能够被缓存多久
+Access-Control-Allow-Credentials:当浏览器的credentials设置为 true 时是否允许浏览器读取response的内容。
+Access-Control-Allow-Methods:首部字段用于预检请求的响应。其指明了实际请求所允许使用的 HTTP 方法。
+Access-Control-Allow-Headers:首部字段用于预检请求的响应。其指明了实际请求中允许携带的首部字段。
+Origin:首部字段表明预检请求或实际请求的源站。
+Access-Control-Request-Method:首部字段用于预检请求。其作用是，将实际请求所使用的 HTTP 方法告诉服务器
+Access-Control-Request-Headers:首部字段用于预检请求。其作用是，将实际请求所携带的首部字段告诉服务器。
+```
+
+#### 预检请求（preflight request）
+
+当请求的 Method 不是 GET、HEAD、POST 之一，请求的首部不在 [对 CORS 安全的首部字段集合](https://fetch.spec.whatwg.org/#cors-safelisted-request-header) 之一，或者 Content-Type 不在 `application/x-www-form-urlencoded、multipart/form-data、text/plain` 中，Client 首先会给 Server 发送一个 Option（类似于 GET、POST）请求，查看 Server 是否允许这些字段被发送到服务器。进行确认了以后，再次发送请求内容。首先发送 Option 请求的过程被称为**预检请求**
+
+#### 附带身份凭证的请求
+
+Fetch 与 CORS 的一个有趣的特性是，可以基于  HTTP cookies 和 HTTP 认证信息发送身份凭证。一般而言，对于跨域 XMLHttpRequest 或 Fetch 请求，浏览器不会发送身份凭证信息。如果要发送凭证信息，需要设置 XMLHttpRequest 的某个特殊标志位。
+
+将 XMLHttpRequest 的 withCredentials 标志设置为 true，从而向服务器发送 Cookies。
+
+如果服务器端的响应中未携带 Access-Control-Allow-Credentials: true ，浏览器将不会把响应内容返回给请求的发送者。
+
+### postMessage
+
+`window.postMessage` 对象不受同源策略的限制，允许每一个 window（包括当前窗口，弹出窗口，iframe 等）对象向其他窗口发送文本消息。
+
+在使用 `postMessage` 时，有两个安全问题需要注意：
+
+1. 在必要的时候，可以在接收窗口中验证 Domain，甚至验证 URL
+2. 接收的消息写入 `innerHTML`，甚至写入 `script` 中的时候，可能会导致 DOM based XSS 产生。
+
+## 参考
+
+* [HTTP访问控制（CORS）](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS)
