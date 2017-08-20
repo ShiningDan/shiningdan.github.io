@@ -32,7 +32,7 @@ tags:
 
 这段代码是加载在 `a.com` 这个页面下的，则 `b.js` 的 Origin 应该是 `a.com` 而不是 `b.com`
 
-在浏览器中，`<script>、<img>、<iframe>、<link>` 等标签都可以通过 src 属性加载资源，但是**通过 src 加载的资源，浏览器限制了 JavaScript 的权限，使其不能读写返回的内容**
+在浏览器中，`<script>、<img>、<iframe>、<link>` 等标签都可以通过 src 属性加载资源，但是**通过 src 加载的资源，浏览器限制了 JavaScript 的权限，使其不能读写返回的内容**。并且，在通过 src 访问资源的时候，会附带被请求域的 cookie。
 
 **浏览器的策略是，不阻止向另一个域名发送请求（表单，img，iframe，link 等 src 都可以跨域），但是不得读取另一个域名的内容**
 
@@ -101,11 +101,97 @@ JavaScript 本身没有获得本地 IP 的能力，但是可以通过第三方�
 
 ### XSS 的防御
 
+#### HttpOnly
 
+标有 HttpOnly 的 Cookie，页面的 JavaScript 都不允许访问
 
+服务器可能设置多个 Cookie，而 HttpOnly 可以选择性地加在任何一个 Cookie 上面。然后在输入 `document.cookie` 的时候，返回的值是没有设置 HttpOnly 的 Cookie 值。
 
+#### 输入检查
 
+常见的 Web 漏洞如 XSS，SQL 注入，都要求攻击者构造一些特殊字符串，这些字符串可能是用户不会用到的，所以输入检查就很有必要了。
 
+**前端的输入检查很容易被攻击者绕过，目前的做法是在客户端 JavaScript 和服务器端代码中实现相同的输入检查，客户端的输入检查可以节约服务器资源。**
 
+比如：
 
+1. 用户的用户名只能限为字母，数字和某些符号（不包括：`<`、`>`、`、` 等危险字符）的组合
+2. 比如电话、邮件、生日等都有自己特殊的规范格式
+3. 比较智能的 XSS 输入检查，还可以匹配 XSS 的特征，比如用户输入的数据中是否包含 `<script>`，`javascript` 等敏感信息
+
+#### 输出检查
+
+除了富文本输入外，在变量输出到 HTML 页面时，可以使用编码或转义的方式来防御 XSS 攻击
+
+##### 针对 HTML 的编码
+
+为了对抗 XSS，在 HTMLEncode 中要求至少转义以下的字符：`&, <, >, ", ', /`，将其转义为 `&amp;, &lt;, &gt;, &quot;, &#x27;, &#x2F`
+
+##### 针对 JavaScript 的转义
+
+JavaScript 中对于特殊字符的转义方法和 HTMLEncode 的方法不同，它需要使用 `\` 符号进行转义。
+
+在对抗 XSS 的时候，**还需要输出的变量在引号内部，避免造成安全问题**。
+
+如：
+
+```
+var x = escapeJavaScript($evil);
+var y = '"' + escapeJavaScript($evil) + '"';
+```
+
+转义后输出就变成：
+
+```
+var x = 1;alert(2);
+var y = "1;alert(2);"
+```
+
+还有更加严格的 JavaScript 编码方式：除了数字，字母以外的所有字符，都使用十六进制的 `\xHH` 的方式进行编码。
+
+##### 结合多种编码方式
+
+XSS 攻击主要发生在 MVC 中的 View 层，也就是将变量输出到模板的时候。
+
+使用单一的编码方式也不能完全防御 XSS 攻击，还需要针对不同的情况使用多种编码方式结合的方法来防御。
+
+如何针对不同的情景防御 XSS，请参考《白帽子讲 WEB 安全》3.3.4 节，正确地防御 XSS。
+
+#### 处理富文本
+
+一些网站允许用户提交自定义的 HTML 代码，被称为富文本，这些富文本也需要进行 XSS 防御。
+
+针对富文本的防御机制有：
+
+1. “事件”应该被明确禁止
+2. 一些危险的标签，比如`<iframe>、<script>、<base>、<form>`等标签也需要被禁止。
+3. 在标签的选择上，应该使用白名单，而不是黑名单。
+4. 允许用户自定义 CSS，style 也可能导致 XSS 攻击
+
+#### 防御 DOM Based XSS
+
+DOM Based XSS 是**从 JavaScript 中直接输出数据到 HTML 页面中导致的，前面的方法都是针对服务器直接输出变量到模板 HTML 导致的**
+
+针对 DOM Based XSS，防御方法也是要进行输入检查和输出检查：
+
+1. 变量输入的时候，要进行一次 JavaScriptEncode
+2. 变量输出的时候，如果输出到事件或者脚本中，则需要再做一次 JavaScriptEncode，如果是输出到 HTML 内容或者属性中，则要做一次 HTMLEncode。
+
+DOM Based XSS **需要关注的输入**的地方
+
+1. 页面中所有的 input 框
+2. window.location(href, hash 等)
+3. window.name
+4. document.cookie
+5. localstorage
+6. XMLHttpRequest 返回的数据
+
+DOM Based XSS **需要关注的输出**的地方：
+
+1. document.write() / docuemnt.writeln()
+2. xxx.innetHTML / xxx.outerHTML
+3. innerHTML.replace
+4. document.attachEvent / window.attachEvent
+5. document.location.replace()
+6. document.location.saaign()
 
