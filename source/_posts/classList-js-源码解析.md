@@ -220,6 +220,7 @@ if (objCtr.defineProperty) {
       , configurable: true
     };
     try {
+      // 使用 Object.defineProperty 来为 Element.propotype 添加属性，让所有 Element 对象都具有该属性
       objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
     } catch (ex) { // IE 8 doesn't support enumerable:true
       // adding undefined to fight this issue https://github.com/eligrey/classList.js/issues/36
@@ -242,5 +243,33 @@ classListGetter = function () {
 }
 ```
 
+通过以上的代码，我们就实现了 `classList` 属性添加的功能，最后，我们再总结一下为所有元素添加 `classList` 并且提供相关函数的实现方案：
 
+1. 创建 `ClassList` 类，并且在该类中添加对类名进行处理的 `add、remove、contains` 等方法
+2. 使用 `Object.defineProperty` 来为 `window.Element.propotype` 添加 `classList` 属性，则所有 `Element` 的对象都会继承该属性。在访问属性的时候，会调用 `classListGetter`，然后返回一个 `ClassList` 对象
+
+在 classList.js 结尾的地方，针对 IE 10/11 and Firefox < 26 版本的浏览器，本身提供了`add、remove` 方法，但是提供的方法只能处理一个参数的情况，进行了修复，修复的大致逻辑是，首先测试在一次函数调用中添加两个类名，如果添加的第二个类名没有成功，则使用一个新函数来代替原有的 `add、remove` 函数，新函数的作用是判断参数的个数，然后反复调用原有 `add、remove` 函数：
+
+```
+testElement.classList.add("c1", "c2");
+  
+// Polyfill for IE 10/11 and Firefox <26, where classList.add and
+// classList.remove exist but support only one argument at a time.
+if (!testElement.classList.contains("c2")) {
+  var createMethod = function(method) {
+    var original = DOMTokenList.prototype[method];
+
+    DOMTokenList.prototype[method] = function(token) {
+      var i, len = arguments.length;
+
+      for (i = 0; i < len; i++) {
+        token = arguments[i];
+        original.call(this, token);
+      }
+    };
+  };
+  createMethod('add');
+  createMethod('remove');
+}
+```
 
