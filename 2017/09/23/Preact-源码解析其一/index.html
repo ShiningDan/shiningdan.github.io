@@ -1,0 +1,1048 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,Preact," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，在前一阵 React 由于专利事件受到质疑的时候，进入了大家的视野，并且成为了在不得已需要放弃 React 之后的首选。虽然在今天，React 在 Twiter 上宣布其转向了 MIT 许可证，但也不影响我们对本框架设计的学习。本文作为 Preact 源码解读系列的第一篇，将介绍一些关于 Preact 的基础源码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Preact 源码解析之 setState 相关流程">
+<meta property="og:url" content="https://shiningdan.github.io/2017/09/23/Preact-源码解析其一/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，在前一阵 React 由于专利事件受到质疑的时候，进入了大家的视野，并且成为了在不得已需要放弃 React 之后的首选。虽然在今天，React 在 Twiter 上宣布其转向了 MIT 许可证，但也不影响我们对本框架设计的学习。本文作为 Preact 源码解读系列的第一篇，将介绍一些关于 Preact 的基础源码。">
+<meta property="og:updated_time" content="2017-09-24T15:38:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Preact 源码解析之 setState 相关流程">
+<meta name="twitter:description" content="Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，在前一阵 React 由于专利事件受到质疑的时候，进入了大家的视野，并且成为了在不得已需要放弃 React 之后的首选。虽然在今天，React 在 Twiter 上宣布其转向了 MIT 许可证，但也不影响我们对本框架设计的学习。本文作为 Preact 源码解读系列的第一篇，将介绍一些关于 Preact 的基础源码。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/09/23/Preact-源码解析其一/"/>
+
+
+
+
+
+  <title> Preact 源码解析之 setState 相关流程 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/09/23/Preact-源码解析其一/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Preact 源码解析之 setState 相关流程
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-23T20:35:58+08:00">
+                2017-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/23/Preact-源码解析其一/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/23/Preact-源码解析其一/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/09/23/Preact-源码解析其一/" class="leancloud_visitors" data-flag-title="Preact 源码解析之 setState 相关流程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，在前一阵 React 由于专利事件受到质疑的时候，进入了大家的视野，并且成为了在不得已需要放弃 React 之后的首选。虽然在今天，React 在 Twiter 上宣布其转向了 MIT 许可证，但也不影响我们对本框架设计的学习。本文作为 Preact 源码解读系列的第一篇，将介绍一些关于 Preact 的基础源码。</p>
+<a id="more"></a>
+<p>注：笔者作为一个应届生，水平有限，在有的地方无法理解开发者代码的精髓，大家可以来 <a href="https://github.com/developit/preact/" target="_blank" rel="external">developit/preact | GitHub</a> 获得最新源代码。</p>
+<p>其中，关于 <code>package.json</code> 中的组成，可以查看 <a href="https://lewis617.github.io/2017/03/29/preact-package-json/" target="_blank" rel="external">Preact 源码剖析（一）解读 package.json</a> 这篇文章，讲的很好。</p>
+<h2 id="src-preact-js"><a href="#src-preact-js" class="headerlink" title="src/preact.js"></a>src/preact.js</h2><p>首先，我们可以在 <code>src</code> 目录下找到项目的主入口代码 <code>preact.js</code>，我们在 <code>import preact from &#39;preact&#39;</code> 的时候，引入的函数，对象都是从这个入口中提供的。<code>preact.js</code> 中的内容也很简单，介绍了各部分的函数实现分别在哪个位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">import &#123; h, h as createElement &#125; from &apos;./h&apos;;</div><div class="line">import &#123; cloneElement &#125; from &apos;./clone-element&apos;;</div><div class="line">import &#123; Component &#125; from &apos;./component&apos;;</div><div class="line">import &#123; render &#125; from &apos;./render&apos;;</div><div class="line">import &#123; rerender &#125; from &apos;./render-queue&apos;;</div><div class="line">import options from &apos;./options&apos;;</div></pre></td></tr></table></figure>
+<h2 id="src-component-js"><a href="#src-component-js" class="headerlink" title="src/component.js"></a>src/component.js</h2><p>当我们需要创建一个组建的时候，就需要引入 <code>Component</code>，下面我们来看一看 <code>Component</code> 中代码是怎样组成的：</p>
+<p>首先，对外提供了 <code>Component</code> 类，用来继承，其代码为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">export function Component(props, context) &#123;</div><div class="line">    // </div><div class="line">	this._dirty = true;</div><div class="line"></div><div class="line">	/** @public</div><div class="line">	 *	@type &#123;object&#125;</div><div class="line">	 */</div><div class="line">	this.context = context;</div><div class="line"></div><div class="line">	/** @public</div><div class="line">	 *	@type &#123;object&#125;</div><div class="line">	 */</div><div class="line">	this.props = props;</div><div class="line"></div><div class="line">	/** @public</div><div class="line">	 *	@type &#123;object&#125;</div><div class="line">	 */</div><div class="line">	this.state = this.state || &#123;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当然，这一段代码只是提供了最基础的框架，下面使用了 <code>extend</code> 方法为 <code>Component.prototype</code> 提供了新的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">extend(Component.prototype, &#123;</div><div class="line"></div><div class="line">	setState(state, callback) &#123;</div><div class="line">		...</div><div class="line">	&#125;,</div><div class="line"></div><div class="line">	forceUpdate(callback) &#123;</div><div class="line">	    ...</div><div class="line">	&#125;,</div><div class="line">	</div><div class="line">	render() &#123;&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>我们先暂时不看 <code>setState</code> 等方法的实现，先看看 <code>extend</code> 方法实现了什么功能，在 <code>util.js</code> 中，我们找到了 <code>extend</code> 方法的源代码，功能很简单，就是遍历 <code>props</code> 对象的属性，然后赋值给 <code>obj</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export function extend(obj, props) &#123;</div><div class="line">	for (let i in props) obj[i] = props[i];</div><div class="line">	return obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>则上面的代码含义是，给 <code>Component.prototype</code> 添加 <code>setState, forceUpdate, render</code> 这三个方法，使得所有 <code>Component</code> 的对象都具有这三个方法。下面，我们来分别看看这三个方法的实现原理：</p>
+<h3 id="setState"><a href="#setState" class="headerlink" title="setState"></a>setState</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">setState(state, callback) &#123;</div><div class="line">	let s = this.state;</div><div class="line">	// 在 prevState 中保留原来的状态</div><div class="line">	if (!this.prevState) this.prevState = extend(&#123;&#125;, s);</div><div class="line">	// 将新的状态通过 extend 添加到现在的 state 中</div><div class="line">	extend(s, typeof state===&apos;function&apos; ? state(s, this.props) : state);</div><div class="line">	if (callback) (this._renderCallbacks = (this._renderCallbacks || [])).push(callback);</div><div class="line">	enqueueRender(this);</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>我们在第三行代码中，可以看到，最终使用 <code>extend</code> 方法，将传入的新的 <code>state</code> 添加到现有的状态中，这里出现了一个平常我们不注意的小点，就是传给 <code>setState</code> 的参数，除了对象以外，还可以是一个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(state, this.props) =&gt; &#123;...&#125;</div></pre></td></tr></table></figure>
+<p>传递的第一个参数是现在的 <code>state</code>，第二个参数是现在的 <code>props</code>，返回的对象是新的 <code>nextState</code>。</p>
+<p>关于传递函数给 <code>setState</code> 这一点，有一些文章在介绍这个技巧，比如：<a href="https://juejin.im/entry/5873b04f61ff4b006d4d45f7" target="_blank" rel="external">[译] 在 setState 中使用函数替代对象</a> 以及 <a href="https://neighborhood999.github.io/2017/03/06/learning-functional-setState-in-react/" target="_blank" rel="external">為何要在 React 的 setState() 內傳入 function</a> 和 <a href="http://padma0.farbox.com/post/ji-zhu/2017-03-15" target="_blank" rel="external">Functional setState</a>，也就是说，在 <code>setState</code> 中传入函数，可以保证每一次使用的都是最新的 state，而不是老的 state 的叠加。</p>
+<p>如果在 setState 中传递了回调函数 <code>callback</code>，则本组件会创建一个 <code>_renderCallbacks</code> 数组，用来存放回调函数。</p>
+<p>最后将本组件添加到 Render 队列中。</p>
+<p>我们来看一看 <code>enqueueRender</code> 中做了什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">export function enqueueRender(component) &#123;</div><div class="line">	if (!component._dirty &amp;&amp; (component._dirty = true) &amp;&amp; items.push(component)==1) &#123;</div><div class="line">		(options.debounceRendering || defer)(rerender);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这段函数中，其实做了一件事，就是判断传入的 <code>component</code> 中 <code>_dirty</code> 是否为 <code>true</code>。如果 <code>_dirty</code> 为 <code>false</code>，并且当前队列中没有需要渲染的组件，则添加该组件，然后将队列中的所有组件都做一次渲染。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">items.push(component)==1</div></pre></td></tr></table></figure>
+<p>这句话的意思是，原来 <code>item</code> 中没有元素，在推入了 <code>component</code> 中，返回值为 <code>length = 1</code>，则说明有元素需要进行渲染，开始渲染。如果返回值不是 <code>1</code>，则说明已经在一个 <code>rerender</code> 的进行中，则不会再次进行 <code>rerender</code>，而是等待在本次 <code>rerender</code> 中被 <code>pop</code> 出来。</p>
+<p>在默认情况下，所有组件初始化的时候，赋值 <code>_dirty</code> 都是 <code>true</code>，也就是不立刻触发 <code>rerender</code>，那什么时候 <code>_dirty</code> 被赋值为 <code>false</code> 呢？我们下面再分析。</p>
+<p>假设，我们遇到了一个 <code>_dirty</code> 为 <code>false</code> 的组件，然后会发生什么呢，会激活以下的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(options.debounceRendering || defer)(rerender);</div></pre></td></tr></table></figure>
+<p>让我们来看看 <code>options.debounceRendering</code> 是什么：</p>
+<p>当我进 <code>options</code> 中查看，额。。。什么都没有，返回了一个空对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export default &#123;&#125;;</div></pre></td></tr></table></figure>
+<p>那我们只能在 <code>defer</code> 中查看它是什么了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export const defer = typeof Promise==&apos;function&apos; ? Promise.resolve().then.bind(Promise.resolve()) : setTimeout;</div></pre></td></tr></table></figure>
+<p>它做的功能，就是判断现有环境中是否有 <code>Promise</code>，如果有 <code>Pormise</code>，则在当前 <code>macrotask</code> 后面的 <code>microtask</code> 中执行回调函数，也就是 <code>rerender</code>，如果没有 <code>Promise</code>，则在下一个 <code>macrotask</code> 中执行回调函数。</p>
+<p>OK，我们也知道了这一句代码是做什么事情，那我们来看 <code>rerender</code> 中做了什么事情吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export function rerender() &#123;</div><div class="line">	let p, list = items;</div><div class="line">	items = [];</div><div class="line">	while ( (p = list.pop()) ) &#123;</div><div class="line">		if (p._dirty) renderComponent(p);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们可以看到，<code>rerender</code> 中做的事情，就是遍历所有需要重新渲染的组件，然后对其调用 <code>renderComponent</code> 方法，那 <code>renderComponent</code> 做了什么呢？由于 <code>renderComponent</code> 方法太长，所以我又开了一个小结来进行分析</p>
+<h3 id="renderComponent"><a href="#renderComponent" class="headerlink" title="renderComponent"></a>renderComponent</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">isUpdate = component.base</div><div class="line"></div><div class="line">// if updating</div><div class="line">if (isUpdate) &#123;</div><div class="line">	component.props = previousProps;</div><div class="line">	component.state = previousState;</div><div class="line">	component.context = previousContext;</div><div class="line">	if (opts!==FORCE_RENDER</div><div class="line">		&amp;&amp; component.shouldComponentUpdate</div><div class="line">		&amp;&amp; component.shouldComponentUpdate(props, state, context) === false) &#123;</div><div class="line">		skip = true;</div><div class="line">	&#125;</div><div class="line">	else if (component.componentWillUpdate) &#123;</div><div class="line">		component.componentWillUpdate(props, state, context);</div><div class="line">	&#125;</div><div class="line">	component.props = props;</div><div class="line">	component.state = state;</div><div class="line">	component.context = context;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先判断该组件是不是已经在一个更新中（可能是因为调用 <code>forceUpdate</code> 方法等原因造成），如果在一个更新中，则判断本次进入 <code>rerender</code> 的原因：</p>
+<ol>
+<li>如果不是因为 <code>forceUpdate</code> 进入更新，则判断 <code>shouldComponentUpdate</code> 的返回值是否为 <code>false</code>，如果返回值要求不更新，则设置 <code>skip = true</code></li>
+<li>如果是因为 <code>forceUpdate</code> 进入更新，则运行该组件的 <code>componentWillUpdate</code></li>
+</ol>
+<p>首先，在进行了判断是否在更新中以后，设置 <code>component._dirty = false;</code>，表明该组件又可以进行 <code>rerender</code>，允许在 <code>enqueueRender</code> 中被添加到队列里面。越早设置 <code>_dirty = false;</code>，则对下一次 <code>rerender</code> 的响应越快。</p>
+<p>接下来，首先判断 <code>skip</code>，来决定要不要对组件进行更新。当 <code>skip === false</code> 的时候，说明要进行组件重新渲染的操作，操作如下：</p>
+<p>首先，运行 <code>rendered = component.render(props, state, context);</code>，获得当前组件的返回值。</p>
+<p>然后，判断该组件中是否有子组件，如果有子组件，则更新 <code>content</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// context to pass to the child, can be updated via (grand-)parent component</div><div class="line">if (component.getChildContext) &#123;</div><div class="line">	context = extend(extend(&#123;&#125;, context), component.getChildContext());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>获得子组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let childComponent = rendered &amp;&amp; rendered.nodeName</div></pre></td></tr></table></figure>
+<p>下面进行判断子组件是否存在，如果子组件存在，将会进行一下的操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">if (typeof childComponent===&apos;function&apos;) &#123;</div><div class="line">	// set up high order component link</div><div class="line"></div><div class="line">    //得到子组件的 props</div><div class="line">	let childProps = getNodeProps(rendered);</div><div class="line">	inst = initialChildComponent;</div><div class="line"></div><div class="line">	if (inst &amp;&amp; inst.constructor===childComponent &amp;&amp; childProps.key==inst.__key) &#123;</div><div class="line">		setComponentProps(inst, childProps, SYNC_RENDER, context, false);</div><div class="line">	&#125;</div><div class="line">	else &#123;</div><div class="line">		toUnmount = inst;</div><div class="line"></div><div class="line">		component._component = inst = createComponent(childComponent, childProps, context);</div><div class="line">		inst.nextBase = inst.nextBase || nextBase;</div><div class="line">		inst._parentComponent = component;</div><div class="line">		setComponentProps(inst, childProps, NO_RENDER, context, false);</div><div class="line">		renderComponent(inst, SYNC_RENDER, mountAll, true);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	base = inst.base;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果子组件存在，首先得到子组件的 <code>props</code>，我们来看看 <code>getNodeProps</code> 的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Reconstruct Component-style `props` from a VNode.</div><div class="line"> * Ensures default/fallback values from `defaultProps`:</div><div class="line"> * Own-properties of `defaultProps` not present in `vnode.attributes` are added.</div><div class="line"> * @param &#123;VNode&#125; vnode</div><div class="line"> * @returns &#123;Object&#125; props</div><div class="line"> */</div><div class="line">export function getNodeProps(vnode) &#123;</div><div class="line">	let props = extend(&#123;&#125;, vnode.attributes);</div><div class="line">	props.children = vnode.children;</div><div class="line"></div><div class="line">	let defaultProps = vnode.nodeName.defaultProps;</div><div class="line">	if (defaultProps!==undefined) &#123;</div><div class="line">		for (let i in defaultProps) &#123;</div><div class="line">			if (props[i]===undefined) &#123;</div><div class="line">				props[i] = defaultProps[i];</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return props;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>获得的是一个 VNode 对象的 <code>attributes</code>，<code>children</code>，以及所有的 <code>defaultProps</code>。至于这三个属性分别代表什么，我会在接下来的文章中分析，现在我们就暂且认为拿到了子组件的必要属性吧~</p>
+<p>下面，首先进行了一次 <code>if</code> 判断：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if (inst &amp;&amp; inst.constructor===childComponent &amp;&amp; childProps.key==inst.__key)</div></pre></td></tr></table></figure>
+<p>我所理解的判断内容是：</p>
+<ol>
+<li><code>inst</code> 的初始化为：<code>component._component</code>，也就指的是现在还没有 <code>rerender</code> 的时候，子组件是什么</li>
+<li><code>childComponent</code> 的初始化为：<code>component.render(props, state, context).nodeName</code>，也就指的是新的 <code>render</code> 函数子组件是什么</li>
+</ol>
+<p>所以，这个 <code>if</code> 语句的判断，也就是想知道该组件的子组件类型是否发生了变化？如果没有发生变化，则在原来 <code>inst</code> 上更新新的 <code>props</code> 等。如果变成了新的子组件，则将原来的 <code>inst</code> 删掉，然后创建新的子组件。</p>
+<p>所以，在 <code>if</code> 语句中，执行的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (inst &amp;&amp; inst.constructor===childComponent &amp;&amp; childProps.key==inst.__key) &#123;</div><div class="line">	setComponentProps(inst, childProps, SYNC_RENDER, context, false);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，设置了同步方法为 <code>SYNC_RENDER</code>，也就是将子组件添加到渲染队列中，在本次 macrotask 中进行渲染： <code>enqueueRender(component);</code></p>
+<p><code>setComponentProps</code> 的代码如下，大致做的工作为，在某个已有的组件中替换新的属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">export function setComponentProps(component, props, opts, context, mountAll) &#123;</div><div class="line">	if (component._disable) return;</div><div class="line">	component._disable = true;</div><div class="line"></div><div class="line">	if ((component.__ref = props.ref)) delete props.ref;</div><div class="line">	if ((component.__key = props.key)) delete props.key;</div><div class="line"></div><div class="line">	if (!component.base || mountAll) &#123;</div><div class="line">		if (component.componentWillMount) component.componentWillMount();</div><div class="line">	&#125;</div><div class="line">	else if (component.componentWillReceiveProps) &#123;</div><div class="line">		component.componentWillReceiveProps(props, context);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	if (context &amp;&amp; context!==component.context) &#123;</div><div class="line">		if (!component.prevContext) component.prevContext = component.context;</div><div class="line">		component.context = context;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	if (!component.prevProps) component.prevProps = component.props;</div><div class="line">	component.props = props;</div><div class="line"></div><div class="line">	component._disable = false;</div><div class="line"></div><div class="line">	if (opts!==NO_RENDER) &#123;</div><div class="line">		if (opts===SYNC_RENDER || options.syncComponentUpdates!==false || !component.base) &#123;</div><div class="line">			renderComponent(component, SYNC_RENDER, mountAll);</div><div class="line">		&#125;</div><div class="line">		else &#123;</div><div class="line">			enqueueRender(component);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	if (component.__ref) component.__ref(component);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果子组件的类型发生了变化，或者变成了另一个同类型的对象，则删除原来的子组件，然后创建新的子组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">toUnmount = inst;</div><div class="line"></div><div class="line">component._component = inst = createComponent(childComponent, childProps, context);</div><div class="line">inst.nextBase = inst.nextBase || nextBase;</div><div class="line">inst._parentComponent = component;</div><div class="line">setComponentProps(inst, childProps, NO_RENDER, context, false);</div><div class="line">renderComponent(inst, SYNC_RENDER, mountAll, true);</div></pre></td></tr></table></figure>
+<p>其中，创建新的组件使用的是 <code>createComponent</code> 方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">/** Create a component. Normalizes differences between PFC&apos;s and classful Components. */</div><div class="line">export function createComponent(Ctor, props, context) &#123;</div><div class="line">	let list = components[Ctor.name],</div><div class="line">		inst;</div><div class="line"></div><div class="line">	if (Ctor.prototype &amp;&amp; Ctor.prototype.render) &#123;</div><div class="line">		inst = new Ctor(props, context);</div><div class="line">		Component.call(inst, props, context);</div><div class="line">	&#125;</div><div class="line">	else &#123;</div><div class="line">		inst = new Component(props, context);</div><div class="line">		inst.constructor = Ctor;</div><div class="line">		inst.render = doRender;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line">	if (list) &#123;</div><div class="line">		for (let i=list.length; i--; ) &#123;</div><div class="line">			if (list[i].constructor===Ctor) &#123;</div><div class="line">				inst.nextBase = list[i].nextBase;</div><div class="line">				list.splice(i, 1);</div><div class="line">				break;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	return inst;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://lewis617.github.io/2017/03/29/preact-package-json/" target="_blank" rel="external">Preact 源码剖析（一）解读 package.json</a></li>
+<li><a href="https://juejin.im/entry/5873b04f61ff4b006d4d45f7" target="_blank" rel="external">[译] 在 setState 中使用函数替代对象</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/Preact/" rel="tag"># Preact</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/22/Preact-使用及对比/" rel="next" title="Preact 使用及对比">
+                <i class="fa fa-chevron-left"></i> Preact 使用及对比
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/09/23/Preact-源码解析其一/"
+           data-title="Preact 源码解析之 setState 相关流程" data-url="https://shiningdan.github.io/2017/09/23/Preact-源码解析其一/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#src-preact-js"><span class="nav-number">1.</span> <span class="nav-text">src/preact.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-component-js"><span class="nav-number">2.</span> <span class="nav-text">src/component.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#setState"><span class="nav-number">2.1.</span> <span class="nav-text">setState</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#renderComponent"><span class="nav-number">2.2.</span> <span class="nav-text">renderComponent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
