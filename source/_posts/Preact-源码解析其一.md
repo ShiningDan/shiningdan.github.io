@@ -340,13 +340,15 @@ export function setComponentProps(component, props, opts, context, mountAll) {
 如果子组件的类型发生了变化，或者变成了另一个同类型的对象，则删除原来的子组件，然后创建新的子组件：
 
 ```
-toUnmount = inst;
-
-component._component = inst = createComponent(childComponent, childProps, context);
-inst.nextBase = inst.nextBase || nextBase;
-inst._parentComponent = component;
-setComponentProps(inst, childProps, NO_RENDER, context, false);
-renderComponent(inst, SYNC_RENDER, mountAll, true);
+else {
+    toUnmount = inst;
+    
+    component._component = inst = createComponent(childComponent, childProps, context);
+    inst.nextBase = inst.nextBase || nextBase;
+    inst._parentComponent = component;
+    setComponentProps(inst, childProps, NO_RENDER, context, false);
+    renderComponent(inst, SYNC_RENDER, mountAll, true);
+}
 ```
 
 其中，创建新的组件使用的是 `createComponent` 方法：
@@ -354,6 +356,7 @@ renderComponent(inst, SYNC_RENDER, mountAll, true);
 ```
 /** Create a component. Normalizes differences between PFC's and classful Components. */
 export function createComponent(Ctor, props, context) {
+    // 在这里，components 对象是一个包含所有组件的一个组件池
 	let list = components[Ctor.name],
 		inst;
 
@@ -370,6 +373,7 @@ export function createComponent(Ctor, props, context) {
 
 	if (list) {
 		for (let i=list.length; i--; ) {
+		    // 如果该组件被重新渲染了，则在组件池中删除原有组件
 			if (list[i].constructor===Ctor) {
 				inst.nextBase = list[i].nextBase;
 				list.splice(i, 1);
@@ -380,6 +384,246 @@ export function createComponent(Ctor, props, context) {
 	return inst;
 }
 ```
+
+最后，在创建完组件以后，调用 `renderComponent` 方法，对该新生成的子组件进行重新渲染。
+
+如果新生成的子组件不存在，则使用使用 `diff` 算法来对进行处理：
+
+```
+if (typeof childComponent==='function') {
+    ...
+} else {
+    cbase = initialBase;
+    
+	// destroy high order component link
+	toUnmount = initialChildComponent;
+	if (toUnmount) {
+		cbase = component._component = null;
+	}
+
+	if (initialBase || opts===SYNC_RENDER) {
+		if (cbase) cbase._component = null;
+		base = diff(cbase, rendered, context, mountAll || !isUpdate, initialBase && initialBase.parentNode, true);
+	}
+}
+```
+
+现在，我们要看看 Preact 的 `diff` 算法是怎么样的流程了。首先，我们来看看 `diff` 算法的主流程：
+
+```
+/** Apply differences in a given vnode (and it's deep children) to a real DOM Node.
+ *	@param {Element} [dom=null]		A DOM node to mutate into the shape of the `vnode`
+ *	@param {VNode} vnode			A VNode (with descendants forming a tree) representing the desired DOM structure
+ *	@returns {Element} dom			The created/mutated element
+ *	@private
+ */
+export function diff(dom, vnode, context, mountAll, parent, componentRoot) {
+	// diffLevel having been 0 here indicates initial entry into the diff (not a subdiff)
+	if (!diffLevel++) {
+		// when first starting the diff, check if we're diffing an SVG or within an SVG
+		isSvgMode = parent!=null && parent.ownerSVGElement!==undefined;
+
+		// hydration is indicated by the existing element to be diffed not having a prop cache
+		hydrating = dom!=null && !(ATTR_KEY in dom);
+	}
+
+	let ret = idiff(dom, vnode, context, mountAll, componentRoot);
+
+	// append the element if its a new parent
+	if (parent && ret.parentNode!==parent) parent.appendChild(ret);
+
+	// diffLevel being reduced to 0 means we're exiting the diff
+	if (!--diffLevel) {
+		hydrating = false;
+		// invoke queued componentDidMount lifecycle methods
+		if (!componentRoot) flushMounts();
+	}
+
+	return ret;
+}
+```
+
+首先，`diff` 算法接受的参数中，第一个是当前的 DOM 结构： `dom`，第二个是将要成为的 DOM 结构。在 `diff` 算法中，使用 `diffLevel` 来控制算法是否要退出。在 `diff` 算法要退出的时候，会通过：
+
+```
+if (!componentRoot) flushMounts();
+```
+
+来判断是否要调用所有组件的 `componentDidMount` 方法。
+
+在 `diff` 算法中，计算得到不同组件的功能是通过 `idiff` 得到的：
+
+```
+let ret = idiff(dom, vnode, context, mountAll, componentRoot);
+```
+
+由于 `idiff` 很长。。恩，我们只能分布拆开来看其功能。
+
+首先，对传入的新节点的类型进行判断：
+
+```
+// empty values (null, undefined, booleans) render as empty Text nodes
+	if (vnode==null || typeof vnode==='boolean') vnode = '';
+```
+
+如果传入的是 `null, undefined, booleans`，则渲染的结果是一个空的 Text Node。
+
+如果传入的是 `string, number` 类型，则创建，或者更新节点为一个新的 Text Node。
+
+```
+// Fast case: Strings & Numbers create/update Text nodes.
+if (typeof vnode==='string' || typeof vnode==='number') {
+
+	// update if it's already a Text node:
+	if (dom && dom.splitText!==undefined && dom.parentNode && (!dom._component || componentRoot)) {
+		/* istanbul ignore if */ /* Browser quirk that can't be covered: https://github.com/developit/preact/commit/fd4f21f5c45dfd75151bd27b4c217d8003aa5eb9 */
+		if (dom.nodeValue!=vnode) {
+			dom.nodeValue = vnode;
+		}
+	}
+	else {
+		// it wasn't a Text node: replace it with one and recycle the old Element
+		out = document.createTextNode(vnode);
+		if (dom) {
+			if (dom.parentNode) dom.parentNode.replaceChild(out, dom);
+			recollectNodeTree(dom, true);
+		}
+	}
+
+	out[ATTR_KEY] = true;
+
+	return out;
+}
+```
+
+这里会判断，需要被更新的节点，如果本身就是一个 Text Node，则更新其中的字符串即可。如果不是一个 Text Node，则创建一个新的 Text Node，然后替换该节点。
+
+最后要进行的一步，如果有替换 DOM 元素的行为，则将原来的 DOM 元素删除 `recollectNodeTree(dom, true)`：
+
+```
+/** Recursively recycle (or just unmount) a node and its descendants.
+ *	@param {Node} node						DOM node to start unmount/removal from
+ *	@param {Boolean} [unmountOnly=false]	If `true`, only triggers unmount lifecycle, skips removal
+ */
+export function recollectNodeTree(node, unmountOnly) {
+	let component = node._component;
+	if (component) {
+		// if node is owned by a Component, unmount that component (ends up recursing back here)
+		unmountComponent(component);
+	}
+	else {
+		// If the node's VNode had a ref function, invoke it with null here.
+		// (this is part of the React spec, and smart for unsetting references)
+		if (node[ATTR_KEY]!=null && node[ATTR_KEY].ref) node[ATTR_KEY].ref(null);
+
+		if (unmountOnly===false || node[ATTR_KEY]==null) {
+			removeNode(node);
+		}
+
+		removeChildren(node);
+	}
+}
+```
+
+`recollectNodeTree` 的逻辑如上，如果这个 node 本身是一个 Component，将该组件删除，并且调用该组件的 `componentDidMount()`，否则，调用 `removeChildren` 来删除该组件。`removeChildren` 方法的内容很简单，就是找到 `node` 的父元素，然后调用 `removeChild`：
+
+```
+export function removeNode(node) {
+	let parentNode = node.parentNode;
+	if (parentNode) parentNode.removeChild(node);
+}
+```
+
+如果传入的 `vnode` 既不是 `null, undefined, booleans`，也不是 `string, number`，而是一个 `function` 类型，说明 `vnode` 代表一个组件，则调用 `buildComponentFromVNode` 直接生成新的组件：
+
+```
+// If the VNode represents a Component, perform a component diff:
+let vnodeName = vnode.nodeName;
+if (typeof vnodeName==='function') {
+	return buildComponentFromVNode(dom, vnode, context, mountAll);
+}
+```
+
+我们可以看一看 `buildComponentFromVNode`：
+
+```
+/** Apply the Component referenced by a VNode to the DOM.
+ *	@param {Element} dom	The DOM node to mutate
+ *	@param {VNode} vnode	A Component-referencing VNode
+ *	@returns {Element} dom	The created/mutated element
+ *	@private
+ */
+export function buildComponentFromVNode(dom, vnode, context, mountAll) {
+	let c = dom && dom._component,
+		originalComponent = c,
+		oldDom = dom,
+		isDirectOwner = c && dom._componentConstructor===vnode.nodeName,
+		isOwner = isDirectOwner,
+		props = getNodeProps(vnode);
+	while (c && !isOwner && (c=c._parentComponent)) {
+		isOwner = c.constructor===vnode.nodeName;
+	}
+
+	if (c && isOwner && (!mountAll || c._component)) {
+		setComponentProps(c, props, ASYNC_RENDER, context, mountAll);
+		dom = c.base;
+	}
+	else {
+		if (originalComponent && !isDirectOwner) {
+			unmountComponent(originalComponent);
+			dom = oldDom = null;
+		}
+
+		c = createComponent(vnode.nodeName, props, context);
+		if (dom && !c.nextBase) {
+			c.nextBase = dom;
+			// passing dom/oldDom as nextBase will recycle it if unused, so bypass recycling on L229:
+			oldDom = null;
+		}
+		setComponentProps(c, props, SYNC_RENDER, context, mountAll);
+		dom = c.base;
+
+		if (oldDom && dom!==oldDom) {
+			oldDom._component = null;
+			recollectNodeTree(oldDom, false);
+		}
+	}
+
+	return dom;
+}
+```
+
+在这段代码中，我们会比较，如果 `dom` 是否和 `vnode` 是同样类型的组件，如果是，则将 `vnode` 的属性赋值给 `dom`。如果不是，则将 `dom` 元素替换为新的 `vnode` 元素，然后将原来的组件回收。
+
+下一步，判断 `vnode` 的类型是不是 SVG，然后针对 SVG 进行处理并返回新的节点。
+
+如果 `dom` 不存在或者 `dom` 的类型与 `vnode.nodeName` 不同，则创建一个新的 DOM 元素，并且把之前 `dom` 元素中的子元素挂载到新的 DOM 元素中，然后回收 `dom` 元素，代码部分如下：
+
+```
+// If there's no existing element or it's the wrong type, create a new one:
+vnodeName = String(vnodeName);
+if (!dom || !isNamedNode(dom, vnodeName)) {
+	out = createNode(vnodeName, isSvgMode);
+
+	if (dom) {
+		// move children into the replacement node
+		while (dom.firstChild) out.appendChild(dom.firstChild);
+
+		// if the previous Element was mounted into the DOM, replace it inline
+		if (dom.parentNode) dom.parentNode.replaceChild(out, dom);
+
+		// recycle the old element (skips non-Element node types)
+		recollectNodeTree(dom, true);
+	}
+}
+```
+
+然后针对以上种情况，对 `vnode.children` 调用 `innerDiffNode`，将 `vnode.chilren` 中的元素添加到新创建的 DOM 元素中。然后调用 `diffAttributes` 将 `vnode` 的属性添加到新创建的 DOM 元素中。
+
+
+
+
+关于 `diff` 算法，我自己也感觉了解的不是很透彻，如果有疑问的同学，可以参考这一篇文章 [从Preact了解一个类React的框架是怎么实现的(二): 元素diff](https://juejin.im/post/59c76e515188254f584132af)
 
 
 
