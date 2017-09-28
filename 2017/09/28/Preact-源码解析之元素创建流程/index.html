@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript,CSS,HTML," />
+  <meta name="keywords" content="JavaScript,Preact," />
 
 
 
@@ -84,27 +84,16 @@
 
 
 
-<meta name="description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
-单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
-但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
+<meta name="description" content="Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，在前一阵 React 由于专利事件受到质疑的时候，进入了大家的视野，并且成为了在不得已需要放弃 React 之后的首选。虽然在今天，React 在 Twiter 上宣布其转向了 MIT 许可证，但也不影响我们对本框架设计的学习。本文作为 Preact 源码解读系列的第二篇，比较简短，将介绍 Preact 如何将 JSX 代码转">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网页组件制作之表单美化">
-<meta property="og:url" content="https://shiningdan.github.io/2016/11/02/网页组件制作之表单美化/index.html">
+<meta property="og:title" content="Preact 源码解析之元素创建流程">
+<meta property="og:url" content="https://shiningdan.github.io/2017/09/28/Preact-源码解析之元素创建流程/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
-单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
-但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img32.PNG">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img33.PNG">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img34.PNG">
-<meta property="og:updated_time" content="2016-11-06T04:59:02.000Z">
+<meta property="og:description" content="Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，在前一阵 React 由于专利事件受到质疑的时候，进入了大家的视野，并且成为了在不得已需要放弃 React 之后的首选。虽然在今天，React 在 Twiter 上宣布其转向了 MIT 许可证，但也不影响我们对本框架设计的学习。本文作为 Preact 源码解读系列的第二篇，比较简短，将介绍 Preact 如何将 JSX 代码转">
+<meta property="og:updated_time" content="2017-09-28T10:41:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="网页组件制作之表单美化">
-<meta name="twitter:description" content="在该笔记中将学到一些常用的表单美化的方法与展示效果
-单选按钮美化在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。
-但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是">
-<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG">
+<meta name="twitter:title" content="Preact 源码解析之元素创建流程">
+<meta name="twitter:description" content="Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，在前一阵 React 由于专利事件受到质疑的时候，进入了大家的视野，并且成为了在不得已需要放弃 React 之后的首选。虽然在今天，React 在 Twiter 上宣布其转向了 MIT 许可证，但也不影响我们对本框架设计的学习。本文作为 Preact 源码解读系列的第二篇，比较简短，将介绍 Preact 如何将 JSX 代码转">
 
 
 
@@ -132,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2016/11/02/网页组件制作之表单美化/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2017/09/28/Preact-源码解析之元素创建流程/"/>
 
 
 
 
 
-  <title> 网页组件制作之表单美化 | ShiningDan的博客 </title>
+  <title> Preact 源码解析之元素创建流程 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -294,7 +283,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2016/11/02/网页组件制作之表单美化/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/09/28/Preact-源码解析之元素创建流程/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -318,7 +307,7 @@
             
             
               
-                网页组件制作之表单美化
+                Preact 源码解析之元素创建流程
               
             
           </h2>
@@ -333,8 +322,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-02T22:23:47+08:00">
-                2016-11-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-28T17:09:09+08:00">
+                2017-09-28
               </time>
             
 
@@ -374,8 +363,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/11/02/网页组件制作之表单美化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/02/网页组件制作之表单美化/" itemprop="commentCount"></span>
+                <a href="/2017/09/28/Preact-源码解析之元素创建流程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/28/Preact-源码解析之元素创建流程/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -385,7 +374,7 @@
 
           
           
-             <span id="/2016/11/02/网页组件制作之表单美化/" class="leancloud_visitors" data-flag-title="网页组件制作之表单美化">
+             <span id="/2017/09/28/Preact-源码解析之元素创建流程/" class="leancloud_visitors" data-flag-title="Preact 源码解析之元素创建流程">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -412,349 +401,37 @@
       
 
       
-        <p><strong>在该笔记中将学到一些常用的表单美化的方法与展示效果</strong></p>
-<h2 id="单选按钮美化"><a href="#单选按钮美化" class="headerlink" title="单选按钮美化"></a>单选按钮美化</h2><p>在表单中，原本单选按钮的实现方法是 form + input( type=”radio”) + lable 来实现的，这样在点击该单选按钮的时候，该元素自带的 CSS 动作就可以添加到按钮上。</p>
-<p><strong>但是，如果需要对单选按钮被点击的效果进行美化，比如去掉单选按钮之前的小圆点，更好的方法是放弃使用 input(type=”radio”)，而是使用 dl + dt + dd(或者使用 ul + li 和 ol + li ) 来实现。这样更加方便添加需要的 CSS 效果。 </strong></p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;单选按钮的美化&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            * {
-                margin:0;
-                padding:0;
-            }
-            body{
-                font-size: 12px;
-            }
-            .type {
-                width: 400px;
-                height: 32px;
-                margin: 30px auto;
-                border: 1px solid #DFDFDF;
-            }
-            .type dl{
-                margin-left: 15px;
-                height: 32px;
-                line-height: 32px;
-            }
-            .type dd{
-                float: left;
-                margin: 0 10px 0 8px;
-            }
-            .type dt{
-                float: left;
-            }
-            .type dd a{
-                text-decoration: none;
-                color: black;
-                margin-left: 5px;
-            }
-            .type dd a:hover{
-                color: #CC0000;
-                text-decoration: underline;
-            }
-            .type dd a:hover i,.type .selected i{
-                background-position:-1px -108px;
-            }
-            .type dd i{
-                display: inline-block;
-                width: 12px;
-                height: 10px;
-                float: left;
-                margin-top: 10px;
-                border: 1px solid #DFDFDF;
-                background: url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img29.png&quot;) no-repeat;
-                background-position: 0 -7px;
-            }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;type&quot;&gt;
-            &lt;!--&lt;form action=&quot;#&quot; method=&quot;POST&quot; name=&quot;formType&quot;&gt;
-                &lt;label&gt;配送类型：&lt;/label&gt;
-                &lt;input type=&quot;radio&quot; name=&quot;type&quot; checked&gt;&lt;label&gt;全部&lt;/label&gt;
-                &lt;input type=&quot;radio&quot; name=&quot;type&quot;&gt;&lt;label&gt;京东配送&lt;/label&gt;
-                &lt;input type=&quot;radio&quot; name=&quot;type&quot;&gt;&lt;label&gt;第三方配送&lt;/label&gt;
-            &lt;/form&gt;--&gt;
-            &lt;dl id=&quot;sendType&quot;&gt;
-                &lt;dt &gt;配送类型：&lt;/dt&gt;
-                &lt;dd class=&quot;selected&quot; onclick=&quot;show(0)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;全部&lt;/a&gt;&lt;/dd&gt;
-                &lt;dd onclick=&quot;show(1)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;京东配送&lt;/a&gt;&lt;/dd&gt;
-                &lt;dd onclick=&quot;show(2)&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i&gt;&lt;/i&gt;第三方配送&lt;/a&gt;&lt;/dd&gt;
-            &lt;/dl&gt;
-        &lt;/div&gt;
-        &lt;script&gt;
-        function show(index){
-            var dd = document.getElementById(&quot;sendType&quot;).getElementsByTagName(&quot;dd&quot;),
-            len, i;
-            for(i=0, len=dd.length; i&lt;len; i++){
-                if(i === index) {
-                    dd[i].className = &quot;selected&quot;;
-                } else{
-                    dd[i].className = null;
-                }
-            }
-        }
-    &lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>显示效果为：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img30.PNG" alt=""></p>
+        <p>Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，在前一阵 React 由于专利事件受到质疑的时候，进入了大家的视野，并且成为了在不得已需要放弃 React 之后的首选。虽然在今天，React 在 Twiter 上宣布其转向了 MIT 许可证，但也不影响我们对本框架设计的学习。本文作为 Preact 源码解读系列的第二篇，比较简短，将介绍 Preact 如何将 JSX 代码转义成 DOM 输出的流程</p>
 <a id="more"></a>
-<h2 id="复选按钮的美化"><a href="#复选按钮的美化" class="headerlink" title="复选按钮的美化"></a>复选按钮的美化</h2><p><strong>因为不同浏览器对复选框的默认样式都不一样，所以如果想要使得所有的浏览器对复选框的显示效果都相同，则使用图片等元素来替代复选框的默认样式。</strong></p>
-<p><strong>可以对 input 元素设置 display:none 来删除表单元素的默认显示效果。</strong></p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;多选按钮美化&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            *{
-                margin: 0;
-                padding: 0;
-            }
-            body{
-                font-size: 13px;
-            }
-            .typeList{
-                width: 370px;
-                height: 30px;
-                margin: 50px auto;
-                border: 1px solid #DFDFDF;
-                border-width: 1px 0px;
-            }
-            .typeList ul {
-                list-style: none;
-                height: 30px;
-                line-height:30px;
-                text-align: center;
-                padding-left: 20px;
-            }
-            .typeList ul li {
-                float: left;
-                margin-right: 20px;
-            }
-            .typeList ul li:hover i,.typeList ul li.selected i{
-                background-position:-1px -108px;
-            }
-            .typeList ul li input {
-                display: none;
-            }
-            .typeList ul li i{
-                background: url(&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img29.png&quot;) no-repeat;
-                display: inline-block;
-                width: 12px;
-                height: 10px;
-                border: 1px solid #DFDFDF;
-                background-position: 0 -7px;
-                float: left;
-                margin: 10px 2px 0 0;
-            }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;typeList&quot;&gt;
-            &lt;form action=&quot;#&quot; method=&quot;POST&quot; name=&quot;typeList&quot;&gt;
-                &lt;ul id=&quot;checkedList&quot;&gt;
-                    &lt;li class=&quot;selected&quot;&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;bao&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;bao&quot;&gt;包邮&lt;/label&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;xiao&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;xiao&quot;&gt;消费者保障&lt;/label&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;huo&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;huo&quot;&gt;货到付款&lt;/label&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;input type=&quot;checkbox&quot; name=&quot;typeList&quot; id=&quot;hai&quot;/&gt;&lt;i&gt;&lt;/i&gt;&lt;label for=&quot;hai&quot;&gt;海外商品&lt;/label&gt;&lt;/li&gt;
-                &lt;/ul&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-        &lt;script&gt;
-            window.onload = function(){
-                var lis = document.getElementById(&quot;checkedList&quot;).getElementsByTagName(&quot;li&quot;),
-                i, len;
-                for(i=0, len = lis.length; i&lt;len; i++) {
-                    lis[i].onclick = function() {
-                        if(this.className == &quot;selected&quot;) {
-                            console.log( &quot;not selected&quot;);
-                            this.className = null;
-                        } else {
-                            console.log(&quot;selected&quot;);
-                            this.className = &quot;selected&quot;;
-                        }
-                    }
-                }
-            }
-        &lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p><strong>小bug：</strong>如果鼠标点击在文字上的时候，li 会被判定为点击了两次(一次是点击 li ，另一次是出发 lable 点击了 input，此时勾选的显示效果就会变成：勾选-&gt;不勾选)</p>
-<p>显示效果为：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img32.PNG" alt=""></p>
-<h2 id="文本框的美化"><a href="#文本框的美化" class="headerlink" title="文本框的美化"></a>文本框的美化</h2><p>文本框 input[type-text] 的美化，可以使用 placeholder 来替换 value 属性，从而达到提示是灰色，当有输入的时候，提示的文字不显示的效果。</p>
-<p>也可以在文本框中调用 CSS3 的 transition 属性，设置属性的过度，使得当文本框获得焦点的时候，显示效果有过渡的改变。</p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;text&lt;/title&gt;
-        &lt;meta charset=&quot;uft-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            *{
-                margin: 0;
-                padding: 0;
-            }
-
-            .content{
-                width: 700px;
-                height: auto;
-                background-color: #F6F6F6;
-                padding: 10px;
-                margin: 40px auto;
-            }
-            .content *:focus{
-                outline: none;
-            }
-            .content ul {
-                list-style: none;
-            }
-            .content ul li{
-                font-size: 14px;
-                margin-left: 20px;
-                border-bottom: 1px solid #DFDFDF;
-                padding: 12px;
-            }
-            .content ul li label{
-                width: 100px;
-                display: inline-block;
-                float: left;
-            }
-            .content ul li input[type=text]{
-                padding: 3px 8px;
-                height: 20px;
-                width: 220px;
-                border: 1px solid green;
-                border-radius: 4px;
-            }
-            .content ul li input:focus{
-                border: 1px solid red;
-            }
-            .content ul li input[type=text]{
-                transition: width .25s;
-                -moz-transition: width .25s; /* Firefox 4 */
-                -webkit-transition: width .25s; /* Safari 和 Chrome */
-                -o-transition: width .25s; /* Opera */
-            }
-            .content ul li input:focus{
-                width: 250px;
-            }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;content&quot;&gt;
-            &lt;form action=&quot;#&quot; method=&quot;POST&quot;&gt;
-                &lt;ul&gt;
-                    &lt;li&gt;
-                        &lt;label for=&quot;name&quot;&gt;姓名:&lt;/label&gt;
-                        &lt;input type=&quot;text&quot; name=&quot;yourname&quot; placeholder=&quot;姓名&quot; id=&quot;name&quot;&gt;
-                    &lt;/li&gt;
-                    &lt;li&gt;
-                        &lt;label for=&quot;name2&quot;&gt;姓名:&lt;/label&gt;
-                        &lt;input type=&quot;text&quot; name=&quot;yourname&quot; placeholder=&quot;姓名&quot; id=&quot;name2&quot;&gt;
-                    &lt;/li&gt;
-                &lt;/ul&gt;
-            &lt;/form&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>显示效果如下：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img33.PNG" alt=""></p>
-<h2 id="下拉列表的美化"><a href="#下拉列表的美化" class="headerlink" title="下拉列表的美化"></a>下拉列表的美化</h2><p>原来自带的下拉列表是 select ，但是由于 select 带有的浏览器自定义渲染格式，使得对下拉列表的美化比较困难，所以使用 ul + li 来构造下拉列表：</p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;select 演示&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            *{
-                padding: 0;
-                margin: 0;
-            }
-            body{
-                font: 13px/24px &quot;微软雅黑&quot;;
-                background-color: #333;
-            }
-            #box{
-                width: 500px;
-                height: 326px;
-                position: absolute;
-                left: 50%;
-                top:50%;
-                background-color: white;
-                margin: -163px 0 0 -250px;
-            }
-            .province{
-                width: 320px;
-                height: 42px;
-                background-color:#C00;
-                margin: 80px auto;
-            }
-            .province strong{
-                color: white;
-                width: 64px;
-                height: 42px;
-                line-height: 42px;
-                text-align: center;
-                display: inline-block;
-                font-weight: normal;
-                float: left;
-            }
-            .province #selectProvince{
-                width: 200px;
-                height: 28px;
-                display: block;
-                background-color: white;
-                margin-top: 7px;
-                float: left;
-                padding-left: 8px;
-                color: #CCC;
-                cursor: pointer;
-            }
-            #allprovince{
-                width: 318px;
-                height: auto;
-                border: 1px solid #DFDFDF;
-                clear: both;
-                list-style: none;
-                line-height: 30px;
-            }
-            #allprovince li{
-                height: 30px;
-                border-bottom: 1px solid #DFDFDF;
-                cursor: pointer;
-            }
-            #allprovince li b{
-                display: inline-block;
-                width: 40px;
-                font-size: bold;
-                text-align: center;
-            }
-            #allprovince li span{
-                font-weight: bold;
-            }
-            #allprovince li span:hover{
-                color: #C00;
-            }
-        &lt;/style&gt;    
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div id=&quot;box&quot;&gt;
-            &lt;div class=&quot;province&quot;&gt;
-                &lt;strong&gt;送货至：&lt;/strong&gt;
-                &lt;span id=&quot;selectProvince&quot;&gt;北京&lt;/span&gt;
-                &lt;ul id=&quot;allprovince&quot;&gt;
-                    &lt;li&gt;&lt;b&gt;A&lt;/b&gt;&lt;span&gt;安徽&lt;/span&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;b&gt;B&lt;/b&gt;&lt;span&gt;北京&lt;/span&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;b&gt;C&lt;/b&gt;&lt;span&gt;重庆&lt;/span&gt;&lt;/li&gt;
-                    &lt;li&gt;&lt;b&gt;F&lt;/b&gt;&lt;span&gt;福建&lt;/span&gt;&lt;/li&gt;
-                &lt;/ul&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>显示效果如下：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img34.PNG" alt=""></p>
+<p>我们知道，在 React 中，对 JSX 代码的处理，是使用 <code>React.React.createElement</code> 来转换的，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import ReactDOM from &apos;react-dom&apos;</div><div class="line"></div><div class="line">const App = (props)=&gt;(&lt;div&gt;Hello World&lt;/div&gt;)</div><div class="line">ReactDOM.render(&lt;APP /&gt;, document.body);</div></pre></td></tr></table></figure>
+<p>经过 Bable 转换后，得到的结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var App = function App(props) &#123;</div><div class="line">  return React.createElement(</div><div class="line">    &apos;div&apos;,</div><div class="line">    null,</div><div class="line">    &apos;Hello World&apos;</div><div class="line">  );</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>同样，在 Preact 中，对于 JSX 语法结构的处理，是使用 <code>h</code> 方法来处理的，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">import &#123; h, render, Component &#125; from &apos;preact;</div><div class="line">const Index = () =&gt; &#123;</div><div class="line">  return (</div><div class="line">    &lt;div id=&quot;test&quot;&gt;Test&lt;/div&gt;</div><div class="line">  );</div><div class="line">&#125;</div><div class="line">render(&lt;Index /&gt;, document.getElementById(&apos;container&apos;))</div></pre></td></tr></table></figure>
+<p>使用 Babel 转换的结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var Index = function Index() &#123;</div><div class="line">  return (0, _preact.h)(</div><div class="line">    &apos;div&apos;,</div><div class="line">    &#123; id: &apos;test&apos; &#125;,</div><div class="line">    &apos;Test&apos;</div><div class="line">  );</div><div class="line">&#125;;</div><div class="line">(0, _preact.render)((0, _preact.h)(Index, null), document.getElementById(&apos;container&apos;));</div></pre></td></tr></table></figure>
+<p>也就是使用 <code>h</code> 方法来处理。其中，<code>h</code> 方法的第一个参数是 <code>nodeName</code>，代表元素的类型，第二个参数是元素的属性，第三个参数是元素中包裹的内容。同样，在调用 <code>render</code> 的时候，也是对生成的 <code>Index</code> 组件，调用 <code>h</code> 方法，我们可以看一下，<code>h</code> 函数内部到底做了什么：</p>
+<p>其实 <code>h</code> 函数的代码并不多，所以可以先贴出来，然后慢慢分析流程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">const stack = [];</div><div class="line"></div><div class="line">const EMPTY_CHILDREN = [];</div><div class="line"></div><div class="line">/** JSX/hyperscript reviver</div><div class="line">*	Benchmarks: https://esbench.com/bench/57ee8f8e330ab09900a1a1a0</div><div class="line"> *	@see http://jasonformat.com/wtf-is-jsx</div><div class="line"> *	@public</div><div class="line"> */</div><div class="line">export function h(nodeName, attributes) &#123;</div><div class="line">	let children=EMPTY_CHILDREN, lastSimple, child, simple, i;</div><div class="line">	// 首先，存下来除了 node 和 attributes 以外的其他参数，由于第三个参数之后都是该节点的子元素，所以 stack 中存储的都是子元素</div><div class="line">	for (i=arguments.length; i-- &gt; 2; ) &#123;</div><div class="line">		stack.push(arguments[i]);</div><div class="line">	&#125;</div><div class="line">	if (attributes &amp;&amp; attributes.children!=null) &#123;</div><div class="line">	    // 如果 attributes 属性中也有 children，并且该节点子元素为空，则将 attributes 也添加到 stack 中</div><div class="line">		if (!stack.length) stack.push(attributes.children);</div><div class="line">		delete attributes.children;</div><div class="line">	&#125;</div><div class="line">	// 遍历所有的子节点</div><div class="line">	while (stack.length) &#123;</div><div class="line">	    // 如果 stack 中的对象是一个数组，取出数组中的所有元素，添加到 stack 中</div><div class="line">		if ((child = stack.pop()) &amp;&amp; child.pop!==undefined) &#123;</div><div class="line">			for (i=child.length; i--; ) stack.push(child[i]);</div><div class="line">		&#125;</div><div class="line">		else &#123;</div><div class="line">			if (typeof child===&apos;boolean&apos;) child = null;</div><div class="line">            </div><div class="line">            // 针对子元素的类型进行判断，如果 typeof nodeName === &apos;function&apos;，则代表子元素为一个子组件</div><div class="line">			if ((simple = typeof nodeName!==&apos;function&apos;)) &#123;</div><div class="line">				if (child==null) child = &apos;&apos;;</div><div class="line">				else if (typeof child===&apos;number&apos;) child = String(child);</div><div class="line">				else if (typeof child!==&apos;string&apos;) simple = false;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">            // 如果是字符串类型，则做一个字符串拼接</div><div class="line">			if (simple &amp;&amp; lastSimple) &#123;</div><div class="line">				children[children.length-1] += child;</div><div class="line">			&#125;</div><div class="line">			else if (children===EMPTY_CHILDREN) &#123;</div><div class="line">				children = [child];</div><div class="line">			&#125;</div><div class="line">			// 如果是复杂类型，则添加为 children 的新元素</div><div class="line">			else &#123;</div><div class="line">				children.push(child);</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			lastSimple = simple;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">    // 最后，生成一个 VNode 的对象，将之前对本组件的解析结果都存在这个对象中，VNode 本身只是一个空白对象： export function VNode() &#123;&#125;</div><div class="line">	let p = new VNode();</div><div class="line">	p.nodeName = nodeName;</div><div class="line">	p.children = children;</div><div class="line">	p.attributes = attributes==null ? undefined : attributes;</div><div class="line">	p.key = attributes==null ? undefined : attributes.key;</div><div class="line"></div><div class="line">	// if a &quot;vnode hook&quot; is defined, pass every created VNode to it</div><div class="line">	if (options.vnode!==undefined) options.vnode(p);</div><div class="line"></div><div class="line">	return p;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，有几个注意点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (simple &amp;&amp; lastSimple) &#123;</div><div class="line"> children[children.length - 1] += child;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>做一个字符串拼接，是因为某些编译器会将下面代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let foo = &lt;div id=&quot;foo&quot;&gt;Hello World!&lt;/div&gt;;</div></pre></td></tr></table></figure>
+<p>转化为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var foo = h(</div><div class="line">&quot;div&quot;,</div><div class="line">&#123; id: &quot;foo&quot; &#125;,</div><div class="line">&quot;Hello&quot;,</div><div class="line">&quot;World!&quot;</div><div class="line">);</div></pre></td></tr></table></figure>
+<p>最后将处理子节点的传入数组children中，现在传入children中的节点有三种类型: 纯字符串、代表dom节点的字符串以及代表组件的函数(或者是类)</p>
+<p>还有：</p>
+<p>我们可以看最后一个转化的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">/* jsx</div><div class="line">class App extends Component&#123;</div><div class="line">//....</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Child extends Component&#123;</div><div class="line">//....</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line">let Element = &lt;App&gt;&lt;Child&gt;Hello World!&lt;/Child&gt;&lt;/App&gt;</div><div class="line"></div><div class="line">//js</div><div class="line">var Element = h(</div><div class="line">  App,</div><div class="line">  null,</div><div class="line">  h(</div><div class="line">    Child,</div><div class="line">    null,</div><div class="line">    &quot;Hello World!&quot;</div><div class="line">  )</div><div class="line">);</div><div class="line"></div><div class="line">//转化为的元素节点</div><div class="line">&#123;</div><div class="line">    nodeName: ƒ App(argument), </div><div class="line">    children: [</div><div class="line">        &#123;</div><div class="line">            nodeName: ƒ Child(argument),</div><div class="line">            children: [&quot;Hello World!&quot;],</div><div class="line">            attributes: undefined,</div><div class="line">            key: undefined</div><div class="line">        &#125;</div><div class="line">    ], </div><div class="line">    attributes: undefined,</div><div class="line">    key: undefined</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后，使用 <code>render</code> 方法将生成的 VNode 对象添加到 DOM 树中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">render(&lt;Index /&gt;, document.getElementById(&apos;container&apos;))</div></pre></td></tr></table></figure>
+<p>其中 <code>render</code> 的源代码为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export function render(vnode, parent, merge) &#123;</div><div class="line">	return diff(merge, vnode, &#123;&#125;, false, parent, false);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其实也是用的 <code>diff</code> 算法，至于 <code>diff</code> 算法的解析，可以参考我以前的文章 <a href="http://zyuchen.com/post/preact-setState" target="_blank" rel="external">Preact 源码解析之 setState 相关流程</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://juejin.im/post/59b69b6e5188257e6b6d7bfc" target="_blank" rel="external">从Preact了解一个类React的框架是怎么实现的(一): 元素创建</a></li>
+</ul>
 
       
     </div>
@@ -780,9 +457,7 @@
           
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
-          
-            <a href="/tags/HTML/" rel="tag"># HTML</a>
+            <a href="/tags/Preact/" rel="tag"># Preact</a>
           
         </div>
       
@@ -791,8 +466,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/31/网页组件制作之回到顶部/" rel="next" title="网页组件制作之回到顶部">
-                <i class="fa fa-chevron-left"></i> 网页组件制作之回到顶部
+              <a href="/2017/09/23/Preact-源码解析其一/" rel="next" title="Preact 源码解析之 setState 相关流程">
+                <i class="fa fa-chevron-left"></i> Preact 源码解析之 setState 相关流程
               </a>
             
           </div>
@@ -800,10 +475,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/07/网页组件制作之手风琴效果/" rel="prev" title="网页组件制作之手风琴效果">
-                网页组件制作之手风琴效果 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -829,8 +500,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/11/02/网页组件制作之表单美化/"
-           data-title="网页组件制作之表单美化" data-url="https://shiningdan.github.io/2016/11/02/网页组件制作之表单美化/">
+      <div class="ds-thread" data-thread-key="2017/09/28/Preact-源码解析之元素创建流程/"
+           data-title="Preact 源码解析之元素创建流程" data-url="https://shiningdan.github.io/2017/09/28/Preact-源码解析之元素创建流程/">
       </div>
     
   </div>
@@ -930,7 +601,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单选按钮美化"><span class="nav-number">1.</span> <span class="nav-text">单选按钮美化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复选按钮的美化"><span class="nav-number">2.</span> <span class="nav-text">复选按钮的美化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文本框的美化"><span class="nav-number">3.</span> <span class="nav-text">文本框的美化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下拉列表的美化"><span class="nav-number">4.</span> <span class="nav-text">下拉列表的美化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
