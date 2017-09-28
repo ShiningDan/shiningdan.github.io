@@ -11,7 +11,7 @@ Preact 作为实现大部分 React 的接口，并且专注于轻量的框架，
 
 <!--more-->
 
-注：笔者作为一个应届生，水平有限，在有的地方无法理解开发者代码的精髓，大家可以来 [developit/preact | GitHub](https://github.com/developit/preact/) 获得最新源代码。
+注：笔者水平有限，在有的地方无法理解开发者代码的精髓，大家可以来 [developit/preact | GitHub](https://github.com/developit/preact/) 获得最新源代码。
 
 其中，关于 `package.json` 中的组成，可以查看 [Preact 源码剖析（一）解读 package.json](https://lewis617.github.io/2017/03/29/preact-package-json/) 这篇文章，讲的很好。
 
@@ -620,17 +620,271 @@ if (!dom || !isNamedNode(dom, vnodeName)) {
 
 然后针对以上种情况，对 `vnode.children` 调用 `innerDiffNode`，将 `vnode.chilren` 中的元素添加到新创建的 DOM 元素中。然后调用 `diffAttributes` 将 `vnode` 的属性添加到新创建的 DOM 元素中。
 
+```
+vchildren = vnode.children;
+// otherwise, if there are existing or new children, diff them:
+else if (vchildren && vchildren.length || fc!=null) {
+	innerDiffNode(out, vchildren, context, mountAll, hydrating || props.dangerouslySetInnerHTML!=null);
+}
+```
+
+我们来看一看 `innerDiffNode` 做了什么事情，`innerDiffNode` 这个方法中的内容很多，我们分成及部分来讲解其中的过程：
+
+```
+/** Apply child and attribute changes between a VNode and a DOM Node to the DOM.
+ *	@param {Element} dom			Element whose children should be compared & mutated
+ *	@param {Array} vchildren		Array of VNodes to compare to `dom.childNodes`
+ *	@param {Object} context			Implicitly descendant context object (from most recent `getChildContext()`)
+ *	@param {Boolean} mountAll
+ *	@param {Boolean} isHydrating	If `true`, consumes externally created elements similar to hydration
+ */
+function innerDiffNode(dom, vchildren, context, mountAll, isHydrating) {
+    ...
+}
+```
+
+首先，遍历 DOM 中的子节点，将所有的子节点分成有 `key` 的子节点和没有 `key` 的子节点：
+
+```
+// Build up a map of keyed children and an Array of unkeyed children:
+if (len!==0) {
+	for (let i=0; i<len; i++) {
+		let child = originalChildren[i],
+			props = child[ATTR_KEY],
+			key = vlen && props ? child._component ? child._component.__key : props.key : null;
+		if (key!=null) {
+			keyedLen++;
+			keyed[key] = child;
+		}
+		else if (props || (child.splitText!==undefined ? (isHydrating ? child.nodeValue.trim() : true) : isHydrating)) {
+			children[childrenLen++] = child;
+		}
+	}
+}
+```
+
+在 `innerDiffNode` 算法中，它的思想是以最少的dom操作使得更改后的dom与虚拟dom相匹配，所以它会尝试重用 DOM 中已有的子节点，来减少 DOM 的操作次数：
+
+```
+for (let i=0; i<vlen; i++) {
+	vchild = vchildren[i];
+	child = null;
+
+	// 如果 vnode 中的子节点有 key 值，则在 DOM 中遍历寻找 key 值相同的节点，重用该节点
+	let key = vchild.key;
+	if (key!=null) {
+		if (keyedLen && keyed[key]!==undefined) {
+			child = keyed[key];
+			keyed[key] = undefined;
+			keyedLen--;
+		}
+	}
+	// 如果 vnode 中的子节点没有 key 值，则遍历 DOM 中所有没有 key 值的子节点队列，找到类型相同的子节点，重用该节点
+	else if (!child && min<childrenLen) {
+		for (j=min; j<childrenLen; j++) {
+			if (children[j]!==undefined && isSameNodeType(c = children[j], vchild, isHydrating)) {
+				child = c;
+				children[j] = undefined;
+				if (j===childrenLen-1) childrenLen--;
+				if (j===min) min++;
+				break;
+			}
+		}
+	}
+
+	// 如果找到了合适的节点，则变形匹配/寻找到/创建的DOM子元素来匹配vchild(深度匹配)
+	child = idiff(child, vchild, context, mountAll);
+
+    // 最后，将新创建的节点 child 放入 DOM 中合适的地方。
+	f = originalChildren[i];
+	if (child && child!==dom && child!==f) {
+		if (f==null) {
+			dom.appendChild(child);
+		}
+		else if (child===f.nextSibling) {
+			removeNode(f);
+		}
+		else {
+			dom.insertBefore(child, f);
+		}
+	}
+}
+```
+
+最后，将 DOM 节点中没有使用到的 `key` 和 `unkeyed` 节点都回收。
+
+```
+// remove unused keyed children:
+if (keyedLen) {
+	for (let i in keyed) if (keyed[i]!==undefined) recollectNodeTree(keyed[i], false);
+}
+
+// remove orphaned unkeyed children:
+while (min<=childrenLen) {
+	if ((child = children[childrenLen--])!==undefined) recollectNodeTree(child, false);
+}
+```
+
+在创建完节点了以后，我们再来给创建的完整 DOM 元素中赋值 `vnode` 的属性，使用的方法是 `diffAttributes`：
+
+```
+// Apply attributes/props from VNode to the DOM Element:
+diffAttributes(out, vnode.attributes, props);
+```
+
+其中，`diffAttributes` 的工作为：
+
+```
+function diffAttributes(dom, attrs, old) {
+	let name;
+
+	// 如果是 vnode 中不存在的属性，则将其设置为 undefined 来移除该属性
+	for (name in old) {
+		if (!(attrs && attrs[name]!=null) && old[name]!=null) {
+			setAccessor(dom, name, old[name], old[name] = undefined, isSvgMode);
+		}
+	}
+
+	// 如果是 vnode 中存在的属性，则更新属性值
+	for (name in attrs) {
+		if (name!=='children' && name!=='innerHTML' && (!(name in old) || attrs[name]!==(name==='value' || name==='checked' ? dom[name] : old[name]))) {
+			setAccessor(dom, name, old[name], old[name] = attrs[name], isSvgMode);
+		}
+	}
+}
+```
+
+我们可以看到，属性值的设置都是通过 `setAccessor` 函数来实现的，下面，我们来看看 `setAccessor` 做了什么，虽然函数代码有点长，但是逻辑并不复杂：
+
+```
+/** Set a named attribute on the given Node, with special behavior for some names and event handlers.
+ *	If `value` is `null`, the attribute/handler will be removed.
+ *	@param {Element} node	An element to mutate
+ *	@param {string} name	The name/key to set, such as an event or attribute name
+ *	@param {any} old	The last value that was set for this name/node pair
+ *	@param {any} value	An attribute value, such as a function to be used as an event handler
+ *	@param {Boolean} isSvg	Are we currently diffing inside an svg?
+ *	@private
+ */
+export function setAccessor(node, name, old, value, isSvg) {
+	if (name==='className') name = 'class';
 
 
+	if (name==='key') {
+		 // key属性忽略
+	}
+	else if (name==='ref') {
+	    // 如果是ref 函数被改变了，以null去执行之前的ref函数，并以node节点去执行新的ref函数
+		if (old) old(null);
+		if (value) value(node);
+	}
+	else if (name==='class' && !isSvg) {
+	    // 直接赋值
+		node.className = value || '';
+	}
+	else if (name==='style') {
+		if (!value || typeof value==='string' || typeof old==='string') {
+			node.style.cssText = value || '';
+		}
+		if (value && typeof value==='object') {
+			if (typeof old!=='string') {
+			    // 从dom的style中剔除已经被删除的属性
+				for (let i in old) if (!(i in value)) node.style[i] = '';
+			}
+			for (let i in value) {
+				node.style[i] = typeof value[i]==='number' && IS_NON_DIMENSIONAL.test(i)===false ? (value[i]+'px') : value[i];
+			}
+		}
+	}
+	else if (name==='dangerouslySetInnerHTML') {
+	    //dangerouslySetInnerHTML属性设置
+		if (value) node.innerHTML = value.__html || '';
+	}
+	else if (name[0]=='o' && name[1]=='n') {
+		let useCapture = name !== (name=name.replace(/Capture$/, ''));
+		name = name.toLowerCase().substring(2);
+		if (value) {
+		    // 事件处理函数 属性赋值
+            // 如果事件的名称是以Capture为结尾的，则去掉，并在捕获阶段节点监听事件
+			if (!old) node.addEventListener(name, eventProxy, useCapture);
+		}
+		else {
+			node.removeEventListener(name, eventProxy, useCapture);
+		}
+		// 处理的方法是将所有的事件处理函数都放在一个对象中，然后通过 eventProxy 这个函数来查找这个对象所包含的所有处理事件，找到合适的事件来处理。
+		(node._listeners || (node._listeners = {}))[name] = value;
+	}
+	else if (name!=='list' && name!=='type' && !isSvg && name in node) {
+		setProperty(node, name, value==null ? '' : value);
+		if (value==null || value===false) node.removeAttribute(name);
+	}
+	else {
+		let ns = isSvg && (name !== (name = name.replace(/^xlink\:?/, '')));
+		if (value==null || value===false) {
+			if (ns) node.removeAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase());
+			else node.removeAttribute(name);
+		}
+		else if (typeof value!=='function') {
+			if (ns) node.setAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase(), value);
+			else node.setAttribute(name, value);
+		}
+	}
+}
+```
+
+至此，所有关于 `diff` 算法的部分我们都分析完了。
 
 关于 `diff` 算法，我自己也感觉了解的不是很透彻，如果有疑问的同学，可以参考这一篇文章 [从Preact了解一个类React的框架是怎么实现的(二): 元素diff](https://juejin.im/post/59c76e515188254f584132af)
 
+**虽然 `diff` 算法很长，但是我们的分析还差最后一点才结束，现在让我们回到 `renderComponent` 中。**
 
+前面，我们讨论了，在 `renderComponent` 中，如果 `render` 返回的是一个组件：`typeof childComponent==='function'`，则创建该组件，并且对该组件的子组件调用 `renderComponent`；如果返回的不是组件，则调用 `diff` 算法，得到新的 DOM 元素 `base`。
+
+无论是以上那种情况，得到的新的 DOM 元素 `base` 了以后，下面要做的就是将 `base` 添加到 DOM Tree 中，然后将不需要的组件 `unmount`：
+
+```
+if (initialBase && base!==initialBase && inst!==initialChildComponent) {
+	let baseParent = initialBase.parentNode;
+	if (baseParent && base!==baseParent) {
+		baseParent.replaceChild(base, initialBase);
+
+		if (!toUnmount) {
+			initialBase._component = null;
+			recollectNodeTree(initialBase, false);
+		}
+	}
+}
+
+if (toUnmount) {
+	unmountComponent(toUnmount);
+}
+```
+
+最后，在组件发生变化后，调用组件的 `componentDidUpdate` 方法，并且如果在 `setState` 中添加的回调函数，则回调函数会被放在 `_renderCallbacks`，结尾会触发所有的回调函数：
+
+```
+else if (!skip) {
+    // 触发 componentDidUpdate
+	if (component.componentDidUpdate) {
+		component.componentDidUpdate(previousProps, previousState, previousContext);
+	}
+	if (options.afterUpdate) options.afterUpdate(component);
+}
+// 触发所有 setState 中添加的回调函数
+if (component._renderCallbacks!=null) {
+	while (component._renderCallbacks.length) component._renderCallbacks.pop().call(component);
+}
+```
+
+至此，在调用 `setState` 后，Preact 所有的处理都到此为止了。
+
+本人能力所限，不能达到面面俱到，但希望这篇文章能起到抛砖引玉的作用，如果不正确指出，欢迎指出和讨论~
 
 ## 参考
 
 * [Preact 源码剖析（一）解读 package.json](https://lewis617.github.io/2017/03/29/preact-package-json/)
 * [[译] 在 setState 中使用函数替代对象](https://juejin.im/entry/5873b04f61ff4b006d4d45f7)
+* [从Preact了解一个类React的框架是怎么实现的(二): 元素diff](https://juejin.im/post/59c76e515188254f584132af)
 
 
 
