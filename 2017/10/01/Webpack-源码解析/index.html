@@ -1,0 +1,1021 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,Webpack," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="随着前端渲染这种开发模式变得越来越广泛，对于前端代码的自动打包以及资源的整合的需求变得日益强烈，Webpack 作为自动打包工具的必要之选，除了提供必备的打包功能，还提供了多种官方组件以及开发者自己定义组件的能力，已经成了前端工程化中不可缺少的一部分。在本文中，笔者会对 Webpack 源代码进行分析，让我们了解 Webpack 的执行流程，也对一些常用的插件代码进行解析，在大家阅读完本文 后，可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webpack 源码解析">
+<meta property="og:url" content="https://shiningdan.github.io/2017/10/01/Webpack-源码解析/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="随着前端渲染这种开发模式变得越来越广泛，对于前端代码的自动打包以及资源的整合的需求变得日益强烈，Webpack 作为自动打包工具的必要之选，除了提供必备的打包功能，还提供了多种官方组件以及开发者自己定义组件的能力，已经成了前端工程化中不可缺少的一部分。在本文中，笔者会对 Webpack 源代码进行分析，让我们了解 Webpack 的执行流程，也对一些常用的插件代码进行解析，在大家阅读完本文 后，可">
+<meta property="og:updated_time" content="2017-10-13T14:09:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Webpack 源码解析">
+<meta name="twitter:description" content="随着前端渲染这种开发模式变得越来越广泛，对于前端代码的自动打包以及资源的整合的需求变得日益强烈，Webpack 作为自动打包工具的必要之选，除了提供必备的打包功能，还提供了多种官方组件以及开发者自己定义组件的能力，已经成了前端工程化中不可缺少的一部分。在本文中，笔者会对 Webpack 源代码进行分析，让我们了解 Webpack 的执行流程，也对一些常用的插件代码进行解析，在大家阅读完本文 后，可">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2017/10/01/Webpack-源码解析/"/>
+
+
+
+
+
+  <title> Webpack 源码解析 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2017/10/01/Webpack-源码解析/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Webpack 源码解析
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-01T12:06:16+08:00">
+                2017-10-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/01/Webpack-源码解析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/01/Webpack-源码解析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/10/01/Webpack-源码解析/" class="leancloud_visitors" data-flag-title="Webpack 源码解析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>随着前端渲染这种开发模式变得越来越广泛，对于前端代码的自动打包以及资源的整合的需求变得日益强烈，Webpack 作为自动打包工具的必要之选，除了提供必备的打包功能，还提供了多种官方组件以及开发者自己定义组件的能力，已经成了前端工程化中不可缺少的一部分。在本文中，笔者会对 Webpack 源代码进行分析，让我们了解 Webpack 的执行流程，也对一些常用的插件代码进行解析，在大家阅读完本文 后，可以模仿这些代码，编写自己的插件。</p>
+<a id="more"></a>
+<p>在我们使用 Webpack 的时候，一般有两种使用方式，第一种是定义好 <code>webpack.config.js</code> 然后在命令行调用 <code>webpack</code> 来进行打包；第二种方式是使用自动化构建工具，如 <code>Gulp</code>、<code>Grunt</code> 等，通过代码编写构建流程。在使用第二种方法的时候，需要使用 <code>const webpack = require(&#39;webpack&#39;);</code> 来引入 <code>Weboack</code> 模块，再引入本地 <code>webpack.config.js</code> 文件 <code>const config = require(&#39;./webpack.config&#39;);</code>，最后在初始化的时候，将 <code>config</code> 作为 <code>webpack</code> 的初始化参数传入：<code>const compiler = webpack(webpackConfig);</code></p>
+<p>无论是第一种方式还是第二种方式，最后在生成 <code>webpack</code> 对象的时候都是统一的入口。在本次源码解析的时候，我们选择分析通过命令行的形式调用 <code>Webpack</code> 的方法，同时也学习一下 <code>Webpack</code> 对命令行解析的处理逻辑。</p>
+<p><strong>本文的 Webpack 版本为 2.2.1</strong></p>
+<h2 id="Webpack-命令行解析"><a href="#Webpack-命令行解析" class="headerlink" title="Webpack 命令行解析"></a>Webpack 命令行解析</h2><p>在看其他的代码的时候，比较好的流程是先看 <code>package.json</code>，可以了解本项目的入口文件，依赖的模块等，我们可以看看本项目的 <code>package.json</code>，寻找相关的线索：</p>
+<p>在 <code>package.json</code> 中，我们可以找到 <code>bin</code> 中对应的代码位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&quot;bin&quot;: &#123;</div><div class="line">    &quot;webpack&quot;: &quot;./bin/webpack.js&quot;</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>表示的是，在命令行中使用 <code>webpack</code> 配合一些参数来执行打包任务的时候，就会自动调用该文件中的代码，我们可以看一看这部分代码的内容。</p>
+<p>这部分代码很长，我们分拆开来看看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var path = require(&quot;path&quot;);</div><div class="line"></div><div class="line">// Local version replace global one</div><div class="line">try &#123;</div><div class="line">	var localWebpack = require.resolve(path.join(process.cwd(), &quot;node_modules&quot;, &quot;webpack&quot;, &quot;bin&quot;, &quot;webpack.js&quot;));</div><div class="line">	if(__filename !== localWebpack) &#123;</div><div class="line">		return require(localWebpack);</div><div class="line">	&#125;</div><div class="line">&#125; catch(e) &#123;&#125;</div></pre></td></tr></table></figure>
+<p>首先，查找本地版本的 Webpack，然后使用本地版本来代替全局版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var yargs = require(&quot;yargs&quot;)</div><div class="line">	.usage(&quot;webpack &quot; + require(&quot;../package.json&quot;).version + &quot;\n&quot; +</div><div class="line">		&quot;Usage: https://webpack.js.org/api/cli/\n&quot; +</div><div class="line">		&quot;Usage without config file: webpack &lt;entry&gt; [&lt;entry&gt;] &lt;output&gt;\n&quot; +</div><div class="line">		&quot;Usage with config file: webpack&quot;);</div><div class="line">		</div><div class="line">// 设置 webpack 可以接收的参数，以及 --help 查询时返回的内容</div><div class="line">require(&quot;./config-yargs&quot;)(yargs);</div><div class="line"></div><div class="line">// 还有一些 webpack 可以接受的参数定义在了下面</div><div class="line">yargs.options(&#123;</div><div class="line">	&quot;json&quot;: &#123;</div><div class="line">		type: &quot;boolean&quot;,</div><div class="line">		alias: &quot;j&quot;,</div><div class="line">		describe: &quot;Prints the result as JSON.&quot;</div><div class="line">	&#125;,</div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如何实现 Webpack 和命令行进行交互呢？在 Webpack 中使用的是 <code>yargs</code> 这个模块来解决如何处理命令行参数。</p>
+<p>其中，在 <code>./config-yargs</code> 中，会设置 <code>webpack --help</code> 后在命令行中返回的提示信息，其中包括了所有的 Webpack 可以接受的参数。</p>
+<p>在设置完 <code>webpack</code> 可以接受的参数以后，然后调用 <code>yargs.parse</code> 来处理用户在命令行的输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">yargs.parse(process.argv.slice(2), (err, argv, output) =&gt; &#123;</div><div class="line">    ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>其中，我们来看一看 <code>yargs.parse</code> 接受的参数。当我们输入 <code>webpack --help</code> 的时候，我们在 <code>process.argv.slice(2)</code> 就可以获得 <code>--help</code> 这个参数，至于 <code>process.argv</code> 中有什么，我们可以打印一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[ &apos;/Users/yuchen/.nvm/versions/node/v7.10.0/bin/node&apos;,</div><div class="line">  &apos;/usr/local/bin/webpack&apos;,</div><div class="line">  &apos;--help&apos; ]</div></pre></td></tr></table></figure>
+<p>我们可以看到，在 <code>argv</code> 中的参数，第一个是 node 的应用程序位置，第二个是 <code>webpack.js</code> 的位置，从第三个位置起，就是我们在输入 <code>webpack</code> 的时候附带的参数。</p>
+<p>在 <code>yargs.parse</code> 中，接收的第二个参数是一个回调函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(err, argv, output) =&gt; &#123;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同样，打印出回调函数的各个参数，我们可以得到：</p>
+<p><code>err</code>：表示执行该交互命令解析时报的错，如传入的参数不存在等</p>
+<p><code>argv</code>：是一个对象，对象中的键值对表示用户输入的参数。如，当用户输入：<code>webpack --help</code> 的时候，<code>argv</code> 中的内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123; _: [],</div><div class="line">  help: true,</div><div class="line">  h: true,</div><div class="line">  version: false,</div><div class="line">  v: false,</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对应 <code>help</code> 和 <code>h</code> 都为 <code>true</code>。同理，如果 <code>webpack</code> 命令附带了其他的参数，都可以在 <code>argv</code> 中查到。</p>
+<p><code>output</code> 作为最后的参数，表示命令行最终显示给用户的结果。</p>
+<p>在知道了输入的参数分别代表了什么以后，我们来看一看 <code>yargs.parse</code> 对参数的处理流程：</p>
+<p>首先，对 <code>argv</code> 中的参数进行处理，在原来 <code>argv</code> 中的参数，是命令行形式的参数，现在将用户的输入，以及 <code>webpack.config.js</code> 中的配置合成在一起，作为用户最终需要的参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var options = require(&quot;./convert-argv&quot;)(yargs, argv);</div></pre></td></tr></table></figure>
+<p>我找了一个之前的项目，输入 <code>webpack --watch</code>，打印了一下 <code>options</code> 中的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123; entry:</div><div class="line">   [ &apos;babel-polyfill&apos;,</div><div class="line">     &apos;/Users/yuchenzhang/Documents/web/react-animation-resume/app/app.js&apos; ],</div><div class="line">  output:</div><div class="line">   &#123; path: &apos;/Users/yuchenzhang/Documents/web/react-animation-resume/build&apos;,</div><div class="line">     filename: &apos;bundle.js&apos; &#125;,</div><div class="line">  module: &#123; loaders: [ [Object], [Object] ] &#125;,</div><div class="line">  bail: false,</div><div class="line">  profile: false,</div><div class="line">  context: &apos;/Users/yuchenzhang/Documents/web/react-animation-resume&apos;,</div><div class="line">  watch: true &#125;</div></pre></td></tr></table></figure>
+<p>我们可以看到，这里的参数，混合了 <code>webpack.config.js</code> 中的内容，也包含了 <code>watch: true</code> 的内容，表示最终的配置。</p>
+<p>获得了 <code>options</code> 之后，接下来运行 <code>processOptions (options)</code> 对 <code>opetions</code> 进行处理，我们可以看一下 <code>processOptions</code> 中的内容，对 <code>processOptions</code> 整体流程的解析，参考了这篇文章 <a href="https://zhuanlan.zhihu.com/p/24717349" target="_blank" rel="external">[webpack]源码解读：命令行输入webpack的时候都发生了什么？</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">function processOptions (options) &#123;</div><div class="line"> // 支持 Promise 风格的异步回调</div><div class="line">  if ((typeof options.then) === &quot;function&quot;) &#123;...&#125;</div><div class="line"></div><div class="line"> // 处理传入一个 webpack 编译对象是数组时的情况</div><div class="line">  var firstOptions = (Array.isArray (options)) ? options[0]: options;</div><div class="line"></div><div class="line"> // 设置输出 options</div><div class="line">  var outputOptions = options.stats;</div><div class="line">  if(typeof outputOptions === &quot;boolean&quot; || typeof   outputOptions === &quot;string&quot;) &#123;</div><div class="line">  	outputOptions = statsPresetToOptions(outputOptions);</div><div class="line">  &#125; else if(!outputOptions) &#123;</div><div class="line">  	outputOptions = &#123;&#125;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  // 处理各种显示相关的参数，从略</div><div class="line">  ifArg (&quot;json&quot;, </div><div class="line">    function (bool)&#123;...&#125;</div><div class="line">  );</div><div class="line">  ...</div><div class="line"></div><div class="line">  // 引入主入口模块 lib/webpack.js</div><div class="line">  var webpack = require (&quot;../lib/webpack.js&quot;) ;</div><div class="line"></div><div class="line">  // 设置错误堆栈追踪上限</div><div class="line">  Error.stackTraceLimit = 30 ;</div><div class="line">  var lastHash = null ;</div><div class="line"></div><div class="line"> // 执行编译</div><div class="line">  var compiler = webpack (options) ;</div><div class="line"></div><div class="line"> // 创建编译结束后的回调函数</div><div class="line"> function compilerCallback (err, stats) &#123;...&#125;</div><div class="line"></div><div class="line"> // 是否在编译完成后继续 watch 文件变更，如果是需要 watch，则调用 compiler.watch 来执行编译</div><div class="line">  if (firstOptions.watch || options.watch) &#123;</div><div class="line">    compiler.watch(watchOptions, compilerCallback);</div><div class="line">  &#125;</div><div class="line">  else </div><div class="line"> // 执行编译后的回调函数</div><div class="line">  compiler.run (compilerCallback) ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们可以看到，主要的流程是使用 <code>webpack</code>，通过传入 <code>opetions</code> 来得到 <code>compiler</code>。如果设置了 <code>watch</code>，就调用 <code>compiler.watch</code>，如果没有设置 <code>watch</code>，则调用 <code>compiler.run</code>。</p>
+<p>下面，我们可以查看 <code>&quot;../lib/webpack.js</code> 中 <code>webpack</code> 的定义，以及其中的流程处理。</p>
+<h2 id="lib-webpack-js-处理流程"><a href="#lib-webpack-js-处理流程" class="headerlink" title="lib/webpack.js 处理流程"></a>lib/webpack.js 处理流程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">// lib/webpack.js</div><div class="line"></div><div class="line">// 引入 Compiler 模块</div><div class="line">var Compiler = require (&quot;./Compiler&quot;) ;</div><div class="line"></div><div class="line">// 引入 MultiCompiler 模块，处理多个 webpack 配置文件的情况</div><div class="line">var MultiCompiler = require (&quot;./MultiCompiler&quot;) ;</div><div class="line"></div><div class="line">// 引入 node 环境插件</div><div class="line">var NodeEnvironmentPlugin = require (&quot;./node/NodeEnvironmentPlugin&quot;) ;</div><div class="line"></div><div class="line">// 引入 WebpackOptionsApply 模块，应用 webpack 配置文件</div><div class="line">var WebpackOptionsApply = require (&quot;./WebpackOptionsApply&quot;) ;</div><div class="line"></div><div class="line">// 引入 WebpackOptionsDefaulter 模块，应用 webpack 默认配置</div><div class="line">var WebpackOptionsDefaulter = require (&quot;./WebpackOptionsDefaulter&quot;) ;</div><div class="line"></div><div class="line">// 通过 ValidateSchema 来对传入的 options 进行检测，判断 options 中的参数是否符合规范</div><div class="line">const validateSchema = require(&quot;./validateSchema&quot;);</div><div class="line"></div><div class="line">const WebpackOptionsValidationError = require(&quot;./WebpackOptionsValidationError&quot;);</div><div class="line"></div><div class="line">const webpackOptionsSchema = require(&quot;../schemas/webpackOptionsSchema.json&quot;);</div><div class="line"></div><div class="line">// 核心函数，也是 ./bin/webpack.js 中引用的核心方法</div><div class="line">function webpack (options, callback) &#123;...&#125;</div><div class="line">exports = module.exports = webpack ;</div><div class="line"></div><div class="line">// 在 webpack 对象上设置一些常用属性</div><div class="line">webpack.WebpackOptionsDefaulter = WebpackOptionsDefaulter ;</div><div class="line">webpack.WebpackOptionsApply = WebpackOptionsApply ;</div><div class="line">webpack.Compiler = Compiler ;</div><div class="line">webpack.MultiCompiler = MultiCompiler ;</div><div class="line">webpack.NodeEnvironmentPlugin = NodeEnvironmentPlugin ;</div><div class="line">webpack.validate = validateSchema.bind(this, webpackOptionsSchema);</div><div class="line">webpack.validateSchema = validateSchema;</div><div class="line">webpack.WebpackOptionsValidationError = WebpackOptionsValidationError;</div><div class="line"></div><div class="line">// 暴露一些插件</div><div class="line">function exportPlugins(obj, mappings) &#123;...&#125;</div><div class="line">exportPlugins (exports, &#123;...&#125;) ;</div><div class="line">exportPlugins (exports.optimize = &#123;&#125;, &#123;...&#125;)</div></pre></td></tr></table></figure>
+<p>在 <code>lib/webpack.js</code> 中，做了以下事情：</p>
+<ol>
+<li>定义了对外提供的 <code>webpack</code> 函数</li>
+<li>在 <code>webpack</code> 对象上设置了一些常用属性和插件，这些插件也是我们在对打包过程进行个性化处理的时候经常使用的插件</li>
+</ol>
+<p>首先，我们来分析一下对外提供的 <code>webpack</code> 函数中的内容。</p>
+<h3 id="webpack-函数分析"><a href="#webpack-函数分析" class="headerlink" title="webpack 函数分析"></a>webpack 函数分析</h3><p>我们来看一下 <code>webpack</code> 函数中的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">function webpack(options, callback) &#123;</div><div class="line"></div><div class="line">    // 对传入的 options 中的内容进行分析，判断传入的 options 内容是否符合规范</div><div class="line">	const webpackOptionsValidationErrors = validateSchema(webpackOptionsSchema, options);</div><div class="line">	if(webpackOptionsValidationErrors.length) &#123;</div><div class="line">		throw new WebpackOptionsValidationError(webpackOptionsValidationErrors);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	let compiler;</div><div class="line">	// 如果传入了数组类型的 webpack 编译对象，则实例化一个 MultiCompiler 来处理</div><div class="line">	if(Array.isArray(options)) &#123;</div><div class="line">		compiler = new MultiCompiler(options.map(options =&gt; webpack(options)));  // 递归调用 webpack 函数</div><div class="line">	&#125; else if(typeof options === &quot;object&quot;) &#123;</div><div class="line">	    // 如果传入了一个对象类型的 webpack 编译对象</div><div class="line">  </div><div class="line">        // 实例化一个 WebpackOptionsDefaulter 来处理默认配置项</div><div class="line">		new WebpackOptionsDefaulter().process(options);</div><div class="line"></div><div class="line">		compiler = new Compiler();</div><div class="line">		compiler.context = options.context;</div><div class="line">		compiler.options = options;</div><div class="line">		new NodeEnvironmentPlugin().apply(compiler);</div><div class="line">		if(options.plugins &amp;&amp; Array.isArray(options.plugins)) &#123;</div><div class="line">			compiler.apply.apply(compiler, options.plugins);</div><div class="line">		&#125;</div><div class="line">		compiler.applyPlugins(&quot;environment&quot;);</div><div class="line">		compiler.applyPlugins(&quot;after-environment&quot;);</div><div class="line">		compiler.options = new WebpackOptionsApply().process(options, compiler);</div><div class="line">	&#125; else &#123;</div><div class="line">		throw new Error(&quot;Invalid argument: options&quot;);</div><div class="line">	&#125;</div><div class="line">	if(callback) &#123;</div><div class="line">		if(typeof callback !== &quot;function&quot;) throw new Error(&quot;Invalid argument: callback&quot;);</div><div class="line">		if(options.watch === true || (Array.isArray(options) &amp;&amp; options.some(o =&gt; o.watch))) &#123;</div><div class="line">			const watchOptions = Array.isArray(options) ? options.map(o =&gt; o.watchOptions || &#123;&#125;) : (options.watchOptions || &#123;&#125;);</div><div class="line">			return compiler.watch(watchOptions, callback);</div><div class="line">		&#125;</div><div class="line">		compiler.run(callback);</div><div class="line">	&#125;</div><div class="line">	return compiler;</div><div class="line">&#125;</div><div class="line">exports = module.exports = webpack;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/24717349" target="_blank" rel="external">[webpack]源码解读：命令行输入webpack的时候都发生了什么？</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/Webpack/" rel="tag"># Webpack</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/28/Preact-源码解析之元素创建流程/" rel="next" title="Preact 源码解析之元素创建流程">
+                <i class="fa fa-chevron-left"></i> Preact 源码解析之元素创建流程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/10/01/Webpack-源码解析/"
+           data-title="Webpack 源码解析" data-url="https://shiningdan.github.io/2017/10/01/Webpack-源码解析/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">93</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Webpack-命令行解析"><span class="nav-number">1.</span> <span class="nav-text">Webpack 命令行解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lib-webpack-js-处理流程"><span class="nav-number">2.</span> <span class="nav-text">lib/webpack.js 处理流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#webpack-函数分析"><span class="nav-number">2.1.</span> <span class="nav-text">webpack 函数分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
