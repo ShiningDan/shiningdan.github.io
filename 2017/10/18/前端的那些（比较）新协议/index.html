@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://shiningdan.github.io/2017/10/18/前端的那些（比较）新协议/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="由于现在前端业务的飞速发展，与之相关的前端协议也在不断出现，为前端的进步提供更多的可能性。在本文中，总结了一下常用的比较新的前端协议，其实有的协议其实也有些年头了，但是大家可能接触的也不是很多，通过本文，希望给大家带来一些大体上的认知。">
-<meta property="og:updated_time" content="2017-10-19T14:14:31.000Z">
+<meta property="og:updated_time" content="2017-10-21T14:37:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端的那些（比较）新协议">
 <meta name="twitter:description" content="由于现在前端业务的飞速发展，与之相关的前端协议也在不断出现，为前端的进步提供更多的可能性。在本文中，总结了一下常用的比较新的前端协议，其实有的协议其实也有些年头了，但是大家可能接触的也不是很多，通过本文，希望给大家带来一些大体上的认知。">
@@ -381,6 +381,14 @@
       
         <p>由于现在前端业务的飞速发展，与之相关的前端协议也在不断出现，为前端的进步提供更多的可能性。在本文中，总结了一下常用的比较新的前端协议，其实有的协议其实也有些年头了，但是大家可能接触的也不是很多，通过本文，希望给大家带来一些大体上的认知。</p>
 <a id="more"></a>
+<h2 id="WebRTC"><a href="#WebRTC" class="headerlink" title="WebRTC"></a>WebRTC</h2><p>WebRTC (Web Real-Time Communications) 是一项实时通讯技术，它允许网络应用或者站点，在不借助中间媒介的情况下，建立浏览器之间<strong>点对点</strong>（Peer-to-Peer）的连接，实现视频流和（或）音频流或者其他任意数据的传输。</p>
+<p>关于 WebRTC 相关的介绍，可以参考文章 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API" target="_blank" rel="external">WebRTC API | MDN</a>，这里介绍了 WebRTC 的低层协议、架构、API 概述等。</p>
+<p>WebRTC实现了三个API，分别是:</p>
+<ul>
+<li>MediaStream：通过MediaStream的API能够通过设备的摄像头及话筒获得视频、音频的同步流</li>
+<li>RTCPeerConnection：RTCPeerConnection是WebRTC用于构建点对点之间稳定、高效的流传输的组件，这个音频和视频数据通道，通信是点对点的，不需要经过服务器进行中转。但是这并不意味着我们能抛弃服务器，在通道建立之前，我们需要服务器传递信令（signaling）来建立这个信道。</li>
+<li>RTCDataChannel：RTCDataChannel使得浏览器之间（点对点）建立一个高吞吐量、低延时的信道，用于<strong>传输任意数据</strong></li>
+</ul>
 <h2 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h2><p> HTTP 协议有一个缺陷：通信只能由客户端发起。</p>
 <p> 对于那些实时要求比较高的应用来说，比如说在线游戏、在线证券、设备监控、新闻在线播报、RSS 订阅推送等等，当客户端浏览器准备呈现这些信息的时候，这些信息在服务器端可能已经过时了。所以保持客户端和服务器端的信息同步是实时 Web 应用的关键要素，对 Web 开发人员来说也是一个难题。在 WebSocket 规范出来之前，开发人员想实现这些实时的 Web 应用，不得不采用一些折衷的方案，其中最常用的就是轮询 (Polling) 和 Comet 技术，而 Comet 技术实际上是轮询技术的改进，又可细分为两种实现方式，一种是长轮询机制，一种称为流技术。下面我们简单介绍一下这几种技术：</p>
 <h3 id="轮询"><a href="#轮询" class="headerlink" title="轮询"></a>轮询</h3><p>这是最早的一种实现实时 Web 应用的方案。客户端以一定的时间间隔向服务端发出请求，以频繁请求的方式来保持客户端和服务器端的同步。</p>
@@ -394,9 +402,59 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">let source = new EventSource(&quot;myevents.php&quot;);</div><div class="line">source.onmessage = function(event) &#123;</div><div class="line">    let data = event.data;</div><div class="line">    // 处理数据</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>默认情况下，EventSource 对象会保持与服务器的活动连接，如果连接断开，还会重新连接。这意味着 SSE 适合长轮询和 HTTP 流。如果想强制立即断开连接并且不再重新连接，可以调用 <code>source.close()</code></p>
 <p>除此以外，还可以给特定事件添加一个 <code>id</code>，如果连接断开，<code>EventSource</code> 对象会跟踪上一次触发的事件，从而向服务器发送该 <code>id</code>，让服务器知道下一次该触发哪个事件。</p>
-<h3 id="WebSocket-1"><a href="#WebSocket-1" class="headerlink" title="WebSocket"></a>WebSocket</h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<h3 id="WebSocket-1"><a href="#WebSocket-1" class="headerlink" title="WebSocket"></a>WebSocket</h3><p>HTML5 WebSocket 设计出来的目的就是要取代轮询和 Comet 技术，使客户端浏览器具备像 C/S 架构下桌面系统的实时通讯能力。 浏览器通过 JavaScript 向服务器发出建立 WebSocket 连接的请求，连接建立以后，客户端和服务器端就可以通过 TCP 连接直接交换数据。因为 WebSocket 连接本质上就是一个 TCP 连接，所以在数据传输的稳定性和数据传输量的大小方面，和轮询以及 Comet 技术比较，具有很大的性能优势。</p>
+<p>WebSocket 协议本质上是一个基于 TCP 的协议。为了建立一个 WebSocket 连接，客户端浏览器首先要向服务器发起一个 HTTP 请求，这个请求和通常的 HTTP 请求不同，包含了一些附加头信息，其中附加头信息<code>Upgrade: WebSocket</code> 表明这是一个申请协议升级的 HTTP 请求，服务器端解析这些附加的头信息然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket 连接就建立起来了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">客户端到服务端： </div><div class="line">GET /demo HTTP/1.1 </div><div class="line">Host: example.com </div><div class="line">Connection: Upgrade </div><div class="line">Sec-WebSocket-Key2: 12998 5 Y3 1 .P00 </div><div class="line">Upgrade: WebSocket </div><div class="line">Sec-WebSocket-Key1: 4@1 46546xW%0l 1 5 </div><div class="line">Origin: http://example.com </div><div class="line">[8-byte security key] </div><div class="line"></div><div class="line">服务端到客户端：</div><div class="line">HTTP/1.1 101 WebSocket Protocol Handshake </div><div class="line">Upgrade: WebSocket </div><div class="line">Connection: Upgrade </div><div class="line">WebSocket-Origin: http://example.com </div><div class="line">WebSocket-Location: ws://example.com/demo </div><div class="line">[16-byte hash response]</div></pre></td></tr></table></figure>
+<p>建立 WebSocket 连接的实例 JavaScript 代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var wsServer = &apos;ws://localhost:8888/Demo&apos;; </div><div class="line">var websocket = new WebSocket(wsServer); </div><div class="line">websocket.onopen = function (evt) &#123; onOpen(evt) &#125;; </div><div class="line">websocket.onclose = function (evt) &#123; onClose(evt) &#125;; </div><div class="line">websocket.onmessage = function (evt) &#123; onMessage(evt) &#125;; </div><div class="line">websocket.onerror = function (evt) &#123; onError(evt) &#125;; </div><div class="line">function onOpen(evt) &#123; </div><div class="line">console.log(&quot;Connected to WebSocket server.&quot;); </div><div class="line">&#125; </div><div class="line">function onClose(evt) &#123; </div><div class="line">console.log(&quot;Disconnected&quot;); </div><div class="line">&#125; </div><div class="line">function onMessage(evt) &#123; </div><div class="line">console.log(&apos;Retrieved data from server: &apos; + evt.data); </div><div class="line">&#125; </div><div class="line">function onError(evt) &#123; </div><div class="line">console.log(&apos;Error occured: &apos; + evt.data); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>注意，WebSocket 只能发送文本数据，对于复杂的数据结构，在通过连接发送之前，必须进行序列化</strong></p>
+<p>接收到服务器的数据，可以是文本数据，也可能是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external">Blob</a> 对象或者 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="external">ArrayBuffer</a> 对象</p>
+<p>Blob对象表示不可变的类似文件对象的原始数据。ArrayBuffer对象被用来表示一个通用的，固定长度的二进制数据缓冲区。具体差别可以查看这篇文章：<a href="http://www.zhangxinxu.com/wordpress/2013/10/understand-domstring-document-formdata-blob-file-arraybuffer/" target="_blank" rel="external">理解DOMString、Document、FormData、Blob、File、ArrayBuffer数据类型</a></p>
+<h2 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h2><p>在2010年到2015年，谷歌通过实践了一个实验性的SPDY协议，证明了一个在客户端和服务器端交换数据的另类方式。其收集了浏览器和服务器端的开发者的焦点问题。明确了响应数量的增加和解决复杂的数据传输，SPDY成为了HTTP/2协议的基础。</p>
+<p><strong>SPDY并不是一种用于替代HTTP的协议，而是对HTTP协议的增强。</strong></p>
+<p>SPDY（会话层）的设计特点是在SSL层（表示层）的基础上，增加了一个<strong>会话层</strong>，从而在一个tcp 连接基础上，实现了多并发和交叉流传输。HTTP 的GET ,POST 仍旧采用旧有的消息格式，当然SPDY 协议对原有的数据做了封装和编码</p>
+<h3 id="SPDY的特性"><a href="#SPDY的特性" class="headerlink" title="SPDY的特性"></a>SPDY的特性</h3><h4 id="流复用"><a href="#流复用" class="headerlink" title="流复用"></a>流复用</h4><p>是允许在一个TCP连接里面，允许无限并发流</p>
+<h4 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h4><p>因为支持并行，所以必须要有优先级机制</p>
+<p>SPDY实现请求的优先次序：客户端可以请求尽可能多的项目，每个请求分配一个优先级。这样 即使高优先级的请求仍处在pending状态，通道也不会传输非关键的，低优先级的请求，这样就有效地阻止了传输拥塞。</p>
+<h4 id="Http-header压缩"><a href="#Http-header压缩" class="headerlink" title="Http header压缩"></a>Http header压缩</h4><p>对于HTTP 请求，响应头，SPDY都做了 gzip 压缩</p>
+<h4 id="服务器端推送"><a href="#服务器端推送" class="headerlink" title="服务器端推送"></a>服务器端推送</h4><p>SPDY通过X-Associated-Content 协议头来向客户端推送数据。通知客户端，我要向你推送资源，准备接收好了。</p>
+<h4 id="Server-hint"><a href="#Server-hint" class="headerlink" title="Server hint"></a>Server hint</h4><p>不像上面提到的PUSH 技术，服务器会先告诉浏览器，你可以下载ABC资源了，这个ABC资源，可能就是下一个页面的JS ,CSS ，或者内容。服务器不会主动推送的，仍旧等待客户端请求，这对于低速网络，是个很大的优化，有点类似于我们的预加载技术。</p>
+<h4 id="安全防攻击"><a href="#安全防攻击" class="headerlink" title="安全防攻击"></a>安全防攻击</h4><p>SPDY采用了SSL+数据压缩，安全性上有了很大提升。</p>
+<h3 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h3><p>SPDY会话层会把请求封装成一个SPDY frame（SPDY帧），然后把SPDY帧丢给ssl层或者tcp层发送</p>
+<h2 id="HTTP1-0-1-1-2"><a href="#HTTP1-0-1-1-2" class="headerlink" title="HTTP1.0/1.1/2"></a>HTTP1.0/1.1/2</h2><p>在 <a href="http://www.alloyteam.com/2016/07/httphttp2-0spdyhttps-reading-this-is-enough/" target="_blank" rel="external">HTTP,HTTP2.0,SPDY,HTTPS你应该知道的一些事</a> 这篇文章中可以了解一些。</p>
+<h3 id="HTTP1-0和HTTP1-1的一些区别"><a href="#HTTP1-0和HTTP1-1的一些区别" class="headerlink" title="HTTP1.0和HTTP1.1的一些区别"></a>HTTP1.0和HTTP1.1的一些区别</h3><p>主要区别主要体现在：</p>
+<ol>
+<li>缓存处理，在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。</li>
+<li>Host头处理，在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。HTTP1.1的请求消息和响应消息都应支持Host头域，且请求消息中如果没有Host头域会报告一个错误（400 Bad Request）</li>
+<li>长连接，HTTP 1.1支持长连接（PersistentConnection）和请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟，在HTTP1.1中默认开启Connection： keep-alive</li>
+</ol>
+<h3 id="HTTPS与HTTP的一些区别"><a href="#HTTPS与HTTP的一些区别" class="headerlink" title="HTTPS与HTTP的一些区别"></a>HTTPS与HTTP的一些区别</h3><ol>
+<li>HTTPS协议需要到CA申请证书，一般免费证书很少，需要交费。</li>
+<li>HTTP协议运行在TCP之上，所有传输的内容都是明文，HTTPS运行在SSL/TLS之上，SSL/TLS运行在TCP之上，所有传输的内容都经过加密的。</li>
+<li>HTTP和HTTPS使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTPS可以有效的防止运营商劫持，解决了防劫持的一个大问题。</li>
+</ol>
+<h3 id="HTTP-2-0"><a href="#HTTP-2-0" class="headerlink" title="HTTP 2.0"></a>HTTP 2.0</h3><p>HTTP2.0可以说是SPDY的升级版（其实原本也是基于SPDY设计的），但是，HTTP2.0 跟 SPDY 仍有不同的地方，主要是以下两点：</p>
+<ol>
+<li>HTTP2.0 支持明文 HTTP 传输，而 SPDY 强制使用 HTTPS</li>
+<li>HTTP2.0 消息头的压缩算法采用 HPACK，而非 SPDY 采用的 DEFLATE</li>
+</ol>
+<p>HTTP2.0的新特性:</p>
+<ol>
+<li>新的二进制格式</li>
+<li>多路复用（MultiPlexing）:在应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层，HTTP/2 会将所有传输的信息分割为更小的消息和帧（frame）,并对它们采用二进制格式的编码，HTTP/2 通信都在一个连接上完成，这个连接可以承载任意数量的双向数据流。</li>
+<li>header压缩:HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields表，既避免了重复header的传输，又减小了需要传输的大小。</li>
+<li>服务端推送（server push），同SPDY一样，HTTP2.0也具有server push功能</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API" target="_blank" rel="external">WebRTC API | MDN</a></li>
+<li><a href="https://imququ.com/post/html5-live-player-3.html" target="_blank" rel="external">HTML5 视频直播（三）</a></li>
 <li><a href="http://www.ruanyifeng.com/blog/2017/05/websocket.html" target="_blank" rel="external">WebSocket 教程</a></li>
 <li><a href="https://www.ibm.com/developerworks/cn/web/1112_huangxa_websocket/" target="_blank" rel="external">使用 HTML5 WebSocket 构建实时 Web 应用 | 比较老，可以参考</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/2013/10/understand-domstring-document-formdata-blob-file-arraybuffer/" target="_blank" rel="external">理解DOMString、Document、FormData、Blob、File、ArrayBuffer数据类型</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP" target="_blank" rel="external">HTTP的发展</a></li>
+<li><a href="http://josh-persistence.iteye.com/blog/2200727" target="_blank" rel="external">SPDY：Google开发的下一代HTTP协议</a></li>
+<li><a href="http://www.alloyteam.com/2016/07/httphttp2-0spdyhttps-reading-this-is-enough/" target="_blank" rel="external">HTTP,HTTP2.0,SPDY,HTTPS你应该知道的一些事</a></li>
 </ul>
 
       
@@ -565,7 +623,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WebSocket"><span class="nav-number">1.</span> <span class="nav-text">WebSocket</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#轮询"><span class="nav-number">1.1.</span> <span class="nav-text">轮询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comet"><span class="nav-number">1.2.</span> <span class="nav-text">Comet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#长轮询"><span class="nav-number">1.2.1.</span> <span class="nav-text">长轮询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-流"><span class="nav-number">1.2.2.</span> <span class="nav-text">HTTP 流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Server-Sent-Events-SSE"><span class="nav-number">1.2.3.</span> <span class="nav-text">Server-Sent Events (SSE)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket-1"><span class="nav-number">1.3.</span> <span class="nav-text">WebSocket</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WebRTC"><span class="nav-number">1.</span> <span class="nav-text">WebRTC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebSocket"><span class="nav-number">2.</span> <span class="nav-text">WebSocket</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#轮询"><span class="nav-number">2.1.</span> <span class="nav-text">轮询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comet"><span class="nav-number">2.2.</span> <span class="nav-text">Comet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#长轮询"><span class="nav-number">2.2.1.</span> <span class="nav-text">长轮询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-流"><span class="nav-number">2.2.2.</span> <span class="nav-text">HTTP 流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Server-Sent-Events-SSE"><span class="nav-number">2.2.3.</span> <span class="nav-text">Server-Sent Events (SSE)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket-1"><span class="nav-number">2.3.</span> <span class="nav-text">WebSocket</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPDY"><span class="nav-number">3.</span> <span class="nav-text">SPDY</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SPDY的特性"><span class="nav-number">3.1.</span> <span class="nav-text">SPDY的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#流复用"><span class="nav-number">3.1.1.</span> <span class="nav-text">流复用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优先级"><span class="nav-number">3.1.2.</span> <span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Http-header压缩"><span class="nav-number">3.1.3.</span> <span class="nav-text">Http header压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器端推送"><span class="nav-number">3.1.4.</span> <span class="nav-text">服务器端推送</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Server-hint"><span class="nav-number">3.1.5.</span> <span class="nav-text">Server hint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安全防攻击"><span class="nav-number">3.1.6.</span> <span class="nav-text">安全防攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作机制"><span class="nav-number">3.2.</span> <span class="nav-text">工作机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP1-0-1-1-2"><span class="nav-number">4.</span> <span class="nav-text">HTTP1.0/1.1/2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP1-0和HTTP1-1的一些区别"><span class="nav-number">4.1.</span> <span class="nav-text">HTTP1.0和HTTP1.1的一些区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS与HTTP的一些区别"><span class="nav-number">4.2.</span> <span class="nav-text">HTTPS与HTTP的一些区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-2-0"><span class="nav-number">4.3.</span> <span class="nav-text">HTTP 2.0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
