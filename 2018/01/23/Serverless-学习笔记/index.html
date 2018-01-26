@@ -1,0 +1,1040 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="serverless,云计算," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文是我记录 Serverless 学习的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Serverless 学习笔记">
+<meta property="og:url" content="https://shiningdan.github.io/2018/01/23/Serverless-学习笔记/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文是我记录 Serverless 学习的笔记">
+<meta property="og:updated_time" content="2018-01-24T06:44:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Serverless 学习笔记">
+<meta name="twitter:description" content="本文是我记录 Serverless 学习的笔记">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2018/01/23/Serverless-学习笔记/"/>
+
+
+
+
+
+  <title> Serverless 学习笔记 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2018/01/23/Serverless-学习笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Serverless 学习笔记
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-23T16:43:32+08:00">
+                2018-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/23/Serverless-学习笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/23/Serverless-学习笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/01/23/Serverless-学习笔记/" class="leancloud_visitors" data-flag-title="Serverless 学习笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是我记录 Serverless 学习的笔记</p>
+<a id="more"></a>
+<p>本文所记录的，是使用阿里云函数计算相关的服务的总结笔记，源文档可以在 <a href="https://help.aliyun.com/product/50980.html" target="_blank" rel="external">函数计算 | 阿里云</a> 上进行阅读。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>函数计算是一个事件驱动的全托管计算服务。通过函数计算，您无需管理服务器等基础设施，只需编写代码并上传。函数计算会为您准备好计算资源，以弹性、可靠的方式运行您的代码，并提供日志查询，性能监控，报警等功能。更棒的是，您只需要为代码实际运行消耗的资源付费 - 代码未运行则不产生费用。</p>
+<p>函数计算以事件驱动的方式连接不同的服务。当事件源服务触发事件时，系统会自动调用关联的函数处理事件。例如阿里云对象存储服务（OSS）中有新数据上传时，自动调用函数进行处理；以及使用 API 网关触发函数以响应 HTTP 请求。当然，您也可以使用函数计算 SDK/API 调用您的代码。</p>
+<h2 id="计费模型"><a href="#计费模型" class="headerlink" title="计费模型"></a>计费模型</h2><p>函数计算的另一个好处是按需付费，只有在函数触发的时候才需要进行付费，阿里云的<a href="https://help.aliyun.com/document_detail/54301.html" target="_blank" rel="external">费用的结算方法</a>，</p>
+<p>总费用 = 调用次数费用 + 执行时间费用 + 公网流量费用（可选）</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>在使用函数计算的时候，有以下的几个概念需要知道：</p>
+<ul>
+<li>服务（Service）：服务是资源管理的基本单位。您可以在服务上执行授权、配置日志、创建函数等操作。服务下的所有函数都共享这些设置。一个服务下能创建的函数是有限制的，请参阅函数计算限制项</li>
+<li>函数（Function）：函数是用户编写的，由事件触发，执行特定功能的一段代码。函数是调度和运行的基本单位。</li>
+<li>事件（Event）：任何能够触发函数执行的事情称之为事件。例如，一个调用函数的http请求，可以看做一个事件。上传对象到特定的OSS bucket并触发函数调用，也是一个事件</li>
+<li>触发器（Trigger）：用户通过触发器定义和管理事件的生成方式。例如，当您创建一个OSS PutObject触发器后，当put object到指定的OSS位置时，就会产生一个事件，触发对应的函数</li>
+</ul>
+<p>还有一些我们需要知道的：</p>
+<p>如果只是函数计算本身，其能做的事情还是有限，我们在搭建服务的时候，需要将函数计算和一些其他常用的服务结合在一起，组成一个完整的应用进行交付。这里有一些常见的概念：</p>
+<ul>
+<li>角色：角色的策略主要是授权给Service能去访问（read、delete、write等）其他云产品的权限。角色配置在服务层，该服务下的所有函数都将具有这个角色的权限</li>
+<li>API 网关：API 网关（API Gateway）提供高性能、高可用的 API 托管服务，帮助用户对外开放其部署在 ECS、容器服务等云产品上的应用，提供完整的 API 发布、管理、维护生命周期管理。</li>
+<li>日志服务：在函数计算中，函数执行的日志可以存储在日志服务中，用户可以根据日志服务中存储对的函数执行的日志进行一些故障分析，数据分析等相关。</li>
+<li>OSS（对象存储）:对象存储服务（Object Storage Service，简称 OSS），可以通过调用 API，在任何应用、任何时间、任何地点上传和下载数据，也可以通过 Web 控制台对数据进行简单的管理。</li>
+</ul>
+<h2 id="编程指南"><a href="#编程指南" class="headerlink" title="编程指南"></a>编程指南</h2><p>由于我目前使用的是阿里云的函数计算服务，Node.js 环境，所以这里记录的主要是 Node.js 中，我认为比较重要或者特殊的要点。</p>
+<p>其他环境下的编程指南可以在<a href="https://help.aliyun.com/document_detail/52699.html" target="_blank" rel="external">阿里云官网上查看</a></p>
+<h3 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="Context-对象"><a href="#Context-对象" class="headerlink" title="Context 对象"></a>Context 对象</h4><p>在执行函数时，您可以通过 context 对象与函数计算系统交互，获取有用的<strong>运行时信息</strong>。</p>
+<h4 id="错误类型"><a href="#错误类型" class="headerlink" title="错误类型"></a>错误类型</h4><p>需要注意的，当用户捕获错误并通过 callback(err) 返回时，如果参数 err 是 Error 类型的对象，调用栈信息（stack trace）也会被返回。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">exports.handler = function(event, context, callback) &#123;</div><div class="line">    var error = new Error(&quot;something is wrong&quot;);</div><div class="line">    callback(error);</div><div class="line">&#125;;</div><div class="line">// Function response.</div><div class="line">&#123;</div><div class="line">   &quot;errorMessage&quot;: &quot;something is wrong&quot;,</div><div class="line">   &quot;errorType&quot;: &quot;Error&quot;,</div><div class="line">   &quot;stackTrace&quot;: [</div><div class="line">       &quot;export.handler (/var/task/index.js.3:16)&quot;</div><div class="line">   ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于Nodejs运行环境的函数，用户可能收到两种错误，错误类型记录在返回的HTTP Header字段中(X-Fc-Error-Type)：</p>
+<ul>
+<li>HandledInvocationError: 通过callback的第一个参数返回的错误</li>
+<li>UnhandledInvocationError: 其他错误，包括未接住的异常/超时/OOM等</li>
+</ul>
+<h4 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h4><p>日志服务也是有一定的免费额度的，使用日志记录可以更加方便我们的线上调试。具体如何使用日志，可以参考 <a href="https://help.aliyun.com/document_detail/61023.html" target="_blank" rel="external">函数访问日志服务</a></p>
+<h4 id="事件处理函数"><a href="#事件处理函数" class="headerlink" title="事件处理函数"></a>事件处理函数</h4><p>我们对外提供给函数计算的函数，需要有三个参数，满足以下的形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">exports.myHandler = function(event, context, callback) &#123;</div><div class="line">   ...</div><div class="line">   // Use callback() to return information to the caller.</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>event：事件数据，类型为 Buffer 对象。</li>
+<li>context：当前函数的运行时信息，类型为 Context 对象。</li>
+<li>callback：通知函数计算系统函数执行完毕，并将信息返回给调用方。</li>
+</ul>
+<p>注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">您必须主动调用callback函数，通知函数计算系统函数执行完毕；否则函数的执行不会退出，最后会导致超时错误。</div><div class="line"></div><div class="line">当您使用callback error参数返回错误信息时，函数计算系统会自动将 error 信息记录到与该函数关联的 SLS 日志库中。如果error信息大于256KB，则系统只会记录前256KB的数据，并在错误消息后显示 “Truncated by FunctionCompute”。关于如何设置函数日志，请参阅相关文档。</div><div class="line"></div><div class="line">如果函数的调用类型是同步调用，错误消息或者结果数据会填充到http body中，并返回给客户端。如果是异步调用，则错误信息或者结果数据不会被返回。</div></pre></td></tr></table></figure>
+<h3 id="Node-js-环境"><a href="#Node-js-环境" class="headerlink" title="Node.js 环境"></a>Node.js 环境</h3><p>函数计算目前支持以下Nodejs运行环境：</p>
+<ul>
+<li>Nodejs6.10 (runtime = nodejs6)</li>
+</ul>
+<p>除了Nodejs的标准模块，函数计算的Nodejs运行环境中还包含了一些常用模块，用户可以直接引用，目前包含的模块有：</p>
+<ul>
+<li>co: 控制流，<a href="https://github.com/tj/co" target="_blank" rel="external">https://github.com/tj/co</a></li>
+<li>gm: 图片处理库，<a href="https://github.com/aheckmann/gm" target="_blank" rel="external">https://github.com/aheckmann/gm</a></li>
+<li>ali-oss: OSS SDK, <a href="https://github.com/ali-sdk/ali-oss" target="_blank" rel="external">https://github.com/ali-sdk/ali-oss</a></li>
+<li>aliyun-sdk: Aliyun SDK, <a href="https://github.com/aliyun-UED/aliyun-sdk-js" target="_blank" rel="external">https://github.com/aliyun-UED/aliyun-sdk-js</a></li>
+<li>@alicloud/fc2: 函数计算SDK，<a href="https://github.com/aliyun/fc-nodejs-sdk" target="_blank" rel="external">https://github.com/aliyun/fc-nodejs-sdk</a></li>
+<li>opencv: 视觉算法库，<a href="https://github.com/peterbraden/node-opencv" target="_blank" rel="external">https://github.com/peterbraden/node-opencv</a></li>
+</ul>
+<p>如果用户需要使用自定义的模块，则需要将它们与代码一起打包。安装第三方库以及打包的例子可以参考 <a href="https://help.aliyun.com/document_detail/52586.html" target="_blank" rel="external">应用示例3 - 图像处理</a> </p>
+<h4 id="使用代码目录"><a href="#使用代码目录" class="headerlink" title="使用代码目录"></a>使用代码目录</h4><p>如果用户将一些配置文件或者数据文件与代码一起打包上传，并且需要在代码中访问这些文件的话，就需要使用 <code>FC_FUNC_CODE_PATH</code> 这个环境变量来获取文件的绝对路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">exports.handler = function(event, context, callback) &#123;</div><div class="line">  cfgFile = process.env[&apos;FC_FUNC_CODE_PATH&apos;] + &apos;/config.json&apos;;</div><div class="line">  console.log(cfgFile);</div><div class="line">  callback(null, &apos;done&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="使用内网域名"><a href="#使用内网域名" class="headerlink" title="使用内网域名"></a>使用内网域名</h4><p>在函数中访问其他云服务，建议使用内网域名，一方面使用内网域名能够有更好的性能；另一方面可以避免公网流量收费。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var OSSClient = require(&apos;ali-oss&apos;).Wrapper;</div><div class="line">exports.handler = function(event, context, callback) &#123;</div><div class="line">  console.log(event.toString());</div><div class="line">  var ossClient = new OSSClient(&#123;</div><div class="line">    accessKeyId: context.credentials.accessKeyId,</div><div class="line">    accessKeySecret: context.credentials.accessKeySecret,</div><div class="line">    stsToken: context.credentials.securityToken,</div><div class="line">    region: &apos;oss-cn-shanghai&apos;,</div><div class="line">    internal: true,</div><div class="line">    bucket: &apos;my-bucket&apos;,</div><div class="line">  &#125;);</div><div class="line">  ossClient.put(&apos;my-object&apos;, new Buffer(&apos;hello world&apos;))</div><div class="line">    .then(function(res) &#123;</div><div class="line">      callback(null, res);</div><div class="line">    &#125;).catch(function(err) &#123;</div><div class="line">      callback(err);</div><div class="line">    &#125;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h3><h4 id="fcli"><a href="#fcli" class="headerlink" title="fcli"></a>fcli</h4><p>fcli 是一个强大的命令行工具，能帮助您便捷的管理函数计算中的资源。</p>
+<p>使用方法可以参考：<a href="https://help.aliyun.com/document_detail/52995.html" target="_blank" rel="external">fcli | 阿里云</a></p>
+<h4 id="fun"><a href="#fun" class="headerlink" title="fun"></a>fun</h4><p>fun 是一个用于支持函数计算和 API 网关的工具，能帮助您便捷地管理函数计算和 API 网关的资源。它通过一个资源配置文件（faas.yaml），协助您进行开发、构建、部署操作。</p>
+<p>针对 Node.js 用户，它能自动安装打包依赖模块，使您可以继续使用 package.json 的方式进行依赖管理。</p>
+<p>使用方法可以参考：<a href="https://help.aliyun.com/document_detail/64204.html" target="_blank" rel="external">fun | 阿里云</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/serverless/" rel="tag"># serverless</a>
+          
+            <a href="/tags/云计算/" rel="tag"># 云计算</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/03/Vue-源码学习记录/" rel="next" title="Vue 源码学习记录">
+                <i class="fa fa-chevron-left"></i> Vue 源码学习记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/24/Haskell趣学指南笔记/" rel="prev" title="Haskell趣学指南笔记">
+                Haskell趣学指南笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/01/23/Serverless-学习笔记/"
+           data-title="Serverless 学习笔记" data-url="https://shiningdan.github.io/2018/01/23/Serverless-学习笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计费模型"><span class="nav-number">2.</span> <span class="nav-text">计费模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">3.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编程指南"><span class="nav-number">4.</span> <span class="nav-text">编程指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念-1"><span class="nav-number">4.1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Context-对象"><span class="nav-number">4.1.1.</span> <span class="nav-text">Context 对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误类型"><span class="nav-number">4.1.2.</span> <span class="nav-text">错误类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日志记录"><span class="nav-number">4.1.3.</span> <span class="nav-text">日志记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件处理函数"><span class="nav-number">4.1.4.</span> <span class="nav-text">事件处理函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-js-环境"><span class="nav-number">4.2.</span> <span class="nav-text">Node.js 环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用代码目录"><span class="nav-number">4.2.1.</span> <span class="nav-text">使用代码目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用内网域名"><span class="nav-number">4.2.2.</span> <span class="nav-text">使用内网域名</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发工具"><span class="nav-number">4.3.</span> <span class="nav-text">开发工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fcli"><span class="nav-number">4.3.1.</span> <span class="nav-text">fcli</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fun"><span class="nav-number">4.3.2.</span> <span class="nav-text">fun</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

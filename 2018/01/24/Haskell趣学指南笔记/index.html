@@ -1,0 +1,1164 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Haskell," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文为《Haskell 趣学指南》笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Haskell趣学指南笔记">
+<meta property="og:url" content="https://shiningdan.github.io/2018/01/24/Haskell趣学指南笔记/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文为《Haskell 趣学指南》笔记">
+<meta property="og:updated_time" content="2018-01-26T16:39:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Haskell趣学指南笔记">
+<meta name="twitter:description" content="本文为《Haskell 趣学指南》笔记">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2018/01/24/Haskell趣学指南笔记/"/>
+
+
+
+
+
+  <title> Haskell趣学指南笔记 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2018/01/24/Haskell趣学指南笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Haskell趣学指南笔记
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-24T14:45:35+08:00">
+                2018-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/24/Haskell趣学指南笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/24/Haskell趣学指南笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/01/24/Haskell趣学指南笔记/" class="leancloud_visitors" data-flag-title="Haskell趣学指南笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文为<a href="https://learnyoua.haskell.sg/content/zh-cn/ch01/introduction.html" target="_blank" rel="external">《Haskell 趣学指南》</a>笔记</p>
+<a id="more"></a>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Haskell 与其他语言不同，是一门纯粹函数式编程语言 (purely functional programming language)。</p>
+<p>在纯粹函数式编程语言中，你不是像命令式语言那样命令电脑「要做什么」，而是通过用函数来<strong>描述出问题「是什么」</strong>。如「阶乘是指从1到某个数的乘积」，「一个串列中数字的和」是指把第一个数字跟剩余数字的和相加。</p>
+<p>变量 (variable) 一旦被指定，就不可以更改了。所以说，在纯粹函数式编程语言中的<strong>函数能做的唯一事情就是利用参数计算结果，不会产生所谓的”副作用 (side effect)”</strong>。一开始会觉得这限制很大，不过这也是他的优点所在：若以同样的参数调用同一个函数两次，得到的结果一定是相同。</p>
+<p>Haskell 是<strong>惰性 (lazy) 的。也就是说若非特殊指明，函数在真正需要结果以前不会被求值</strong>。</p>
+<p>Haskell 是静态类型 (statically typed) 的。</p>
+<h2 id="开始使用-Haskell"><a href="#开始使用-Haskell" class="headerlink" title="开始使用 Haskell"></a>开始使用 Haskell</h2><p>Haskell 杜宇类型的要求很高：</p>
+<p><code>5+&quot;llama&quot;</code>，ghci 提示说 “llama” 并不是数值类型</p>
+<p>运行 <code>True==5</code>，ghci 就会提示类型不匹配。</p>
+<p><code>+</code> 运算符要求两端都是数值<br><code>==</code> 运算符仅对两个可比较的值可用。</p>
+<p>在 Haskell 中，函数调用的形式是函数名，空格，空格分隔的参数表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ghci&gt; min 3.4 3.2</div><div class="line">3.2</div></pre></td></tr></table></figure>
+<p>如果某函数有两个参数，也可以用中缀函数的形式调用它。取两个整数相除所得商的 div 函数, div 92 10 可得 9，但这种形式不容易理解：究竟是哪个数是除数，哪个数被除？使用中缀函数的形式就更清晰了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">92 `div` 10</div></pre></td></tr></table></figure>
+<p>在 Haskell 中，函数的调用使用空格，例如 <code>bar (bar 3)</code></p>
+<h3 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">doubleMe x = x + x</div></pre></td></tr></table></figure>
+<p>函数的声明与它的调用形式大致相同，都是先函数名，后跟由空格分隔的参数表。但在声明中一定要在 = 后面定义函数的行为。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">doubleUs x y = x*2 + y*2</div><div class="line">可以写成</div><div class="line">doubleUs x y = doubleMe x + doubleMe y</div></pre></td></tr></table></figure>
+<p>这种情形在 Haskell 下边十分常见：编写一些简单的函数，然后将其组合，形成一个较为复杂的函数，这样可以减少重复工作。</p>
+<p>Haskell 中的函数并没有顺序，所以先声明 <code>doubleUs</code> 还是先声明 <code>doubleMe</code> 都是同样的。</p>
+<p>首字母大写的函数是不允许的</p>
+<h3 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a><code>if</code> 语句</h3><p>Haskell 中 <code>if</code> 语句的 <code>else</code> 部分是不可省略。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">doubleSmallNumber x = if x &gt; 100</div><div class="line">                      then x</div><div class="line">                      else  x*2</div></pre></td></tr></table></figure>
+<p>在命令式语言中，你可以通过 <code>if</code> 语句来跳过一段代码，而在 Haskell 中，每个函数和表达式都要返回一个结果。</p>
+<p>Haskell 中的 <code>if</code> 语句的另一个特点就是它其实是个表达式，表达式就是返回一个值的一段代码：<code>5</code> 是个表达式，它返回 <code>5</code>；<code>4+8</code> 是个表达式；<code>x+y</code> 也是个表达式，它返回 <code>x+y</code> 的结果。正由于 <code>else</code> 是强制的，<code>if</code> 语句一定会返回某个值，所以说 <code>if</code> 语句也是个表达式。</p>
+<h3 id="List-入门"><a href="#List-入门" class="headerlink" title="List 入门"></a>List 入门</h3><p>List 是一种单类型的数据结构，可以用来存储多个类型相同的元素。我们可以在里面装一组数字或者一组字符，但不能把字符和数字装在一起。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ghci&gt; let lostNumbers = [4,8,15,16,23,48]</div></pre></td></tr></table></figure>
+<p>字符串实际上就是一组字符的 List，<code>&quot;Hello&quot;</code> 只是 <code>[&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;]</code> 的语法糖而已。所以我们可以使用处理 List 的函数来对字符串进行操作。 </p>
+<p> 将两个 List 合并是很常见的操作，这可以通过 ++ 运算符实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ghci&gt; [1,2,3,4] ++ [9,10,11,12]  </div><div class="line">[1,2,3,4,9,10,11,12]  </div><div class="line">ghci&gt; &quot;hello&quot; ++ &quot; &quot; ++ &quot;world&quot;  </div><div class="line">&quot;hello world&quot;  </div><div class="line">ghci&gt; [&apos;w&apos;,&apos;o&apos;] ++ [&apos;o&apos;,&apos;t&apos;]  </div><div class="line">&quot;woot&quot;</div></pre></td></tr></table></figure>
+<p>在使用 ++ 运算符处理长字符串时要格外小心(对长 List 也是同样)，Haskell 会遍历整个的 List(++ 符号左边的那个)</p>
+<p>用 <code>:</code> 运算符往一个 List 前端插入元素会是更好的选择。<code>:</code> 运算符可以连接一个元素到一个 List 或者字符串之中，而 <code>++</code> 运算符则是连接两个 List。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ghci&gt; &apos;A&apos;:&quot; SMALL CAT&quot;  </div><div class="line">&quot;A SMALL CAT&quot;  </div><div class="line">ghci&gt; 5:[1,2,3,4,5] </div><div class="line">[5,1,2,3,4,5]</div></pre></td></tr></table></figure>
+<p><code>[1,2,3]</code> 实际上是 <code>1:2:3:[]</code> 的语法糖。</p>
+<p>若是要按照索引取得 List 中的元素，可以使用 <code>!!</code> 运算符，索引的下标为 0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ghci&gt; &quot;Steve Buscemi&quot; !! 6  </div><div class="line">&apos;B&apos;  </div><div class="line">ghci&gt; [9.4,33.2,96.2,11.2,23.25] !! 1  </div><div class="line">33.2</div></pre></td></tr></table></figure>
+<p>试图在一个只含有 4 个元素的 List 中取它的第 6 个元素，就会报错。</p>
+<p>当 List 内装有可比较的元素时，使用 <code>&gt;</code> 和 <code>&gt;=</code> 可以比较 List 的大小。</p>
+<p>还可以对 List 做啥？如下是几个常用的函数：</p>
+<p>head 返回一个 List 的头部，也就是 List 的首个元素。<br>tail 返回一个 List 的尾部，也就是 List 除去头部之后的部分。<br>last 返回一个 List 的最后一个元素。<br>init 返回一个 List 除去最后一个元素的部分。<br>length 返回一个 List 的长度。<br>null 检查一个 List 是否为空：length 为 0<br>reverse 将一个 List 反转:<br>take 返回一个 List 的前几个元素，看：<br>drop 与 take 的用法大体相同，它会删除一个 List 中的前几个元素。<br>sum 返回一个 List 中所有元素的和。product 返回一个 List 中所有元素的积。<br>elem 判断一个元素是否在包含于一个 List，通常以中缀函数的形式调用它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ghci&gt; head [5,4,3,2,1] </div><div class="line">5</div><div class="line">ghci&gt; take 3 [5,4,3,2,1]  </div><div class="line">[5,4,3]  </div><div class="line">ghci&gt; 4 `elem` [3,4,5,6]  </div><div class="line">True  </div><div class="line">ghci&gt; 10 `elem` [3,4,5,6]  </div><div class="line">False</div></pre></td></tr></table></figure>
+<h3 id="使用-Range"><a href="#使用-Range" class="headerlink" title="使用 Range"></a>使用 Range</h3><p>Range 是构造 List 方法之一，而其中的值必须是可枚举的，像 1、2、3、4…字符同样也可以枚举，字母表就是 A..Z 所有字符的枚举。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ghci&gt; [1..20]</div><div class="line">[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]</div><div class="line">ghci&gt; [&apos;a&apos;..&apos;z&apos;]</div><div class="line">&quot;abcdefghijklmnopqrstuvwxyz&quot;</div><div class="line">ghci&gt; [&apos;K&apos;..&apos;Z&apos;]  </div><div class="line">&quot;KLMNOPQRSTUVWXYZ&quot;</div></pre></td></tr></table></figure>
+<p>Range 的特点是他还允许你指定每一步该跨多远</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ghci&gt; [2,4..20]</div><div class="line">[2,4,6,8,10,12,14,16,18,20]</div></pre></td></tr></table></figure>
+<p>另一方面就是仅凭前几项，数组的后项是不能确定的。要得到 20 到 1 的 List，<code>[20..1]</code> 是不可以的。必须得 <code>[20,19..1]</code>。</p>
+<p>出于定义的原因，浮点数并不精确。若是使用浮点数的话，你就会得到如下的糟糕结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ghci&gt; [0.1, 0.3 .. 1]</div><div class="line">[0.1,0.3,0.5,0.7,0.8999999999999999,1.0999999999999999]</div></pre></td></tr></table></figure>
+<p>由于 Haskell 是惰性的，它不会对无限长度的 List 求值，否则会没完没了的。它会等着，看你会从它那儿取多少。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ghci&gt; take 10 (cycle [1,2,3])</div><div class="line">[1,2,3,1,2,3,1,2,3,1]</div><div class="line">ghci&gt; take 12 (cycle &quot;LOL &quot;)</div><div class="line">&quot;LOL LOL LOL &quot;</div><div class="line">ghci&gt; take 10 (repeat 5)</div><div class="line">[5,5,5,5,5,5,5,5,5,5]</div></pre></td></tr></table></figure>
+<h3 id="List-Comprehension"><a href="#List-Comprehension" class="headerlink" title="List Comprehension"></a>List Comprehension</h3><p>竖线左端的部分是输出函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ghci&gt; [x*2 | x &lt;- [1..10], x*2 &gt;= 12]</div><div class="line">[12,14,16,18,20]</div><div class="line">ghci&gt; [ x | x &lt;- [50..100], x `mod` 7 == 3]</div><div class="line">[52,59,66,73,80,87,94]</div></pre></td></tr></table></figure>
+<p>从一个 List 中筛选出符合特定限制条件的操作也可以称为过滤 (filtering)</p>
+<p>假如我们想要一个 comprehension，它能够使 List 中所有大于 10 的奇数变为 “BANG”，小于 10 的奇数变为 “BOOM”，其他则统统扔掉。方便重用起见，我们将这个 comprehension 置于一个函数之中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">boomBangs xs = [ if x &lt; 10 then &quot;BOOM!&quot; else &quot;BANG!&quot; | x &lt;- xs, odd x]</div></pre></td></tr></table></figure>
+<p>除了多个限制条件之外，从多个 List 中取元素也是可以的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ghci&gt; [ x*y | x &lt;-[2,5,10], y &lt;- [8,10,11], x*y &gt; 50]</div><div class="line">[55,80,100,110]</div></pre></td></tr></table></figure>
+<p>让我们编写自己的 length 函数吧！就叫做 length’!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">length&apos; xs = sum [1 | _ &lt;- xs]</div></pre></td></tr></table></figure>
+<h3 id="Tuple"><a href="#Tuple" class="headerlink" title="Tuple"></a>Tuple</h3><p>一组数字的 List 就是一组数字，它们的类型相同，且不关心其中包含元素的数量。而 Tuple 则要求你对需要组合的数据的数目非常的明确，<strong>它的类型取决于其中项的数目与其各自的类型</strong>。Tuple 中的项由括号括起，并由逗号隔开。</p>
+<p>另外的不同之处就是 Tuple 中的项不必为同一类型，在 Tuple 里可以存入多态别项的组合。</p>
+<p>使用 Tuple 前应当事先明确一条数据中应该由多少个项。每个不同长度的 Tuple 都是独立的类型，所以你就不可以写个函数来给它追加元素。而唯一能做的，就是通过函数来给一个 List 追加序对，三元组或是四元组等内容。</p>
+<p>fst 返回一个序对的首项。<br>snd 返回序对的尾项。<br>zip 它可以用来生成一组序对 (Pair) 的 List。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ghci&gt; fst (&quot;Wow&quot;, False)</div><div class="line">&quot;Wow&quot;</div><div class="line"></div><div class="line">ghci&gt; zip [1,2,3,4,5] [5,5,5,5,5]</div><div class="line">[(1,5),(2,5),(3,5),(4,5),(5,5)]</div><div class="line"></div><div class="line">ghci&gt; zip [5,3,2,6,2,7,2,5,4,6,6] [&quot;im&quot;,&quot;a&quot;,&quot;turtle&quot;]</div><div class="line">[(5,&quot;im&quot;),(3,&quot;a&quot;),(2,&quot;turtle&quot;)]</div><div class="line"></div><div class="line">ghci&gt; let rightTriangles&apos; = [ (a,b,c) | c &lt;- [1..10], b &lt;- [1..c], a &lt;- [1..b], a^2 + b^2 == c^2, a+b+c == 24]</div><div class="line">ghci&gt; rightTriangles&apos;</div><div class="line">[(6,8,10)]</div></pre></td></tr></table></figure>
+<h2 id="类型和类型声明"><a href="#类型和类型声明" class="headerlink" title="类型和类型声明"></a>类型和类型声明</h2><p>Haskell 是 Static Type，这表示在编译时期每个表达式的类型都已经确定下来，这提高了代码的安全性。</p>
+<p>与 Java 和 Pascal 不同，Haskell 支持类型推导。写下一个数字，你就没必要另告诉 Haskell 说”它是个数字”，它自己能推导出来。</p>
+<p>使用 <code>:t</code> 命令后跟任何可用的表达式，即可得到该表达式的类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">ghci&gt; :t &apos;a&apos;  </div><div class="line">&apos;a&apos; :: Char  </div><div class="line">ghci&gt; :t True  </div><div class="line">True :: Bool  </div><div class="line">ghci&gt; :t &quot;HELLO!&quot;  </div><div class="line">&quot;HELLO!&quot; :: [Char]  </div><div class="line">ghci&gt; :t (True, &apos;a&apos;)  </div><div class="line">(True, &apos;a&apos;) :: (Bool, Char)  </div><div class="line">ghci&gt; :t 4 == 5  </div><div class="line">4 == 5 :: Bool</div></pre></td></tr></table></figure>
+<p>函数也有类型。编写函数时，给它一个明确的类型声明是个好习惯</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">removeNonUppercase :: [Char] -&gt; [Char]  </div><div class="line">removeNonUppercase st = [ c | c &lt;- st, c `elem` [&apos;A&apos;..&apos;Z&apos;]]</div></pre></td></tr></table></figure>
+<p>要是多个参数的函数该怎样，参数之间由 -&gt; 分隔，而与回传值之间并无特殊差异。回传值是最后一项，参数就是前三项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">addThree :: Int -&gt; Int -&gt; Int -&gt; Int  </div><div class="line">addThree x y z = x + y + z</div></pre></td></tr></table></figure>
+<p>如下是几个常见的类型：</p>
+<ul>
+<li>Int 表示整数。Int 是有界的，也就是说它由上限和下限。对 32 位的机器而言，上限一般是 2147483647，下限是 -2147483648。</li>
+<li>Integer 表示…厄…也是整数，但它是无界的。它的效率不如 Int 高。</li>
+<li>Float 表示单精度的浮点数。</li>
+<li>Double 表示双精度的浮点数。</li>
+<li>Bool 表示布尔值，它只有两种值：True 和 False。</li>
+<li>Char 表示一个字符。一个字符由单引号括起，一组字符的 List 即为字符串。</li>
+<li>Tuple 的类型取决于它的长度及其中项的类型。注意，空 Tuple 同样也是个类型，它只有一种值：<code>()</code>。</li>
+</ul>
+<h3 id="Typeclasses入门"><a href="#Typeclasses入门" class="headerlink" title="Typeclasses入门"></a>Typeclasses入门</h3><p><code>==</code> 函数的类型声明是怎样的？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ghci&gt; :t (==)  </div><div class="line">(==) :: (Eq a) =&gt; a -&gt; a -&gt; Bool</div></pre></td></tr></table></figure>
+<p><code>=&gt;</code> 符号。它左边的部分叫做类型约束。我们可以这样阅读这段类型声明：”相等函数取两个相同类型的值作为参数并回传一个布尔值，而这两个参数的类型同在 Eq 类之中(即类型约束)”</p>
+<p><code>Eq</code> 这一 Typeclass 提供了判断相等性的接口，凡是可比较相等性的类型必属于 <code>Eq</code> class。</p>
+<p><code>elem</code> 函数的类型为: <code>(Eq a)=&gt;a-&gt;[a]-&gt;Bool</code>。这是它在检测值是否存在于一个 List 时使用到了<code>==</code> 的缘故。</p>
+<ul>
+<li><code>Eq</code> 包含可判断相等性的类型。提供实现的函数是 <code>==</code> 和 <code>/=</code>。</li>
+<li><code>Ord</code> 包含可比较大小的类型。除了函数以外，我们目前所谈到的所有类型都属于 Ord 类。Ord 包中包含了<code>&lt;, &gt;, &lt;=, &gt;=</code> 之类用于比较大小的函数。</li>
+<li><code>Show</code> 的成员为可用字符串表示的类型。最常用的函数表示 <code>show</code>。它可以取任一Show的成员类型并将其转为字符串。</li>
+<li><code>Read</code> 是与 <code>Show</code> 相反的 Typeclass。<code>read</code> 函数可以将一个字符串转为 <code>Read</code> 的某成员类型。</li>
+</ul>
+<p>看一下 <code>read</code> 函数的类型声明吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ghci&gt; :t read  </div><div class="line">read :: (Read a) =&gt; String -&gt; a</div></pre></td></tr></table></figure>
+<p>它的回传值属于 ReadTypeclass，但我们若用不到这个值，它就永远都不会得知该表达式的类型。所以我们需要在一个表达式后跟:: 的类型注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ghci&gt; show 3  </div><div class="line">&quot;3&quot;  </div><div class="line">ghci&gt; read &quot;8.2&quot; + 3.8  </div><div class="line">12.0  </div><div class="line">ghci&gt; read &quot;5&quot; :: Int  </div><div class="line">5</div></pre></td></tr></table></figure>
+<ul>
+<li><code>Enum</code> 的成员都是连续的类型 – 也就是可枚举。Enum 类存在的主要好处就在于我们可以在 <code>Range</code> 中用到它的成员类型：每个值都有后继子 (successer) 和前置子 (predecesor)，分别可以通过 <code>succ</code> 函数和 <code>pred</code> 函数得到。该 Typeclass 包含的类型有：<code>(), Bool, Char, Ordering, Int, Integer, Float 和 Double</code>。</li>
+<li><code>Bounded</code> 的成员都有一个上限和下限。</li>
+<li><code>Num</code> 是表示数字的 Typeclass，它的成员类型都具有数字的特征。</li>
+<li><code>Integral</code> 同样是表示数字的 Typeclass。<code>Num</code> 包含所有的数字：实数和整数。而 <code>Integral</code> 仅包含整数，其中的成员类型有 <code>Int</code> 和 <code>Integer</code>。</li>
+<li><code>Floating</code> 仅包含浮点类型：<code>Float</code> 和 <code>Double</code>。</li>
+</ul>
+<h2 id="函数的语法"><a href="#函数的语法" class="headerlink" title="函数的语法"></a>函数的语法</h2><h3 id="模式匹配-Pattern-matching"><a href="#模式匹配-Pattern-matching" class="headerlink" title="模式匹配 (Pattern matching)"></a>模式匹配 (Pattern matching)</h3><p>模式匹配通过检查数据的特定结构来检查其是否匹配，并按模式从中取得数据。如果没有匹配项，则调用最后一个非匹配的表达式。</p>
+<p>检查我们传给它的数字是不是 7：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">lucky :: (Integral a) =&gt; a -&gt; String  </div><div class="line">lucky 7 = &quot;LUCKY NUMBER SEVEN!&quot;  </div><div class="line">lucky x = &quot;Sorry, you&apos;re out of luck, pal!&quot;</div></pre></td></tr></table></figure>
+<p>阶乘函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">factorial :: (Integral a) =&gt; a -&gt; a  </div><div class="line">factorial 0 = 1  </div><div class="line">factorial n = n * factorial (n - 1)</div></pre></td></tr></table></figure>
+<p>在 List Comprehension 中也能用模式匹配：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ghci&gt; let xs = [(1,3), (4,3), (2,4), (5,3), (5,6), (3,1)]  </div><div class="line">ghci&gt; [a+b | (a,b) &lt;- xs]  </div><div class="line">[4,7,6,8,11,4]</div></pre></td></tr></table></figure>
+<p>一旦模式匹配失败，它就简单挪到下个元素。</p>
+<p>对 List 本身也可以使用模式匹配。你可以用 <code>[]</code> 或 <code>:</code> 来匹配它。</p>
+<p>实现个我们自己的 <code>head</code> 函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">head&apos; :: [a] -&gt; a  </div><div class="line">head&apos; [] = error &quot;Can&apos;t call head on an empty list, dummy!&quot; </div><div class="line">head&apos; (x:_) = x</div></pre></td></tr></table></figure>
+<p>获得前几项元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">tell :: (Show a) =&gt; [a] -&gt; String  </div><div class="line">tell [] = &quot;The list is empty&quot;  </div><div class="line">tell (x:[]) = &quot;The list has one element: &quot; ++ show x  </div><div class="line">tell (x:y:[]) = &quot;The list has two elements: &quot; ++ show x ++ &quot; and &quot; ++ show y  </div><div class="line">tell (x:y:_) = &quot;This list is long. The first two elements are: &quot; ++ show x ++ &quot; and &quot; ++ show y</div></pre></td></tr></table></figure>
+<p><code>as</code> 模式，就是将一个名字和 <code>@</code> 置于模式前，可以在按模式分割什么东西时仍保留对其整体的引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">capital :: String -&gt; String  </div><div class="line">capital &quot;&quot; = &quot;Empty string, whoops!&quot;  </div><div class="line">capital all@(x:xs) = &quot;The first letter of &quot; ++ all ++ &quot; is &quot; ++ [x]</div><div class="line"></div><div class="line">ghci&gt; capital &quot;Dracula&quot;  </div><div class="line">&quot;The first letter of Dracula is D&quot;</div></pre></td></tr></table></figure>
+<h3 id="什么是-Guards"><a href="#什么是-Guards" class="headerlink" title="什么是 Guards"></a>什么是 Guards</h3><p>模式用来检查一个值是否合适并从中取值，而 guard 则用来检查一个值的某项属性是否为真。</p>
+<p>guard 由跟在函数名及参数后面的竖线标志，通常他们都是靠右一个缩进排成一列。一个 guard 就是一个布尔表达式，如果为真，就使用其对应的函数体。如果为假，就送去见下一个 guard，如之继续。</p>
+<p>最后的那个 guard 往往都是 <code>otherwise</code>，它的定义就是简单一个 <code>otherwise = True</code> ，捕获一切。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">bmiTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String  </div><div class="line">bmiTell weight height  </div><div class="line">    | weight / height ^ 2 &lt;= 18.5 = &quot;You&apos;re underweight&quot;  </div><div class="line">    | weight / height ^ 2 &lt;= 25.0 = &quot;You&apos;re normal&quot;  </div><div class="line">    | weight / height ^ 2 &lt;= 30.0 = &quot;You&apos;re fat&quot;  </div><div class="line">    | otherwise                 = &quot;You&apos;re a whale&quot;</div></pre></td></tr></table></figure>
+<p>实现我们自己的 <code>compare</code> 函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">myCompare :: (Ord a) =&gt; a -&gt; a -&gt; Ordering  </div><div class="line">a `myCompare` b  </div><div class="line">    | a &gt; b     = GT  </div><div class="line">    | a == b    = EQ  </div><div class="line">    | otherwise = LT</div></pre></td></tr></table></figure>
+<h3 id="关键字-Where"><a href="#关键字-Where" class="headerlink" title="关键字 Where"></a>关键字 Where</h3><p>给它一个名字来代替这三个表达式会更好些，函数在 where 绑定中定义的名字只对本函数可见</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">bmiTell :: (RealFloat a) =&gt; a -&gt; a -&gt; String  </div><div class="line">bmiTell weight height  </div><div class="line">    | bmi &lt;= skinny = &quot;You&apos;re underweight&quot;  </div><div class="line">    | bmi &lt;= normal = &quot;You&apos;re normal&quot;  </div><div class="line">    | bmi &lt;= fat = &quot;You&apos;re fat&quot;  </div><div class="line">    | otherwise                 = &quot;You&apos;re a whale&quot;</div><div class="line">    where bmi = weight / height ^ 2</div><div class="line">    skinny = 18.5  </div><div class="line">    normal = 25.0  </div><div class="line">    fat = 30.0</div></pre></td></tr></table></figure>
+<p>where 绑定也可以使用模式匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">...  </div><div class="line">where bmi = weight / height ^ 2  </div><div class="line">      (skinny, normal, fat) = (18.5, 25.0, 30.0)</div></pre></td></tr></table></figure>
+<p>搞个计算一组 bmi 的函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">calcBmis :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]  </div><div class="line">calcBmis xs = [bmi w h | (w, h) &lt;- xs] </div><div class="line">    where bmi weight height = weight / height ^ 2</div></pre></td></tr></table></figure>
+<p>使用 let</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">calcBmis :: (RealFloat a) =&gt; [(a, a)] -&gt; [a]  </div><div class="line">calcBmis xs = [bmi | (w, h) &lt;- xs, let bmi = w / h ^ 2]</div></pre></td></tr></table></figure>
+<h3 id="关键字-Let"><a href="#关键字-Let" class="headerlink" title="关键字 Let"></a>关键字 Let</h3><p><code>let</code> 绑定与 where 绑定很相似。<code>where</code> 绑定是在函数底部定义名字，对包括所有 guard 在内的整个函数可见。<code>let</code> 绑定则是个表达式，允许你在任何位置定义局部变量，而对不同的 guard 不可见。</p>
+<p><strong><code>let</code> 绑定本身是个表达式，而 <code>where</code> 绑定则是个语法结构。因而 <code>let</code> 可以随处安放</strong></p>
+<p><code>let</code> 的格式为 <code>let [bindings] in [expressions]</code>。在 <code>let</code> 中绑定的名字仅对 <code>in</code> 部分可见。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cylinder :: (RealFloat a) =&gt; a -&gt; a -&gt; a  </div><div class="line">cylinder r h = </div><div class="line">    let sideArea = 2 * pi * r * h  </div><div class="line">        topArea = pi * r ^2  </div><div class="line">    in  sideArea + 2 * topArea</div></pre></td></tr></table></figure>
+<p>let 已经这么好了，还要 where 干嘛呢？嗯，let 是个表达式，定义域限制的相当小，因此不能在多个 guard 中使用。一些朋友更喜欢 where，因为它是跟在函数体后面，把主函数体距离类型声明近一些会更易读。</p>
+<h3 id="case-语法"><a href="#case-语法" class="headerlink" title="case 语法"></a>case 语法</h3><p><code>case</code> 语句。就是取一个变量，按照对变量的判断选择对应的代码块。其中可能会存在一个万能匹配以处理未预料的情况。</p>
+<p>模式匹配本质上不过就是 <code>case</code> 语句的语法糖而已。这两段代码就是完全等价的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">head&apos; :: [a] -&gt; a  </div><div class="line">head&apos; [] = error &quot;No head for empty lists!&quot;  </div><div class="line">head&apos; (x:_) = x</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">head&apos; :: [a] -&gt; a  </div><div class="line">head&apos; xs = case xs of [] -&gt; error &quot;No head for empty lists!&quot;</div><div class="line">                      (x:_) -&gt; x</div></pre></td></tr></table></figure>
+<p>看得出，case表达式的语法十分简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">case expression of pattern -&gt; result  </div><div class="line">                   pattern -&gt; result  </div><div class="line">                   pattern -&gt; result  </div><div class="line">                   ...</div></pre></td></tr></table></figure>
+<p>函数参数的模式匹配只能在定义函数时使用，而 case 表达式可以用在任何地方。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">describeList :: [a] -&gt; String  </div><div class="line">describeList xs = &quot;The list is &quot; ++ case xs of [] -&gt; &quot;empty.&quot;  </div><div class="line">                                               [x] -&gt; &quot;a singleton list.&quot;   </div><div class="line">                                               xs -&gt; &quot;a longer list.&quot;</div></pre></td></tr></table></figure>
+<h2 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h2><p>递归在 Haskell 中非常重要。命令式语言要求你提供求解的步骤，Haskell 则倾向于让你提供问题的描述。这便是 Haskell 没有 <code>while</code> 或 <code>for</code> 循环的原因，递归是我们的替代方案。</p>
+<h3 id="实作-Maximum"><a href="#实作-Maximum" class="headerlink" title="实作 Maximum"></a>实作 Maximum</h3><p>maximum 函数取一组可排序的 List（属于 Ord Typeclass） 做参数，并回传其中的最大值。</p>
+<p>现在看看递归的思路是如何：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">maximum&apos; :: (Ord a) =&gt; [a] -&gt; a  </div><div class="line">maximum&apos; [] = error &quot;maximum of empty list&quot;  </div><div class="line">maximum&apos; [x] = x  </div><div class="line">maximum&apos; (x:xs) = max x (maximum&apos; xs)</div></pre></td></tr></table></figure>
+<h2 id="高端函数"><a href="#高端函数" class="headerlink" title="高端函数"></a>高端函数</h2><p>Haskell 中的函数可以接受函数作为参数也可以返回函数作为结果，这样的函数就被称作高端函数。</p>
+<p>本质上，Haskell 的所有函数都只有一个参数，所有多个参数的函数都是 Curried functions。</p>
+<p>看看 <code>max</code> 函数的类型: <code>max :: (Ord a) =&gt; a -&gt; a -&gt; a</code>。 也可以写作: <code>max :: (Ord a) =&gt; a -&gt; (a -&gt; a)</code>。 可以读作 <code>max</code> 取一个参数 <code>a</code>，并回传一个函数(就是那个 <code>-&gt;</code>)，这个函数取一个 <code>a</code> 类型的参数，回传一个 <code>a</code>。 这便是为何只用箭头来分隔参数和回传值类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">applyTwice :: (a -&gt; a) -&gt; a -&gt; a  </div><div class="line">applyTwice f x = f (f x)</div></pre></td></tr></table></figure>
+<p>使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">ghci&gt; applyTwice (+3) 10  </div><div class="line">16  </div><div class="line">ghci&gt; applyTwice (++ &quot; HAHA&quot;) &quot;HEY&quot;  </div><div class="line">&quot;HEY HAHA HAHA&quot;  </div><div class="line">ghci&gt; applyTwice (&quot;HAHA &quot; ++) &quot;HEY&quot;  </div><div class="line">&quot;HAHA HAHA HEY&quot;  </div><div class="line">ghci&gt; applyTwice (multThree 2 2) 9  </div><div class="line">144  </div><div class="line">ghci&gt; applyTwice (3:) [1]  </div><div class="line">[3,3,1]</div></pre></td></tr></table></figure>
+<p><code>zipWith</code>，它取一个函数和两个 List 做参数，并把两个 List 交到一起(使相应的元素去调用该函数)。 如下就是我们的实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">zipWith&apos; :: (a -&gt; b -&gt; c) -&gt; [a] -&gt; [b] -&gt; [c]  </div><div class="line">zipWith&apos; _ [] _ = []  </div><div class="line">zipWith&apos; _ _ [] = []  </div><div class="line">zipWith&apos; f (x:xs) (y:ys) = f x y : zipWith&apos; f xs ys</div><div class="line"></div><div class="line">ghci&gt; zipWith&apos; (+) [4,2,5,6] [2,6,2,3]  </div><div class="line">[6,8,7,9]  </div><div class="line">ghci&gt; zipWith&apos; max [6,3,2,1] [7,3,1,5]  </div><div class="line">[7,3,2,5]  </div><div class="line">ghci&gt; zipWith&apos; (++) [&quot;foo &quot;，&quot;bar &quot;，&quot;baz &quot;] [&quot;fighters&quot;，&quot;hoppers&quot;，&quot;aldrin&quot;]  </div><div class="line">[&quot;foo fighters&quot;,&quot;bar hoppers&quot;,&quot;baz aldrin&quot;]  </div><div class="line">ghci&gt; zipWith&apos; (*) (replicate 5 2) [1..]  </div><div class="line">[2,4,6,8,10]  </div><div class="line">ghci&gt; zipWith&apos; (zipWith&apos; (*)) [[1,2,3],[3,5,6],[2,3,4]] [[3,2,2],[3,4,5],[5,4,3]]  </div><div class="line">[[3,4,6],[9,20,30],[10,12,12]]</div></pre></td></tr></table></figure>
+<h3 id="map-与-filter"><a href="#map-与-filter" class="headerlink" title="map 与 filter"></a>map 与 filter</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">map :: (a -&gt; b) -&gt; [a] -&gt; [b]  </div><div class="line">map _ [] = []  </div><div class="line">map f (x:xs) = f x : map f xs</div><div class="line"></div><div class="line">ghci&gt; map (++ &quot;!&quot;) [&quot;BIFF&quot;，&quot;BANG&quot;，&quot;POW&quot;]  </div><div class="line">[&quot;BIFF!&quot;,&quot;BANG!&quot;,&quot;POW!&quot;]</div></pre></td></tr></table></figure>
+<p>filter 函数取一个限制条件和一个 List，回传该 List 中所有符合该条件的元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">filter :: (a -&gt; Bool) -&gt; [a] -&gt; [a]  </div><div class="line">filter _ [] = []  </div><div class="line">filter p (x:xs)   </div><div class="line">    | p x       = x : filter p xs  </div><div class="line">    | otherwise = filter p xs</div><div class="line">    </div><div class="line">ghci&gt; filter (&gt;3) [1,5,3,2,1,6,4,3,2,1]  </div><div class="line">[5,6,4]</div></pre></td></tr></table></figure>
+<p>出所有小于 10000 且为奇的平方的和</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ghci&gt; sum (takeWhile (&lt;10000) (filter odd (map (^2) [1..])))</div><div class="line">166650</div></pre></td></tr></table></figure>
+<p>得先提下 <code>takeWhile</code> 函数，它取一个限制条件和 List 作参数，然后从头开始遍历这一 List，并回传符合限制条件的元素。 而一旦遇到不符合条件的元素，它就停止了。</p>
+<h3 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h3><p>lambda 就是匿名函数。有些时候我们需要传给高端函数一个函数，而这函数我们只会用这一次，这就弄个特定功能的 lambda。</p>
+<p>编写 lambda，就写个 \，后面是用空格分隔的参数，-&gt; 后面就是函数体。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">numLongChains :: Int  </div><div class="line">numLongChains = length (filter (\xs -&gt; length xs &gt; 15) (map chain [1..100]))</div></pre></td></tr></table></figure>
+<h3 id="关键字-fold"><a href="#关键字-fold" class="headerlink" title="关键字 fold"></a>关键字 fold</h3><p>我们会发现处理 List 的许多函数都有固定的模式，通常我们会将边界条件设置为空 List，再引入 (x:xs) 模式，对单个元素和余下的 List 做些事情。这一模式是如此常见，因此 Haskell 引入了一组函数来使之简化，也就是 fold。它们与map有点像，只是它们回传的是单个值。</p>
+<p>一个 fold 取一个二元函数，一个初始值(我喜欢管它叫累加值)和一个需要折叠的 List。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sum&apos; :: (Num a) =&gt; [a] -&gt; a  </div><div class="line">sum&apos; xs = foldl (\acc x -&gt; acc + x) 0 xs</div><div class="line"></div><div class="line">ghci&gt; sum&apos; [3,5,2,1]  </div><div class="line">11</div></pre></td></tr></table></figure>
+<h3 id="有-的函数调用"><a href="#有-的函数调用" class="headerlink" title="有$的函数调用"></a>有$的函数调用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">($) :: (a -&gt; b) -&gt; a -&gt; b  </div><div class="line">f $ x = f x</div></pre></td></tr></table></figure>
+<p>普通的函数调用符有最高的优先级，而 <code>$</code> 的优先级则最低。用空格的函数调用符是左结合的，如 <code>f a b c</code> 与 <code>((f a) b) c</code> 等价，而 <code>$</code> 则是右结合的。</p>
+<p><code>sum (map sqrt [1..130])</code>，由于低优先级的 $，我们可以将其改为 <code>sum $ map sqrt [1..130]</code>，可以减少我们代码中括号的数目，可以把$看作是在右面写一对括号的等价形式。</p>
+<h3 id="函数组合"><a href="#函数组合" class="headerlink" title="函数组合"></a>函数组合</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c  </div><div class="line">f . g = \x -&gt; f (g x)</div></pre></td></tr></table></figure>
+<p> f 的参数类型必须与 g 的回传类型相同</p>
+<p> 函数组合的用处之一就是生成新函数，并传递给其它函数。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"> ghci&gt; map (\x -&gt; negate (abs x)) [5,-3,-6,7,-3,2,-19,24]  </div><div class="line">[-5,-3,-6,-7,-3,-2,-19,-24]</div></pre></td></tr></table></figure>
+<p> 用函数组合，我们可以将代码改为：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"> ghci&gt; map (negate . abs) [5,-3,-6,7,-3,2,-19,24]  </div><div class="line">[-5,-3,-6,-7,-3,-2,-19,-24]</div></pre></td></tr></table></figure>
+<h2 id="模块-Modules"><a href="#模块-Modules" class="headerlink" title="模块 (Modules)"></a>模块 (Modules)</h2><h3 id="装载模块"><a href="#装载模块" class="headerlink" title="装载模块"></a>装载模块</h3><p>Haskell 中的模块是含有一组相关的函数，类型和类型类的组合。而 Haskell 进程的本质便是从主模块中引用其它模块并调用其中的函数来运行操作。</p>
+<p>在 Haskell中，装载模块的语法为 import，这必须得在函数的定义之前，所以一般都是将它置于代码的顶部。</p>
+<p>避免命名冲突有个方法，便是 qualified import</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import qualified Data.Map</div></pre></td></tr></table></figure>
+<p>这样一来，再调用 Data.Map 中的 filter 函数，就必须得 <code>Data.Map.filter</code></p>
+<p>检索函数或搜索函数字置就用 <a href="http://www.Haskell.org/hoogle/" target="_blank" rel="external">Hoogle</a>，</p>
+<h3 id="Data-List"><a href="#Data-List" class="headerlink" title="Data.List"></a>Data.List</h3><p>显而易见，Data.List 是关于 List 操作的模块，它提供了一组非常有用的 List 处理函数。</p>
+<h3 id="Data-Char"><a href="#Data-Char" class="headerlink" title="Data.Char"></a>Data.Char</h3><p>Data.Char 模块包含了一组用于处理字符的函数。由于字符串的本质就是一组字符的 List，所以往往会在 filter 或是 map 字符串时用到它.</p>
+<h3 id="Data-Map"><a href="#Data-Map" class="headerlink" title="Data.Map"></a>Data.Map</h3><p>关联列表(也叫做字典)是按照键值对排列而没有特定顺序的一种 List。</p>
+<p>如下便是个表示电话号码的关联列表:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">phoneBook = [(&quot;betty&quot;,&quot;555-2938&quot;) ,</div><div class="line">             (&quot;bonnie&quot;,&quot;452-2928&quot;) ,</div><div class="line">             (&quot;patsy&quot;,&quot;493-2928&quot;) ,</div><div class="line">             (&quot;lucille&quot;,&quot;205-2928&quot;) ,</div><div class="line">             (&quot;wendy&quot;,&quot;939-8282&quot;) ,</div><div class="line">             (&quot;penny&quot;,&quot;853-2492&quot;) ]</div></pre></td></tr></table></figure>
+<p>对关联列表最常见的操作就是按键索值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">findKey :: (Eq k) =&gt; k -&gt; [(k,v)] -&gt; Maybe v </div><div class="line">findKey key [] = Nothing</div><div class="line">findKey key ((k,v):xs) = </div><div class="line">     if key == k then </div><div class="line">         v </div><div class="line">     else </div><div class="line">         findKey key xs</div></pre></td></tr></table></figure>
+<h3 id="Data-Set"><a href="#Data-Set" class="headerlink" title="Data.Set"></a>Data.Set</h3><p>fromList 函数同你想的一样，它取一个 List 作参数并将其转为一个集合</p>
+<h3 id="创建自己的模块"><a href="#创建自己的模块" class="headerlink" title="创建自己的模块"></a>创建自己的模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">module Geometry  </div><div class="line">( sphereVolume  </div><div class="line">，sphereArea  </div><div class="line">，cubeVolume  </div><div class="line">，cubeArea  </div><div class="line">，cuboidArea  </div><div class="line">，cuboidVolume  </div><div class="line">) where  </div><div class="line"></div><div class="line">sphereVolume :: Float -&gt; Float  </div><div class="line">sphereVolume radius = (4.0 / 3.0) * pi * (radius ^ 3)  </div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
+<h2 id="构造我们自己的-Types-和-Typeclasses"><a href="#构造我们自己的-Types-和-Typeclasses" class="headerlink" title="构造我们自己的 Types 和 Typeclasses"></a>构造我们自己的 Types 和 Typeclasses</h2>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Haskell/" rel="tag"># Haskell</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/23/Serverless-学习笔记/" rel="next" title="Serverless 学习笔记">
+                <i class="fa fa-chevron-left"></i> Serverless 学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/01/24/Haskell趣学指南笔记/"
+           data-title="Haskell趣学指南笔记" data-url="https://shiningdan.github.io/2018/01/24/Haskell趣学指南笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用-Haskell"><span class="nav-number">2.</span> <span class="nav-text">开始使用 Haskell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义函数"><span class="nav-number">2.1.</span> <span class="nav-text">定义函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#if-语句"><span class="nav-number">2.2.</span> <span class="nav-text">if 语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List-入门"><span class="nav-number">2.3.</span> <span class="nav-text">List 入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Range"><span class="nav-number">2.4.</span> <span class="nav-text">使用 Range</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List-Comprehension"><span class="nav-number">2.5.</span> <span class="nav-text">List Comprehension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tuple"><span class="nav-number">2.6.</span> <span class="nav-text">Tuple</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型和类型声明"><span class="nav-number">3.</span> <span class="nav-text">类型和类型声明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Typeclasses入门"><span class="nav-number">3.1.</span> <span class="nav-text">Typeclasses入门</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数的语法"><span class="nav-number">4.</span> <span class="nav-text">函数的语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模式匹配-Pattern-matching"><span class="nav-number">4.1.</span> <span class="nav-text">模式匹配 (Pattern matching)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-Guards"><span class="nav-number">4.2.</span> <span class="nav-text">什么是 Guards</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字-Where"><span class="nav-number">4.3.</span> <span class="nav-text">关键字 Where</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字-Let"><span class="nav-number">4.4.</span> <span class="nav-text">关键字 Let</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#case-语法"><span class="nav-number">4.5.</span> <span class="nav-text">case 语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递归"><span class="nav-number">5.</span> <span class="nav-text">递归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实作-Maximum"><span class="nav-number">5.1.</span> <span class="nav-text">实作 Maximum</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高端函数"><span class="nav-number">6.</span> <span class="nav-text">高端函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map-与-filter"><span class="nav-number">6.1.</span> <span class="nav-text">map 与 filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lambda"><span class="nav-number">6.2.</span> <span class="nav-text">lambda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字-fold"><span class="nav-number">6.3.</span> <span class="nav-text">关键字 fold</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有-的函数调用"><span class="nav-number">6.4.</span> <span class="nav-text">有$的函数调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数组合"><span class="nav-number">6.5.</span> <span class="nav-text">函数组合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块-Modules"><span class="nav-number">7.</span> <span class="nav-text">模块 (Modules)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#装载模块"><span class="nav-number">7.1.</span> <span class="nav-text">装载模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-List"><span class="nav-number">7.2.</span> <span class="nav-text">Data.List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Char"><span class="nav-number">7.3.</span> <span class="nav-text">Data.Char</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Map"><span class="nav-number">7.4.</span> <span class="nav-text">Data.Map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Set"><span class="nav-number">7.5.</span> <span class="nav-text">Data.Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自己的模块"><span class="nav-number">7.6.</span> <span class="nav-text">创建自己的模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造我们自己的-Types-和-Typeclasses"><span class="nav-number">8.</span> <span class="nav-text">构造我们自己的 Types 和 Typeclasses</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
