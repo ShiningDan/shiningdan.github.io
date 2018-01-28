@@ -761,8 +761,103 @@ sphereVolume radius = (4.0 / 3.0) * pi * (radius ^ 3)
 
 ## 构造我们自己的 Types 和 Typeclasses
 
+不过在 Haskell 中该如何构造自己的类型呢？好问题，一种方法是使用 data 关键字。首先我们来看看 Bool 在标准函数库中的定义：
 
+```
+data Bool = False | True
+```
 
+data 表示我们要定义一个新的类型。= 的左端标明类型的名称即 Bool，= 的右端就是值构造子 (Value Constructor)，它们明确了该类型可能的值。
+
+**值构造子的本质是个函数，可以返回一个类型的值**
+
+```
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float
+```
+
+函数计算图形面积
+
+```
+surface :: Shape -> Float
+surface (Circle _ _ r) = pi * r ^ 2
+surface (Rectangle x1 y1 x2 y2) = (abs $ x2 - x1) * (abs $ y2 - y1)
+```
+
+当我们往控制台输出值的时候，Haskell 会先调用 show 函数得到这个值的字符串表示才会输出。因此要让我们的 Shape 类型成为 Show 类型类的成员。
+
+```
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float deriving (Show)
+```
+
+我们若要取一组不同半径的同心圆
+
+```
+ghci> map (Circle 10 20) [4,5,6,6]
+[Circle 10.0 20.0 4.0,Circle 10.0 20.0 5.0,Circle 10.0 20.0 6.0,Circle 10.0 20.0 6.0]
+```
+
+### Record Syntax
+
+```
+data Person = Person { firstName :: String
+                     , lastName :: String
+                     , age :: Int
+                     , height :: Float
+                     , phoneNumber :: String
+                     , flavor :: String
+                     } deriving (Show)
+```
+
+### 类型构造子
+
+类型构造子可以取类型作参数，产生新的类型。
+
+```
+data Maybe a = Nothing | Just a
+```
+
+在它的值不是 Nothing 时，它的类型构造子可以搞出 Maybe Int，Maybe String 等等诸多态别。但只一个 Maybe 是不行的，因为它不是类型，而是类型构造子。要成为真正的类型，必须得把它需要的类型参数全部填满。
+
+### 生成类型类 instance
+
+我们先了解下 Haskell 是如何自动生成这几个类型类的 instance，Eq, Ord, Enum, Bounded, Show, Read。
+
+## 输入与输出
+
+在 Haskell 中，一个函数不能改变状态，像是改变一个变量的内容。在 Haskell 中函数唯一可以做的事是根据我们给定的参数来算出结果。如果我们用同样的参数调用两次同一个函数，它会回传相同的结果。
+
+```
+import Data.Char
+
+main = do
+    putStrLn "What's your first name?"
+    firstName <- getLine
+    putStrLn "What's your last name?"
+    lastName <- getLine
+    let bigFirstName = map toUpper firstName
+        bigLastName = map toUpper lastName
+    putStrLn $ "hey " ++ bigFirstName ++ " " ++ bigLastName ++ ", how are you?"
+```
+
+它看起来就像一个命令式的程序。我们写了一个 do 并且接着一连串指令，就像写个命令式程序一般
+
+getLine 的型态是 IO String。你不能串接一个字符串跟 I/O action。我们必须先把 String 的值从 I/O action 中取出，而唯一可行的方法就是在 I/O action 中使用 `name <- getLine`
+
+在 Haskell 中，他的意义则是利用某个 pure value 造出 I/O action。用之前盒子的比喻来说，就是将一个 value 装进箱子里面。产生出的 I/O action 并没有作任何事，只不过将 value 包起来而已。所以在 I/O 的情况下来说，return "haha" 的型态是 IO String
+
+getChar 是一个读取单一字符的 I/O action。getLine 是一个读取一行的 I/O action。getContents 是一个从标准输入读取直到 end-of-file 字符的 I/O action。
+
+### 乱数
+
+在 System.Random 模块中。他包含所有满足我们需求的函数。
+
+### Exceptions
+
+Haskell 有一个很棒的型态系统。Algebraic data types 允许像是 Maybe 或 Either 这种型态，我们能用这些型态来代表一些可能有或没有的结果。
+
+## 函数式地思考来解决问题
+
+[什么是函数式编程思维？ - 用心阁的回答 - 知乎](https://www.zhihu.com/question/28292740/answer/40336090)
 
 
 
