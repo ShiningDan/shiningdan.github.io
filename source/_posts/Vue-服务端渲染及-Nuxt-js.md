@@ -238,7 +238,11 @@ Nuxt.js 允许你在自动生成的 vendor.bundle.js 文件中添加一些模块
 
 关于 build 的配置，可以查看 [构建配置](https://zh.nuxtjs.org/api/configuration-build)
 
+#### plugins
 
+plugins 属性配置的所有插件会在 Nuxt.js 应用初始化之前被加载导入。
+
+每次你需要使用 Vue.use() 时，你需要在 plugins/ 目录下创建相应的插件文件，并在 nuxt.config.js 中的 plugins 配置项中配置插件的路径。
 
 
 ## 参考
