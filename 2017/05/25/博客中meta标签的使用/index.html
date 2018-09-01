@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="在我的博客中，通过 &amp;lt;meta&amp;gt; 标签添加了一些附加的小功能，或者禁用了一些选项，这篇文章中介绍了我遇到的一些 &amp;lt;meta&amp;gt; 标签及其作用。本文长期更新">
+<meta name="keywords" content="meta">
 <meta property="og:type" content="article">
 <meta property="og:title" content="博客中meta标签的使用">
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/25/博客中meta标签的使用/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="在我的博客中，通过 &amp;lt;meta&amp;gt; 标签添加了一些附加的小功能，或者禁用了一些选项，这篇文章中介绍了我遇到的一些 &amp;lt;meta&amp;gt; 标签及其作用。本文长期更新">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/d3bc402fc2437feab32018d7d478eacf.png">
 <meta property="og:updated_time" content="2017-05-25T14:37:11.000Z">
 <meta name="twitter:card" content="summary">
@@ -408,37 +410,37 @@
 <h2 id="meta-的介绍"><a href="#meta-的介绍" class="headerlink" title="meta 的介绍"></a>meta 的介绍</h2><p>在 HTML 标签中，<code>&lt;meta&gt;</code> 标签表示那些不能由其它HTML元相关元素 (<code>&lt;base&gt;, &lt;link&gt;, &lt;script&gt;, &lt;style&gt; 或 &lt;title&gt;</code>) 之一表示的任何元数据信息.</p>
 <h2 id="meta-标签的使用"><a href="#meta-标签的使用" class="headerlink" title="meta 标签的使用"></a>meta 标签的使用</h2><h3 id="charset"><a href="#charset" class="headerlink" title="charset"></a>charset</h3><p>此特性声明当前文档所使用的字符编码，但该声明可以被任何一个元素的 <code>lang</code> 特性的值覆盖。</p>
 <p>鼓励使用 <code>UTF-8</code>。</p>
-<h3 id="X-UA-Compatible"><a href="#X-UA-Compatible" class="headerlink" title="X-UA-Compatible"></a>X-UA-Compatible</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</div></pre></td></tr></table></figure>
+<h3 id="X-UA-Compatible"><a href="#X-UA-Compatible" class="headerlink" title="X-UA-Compatible"></a>X-UA-Compatible</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;</span><br></pre></td></tr></table></figure>
 <p>用于告知浏览器以何种版本来渲染页面，比如上面这句话指定 IE 使用最新版本来渲染页面。</p>
-<h3 id="format-detection"><a href="#format-detection" class="headerlink" title="format-detection"></a>format-detection</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;format-detection&quot; content=&quot;telephone=no&quot;&gt;</div></pre></td></tr></table></figure>
+<h3 id="format-detection"><a href="#format-detection" class="headerlink" title="format-detection"></a>format-detection</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;format-detection&quot; content=&quot;telephone=no&quot;&gt;</span><br></pre></td></tr></table></figure>
 <p>上面这句话表面，禁止把数字转化为拨号链接，默认是 <code>yes</code></p>
 <p>同样类型的还有以下几种：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">meta name=&quot;format-detection&quot; content=&quot;email=no&quot;</div><div class="line">meta name=&quot;format-detection&quot; content=&quot;adress=no&quot; </div><div class="line">也可以连写：meta name=&quot;format-detection&quot; content=&quot;telephone=no,email=no,adress=no&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">meta name=&quot;format-detection&quot; content=&quot;email=no&quot;</span><br><span class="line">meta name=&quot;format-detection&quot; content=&quot;adress=no&quot; </span><br><span class="line">也可以连写：meta name=&quot;format-detection&quot; content=&quot;telephone=no,email=no,adress=no&quot;</span><br></pre></td></tr></table></figure>
 <p><code>email=no</code> 禁止作为邮箱地址，告诉设备不识别邮箱，点击之后不自动发送</p>
 <p><code>email=yes</code> 就开启了把文字默认为邮箱地址，这个meta就不用写了,在<br>默认是情况下就是开启</p>
 <p><code>adress=no</code> 禁止跳转至地图</p>
 <p><code>adress=yes</code> 就开启了点击地址直接跳转至地图的功能,在默认是情况下就是开启</p>
-<h3 id="theme-color"><a href="#theme-color" class="headerlink" title="theme-color"></a>theme-color</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;theme-color&quot; content=&quot;#db5945&quot;&gt;</div></pre></td></tr></table></figure>
+<h3 id="theme-color"><a href="#theme-color" class="headerlink" title="theme-color"></a>theme-color</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;theme-color&quot; content=&quot;#db5945&quot;&gt;</span><br></pre></td></tr></table></figure>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/d3bc402fc2437feab32018d7d478eacf.png" alt=""></p>
 <p>Android Lollipop 中的 Chrome 39 增加 <code>theme-color meta</code> 标签，用来控制选项卡颜色。</p>
-<h3 id="description"><a href="#description" class="headerlink" title="description"></a>description</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;description&quot; content=&quot;不超过150个字符&quot;/&gt;</div></pre></td></tr></table></figure>
+<h3 id="description"><a href="#description" class="headerlink" title="description"></a>description</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;description&quot; content=&quot;不超过150个字符&quot;/&gt;</span><br></pre></td></tr></table></figure>
 <p>页面描述</p>
-<h3 id="apple-mobile-web-app-title"><a href="#apple-mobile-web-app-title" class="headerlink" title="apple-mobile-web-app-title"></a>apple-mobile-web-app-title</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;标题&quot;&gt;</div></pre></td></tr></table></figure>
+<h3 id="apple-mobile-web-app-title"><a href="#apple-mobile-web-app-title" class="headerlink" title="apple-mobile-web-app-title"></a>apple-mobile-web-app-title</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;标题&quot;&gt;</span><br></pre></td></tr></table></figure>
 <p>添加到主屏后的标题（iOS 6 新增）</p>
-<h3 id="apple-mobile-web-app-capable"><a href="#apple-mobile-web-app-capable" class="headerlink" title="apple-mobile-web-app-capable"></a>apple-mobile-web-app-capable</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;/&gt;</div></pre></td></tr></table></figure>
+<h3 id="apple-mobile-web-app-capable"><a href="#apple-mobile-web-app-capable" class="headerlink" title="apple-mobile-web-app-capable"></a>apple-mobile-web-app-capable</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;/&gt;</span><br></pre></td></tr></table></figure>
 <p>添加到主屏后是否启用 WebApp 全屏模式</p>
 <h3 id="apple-mobile-web-app-status-bar-style"><a href="#apple-mobile-web-app-status-bar-style" class="headerlink" title="apple-mobile-web-app-status-bar-style"></a>apple-mobile-web-app-status-bar-style</h3><p>只有在 <code>&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;</code> 时生效</p>
 <p>如果设置为 <code>default</code> 或 <code>black</code> ，网页内容从状态栏底部开始。</p>
 <p>如果设置为 <code>black-translucent</code> ，网页内容充满整个屏幕，顶部会被状态栏遮挡。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;black-translucent&quot;/&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;black-translucent&quot;/&gt;</span><br></pre></td></tr></table></figure>
 <p>添加到主屏后设置状态栏的背景颜色</p>
-<h3 id="apple-touch-icon"><a href="#apple-touch-icon" class="headerlink" title="apple-touch-icon"></a>apple-touch-icon</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=&quot;apple-touch-icon&quot; href=&quot;/img/icon.png&quot;&gt;</div></pre></td></tr></table></figure>
+<h3 id="apple-touch-icon"><a href="#apple-touch-icon" class="headerlink" title="apple-touch-icon"></a>apple-touch-icon</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;apple-touch-icon&quot; href=&quot;/img/icon.png&quot;&gt;</span><br></pre></td></tr></table></figure>
 <p>iOS 图标，图片自动处理成圆角和高光等效果，默认 57x57 像素</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta" target="_blank" rel="external">meta | MDN</a></li>
-<li><a href="http://blog.sina.com.cn/s/blog_51048da70101cgea.html" target="_blank" rel="external">Meta标签中的format-detection属性及含义</a></li>
-<li><a href="https://github.com/gafish/gafish.github.com/issues/2" target="_blank" rel="external">移动端的头部标签和 meta</a></li>
-<li><a href="https://juejin.im/entry/58085b3267f3560057a0053a" target="_blank" rel="external">移动前端不得不了解的 HTML5 head 头标签</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta" target="_blank" rel="noopener">meta | MDN</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_51048da70101cgea.html" target="_blank" rel="noopener">Meta标签中的format-detection属性及含义</a></li>
+<li><a href="https://github.com/gafish/gafish.github.com/issues/2" target="_blank" rel="noopener">移动端的头部标签和 meta</a></li>
+<li><a href="https://juejin.im/entry/58085b3267f3560057a0053a" target="_blank" rel="noopener">移动前端不得不了解的 HTML5 head 头标签</a></li>
 </ul>
 
       
@@ -558,7 +560,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -576,7 +578,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

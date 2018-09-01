@@ -84,22 +84,21 @@
 
 
 
-<meta name="description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
-设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta name="description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。 设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta name="keywords" content="CSS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS-注意事项">
 <meta property="og:url" content="https://shiningdan.github.io/2017/01/05/CSS-注意事项/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
-设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta property="og:description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。 设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
 <meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/23.PNG">
 <meta property="og:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
 <meta property="og:updated_time" content="2017-01-05T12:27:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS-注意事项">
-<meta name="twitter:description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。
-设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
+<meta name="twitter:description" content="float 和 display:inline-block 的使用float 和 display:inline-block 不能同时使用，在有的浏览器(chrome)中，浏览器对 css 代码解释的过程中，有时候按照 float 来布局，有时候按照 inline-block 来布局，会使得布局产生变化。 设了float:left的元素允许它的右边存在任何元素同行显示，不论是内联元素还是块元素。但它的">
 <meta name="twitter:image" content="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG">
 
 
@@ -391,8 +390,8 @@
 <p>设了display:inline的元素，允许它的前后存在其它的内联元素同行显示。关于代码在其前面的块元素之同行显示，则要让前面的元素浮动（不管是左还是右浮动）或设为display:inline，还有代码在后面的是块元素（管它有没有浮动，是左浮动还是右浮动），均不能与之同行，除非设为display:inline。</p>
 <h2 id="使用-overflow-hidden-清除浮动"><a href="#使用-overflow-hidden-清除浮动" class="headerlink" title="使用 overflow:hidden 清除浮动"></a>使用 overflow:hidden 清除浮动</h2><p>出现情况：<strong>父块没有设置指定的高宽，当子块设置为浮动后，原本包裹子块的父块的高度塌陷消失，这时给父块设置overflow:hidden就能清楚浮动造成的影响，使父块重新包裹子块。</strong></p>
 <a id="more"></a>
-<p><a href="https://www.zhihu.com/question/30938856" target="_blank" rel="external">知乎 overflow:hidden 能够清除浮动的解释</a></p>
-<p>相关知识：<a href="http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="external">BFC 的原理及其应用</a></p>
+<p><a href="https://www.zhihu.com/question/30938856" target="_blank" rel="noopener">知乎 overflow:hidden 能够清除浮动的解释</a></p>
+<p>相关知识：<a href="http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="noopener">BFC 的原理及其应用</a></p>
 <h2 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h2><p>可以对块添加 box-shadow 属性向框添加一个或多个阴影。</p>
 <h2 id="全字母大写，放大，加下划线"><a href="#全字母大写，放大，加下划线" class="headerlink" title="全字母大写，放大，加下划线"></a>全字母大写，放大，加下划线</h2><p>如果想实现全字母大写，放大，加下划线，如图下效果：</p>
 <p><img src="http://7xs2ra.com1.z0.glb.clouddn.com/22.PNG" alt=""></p>
@@ -534,7 +533,7 @@ p:first-letter {
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -552,7 +551,7 @@ p:first-letter {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

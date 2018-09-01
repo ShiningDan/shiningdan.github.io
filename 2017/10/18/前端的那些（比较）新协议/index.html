@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="由于现在前端业务的飞速发展，与之相关的前端协议也在不断出现，为前端的进步提供更多的可能性。在本文中，总结了一下常用的比较新的前端协议，其实有的协议其实也有些年头了，但是大家可能接触的也不是很多，通过本文，希望给大家带来一些大体上的认知。">
+<meta name="keywords" content="协议">
 <meta property="og:type" content="article">
 <meta property="og:title" content="前端的那些（比较）新协议">
 <meta property="og:url" content="https://shiningdan.github.io/2017/10/18/前端的那些（比较）新协议/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="由于现在前端业务的飞速发展，与之相关的前端协议也在不断出现，为前端的进步提供更多的可能性。在本文中，总结了一下常用的比较新的前端协议，其实有的协议其实也有些年头了，但是大家可能接触的也不是很多，通过本文，希望给大家带来一些大体上的认知。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-10-21T15:50:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端的那些（比较）新协议">
@@ -382,7 +384,7 @@
         <p>由于现在前端业务的飞速发展，与之相关的前端协议也在不断出现，为前端的进步提供更多的可能性。在本文中，总结了一下常用的比较新的前端协议，其实有的协议其实也有些年头了，但是大家可能接触的也不是很多，通过本文，希望给大家带来一些大体上的认知。</p>
 <a id="more"></a>
 <h2 id="WebRTC"><a href="#WebRTC" class="headerlink" title="WebRTC"></a>WebRTC</h2><p>WebRTC (Web Real-Time Communications) 是一项实时通讯技术，它允许网络应用或者站点，在不借助中间媒介的情况下，建立浏览器之间<strong>点对点</strong>（Peer-to-Peer）的连接，实现视频流和（或）音频流或者其他任意数据的传输。</p>
-<p>关于 WebRTC 相关的介绍，可以参考文章 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API" target="_blank" rel="external">WebRTC API | MDN</a>，这里介绍了 WebRTC 的低层协议、架构、API 概述等。</p>
+<p>关于 WebRTC 相关的介绍，可以参考文章 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API" target="_blank" rel="noopener">WebRTC API | MDN</a>，这里介绍了 WebRTC 的低层协议、架构、API 概述等。</p>
 <p>WebRTC实现了三个API，分别是:</p>
 <ul>
 <li>MediaStream：通过MediaStream的API能够通过设备的摄像头及话筒获得视频、音频的同步流</li>
@@ -399,17 +401,17 @@
 <p>但是管理 Comet 是很容易出错的，所以为了简化这一技术，又为 Comet 创建了两个新的接口。</p>
 <h4 id="Server-Sent-Events-SSE"><a href="#Server-Sent-Events-SSE" class="headerlink" title="Server-Sent Events (SSE)"></a>Server-Sent Events (SSE)</h4><p>服务器发送事件，是围绕只读 Comet 交互推出的 API 或者模式。SSE API 用于创建到服务器的单向连接，服务器通过这个连接可以发送任意数量的数据。服务器响应的 MIME 类型必须是 text/event-stream。</p>
 <p>使用方法是创建一个 <code>EventSource</code> 对象，然后主要配置 <code>open、message、error</code> 这三个事件的处理程序。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">let source = new EventSource(&quot;myevents.php&quot;);</div><div class="line">source.onmessage = function(event) &#123;</div><div class="line">    let data = event.data;</div><div class="line">    // 处理数据</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let source = new EventSource(&quot;myevents.php&quot;);</span><br><span class="line">source.onmessage = function(event) &#123;</span><br><span class="line">    let data = event.data;</span><br><span class="line">    // 处理数据</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>默认情况下，EventSource 对象会保持与服务器的活动连接，如果连接断开，还会重新连接。这意味着 SSE 适合长轮询和 HTTP 流。如果想强制立即断开连接并且不再重新连接，可以调用 <code>source.close()</code></p>
 <p>除此以外，还可以给特定事件添加一个 <code>id</code>，如果连接断开，<code>EventSource</code> 对象会跟踪上一次触发的事件，从而向服务器发送该 <code>id</code>，让服务器知道下一次该触发哪个事件。</p>
 <h3 id="WebSocket-1"><a href="#WebSocket-1" class="headerlink" title="WebSocket"></a>WebSocket</h3><p>HTML5 WebSocket 设计出来的目的就是要取代轮询和 Comet 技术，使客户端浏览器具备像 C/S 架构下桌面系统的实时通讯能力。 浏览器通过 JavaScript 向服务器发出建立 WebSocket 连接的请求，连接建立以后，客户端和服务器端就可以通过 TCP 连接直接交换数据。因为 WebSocket 连接本质上就是一个 TCP 连接，所以在数据传输的稳定性和数据传输量的大小方面，和轮询以及 Comet 技术比较，具有很大的性能优势。</p>
 <p>WebSocket 协议本质上是一个基于 TCP 的协议。为了建立一个 WebSocket 连接，客户端浏览器首先要向服务器发起一个 HTTP 请求，这个请求和通常的 HTTP 请求不同，包含了一些附加头信息，其中附加头信息<code>Upgrade: WebSocket</code> 表明这是一个申请协议升级的 HTTP 请求，服务器端解析这些附加的头信息然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket 连接就建立起来了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">客户端到服务端： </div><div class="line">GET /demo HTTP/1.1 </div><div class="line">Host: example.com </div><div class="line">Connection: Upgrade </div><div class="line">Sec-WebSocket-Key2: 12998 5 Y3 1 .P00 </div><div class="line">Upgrade: WebSocket </div><div class="line">Sec-WebSocket-Key1: 4@1 46546xW%0l 1 5 </div><div class="line">Origin: http://example.com </div><div class="line">[8-byte security key] </div><div class="line"></div><div class="line">服务端到客户端：</div><div class="line">HTTP/1.1 101 WebSocket Protocol Handshake </div><div class="line">Upgrade: WebSocket </div><div class="line">Connection: Upgrade </div><div class="line">WebSocket-Origin: http://example.com </div><div class="line">WebSocket-Location: ws://example.com/demo </div><div class="line">[16-byte hash response]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">客户端到服务端： </span><br><span class="line">GET /demo HTTP/1.1 </span><br><span class="line">Host: example.com </span><br><span class="line">Connection: Upgrade </span><br><span class="line">Sec-WebSocket-Key2: 12998 5 Y3 1 .P00 </span><br><span class="line">Upgrade: WebSocket </span><br><span class="line">Sec-WebSocket-Key1: 4@1 46546xW%0l 1 5 </span><br><span class="line">Origin: http://example.com </span><br><span class="line">[8-byte security key] </span><br><span class="line"></span><br><span class="line">服务端到客户端：</span><br><span class="line">HTTP/1.1 101 WebSocket Protocol Handshake </span><br><span class="line">Upgrade: WebSocket </span><br><span class="line">Connection: Upgrade </span><br><span class="line">WebSocket-Origin: http://example.com </span><br><span class="line">WebSocket-Location: ws://example.com/demo </span><br><span class="line">[16-byte hash response]</span><br></pre></td></tr></table></figure>
 <p>建立 WebSocket 连接的实例 JavaScript 代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var wsServer = &apos;ws://localhost:8888/Demo&apos;; </div><div class="line">var websocket = new WebSocket(wsServer); </div><div class="line">websocket.onopen = function (evt) &#123; onOpen(evt) &#125;; </div><div class="line">websocket.onclose = function (evt) &#123; onClose(evt) &#125;; </div><div class="line">websocket.onmessage = function (evt) &#123; onMessage(evt) &#125;; </div><div class="line">websocket.onerror = function (evt) &#123; onError(evt) &#125;; </div><div class="line">function onOpen(evt) &#123; </div><div class="line">console.log(&quot;Connected to WebSocket server.&quot;); </div><div class="line">&#125; </div><div class="line">function onClose(evt) &#123; </div><div class="line">console.log(&quot;Disconnected&quot;); </div><div class="line">&#125; </div><div class="line">function onMessage(evt) &#123; </div><div class="line">console.log(&apos;Retrieved data from server: &apos; + evt.data); </div><div class="line">&#125; </div><div class="line">function onError(evt) &#123; </div><div class="line">console.log(&apos;Error occured: &apos; + evt.data); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var wsServer = &apos;ws://localhost:8888/Demo&apos;; </span><br><span class="line">var websocket = new WebSocket(wsServer); </span><br><span class="line">websocket.onopen = function (evt) &#123; onOpen(evt) &#125;; </span><br><span class="line">websocket.onclose = function (evt) &#123; onClose(evt) &#125;; </span><br><span class="line">websocket.onmessage = function (evt) &#123; onMessage(evt) &#125;; </span><br><span class="line">websocket.onerror = function (evt) &#123; onError(evt) &#125;; </span><br><span class="line">function onOpen(evt) &#123; </span><br><span class="line">console.log(&quot;Connected to WebSocket server.&quot;); </span><br><span class="line">&#125; </span><br><span class="line">function onClose(evt) &#123; </span><br><span class="line">console.log(&quot;Disconnected&quot;); </span><br><span class="line">&#125; </span><br><span class="line">function onMessage(evt) &#123; </span><br><span class="line">console.log(&apos;Retrieved data from server: &apos; + evt.data); </span><br><span class="line">&#125; </span><br><span class="line">function onError(evt) &#123; </span><br><span class="line">console.log(&apos;Error occured: &apos; + evt.data); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>注意，WebSocket 只能发送文本数据，对于复杂的数据结构，在通过连接发送之前，必须进行序列化</strong></p>
-<p>接收到服务器的数据，可以是文本数据，也可能是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external">Blob</a> 对象或者 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="external">ArrayBuffer</a> 对象</p>
-<p>Blob对象表示不可变的类似文件对象的原始数据。ArrayBuffer对象被用来表示一个通用的，固定长度的二进制数据缓冲区。具体差别可以查看这篇文章：<a href="http://www.zhangxinxu.com/wordpress/2013/10/understand-domstring-document-formdata-blob-file-arraybuffer/" target="_blank" rel="external">理解DOMString、Document、FormData、Blob、File、ArrayBuffer数据类型</a></p>
+<p>接收到服务器的数据，可以是文本数据，也可能是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="noopener">Blob</a> 对象或者 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer" target="_blank" rel="noopener">ArrayBuffer</a> 对象</p>
+<p>Blob对象表示不可变的类似文件对象的原始数据。ArrayBuffer对象被用来表示一个通用的，固定长度的二进制数据缓冲区。具体差别可以查看这篇文章：<a href="http://www.zhangxinxu.com/wordpress/2013/10/understand-domstring-document-formdata-blob-file-arraybuffer/" target="_blank" rel="noopener">理解DOMString、Document、FormData、Blob、File、ArrayBuffer数据类型</a></p>
 <h2 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h2><p>在2010年到2015年，谷歌通过实践了一个实验性的SPDY协议，证明了一个在客户端和服务器端交换数据的另类方式。其收集了浏览器和服务器端的开发者的焦点问题。明确了响应数量的增加和解决复杂的数据传输，SPDY成为了HTTP/2协议的基础。</p>
 <p><strong>SPDY并不是一种用于替代HTTP的协议，而是对HTTP协议的增强。</strong></p>
 <p>SPDY（会话层）的设计特点是在SSL层（表示层）的基础上，增加了一个<strong>会话层</strong>，从而在一个tcp 连接基础上，实现了多并发和交叉流传输。HTTP 的GET ,POST 仍旧采用旧有的消息格式，当然SPDY 协议对原有的数据做了封装和编码</p>
@@ -421,7 +423,7 @@
 <h4 id="Server-hint"><a href="#Server-hint" class="headerlink" title="Server hint"></a>Server hint</h4><p>不像上面提到的PUSH 技术，服务器会先告诉浏览器，你可以下载ABC资源了，这个ABC资源，可能就是下一个页面的JS ,CSS ，或者内容。服务器不会主动推送的，仍旧等待客户端请求，这对于低速网络，是个很大的优化，有点类似于我们的预加载技术。</p>
 <h4 id="安全防攻击"><a href="#安全防攻击" class="headerlink" title="安全防攻击"></a>安全防攻击</h4><p>SPDY采用了SSL+数据压缩，安全性上有了很大提升。</p>
 <h3 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h3><p>SPDY会话层会把请求封装成一个SPDY frame（SPDY帧），然后把SPDY帧丢给ssl层或者tcp层发送</p>
-<h2 id="HTTP1-0-1-1-2"><a href="#HTTP1-0-1-1-2" class="headerlink" title="HTTP1.0/1.1/2"></a>HTTP1.0/1.1/2</h2><p>在 <a href="http://www.alloyteam.com/2016/07/httphttp2-0spdyhttps-reading-this-is-enough/" target="_blank" rel="external">HTTP,HTTP2.0,SPDY,HTTPS你应该知道的一些事</a> 这篇文章中可以了解一些。</p>
+<h2 id="HTTP1-0-1-1-2"><a href="#HTTP1-0-1-1-2" class="headerlink" title="HTTP1.0/1.1/2"></a>HTTP1.0/1.1/2</h2><p>在 <a href="http://www.alloyteam.com/2016/07/httphttp2-0spdyhttps-reading-this-is-enough/" target="_blank" rel="noopener">HTTP,HTTP2.0,SPDY,HTTPS你应该知道的一些事</a> 这篇文章中可以了解一些。</p>
 <h3 id="HTTP1-0和HTTP1-1的一些区别"><a href="#HTTP1-0和HTTP1-1的一些区别" class="headerlink" title="HTTP1.0和HTTP1.1的一些区别"></a>HTTP1.0和HTTP1.1的一些区别</h3><p>主要区别主要体现在：</p>
 <ol>
 <li>缓存处理，在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。</li>
@@ -447,14 +449,14 @@
 <li>服务端推送（server push），同SPDY一样，HTTP2.0也具有server push功能</li>
 </ol>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API" target="_blank" rel="external">WebRTC API | MDN</a></li>
-<li><a href="https://imququ.com/post/html5-live-player-3.html" target="_blank" rel="external">HTML5 视频直播（三）</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2017/05/websocket.html" target="_blank" rel="external">WebSocket 教程</a></li>
-<li><a href="https://www.ibm.com/developerworks/cn/web/1112_huangxa_websocket/" target="_blank" rel="external">使用 HTML5 WebSocket 构建实时 Web 应用 | 比较老，可以参考</a></li>
-<li><a href="http://www.zhangxinxu.com/wordpress/2013/10/understand-domstring-document-formdata-blob-file-arraybuffer/" target="_blank" rel="external">理解DOMString、Document、FormData、Blob、File、ArrayBuffer数据类型</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP" target="_blank" rel="external">HTTP的发展</a></li>
-<li><a href="http://josh-persistence.iteye.com/blog/2200727" target="_blank" rel="external">SPDY：Google开发的下一代HTTP协议</a></li>
-<li><a href="http://www.alloyteam.com/2016/07/httphttp2-0spdyhttps-reading-this-is-enough/" target="_blank" rel="external">HTTP,HTTP2.0,SPDY,HTTPS你应该知道的一些事</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API" target="_blank" rel="noopener">WebRTC API | MDN</a></li>
+<li><a href="https://imququ.com/post/html5-live-player-3.html" target="_blank" rel="noopener">HTML5 视频直播（三）</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2017/05/websocket.html" target="_blank" rel="noopener">WebSocket 教程</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/web/1112_huangxa_websocket/" target="_blank" rel="noopener">使用 HTML5 WebSocket 构建实时 Web 应用 | 比较老，可以参考</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/2013/10/understand-domstring-document-formdata-blob-file-arraybuffer/" target="_blank" rel="noopener">理解DOMString、Document、FormData、Blob、File、ArrayBuffer数据类型</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP" target="_blank" rel="noopener">HTTP的发展</a></li>
+<li><a href="http://josh-persistence.iteye.com/blog/2200727" target="_blank" rel="noopener">SPDY：Google开发的下一代HTTP协议</a></li>
+<li><a href="http://www.alloyteam.com/2016/07/httphttp2-0spdyhttps-reading-this-is-enough/" target="_blank" rel="noopener">HTTP,HTTP2.0,SPDY,HTTPS你应该知道的一些事</a></li>
 </ul>
 
       
@@ -574,7 +576,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -592,7 +594,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

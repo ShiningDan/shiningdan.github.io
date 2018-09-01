@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="这篇文章是我学习 Spring Boot 的总结">
+<meta name="keywords" content="Java,Spring Boot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot 入门">
 <meta property="og:url" content="https://shiningdan.github.io/2017/07/26/Spring-Boot-入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="这篇文章是我学习 Spring Boot 的总结">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-08-11T07:40:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot 入门">
@@ -407,19 +409,19 @@
 <p>提供一系列大型项目常用的非功能性特征，比如：内嵌服务器，安全，指标，健康检测，外部化配置。</p>
 <h3 id="为什么使用-JavaBean"><a href="#为什么使用-JavaBean" class="headerlink" title="为什么使用 JavaBean"></a>为什么使用 JavaBean</h3><p>Java语言欠缺属性、事件、多重继承功能。所以，如果要在Java程序中实现一些面向对象编程的常见需求，只能手写大量胶水代码。Java Bean正是编写这套胶水代码的惯用模式或约定。</p>
 <p>这些约定包括getXxx、setXxx、isXxx、addXxxListener、XxxEvent等。</p>
-<p><a href="https://www.zhihu.com/question/19773379" target="_blank" rel="external">Java bean 是个什么概念？</a></p>
+<p><a href="https://www.zhihu.com/question/19773379" target="_blank" rel="noopener">Java bean 是个什么概念？</a></p>
 <h3 id="基于JavaBeans的采用控制反转"><a href="#基于JavaBeans的采用控制反转" class="headerlink" title="基于JavaBeans的采用控制反转"></a>基于JavaBeans的采用控制反转</h3><p>控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。其中最常见的方式叫做依赖注入(DI)，还有一种方式叫“依赖查找”。通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体，将其所依赖的对象的引用传递给它。也可以说，依赖被注入到对象中。</p>
 <p>所谓的依赖注入，则是，甲方开放接口，在它需要的时候，能够讲乙方传递进来(注入)<br>所谓的控制反转，甲乙双方不相互依赖，交易活动的进行不依赖于甲乙任何一方，整个活动的进行由第三方负责管理。</p>
 <p>Class A中用到了Class B的对象b，一般情况下，需要在A的代码中显式的new一个B的对象。</p>
 <p>采用依赖注入技术之后，A的代码只需要定义一个私有的B对象，不需要直接new来获得这个对象，而是通过相关的容器控制程序来将B对象在外部new出来并注入到A类里的引用中。而具体获取的方法、对象被获取时的状态由配置文件（如XML）来指定。</p>
 <p>IoC 的思想最核心的地方在于，资源不由使用资源的双方管理，而由不使用资源的第三方管理，这可以带来很多好处。第一，资源集中管理，实现资源的可配置和易管理。第二，降低了使用资源双方的依赖程度，也就是我们说的耦合度。</p>
-<p><a href="https://www.zhihu.com/question/23277575" target="_blank" rel="external">Spring IoC有什么好处呢？</a></p>
+<p><a href="https://www.zhihu.com/question/23277575" target="_blank" rel="noopener">Spring IoC有什么好处呢？</a></p>
 <h4 id="Spring-Beans和依赖注入"><a href="#Spring-Beans和依赖注入" class="headerlink" title="Spring Beans和依赖注入"></a>Spring Beans和依赖注入</h4><p>你可以自由地使用任何标准的Spring框架技术去定义beans和它们注入的依赖。简单起见，我们经常使用 <code>@ComponentScan</code> 注解 <strong>搜索 beans</strong>，并结合 <code>@Autowired</code> 构造器注入。</p>
 <p>如果遵循以上的建议组织代码结构（将应用的main类放到包的最上层，即root package），那么你就可以添加 <code>@ComponentScan</code> 注解而不需要任何参数，所有应用组件（@Component, @Service, @Repository, @Controller等）都会自动注册成Spring Beans。</p>
 <h3 id="Spring-Boot-安装"><a href="#Spring-Boot-安装" class="headerlink" title="Spring Boot 安装"></a>Spring Boot 安装</h3><p>对于java开发者来说，使用Spring Boot就跟使用其他Java库一样，只需要在你的classpath下引入适当的 <code>spring-boot-*.jar</code> 文件。</p>
 <p>Spring Boot依赖使用的 groupId 为 org.springframework.boot。通常，你的Maven POM文件会继承 <code>spring-boot-starter-parent</code> 工程，并声明一个或多个“Starter POMs”依赖。</p>
 <h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>Maven默认会编译 <code>src/main/java</code> 下的源码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">import org.springframework.boot.*;</div><div class="line">import org.springframework.boot.autoconfigure.*;</div><div class="line">import org.springframework.stereotype.*;</div><div class="line">import org.springframework.web.bind.annotation.*;</div><div class="line"></div><div class="line">@RestController</div><div class="line">@EnableAutoConfiguration</div><div class="line">public class Example &#123;</div><div class="line"></div><div class="line">    @RequestMapping(&quot;/&quot;)</div><div class="line">    String home() &#123;</div><div class="line">        return &quot;Hello World!&quot;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void main(String[] args) throws Exception &#123;</div><div class="line">        SpringApplication.run(Example.class, args);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.*;</span><br><span class="line">import org.springframework.boot.autoconfigure.*;</span><br><span class="line">import org.springframework.stereotype.*;</span><br><span class="line">import org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@EnableAutoConfiguration</span><br><span class="line">public class Example &#123;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;/&quot;)</span><br><span class="line">    String home() &#123;</span><br><span class="line">        return &quot;Hello World!&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        SpringApplication.run(Example.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="RestController和-RequestMapping注解"><a href="#RestController和-RequestMapping注解" class="headerlink" title="@RestController和@RequestMapping注解"></a>@RestController和@RequestMapping注解</h4><p><code>@RequestMapping</code> 注解提供路由信息，它告诉Spring任何来自 “/“ 路径的HTTP请求都应该被映射到 <code>home</code> 方法。</p>
 <p><code>@RestController</code> 注解告诉 Spring 以字符串的形式渲染结果，并直接返回给调用者。</p>
 <h4 id="EnableAutoConfiguration注解"><a href="#EnableAutoConfiguration注解" class="headerlink" title="@EnableAutoConfiguration注解"></a>@EnableAutoConfiguration注解</h4><p>第二个类级别的注解是 <code>@EnableAutoConfiguration</code>，这个注解告诉Spring Boot根据添加的jar依赖猜测你想如何配置Spring。由于 <code>spring-boot-starter-web</code> 添加了Tomcat和Spring MVC，所以auto-configuration将假定你正在开发一个web应用，并对Spring进行相应地设置。</p>
@@ -433,8 +435,8 @@
 <p>但是后来出了注解，那么就可以取代在xml中配置属性的这个做法了（配置类还是要的），可以直接在对应的class中为每个属性写一个注解，即标明它应该赋值为哪个bean，这样IOC在运行时创建对象会首先反射分析这个类的每个属性上的注解，从而得知应该用哪个bean来赋值，这就是spring注解的用途了。</p>
 <p>tomcat是servlet的运行容器，而servlet是规范，那tomcat自然是实现了这种规范的，它底层的执行单元也是基于servlet来运行的。spring里面分很多东西，比如core是可以脱离tomcat环境，mvc需要tomcat环境。</p>
 <ul>
-<li><a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-iocannt/" target="_blank" rel="external">详解 Spring 3.0 基于 Annotation 的依赖注入实现</a></li>
-<li><a href="http://blog.csdn.net/zhang6622056/article/details/7659489" target="_blank" rel="external"> Spring的xml配置bean文件原理-[Java反射机制]</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-iocannt/" target="_blank" rel="noopener">详解 Spring 3.0 基于 Annotation 的依赖注入实现</a></li>
+<li><a href="http://blog.csdn.net/zhang6622056/article/details/7659489" target="_blank" rel="noopener"> Spring的xml配置bean文件原理-[Java反射机制]</a></li>
 </ul>
 <h2 id="Spring-Boot和-Spring-MVC"><a href="#Spring-Boot和-Spring-MVC" class="headerlink" title="Spring Boot和 Spring MVC"></a>Spring Boot和 Spring MVC</h2><p>Spring MVC是Spring核心框架的一个模块，它是一个Web框架，和它类似像Struts。它解决的问题领域是网站应用程序或者服务开发——URL路由、Session、模板引擎、静态Web资源等等。</p>
 <p>Spring Boot是这几年微服务概念流行后，Spring开发的一套快速开发Spring应用的框架。</p>
@@ -449,13 +451,13 @@
 <p>Apache Tomcat则是Apache基金会下的另外一个项目，与Apache HTTP Server相比，Tomcat能够动态的生成资源并返回到客户端。</p>
 <p>Java Servlet技术以及衍生的Java Server Pages技术可以让Java程序也具有处理HTTP请求并且返回内容（由程序动态控制）的能力，Tomcat正是支持运行Servlet/JSP应用程序的容器（Container）</p>
 <ul>
-<li><a href="https://www.zhihu.com/question/32212996" target="_blank" rel="external">tomcat 与 nginx，apache的区别是什么？</a></li>
+<li><a href="https://www.zhihu.com/question/32212996" target="_blank" rel="noopener">tomcat 与 nginx，apache的区别是什么？</a></li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://qbgbook.gitbooks.io/spring-boot-reference-guide-zh/content/" target="_blank" rel="external">Spring-Boot-Reference-Guide</a></li>
-<li><a href="https://www.zhihu.com/question/19773379" target="_blank" rel="external">Java bean 是个什么概念？</a></li>
-<li><a href="https://www.zhihu.com/question/23277575" target="_blank" rel="external">Spring IoC有什么好处呢？</a></li>
-<li><a href="https://www.zhihu.com/question/39678061" target="_blank" rel="external">SpringMVC和Spring是什么关系？</a></li>
+<li><a href="https://qbgbook.gitbooks.io/spring-boot-reference-guide-zh/content/" target="_blank" rel="noopener">Spring-Boot-Reference-Guide</a></li>
+<li><a href="https://www.zhihu.com/question/19773379" target="_blank" rel="noopener">Java bean 是个什么概念？</a></li>
+<li><a href="https://www.zhihu.com/question/23277575" target="_blank" rel="noopener">Spring IoC有什么好处呢？</a></li>
+<li><a href="https://www.zhihu.com/question/39678061" target="_blank" rel="noopener">SpringMVC和Spring是什么关系？</a></li>
 </ul>
 
       
@@ -577,7 +579,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -595,7 +597,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

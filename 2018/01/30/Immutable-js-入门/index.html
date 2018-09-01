@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="本文是学习 Immutable.js 的笔记">
+<meta name="keywords" content="JavaScript,Immutable.js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Immutable.js 入门">
 <meta property="og:url" content="https://shiningdan.github.io/2018/01/30/Immutable-js-入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="本文是学习 Immutable.js 的笔记">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-02-01T08:26:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Immutable.js 入门">
@@ -437,19 +439,19 @@
 </ul>
 <p>好吧，上面那么多行常用的也就是 List和Map，顶多再加个Seq。</p>
 <h3 id="常见-API"><a href="#常见-API" class="headerlink" title="常见 API"></a>常见 API</h3><p>immutable数据应该被当作<strong>值而不是对象，值是表示该事件在特定时刻的状态</strong>。这个原则对理解不可变数据的适当使用是最重要的。为了将Immutable.js数据视为值，就必须使用Immutable.is()函数或.equals()方法来确定值相等，而不是确定对象引用标识的 === 操作符。</p>
-<p>见 <a href="https://facebook.github.io/immutable-js/" target="_blank" rel="external">Immutable 官网</a></p>
-<p>或者 <a href="https://yq.aliyun.com/articles/69516" target="_blank" rel="external">immutable.js 在React、Redux中的实践以及常用API简介</a> 介绍</p>
+<p>见 <a href="https://facebook.github.io/immutable-js/" target="_blank" rel="noopener">Immutable 官网</a></p>
+<p>或者 <a href="https://yq.aliyun.com/articles/69516" target="_blank" rel="noopener">immutable.js 在React、Redux中的实践以及常用API简介</a> 介绍</p>
 <h2 id="Immutable-源码"><a href="#Immutable-源码" class="headerlink" title="Immutable 源码"></a>Immutable 源码</h2><p>在 Immutatable 中，数据的复制是经常发生的操作，为了加速 Immuatable.js 的草最速度它在数据操作的时候进行了一些优化，主要是分为以下两点：</p>
 <ol>
 <li>在进行 Map 和 Vector 复制的时候，对于可以重用的数据，尽量选择重用而不是创建新的数据</li>
 <li>对于 Map 中数据的查询，不是进行顺序遍历，而是使用了 5 bits 的 Hash Map Trie 来进行数据查询</li>
 </ol>
-<p>更多的介绍，可以在 <a href="https://zhuanlan.zhihu.com/p/27133830" target="_blank" rel="external">精读 Immutable 结构共享</a> 中查看</p>
+<p>更多的介绍，可以在 <a href="https://zhuanlan.zhihu.com/p/27133830" target="_blank" rel="noopener">精读 Immutable 结构共享</a> 中查看</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://github.com/xufei/blog/issues/19" target="_blank" rel="external">2015前端组件化框架之路</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/20295971" target="_blank" rel="external">Immutable 详解及 React 中实践</a></li>
-<li><a href="https://yq.aliyun.com/articles/69516" target="_blank" rel="external">immutable.js 在React、Redux中的实践以及常用API简介</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/27133830" target="_blank" rel="external">精读 Immutable 结构共享</a></li>
+<li><a href="https://github.com/xufei/blog/issues/19" target="_blank" rel="noopener">2015前端组件化框架之路</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/20295971" target="_blank" rel="noopener">Immutable 详解及 React 中实践</a></li>
+<li><a href="https://yq.aliyun.com/articles/69516" target="_blank" rel="noopener">immutable.js 在React、Redux中的实践以及常用API简介</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/27133830" target="_blank" rel="noopener">精读 Immutable 结构共享</a></li>
 </ul>
 
       
@@ -571,7 +573,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -589,7 +591,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

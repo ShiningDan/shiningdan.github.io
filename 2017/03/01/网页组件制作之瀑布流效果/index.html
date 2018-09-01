@@ -84,23 +84,19 @@
 
 
 
-<meta name="description" content="在该笔记中将学到列表展示中倒计时效果的方法与展示效果
-本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-显示效果如下：">
+<meta name="description" content="在该笔记中将学到列表展示中倒计时效果的方法与展示效果 本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。 显示效果如下：">
+<meta name="keywords" content="CSS,HTML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网页组件制作之瀑布流效果">
 <meta property="og:url" content="https://shiningdan.github.io/2017/03/01/网页组件制作之瀑布流效果/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="在该笔记中将学到列表展示中倒计时效果的方法与展示效果
-本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-显示效果如下：">
+<meta property="og:description" content="在该笔记中将学到列表展示中倒计时效果的方法与展示效果 本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。 显示效果如下：">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/dc8d05b51948a0e2830ad8a7302d383b.png">
 <meta property="og:updated_time" content="2017-03-02T01:55:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网页组件制作之瀑布流效果">
-<meta name="twitter:description" content="在该笔记中将学到列表展示中倒计时效果的方法与展示效果
-本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-显示效果如下：">
+<meta name="twitter:description" content="在该笔记中将学到列表展示中倒计时效果的方法与展示效果 本系列的是参考慕课网 vivian老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。 显示效果如下：">
 <meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/dc8d05b51948a0e2830ad8a7302d383b.png">
 
 
@@ -410,7 +406,7 @@
 
       
         <p><strong>在该笔记中将学到列表展示中倒计时效果的方法与展示效果</strong></p>
-<p>本系列的是参考<a href="http://www.imooc.com/u/114832/courses?sort=publish" target="_blank" rel="external">慕课网 vivian</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
+<p>本系列的是参考<a href="http://www.imooc.com/u/114832/courses?sort=publish" target="_blank" rel="noopener">慕课网 vivian</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
 <p>显示效果如下：</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/dc8d05b51948a0e2830ad8a7302d383b.png" alt=""></p>
 <a id="more"></a>
@@ -419,7 +415,7 @@
 <p>column-count    规定元素应该被分隔的列数。<br>column-fill    规定如何填充列。<br>column-gap    规定列之间的间隔。<br>column-rule    设置所有 column-rule-* 属性的简写属性。<br>column-rule-color    规定列之间规则的颜色。<br>column-rule-style    规定列之间规则的样式。<br>column-rule-width    规定列之间规则的宽度。<br>column-span    规定元素应该横跨的列数。<br>column-width    规定列的宽度。<br>columns    规定设置 column-width 和 column-count 的简写属性。    </p>
 <p>一般使用 <code>column-width</code> 设置每列元素的宽度，然后可以通过样式自动实现瀑布流布局。</p>
 <p>代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;瀑布流布局&lt;/title&gt;</div><div class="line">    &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">        * &#123;margin: 0;padding: 0;&#125;</div><div class="line">        #main&#123;-moz-column-width:202px; /* Firefox */</div><div class="line">              -webkit-column-width:202px; /* Safari 和 Chrome */</div><div class="line">              column-width:202px;&#125;</div><div class="line">        .box&#123;margin: 15px 0 0 15px;&#125;</div><div class="line">        .img&#123;border: 1px solid #ccc;padding: 10px;width: 165px;border-radius: 5px;box-shadow: 0 0 5px #ccc;&#125;</div><div class="line">        .img img&#123;display: block;width: 165px;&#125;</div><div class="line">    &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div id=&quot;main&quot;&gt;</div><div class="line">        &lt;div class=&quot;box&quot;&gt;</div><div class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/1.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">        &lt;div class=&quot;box&quot;&gt;</div><div class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/2.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</div><div class="line">            ...</div><div class="line">        &lt;div class=&quot;box&quot;&gt;</div><div class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/40.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;瀑布流布局&lt;/title&gt;</span><br><span class="line">    &lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">        * &#123;margin: 0;padding: 0;&#125;</span><br><span class="line">        #main&#123;-moz-column-width:202px; /* Firefox */</span><br><span class="line">              -webkit-column-width:202px; /* Safari 和 Chrome */</span><br><span class="line">              column-width:202px;&#125;</span><br><span class="line">        .box&#123;margin: 15px 0 0 15px;&#125;</span><br><span class="line">        .img&#123;border: 1px solid #ccc;padding: 10px;width: 165px;border-radius: 5px;box-shadow: 0 0 5px #ccc;&#125;</span><br><span class="line">        .img img&#123;display: block;width: 165px;&#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;main&quot;&gt;</span><br><span class="line">        &lt;div class=&quot;box&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/1.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;box&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/2.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</span><br><span class="line">            ...</span><br><span class="line">        &lt;div class=&quot;box&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;img&quot;&gt;&lt;img src=&quot;images/40.jpg&quot; alt=&quot;&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -540,7 +536,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -558,7 +554,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

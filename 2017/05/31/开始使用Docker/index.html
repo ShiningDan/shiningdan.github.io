@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="Docker 是一个开源的应用容器引擎，由于我经常折腾自己的博客系统，所以最后使用 Docker 来部署和运行我的线上服务，这样在出问题的时候可以很快捷的重新快速部署业务，方便我的管理。">
+<meta name="keywords" content="Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="开始使用Docker">
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/31/开始使用Docker/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="Docker 是一个开源的应用容器引擎，由于我经常折腾自己的博客系统，所以最后使用 Docker 来部署和运行我的线上服务，这样在出问题的时候可以很快捷的重新快速部署业务，方便我的管理。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-05-31T13:49:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="开始使用Docker">
@@ -404,19 +406,19 @@
         <p>Docker 是一个开源的应用容器引擎，由于我经常折腾自己的博客系统，所以最后使用 Docker 来部署和运行我的线上服务，这样在出问题的时候可以很快捷的重新快速部署业务，方便我的管理。</p>
 <a id="more"></a>
 <h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>为了运行需要的镜像，我在虚拟机环境中预先装好了 Java 和 Node 和 pm2。</p>
-<p>当然，不能忘记安装 <a href="https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository" target="_blank" rel="external">Docker</a> 。由于我们的服务中涉及到多个容器的组合，所以，我们要使用 <a href="https://docs.docker.com/compose/overview/" target="_blank" rel="external">Docker compose</a> 来管理多个容器。</p>
+<p>当然，不能忘记安装 <a href="https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository" target="_blank" rel="noopener">Docker</a> 。由于我们的服务中涉及到多个容器的组合，所以，我们要使用 <a href="https://docs.docker.com/compose/overview/" target="_blank" rel="noopener">Docker compose</a> 来管理多个容器。</p>
 <p>在 Docker 安装的时候需要使用 add-apt-repository，但是在 Ubuntu 16.04 中没有这个 package，所以需要使用其他的 package 来替代：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install software-properties-common</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install software-properties-common</span><br></pre></td></tr></table></figure>
 <p>首先 <code>git clone</code> 我的项目的代码，然后使用 <code>npm install</code> 来安装需要的 npm 依赖</p>
 <p><code>docker-compose.yml</code> 文件内容如下，它定义了每个容器基于什么镜像运行，映射哪些目录，开放哪些端口：</p>
-<h3 id="添加-Elasticsearch"><a href="#添加-Elasticsearch" class="headerlink" title="添加 Elasticsearch"></a>添加 Elasticsearch</h3><p>Elasticsearch 官方提供了一个使用 Docker 安装 Elasticsearch 的说明：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html" target="_blank" rel="external"><br>Install Elasticsearch with Docker</a></p>
+<h3 id="添加-Elasticsearch"><a href="#添加-Elasticsearch" class="headerlink" title="添加 Elasticsearch"></a>添加 Elasticsearch</h3><p>Elasticsearch 官方提供了一个使用 Docker 安装 Elasticsearch 的说明：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html" target="_blank" rel="noopener"><br>Install Elasticsearch with Docker</a></p>
 <p>我们在 <code>docker-compose.yml</code> 中添加启动 Elasticsearch 的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">version: &apos;2&apos;</div><div class="line">services:</div><div class="line">  es:</div><div class="line">    image: docker.elastic.co/elasticsearch/elasticsearch:5.4.0</div><div class="line">    container_name: yuchen_es</div><div class="line">    environment:</div><div class="line">      - &quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</div><div class="line">      - &quot;xpack.monitoring.enabled=false&quot;</div><div class="line">      - &quot;xpack.security.enabled=false&quot;</div><div class="line">      - &quot;Dlog4j2.disable.jmx=false&quot;</div><div class="line">      - &quot;cluster.name=yuchen_es&quot;</div><div class="line">    ulimits:</div><div class="line">      memlock:</div><div class="line">        soft: -1</div><div class="line">        hard: -1</div><div class="line">    mem_limit: 1g</div><div class="line">    volumes:</div><div class="line">      - esdata:/usr/share/elasticsearch/data</div><div class="line">      - esconfig:/usr/share/elasticsearch/config</div><div class="line">      - esplugins:/usr/share/elasticsearch/plugins</div><div class="line">    ports:</div><div class="line">      - 9200:9200</div><div class="line">    restart: always</div><div class="line">volumes:</div><div class="line">  esdata:</div><div class="line">    driver: local</div><div class="line">  esconfig:</div><div class="line">    driver: local</div><div class="line">  esplugins:</div><div class="line">    driver: local</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;2&apos;</span><br><span class="line">services:</span><br><span class="line">  es:</span><br><span class="line">    image: docker.elastic.co/elasticsearch/elasticsearch:5.4.0</span><br><span class="line">    container_name: yuchen_es</span><br><span class="line">    environment:</span><br><span class="line">      - &quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;</span><br><span class="line">      - &quot;xpack.monitoring.enabled=false&quot;</span><br><span class="line">      - &quot;xpack.security.enabled=false&quot;</span><br><span class="line">      - &quot;Dlog4j2.disable.jmx=false&quot;</span><br><span class="line">      - &quot;cluster.name=yuchen_es&quot;</span><br><span class="line">    ulimits:</span><br><span class="line">      memlock:</span><br><span class="line">        soft: -1</span><br><span class="line">        hard: -1</span><br><span class="line">    mem_limit: 1g</span><br><span class="line">    volumes:</span><br><span class="line">      - esdata:/usr/share/elasticsearch/data</span><br><span class="line">      - esconfig:/usr/share/elasticsearch/config</span><br><span class="line">      - esplugins:/usr/share/elasticsearch/plugins</span><br><span class="line">    ports:</span><br><span class="line">      - 9200:9200</span><br><span class="line">    restart: always</span><br><span class="line">volumes:</span><br><span class="line">  esdata:</span><br><span class="line">    driver: local</span><br><span class="line">  esconfig:</span><br><span class="line">    driver: local</span><br><span class="line">  esplugins:</span><br><span class="line">    driver: local</span><br></pre></td></tr></table></figure>
 <p>由于是生产环境，我们按照官方文档要求设置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl -w vm.max_map_count=262144   // 设置进程中内存映射区域的最大数量。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w vm.max_map_count=262144   // 设置进程中内存映射区域的最大数量。</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://imququ.com/post/use-docker.html" target="_blank" rel="external">开始使用 Docker</a></li>
-<li><a href="https://www.docker.com/community-edition" target="_blank" rel="external">Docker 官方网站</a></li>
+<li><a href="https://imququ.com/post/use-docker.html" target="_blank" rel="noopener">开始使用 Docker</a></li>
+<li><a href="https://www.docker.com/community-edition" target="_blank" rel="noopener">Docker 官方网站</a></li>
 </ul>
 
       
@@ -536,7 +538,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -554,7 +556,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

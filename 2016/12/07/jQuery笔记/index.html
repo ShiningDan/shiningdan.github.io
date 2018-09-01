@@ -84,22 +84,18 @@
 
 
 
-<meta name="description" content="jQuery笔记
-jQuery 介绍jQuery 的库分为两种类型，一种是生产版，一种是开发版：生产版的名字是：jqurey.min.js，是经过工具压缩或者经过服务器开启 Gzip 压缩的，主要用于产品和项目。开发版的名字是：jquery.js，是完整无压缩版，用于测试，学习和开发。
-jQuery 对象为了不污染顶级变量，并且能够与其他库共存，jQuery 只创建一个名为 jQuery 的对象。">
+<meta name="description" content="jQuery笔记 jQuery 介绍jQuery 的库分为两种类型，一种是生产版，一种是开发版：生产版的名字是：jqurey.min.js，是经过工具压缩或者经过服务器开启 Gzip 压缩的，主要用于产品和项目。开发版的名字是：jquery.js，是完整无压缩版，用于测试，学习和开发。 jQuery 对象为了不污染顶级变量，并且能够与其他库共存，jQuery 只创建一个名为 jQuery 的对象。">
+<meta name="keywords" content="jQuery">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jQuery笔记">
 <meta property="og:url" content="https://shiningdan.github.io/2016/12/07/jQuery笔记/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="jQuery笔记
-jQuery 介绍jQuery 的库分为两种类型，一种是生产版，一种是开发版：生产版的名字是：jqurey.min.js，是经过工具压缩或者经过服务器开启 Gzip 压缩的，主要用于产品和项目。开发版的名字是：jquery.js，是完整无压缩版，用于测试，学习和开发。
-jQuery 对象为了不污染顶级变量，并且能够与其他库共存，jQuery 只创建一个名为 jQuery 的对象。">
+<meta property="og:description" content="jQuery笔记 jQuery 介绍jQuery 的库分为两种类型，一种是生产版，一种是开发版：生产版的名字是：jqurey.min.js，是经过工具压缩或者经过服务器开启 Gzip 压缩的，主要用于产品和项目。开发版的名字是：jquery.js，是完整无压缩版，用于测试，学习和开发。 jQuery 对象为了不污染顶级变量，并且能够与其他库共存，jQuery 只创建一个名为 jQuery 的对象。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-12-14T14:52:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jQuery笔记">
-<meta name="twitter:description" content="jQuery笔记
-jQuery 介绍jQuery 的库分为两种类型，一种是生产版，一种是开发版：生产版的名字是：jqurey.min.js，是经过工具压缩或者经过服务器开启 Gzip 压缩的，主要用于产品和项目。开发版的名字是：jquery.js，是完整无压缩版，用于测试，学习和开发。
-jQuery 对象为了不污染顶级变量，并且能够与其他库共存，jQuery 只创建一个名为 jQuery 的对象。">
+<meta name="twitter:description" content="jQuery笔记 jQuery 介绍jQuery 的库分为两种类型，一种是生产版，一种是开发版：生产版的名字是：jqurey.min.js，是经过工具压缩或者经过服务器开启 Gzip 压缩的，主要用于产品和项目。开发版的名字是：jquery.js，是完整无压缩版，用于测试，学习和开发。 jQuery 对象为了不污染顶级变量，并且能够与其他库共存，jQuery 只创建一个名为 jQuery 的对象。">
 
 
 
@@ -559,7 +555,7 @@ let $d = $(d); // jQuery 对象
 <p>由于 Ajax 不能跨域，也可以使用 JSONP 形式的回调函数形式，使用<code>$.getJSON()</code>函数来加载其他网站的 JSON 数据。</p>
 <h3 id="全局-Ajax-事件"><a href="#全局-Ajax-事件" class="headerlink" title="全局 Ajax 事件"></a>全局 Ajax 事件</h3><p>jQuery 对象有 <code>ajaxStart()</code> 和 <code>ajaxStop()</code> 方法，当全局中有<strong>任何 Ajax 行为产生或结束的时候被调用。</strong>除此之外还有其他的全局事件如：<code>ajaxComplete(), ajaxError(), ajaxSend(), ajaxSuccess()</code></p>
 <p><strong>如果想使得某个 Ajax 请求不受到全局方法的影响，可以在使用 <code>$.ajax(option)</code> 方法时，将参数中的 global 设置为 false</strong>。</p>
-<h3 id="jQuery-插件"><a href="#jQuery-插件" class="headerlink" title="jQuery 插件"></a>jQuery 插件</h3><p>jQuery 有很多写好的插件，在<a href="http://plugins.jquery.com/" target="_blank" rel="external">jQuery 插件中心</a>可以找到，可以在<code>&lt;script&gt;</code>中调用一下，注意<code>&lt;script&gt;</code>调用的顺序</p>
+<h3 id="jQuery-插件"><a href="#jQuery-插件" class="headerlink" title="jQuery 插件"></a>jQuery 插件</h3><p>jQuery 有很多写好的插件，在<a href="http://plugins.jquery.com/" target="_blank" rel="noopener">jQuery 插件中心</a>可以找到，可以在<code>&lt;script&gt;</code>中调用一下，注意<code>&lt;script&gt;</code>调用的顺序</p>
 <p>常用的有：</p>
 <ul>
 <li><code>validation</code>：表单验证插件(必填、E-mail、URL、信用卡，自定义的验证规则)</li>
@@ -694,7 +690,7 @@ $(&quot;a.button&quot;).filter(&quot;:animated&quot;)
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -712,7 +708,7 @@ $(&quot;a.button&quot;).filter(&quot;:animated&quot;)
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

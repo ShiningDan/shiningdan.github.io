@@ -84,19 +84,18 @@
 
 
 
-<meta name="description" content="本文主要记录的是入门学习 PostCSS 的笔记。
-PostCSS | GitHub">
+<meta name="description" content="本文主要记录的是入门学习 PostCSS 的笔记。 PostCSS | GitHub">
+<meta name="keywords" content="PostCSS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PostCSS 入门">
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/16/PostCSS-入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="本文主要记录的是入门学习 PostCSS 的笔记。
-PostCSS | GitHub">
+<meta property="og:description" content="本文主要记录的是入门学习 PostCSS 的笔记。 PostCSS | GitHub">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-05-16T13:53:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PostCSS 入门">
-<meta name="twitter:description" content="本文主要记录的是入门学习 PostCSS 的笔记。
-PostCSS | GitHub">
+<meta name="twitter:description" content="本文主要记录的是入门学习 PostCSS 的笔记。 PostCSS | GitHub">
 
 
 
@@ -405,7 +404,7 @@ PostCSS | GitHub">
 
       
         <p>本文主要记录的是入门学习 PostCSS 的笔记。</p>
-<p><a href="https://github.com/postcss/postcss" target="_blank" rel="external">PostCSS | GitHub</a></p>
+<p><a href="https://github.com/postcss/postcss" target="_blank" rel="noopener">PostCSS | GitHub</a></p>
 <a id="more"></a>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我认为的 PostCSS，是一个平台，其本身不对 CSS 进行处理，但是通过在该平台上集成插件，可以实现对 CSS 的操作。</p>
 <p>无论你是想使用PostCSS什么功能，你都只需要根据你自己特定目定安装所需的插件。意思就是说，你不需要安装任何依赖的插件。著作权归作者所有。</p>
@@ -421,22 +420,22 @@ PostCSS | GitHub">
 <li>PostCSS的语法糖</li>
 </ul>
 <h2 id="在-Gulp-中使用-PostCSS"><a href="#在-Gulp-中使用-PostCSS" class="headerlink" title="在 Gulp 中使用 PostCSS"></a>在 Gulp 中使用 PostCSS</h2><p>首先安装 <code>gulp-postcss</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev gulp-postcss</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev gulp-postcss</span><br></pre></td></tr></table></figure>
 <p>现在通过编辑器打开 <code>gulpfile.js</code> 文件，并且创建 <code>gulp</code> 和 <code>gulp-postcss</code> 变量，如下面代码所示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var gulp = require(&apos;gulp&apos;);</div><div class="line">var postcss = require(&apos;gulp-postcss&apos;);</div><div class="line"></div><div class="line">gulp.task(&apos;css&apos;, function () &#123; </div><div class="line">  var processors = [ ]; </div><div class="line">  return gulp.src(&apos;./src/*.css&apos;)</div><div class="line">    .pipe(postcss(processors))</div><div class="line">    .pipe(gulp.dest(&apos;./dest&apos;)); </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var gulp = require(&apos;gulp&apos;);</span><br><span class="line">var postcss = require(&apos;gulp-postcss&apos;);</span><br><span class="line"></span><br><span class="line">gulp.task(&apos;css&apos;, function () &#123; </span><br><span class="line">  var processors = [ ]; </span><br><span class="line">  return gulp.src(&apos;./src/*.css&apos;)</span><br><span class="line">    .pipe(postcss(processors))</span><br><span class="line">    .pipe(gulp.dest(&apos;./dest&apos;)); </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>在第一行，设置了一个任务名叫 <code>css</code> 。这个任务将会执行一个函数，同时在这个函数中创建了一个名为 <code>processors</code> 的数组。现在这个数组为空，这里将插入我们想使用的 PostCSS 插件。</p>
 <p>在 <code>src</code> 目录中创建一个测试文件 <code>style.css</code> ，并在这个文件中添加一些CSS的测试代码</p>
 <p>现在在命令终端的项目目录下执行下面的命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gulp css</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gulp css</span><br></pre></td></tr></table></figure>
 <p>执行完上面的任务之后，在 <code>dest</code> 目录中可以找到一个新的 <code>style.css</code> 文件。</p>
 <h3 id="添加PostCSS插件"><a href="#添加PostCSS插件" class="headerlink" title="添加PostCSS插件"></a>添加PostCSS插件</h3><p>现在我们添加需要的 PostCSS 插件：Autoprefixer (处理浏览器私有前缀)</p>
 <p>运行下面的命令，将插件安装到你的项目：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install autoprefixer --save-dev</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install autoprefixer --save-dev</span><br></pre></td></tr></table></figure>
 <p>在我们的项目中定义变量，将这些插件加载到我们的项目中。和前面的方式一样，在 <code>gulpfile.js</code> 文件中添加下面的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var autoprefixer = require(&apos;autoprefixer&apos;);</div><div class="line"></div><div class="line">var processors = [autoprefixer];</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var autoprefixer = require(&apos;autoprefixer&apos;);</span><br><span class="line"></span><br><span class="line">var processors = [autoprefixer];</span><br></pre></td></tr></table></figure>
 <p>在命令终端执行gulp css命令。会自动调用 Autoprefixer 来处理 CSS 代码。</p>
-<h2 id="管理插件"><a href="#管理插件" class="headerlink" title="管理插件"></a>管理插件</h2><h3 id="查找插件"><a href="#查找插件" class="headerlink" title="查找插件"></a>查找插件</h3><p><a href="https://github.com/postcss/postcss#plugins" target="_blank" rel="external">PostCSS | GitHub</a> 上维护了一个仓库</p>
-<p><a href="http://postcss.parts/" target="_blank" rel="external">PostCSS.parts</a> 这个网站也提供了非常多的 PostCSS 插件</p>
+<h2 id="管理插件"><a href="#管理插件" class="headerlink" title="管理插件"></a>管理插件</h2><h3 id="查找插件"><a href="#查找插件" class="headerlink" title="查找插件"></a>查找插件</h3><p><a href="https://github.com/postcss/postcss#plugins" target="_blank" rel="noopener">PostCSS | GitHub</a> 上维护了一个仓库</p>
+<p><a href="http://postcss.parts/" target="_blank" rel="noopener">PostCSS.parts</a> 这个网站也提供了非常多的 PostCSS 插件</p>
 <h3 id="插件类型"><a href="#插件类型" class="headerlink" title="插件类型"></a>插件类型</h3><h4 id="Pack"><a href="#Pack" class="headerlink" title="Pack"></a>Pack</h4><p>Pack 可以将多个模块插件打包在一起，允许他们安装和部署。著作权归作者所有。</p>
 <h4 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h4><p>未来的CSS语法(Future CSS Syntax)是让写的CSS能更符合W3C规范，但可能不是完全的支持浏览器。</p>
 <h4 id="Fallbacks"><a href="#Fallbacks" class="headerlink" title="Fallbacks"></a>Fallbacks</h4><p>fallbacks本质上是将今天的代码在以前的浏览器上能工作。</p>
@@ -452,29 +451,29 @@ PostCSS | GitHub">
 <li>添加一系列的IE版本，回退到IE8、IE9和IE10</li>
 <li>为没有支持的属性添加 <code>will-change</code> 属性</li>
 </ul>
-<h3 id="自动添加浏览器前缀"><a href="#自动添加浏览器前缀" class="headerlink" title="自动添加浏览器前缀"></a>自动添加浏览器前缀</h3><p><a href="https://github.com/postcss/autoprefixer" target="_blank" rel="external">AutoPrxfixer</a></p>
+<h3 id="自动添加浏览器前缀"><a href="#自动添加浏览器前缀" class="headerlink" title="自动添加浏览器前缀"></a>自动添加浏览器前缀</h3><p><a href="https://github.com/postcss/autoprefixer" target="_blank" rel="noopener">AutoPrxfixer</a></p>
 <h4 id="指定支持的浏览器版本"><a href="#指定支持的浏览器版本" class="headerlink" title="指定支持的浏览器版本"></a>指定支持的浏览器版本</h4><p>Autoprefixer使用Browserlist来确定哪些浏览器版本将得到支持。</p>
 <p>如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">autoprefixer(&#123;browsers:&apos;safari &gt;= 9, ie &gt;= 11&apos;&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">autoprefixer(&#123;browsers:&apos;safari &gt;= 9, ie &gt;= 11&apos;&#125;)</span><br></pre></td></tr></table></figure>
 <h3 id="为will-change属性添加回退"><a href="#为will-change属性添加回退" class="headerlink" title="为will-change属性添加回退"></a>为will-change属性添加回退</h3><p>will-change属性用于提前让浏览器知道某些元素设计的动画。这允许浏览器优化呈现动画渲染过程，防止延误和闪烁。</p>
-<h3 id="给IE老版本添加降级属性"><a href="#给IE老版本添加降级属性" class="headerlink" title="给IE老版本添加降级属性"></a>给IE老版本添加降级属性</h3><h4 id="给rgba-颜色创建降级方案"><a href="#给rgba-颜色创建降级方案" class="headerlink" title="给rgba()颜色创建降级方案"></a>给rgba()颜色创建降级方案</h4><p>IE8不支持rgba()颜色，所以@Guillaume Demesy的 <a href="https://github.com/postcss/postcss-color-rgba-fallback" target="_blank" rel="external">postcss-color-rgba-fallback</a> 插件添加了一个十六进制颜色作为降级处理。</p>
-<h4 id="给opacity提供降级方案"><a href="#给opacity提供降级方案" class="headerlink" title="给opacity提供降级方案"></a>给opacity提供降级方案</h4><p>IE8也不支持opacity属性，所以@Vincent De Oliveira提供了 <a href="https://github.com/iamvdo/postcss-opacity" target="_blank" rel="external">postcss-opacity</a> 插件，给IE浏览器添加滤镜属性，作为降级处理。</p>
+<h3 id="给IE老版本添加降级属性"><a href="#给IE老版本添加降级属性" class="headerlink" title="给IE老版本添加降级属性"></a>给IE老版本添加降级属性</h3><h4 id="给rgba-颜色创建降级方案"><a href="#给rgba-颜色创建降级方案" class="headerlink" title="给rgba()颜色创建降级方案"></a>给rgba()颜色创建降级方案</h4><p>IE8不支持rgba()颜色，所以@Guillaume Demesy的 <a href="https://github.com/postcss/postcss-color-rgba-fallback" target="_blank" rel="noopener">postcss-color-rgba-fallback</a> 插件添加了一个十六进制颜色作为降级处理。</p>
+<h4 id="给opacity提供降级方案"><a href="#给opacity提供降级方案" class="headerlink" title="给opacity提供降级方案"></a>给opacity提供降级方案</h4><p>IE8也不支持opacity属性，所以@Vincent De Oliveira提供了 <a href="https://github.com/iamvdo/postcss-opacity" target="_blank" rel="noopener">postcss-opacity</a> 插件，给IE浏览器添加滤镜属性，作为降级处理。</p>
 <h4 id="将伪元素的-转换为"><a href="#将伪元素的-转换为" class="headerlink" title="将伪元素的::转换为:"></a>将伪元素的<code>::</code>转换为<code>:</code></h4><p>例如 <code>.element::before</code> 使用两个冒号 <code>::</code> 表示为伪元素，而 <code>.element:hover</code> 使用一个冒号 <code>:</code> 表示为伪类。实践中表明使用 <code>::</code> 主要是用来区分伪类。</p>
-<p>然而，在IE8中仅支持一个冒号 <code>:</code> ，并不支持 <code>::</code> 的伪元素。通过@Sven Tschui的 <a href="https://github.com/axa-ch/postcss-pseudoelements" target="_blank" rel="external">postcss-pseudoelements</a> 插件，可以得到最好的实践，插件能自将的将 <code>::</code> 转换为 <code>:</code>。</p>
-<h4 id="给rem添加px作为降级处理"><a href="#给rem添加px作为降级处理" class="headerlink" title="给rem添加px作为降级处理"></a>给rem添加px作为降级处理</h4><p>IE8一直都不支持 <code>rem</code> 单位，而且在IE9和IE10中他们都不支持伪元素和 <code>font</code> 的缩写。使用@Vincent De Oliveira和@Rob Wierzbowski的<a href="https://github.com/robwierzbowski/node-pixrem" target="_blank" rel="external">node-pixrem</a>插件，可以自动为 <code>rem</code> 添加 <code>px</code> 单位作为降级处理。</p>
+<p>然而，在IE8中仅支持一个冒号 <code>:</code> ，并不支持 <code>::</code> 的伪元素。通过@Sven Tschui的 <a href="https://github.com/axa-ch/postcss-pseudoelements" target="_blank" rel="noopener">postcss-pseudoelements</a> 插件，可以得到最好的实践，插件能自将的将 <code>::</code> 转换为 <code>:</code>。</p>
+<h4 id="给rem添加px作为降级处理"><a href="#给rem添加px作为降级处理" class="headerlink" title="给rem添加px作为降级处理"></a>给rem添加px作为降级处理</h4><p>IE8一直都不支持 <code>rem</code> 单位，而且在IE9和IE10中他们都不支持伪元素和 <code>font</code> 的缩写。使用@Vincent De Oliveira和@Rob Wierzbowski的<a href="https://github.com/robwierzbowski/node-pixrem" target="_blank" rel="noopener">node-pixrem</a>插件，可以自动为 <code>rem</code> 添加 <code>px</code> 单位作为降级处理。</p>
 <h2 id="PostCSS-modules"><a href="#PostCSS-modules" class="headerlink" title="PostCSS-modules"></a>PostCSS-modules</h2><p>CSS-Module 允许你将所有CSS class自动打碎，这是CSS模块（CSS Modules）的默认设置。然后生成一个JSON文件（sources map）和原本的class关联：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">/* post.css */</div><div class="line">.article &#123;</div><div class="line">    font-size: 16px;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.title &#123;</div><div class="line">    font-weight: 24px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/* post.css */</span><br><span class="line">.article &#123;</span><br><span class="line">    font-size: 16px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.title &#123;</span><br><span class="line">    font-weight: 24px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面的post.css将会被转换成类似下面这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.xkpka &#123;</div><div class="line">    font-size: 16px;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.xkpkb &#123;</div><div class="line">    font-size: 24px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.xkpka &#123;</span><br><span class="line">    font-size: 16px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.xkpkb &#123;</span><br><span class="line">    font-size: 24px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>被打碎替换的classes将被保存在一个JSON对象中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;  &quot;article&quot;:  &quot;xkpka&quot;,  &quot;title&quot;:  &quot;xkpkb&quot;  &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;  &quot;article&quot;:  &quot;xkpka&quot;,  &quot;title&quot;:  &quot;xkpkb&quot;  &#125;</span><br></pre></td></tr></table></figure>
 <p>在转换完成后，你可以直接引用这个JSON对象到项目中，这样就可以用之前写过的class名来直接使用它了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">import styles from &apos;./post.json&apos;;</div><div class="line"></div><div class="line">class Post extends React.Component &#123;</div><div class="line">  render() &#123;</div><div class="line">    return (</div><div class="line">      &lt;div className=&#123; styles.article &#125;&gt;</div><div class="line">        &lt;div className=&#123; styles.title &#125;&gt;…&lt;/div&gt;</div><div class="line">        …</div><div class="line">      &lt;/div&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import styles from &apos;./post.json&apos;;</span><br><span class="line"></span><br><span class="line">class Post extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className=&#123; styles.article &#125;&gt;</span><br><span class="line">        &lt;div className=&#123; styles.title &#125;&gt;…&lt;/div&gt;</span><br><span class="line">        …</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="压缩和优化CSS"><a href="#压缩和优化CSS" class="headerlink" title="压缩和优化CSS"></a>压缩和优化CSS</h2><h3 id="使用-import-压缩文件"><a href="#使用-import-压缩文件" class="headerlink" title="使用 @import 压缩文件"></a>使用 <code>@import</code> 压缩文件</h3><p>通过@import将多个样式组合为一个，即使你的一些样式来自Bower组件或npm模块,都可以确保你你只需要请求一个单独的http，加载网站的CSS</p>
-<p>使用@Maxime Thirouin的 <a href="">postcss-import</a><a href="https://github.com/postcss/postcss-import" target="_blank" rel="external">https://github.com/postcss/postcss-import</a> 插件，遵循 <code>@import</code> 规则，你可以将分样式合并到你的主样式表中。</p>
+<p>使用@Maxime Thirouin的 <a href="">postcss-import</a><a href="https://github.com/postcss/postcss-import" target="_blank" rel="noopener">https://github.com/postcss/postcss-import</a> 插件，遵循 <code>@import</code> 规则，你可以将分样式合并到你的主样式表中。</p>
 <p>这个插件还有一个非常有用特性，它能够自动发现bower_components或node_modules文件夹内的CSS文件位置。</p>
-<h3 id="结合匹配的媒体查询"><a href="#结合匹配的媒体查询" class="headerlink" title="结合匹配的媒体查询"></a>结合匹配的媒体查询</h3><p>@Kyo Nagashima的 <a href="https://github.com/hail2u/node-css-mqpacker" target="_blank" rel="external">css-mqpacker</a> 插件可以找到样式表中相同的媒体查询样式合并到一个媒体查询中。这样允许你在写CSS的时候，媒体查询可以重复编写，你也不用担心这样会对你的样式产生冗余代码，而影响你的效率。</p>
-<h3 id="cssnano插件包"><a href="#cssnano插件包" class="headerlink" title="cssnano插件包"></a>cssnano插件包</h3><p>@Ben Briggs提供了一个非常强大的CSS优化的插件包 <a href="http://cssnano.co/" target="_blank" rel="external">cssnano</a>，这个插件包是一个可以即插即用的。它汇集了大约25个插件，只需要执行一个命令，就可以做多方面不同类型的优化。</p>
+<h3 id="结合匹配的媒体查询"><a href="#结合匹配的媒体查询" class="headerlink" title="结合匹配的媒体查询"></a>结合匹配的媒体查询</h3><p>@Kyo Nagashima的 <a href="https://github.com/hail2u/node-css-mqpacker" target="_blank" rel="noopener">css-mqpacker</a> 插件可以找到样式表中相同的媒体查询样式合并到一个媒体查询中。这样允许你在写CSS的时候，媒体查询可以重复编写，你也不用担心这样会对你的样式产生冗余代码，而影响你的效率。</p>
+<h3 id="cssnano插件包"><a href="#cssnano插件包" class="headerlink" title="cssnano插件包"></a>cssnano插件包</h3><p>@Ben Briggs提供了一个非常强大的CSS优化的插件包 <a href="http://cssnano.co/" target="_blank" rel="noopener">cssnano</a>，这个插件包是一个可以即插即用的。它汇集了大约25个插件，只需要执行一个命令，就可以做多方面不同类型的优化。</p>
 <p>cssnano 优化包括下面一些类型：</p>
 <ul>
 <li>删除空格和最后一个分号</li>
@@ -486,7 +485,7 @@ PostCSS | GitHub">
 <li>减少手写属性</li>
 <li>合并规则</li>
 </ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.w3cplus.com/blog/tags/516.html?page=1" target="_blank" rel="external">PostCSS 深入学习 | 大漠老师</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.w3cplus.com/blog/tags/516.html?page=1" target="_blank" rel="noopener">PostCSS 深入学习 | 大漠老师</a></p>
 
       
     </div>
@@ -605,7 +604,7 @@ PostCSS | GitHub">
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -623,7 +622,7 @@ PostCSS | GitHub">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

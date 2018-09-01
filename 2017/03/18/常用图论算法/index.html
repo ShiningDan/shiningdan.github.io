@@ -84,36 +84,14 @@
 
 
 
-<meta name="description" content="本笔记总结一些常用的图论算法。
-参考链接有：
-数据结构与算法 - 图论
-笔记目录：
-
-最短路径算法
-无权最短路径 (广度优先算法)
-有权最短路径 (Dijsktra、Floyd 算法)
-
-
-最小生成树
-Prim 算法
-Kruskal 算法">
+<meta name="description" content="本笔记总结一些常用的图论算法。 参考链接有： 数据结构与算法 - 图论 笔记目录：  最短路径算法 无权最短路径 (广度优先算法) 有权最短路径 (Dijsktra、Floyd 算法)   最小生成树 Prim 算法 Kruskal 算法">
+<meta name="keywords" content="JavaScript,graph theory">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常用图论算法">
 <meta property="og:url" content="https://shiningdan.github.io/2017/03/18/常用图论算法/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="本笔记总结一些常用的图论算法。
-参考链接有：
-数据结构与算法 - 图论
-笔记目录：
-
-最短路径算法
-无权最短路径 (广度优先算法)
-有权最短路径 (Dijsktra、Floyd 算法)
-
-
-最小生成树
-Prim 算法
-Kruskal 算法">
+<meta property="og:description" content="本笔记总结一些常用的图论算法。 参考链接有： 数据结构与算法 - 图论 笔记目录：  最短路径算法 无权最短路径 (广度优先算法) 有权最短路径 (Dijsktra、Floyd 算法)   最小生成树 Prim 算法 Kruskal 算法">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://pic3.zhimg.com/v2-f38af68ed88323fab87de68cf56be212_b.png">
 <meta property="og:image" content="http://pic2.zhimg.com/v2-26c8c539a7197a62e4a356cd9dfda891_b.png">
 <meta property="og:image" content="http://pic2.zhimg.com/v2-8396dfb4df2801cd3d10b25f99528bbd_b.png">
@@ -127,19 +105,7 @@ Kruskal 算法">
 <meta property="og:updated_time" content="2017-03-19T06:54:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用图论算法">
-<meta name="twitter:description" content="本笔记总结一些常用的图论算法。
-参考链接有：
-数据结构与算法 - 图论
-笔记目录：
-
-最短路径算法
-无权最短路径 (广度优先算法)
-有权最短路径 (Dijsktra、Floyd 算法)
-
-
-最小生成树
-Prim 算法
-Kruskal 算法">
+<meta name="twitter:description" content="本笔记总结一些常用的图论算法。 参考链接有： 数据结构与算法 - 图论 笔记目录：  最短路径算法 无权最短路径 (广度优先算法) 有权最短路径 (Dijsktra、Floyd 算法)   最小生成树 Prim 算法 Kruskal 算法">
 <meta name="twitter:image" content="http://pic3.zhimg.com/v2-f38af68ed88323fab87de68cf56be212_b.png">
 
 
@@ -450,7 +416,7 @@ Kruskal 算法">
       
         <p>本笔记总结一些常用的图论算法。</p>
 <p>参考链接有：</p>
-<p><a href="https://zhuanlan.zhihu.com/p/25498681" target="_blank" rel="external">数据结构与算法 - 图论</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/25498681" target="_blank" rel="noopener">数据结构与算法 - 图论</a></p>
 <p>笔记目录：</p>
 <ul>
 <li>最短路径算法<ul>
@@ -474,7 +440,7 @@ Kruskal 算法">
 <li>增加 shortest 的值，重复步骤 3，直到没有顶点的距离值为无穷大</li>
 </ol>
 <p><img src="http://pic3.zhimg.com/v2-f38af68ed88323fab87de68cf56be212_b.png" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">let Node = function() &#123;</div><div class="line">    this.isVisited = false;</div><div class="line">    this.distance = -1;</div><div class="line">    this.next = []; // Array of next nodes</div><div class="line">&#125;</div><div class="line"></div><div class="line">function BFS(start) &#123;</div><div class="line">    if (start.next.length === 0) &#123;</div><div class="line">        return start;</div><div class="line">    &#125;</div><div class="line">    let queue = [];</div><div class="line">    start.distance = 0;</div><div class="line">    queue.push(start);</div><div class="line">    while (queue.length !== 0) &#123;</div><div class="line">        let node = queue.unshift();</div><div class="line">        let distance = node.distance;</div><div class="line">        node.isVisited = true;</div><div class="line">        node.next.forEach(function(node) &#123;</div><div class="line">            if (!node.isVisited) &#123;</div><div class="line">                node.distance = distance + 1;</div><div class="line">                queue.push(node);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    return start;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">let Node = function() &#123;</span><br><span class="line">    this.isVisited = false;</span><br><span class="line">    this.distance = -1;</span><br><span class="line">    this.next = []; // Array of next nodes</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function BFS(start) &#123;</span><br><span class="line">    if (start.next.length === 0) &#123;</span><br><span class="line">        return start;</span><br><span class="line">    &#125;</span><br><span class="line">    let queue = [];</span><br><span class="line">    start.distance = 0;</span><br><span class="line">    queue.push(start);</span><br><span class="line">    while (queue.length !== 0) &#123;</span><br><span class="line">        let node = queue.unshift();</span><br><span class="line">        let distance = node.distance;</span><br><span class="line">        node.isVisited = true;</span><br><span class="line">        node.next.forEach(function(node) &#123;</span><br><span class="line">            if (!node.isVisited) &#123;</span><br><span class="line">                node.distance = distance + 1;</span><br><span class="line">                queue.push(node);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return start;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="有权最短路径算法"><a href="#有权最短路径算法" class="headerlink" title="有权最短路径算法"></a>有权最短路径算法</h3><p>在有权图中，常见的最短路径算法有 Dijkstra 算法 Floyd 算法</p>
 <h4 id="Dijkstra-算法"><a href="#Dijkstra-算法" class="headerlink" title="Dijkstra 算法"></a>Dijkstra 算法</h4><p>迪杰斯特拉 Dijkstra 算法：Dijkstra 算法适用于权值为正的的图</p>
 <p>Dijkstra 算法属于单源算法，即只能求出<strong>某点到其它点最短距离，并不能得出任意两点之间的最短距离。</strong>该算法类似于边上有权值的最短路径算法，其本质是<strong>贪婪算法</strong>，贪婪算法一般分阶段求解一个问题，并且在每个阶段都把出现的当做是最好的去处理。</p>
@@ -492,7 +458,7 @@ Kruskal 算法">
 <p>该算法的运行时间依赖对顶点的处理方法，我们必须妖绿顺序扫描顶点以找出最小值的算法。<strong>可以将顶点存储在优先级队列中。</strong></p>
 <p><strong>如果一个图有负价边，</strong>问题在与，一个顶点 u 被声明是 known 的，那个可能从另一个 unknown 的顶点 v 有一条回到 u 的负的路径，在这样的情况下选取从 s 到 v 再回到 u 的路径要比直接从 s 到 u 但不通过 v 更好。</p>
 <p>还有一种更简单的例子：假如一张图里有一个总长为负数的环，那么Dijkstra算法有可能会沿着这个环一直绕下去，绕到地老天荒…</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">let Node = function() &#123;</div><div class="line">    this.isVisited = false;</div><div class="line">    this.distance = Number.MAX_VALUE;</div><div class="line">    this.next = []; // Array of next nodes</div><div class="line">    this.link = new Map();  // map of node link, key is node, value is weight</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function Dijkstra(start) &#123;</div><div class="line">    if (start === null) &#123;</div><div class="line">        return start;</div><div class="line">    &#125; </div><div class="line">    start.distance = 0;</div><div class="line">    let queue = [];</div><div class="line">    queue.push(start);</div><div class="line">    while (queue.length !== 0) &#123;</div><div class="line">        let min = Number.MAX_VALUE, minNode;</div><div class="line">        for (let i = 0; i &lt; queue.length; i++) &#123;</div><div class="line">            if (queue[i].isVisited === false &amp;&amp; queue[i].distance &lt; min) &#123;</div><div class="line">                minNode = queue[i];</div><div class="line">                min = queue[i].distance;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        minNode.isVisited = true;</div><div class="line">        minNode.forEach(function(node) &#123;</div><div class="line">            let minDis = minNode.distance + minNode.link.get(node);</div><div class="line">            node.distance = node.distance &lt; minDis ? node.distance : minDis;</div><div class="line">            if (!node.isVisited) &#123;</div><div class="line">                queue.push(node);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">    return start;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">let Node = function() &#123;</span><br><span class="line">    this.isVisited = false;</span><br><span class="line">    this.distance = Number.MAX_VALUE;</span><br><span class="line">    this.next = []; // Array of next nodes</span><br><span class="line">    this.link = new Map();  // map of node link, key is node, value is weight</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function Dijkstra(start) &#123;</span><br><span class="line">    if (start === null) &#123;</span><br><span class="line">        return start;</span><br><span class="line">    &#125; </span><br><span class="line">    start.distance = 0;</span><br><span class="line">    let queue = [];</span><br><span class="line">    queue.push(start);</span><br><span class="line">    while (queue.length !== 0) &#123;</span><br><span class="line">        let min = Number.MAX_VALUE, minNode;</span><br><span class="line">        for (let i = 0; i &lt; queue.length; i++) &#123;</span><br><span class="line">            if (queue[i].isVisited === false &amp;&amp; queue[i].distance &lt; min) &#123;</span><br><span class="line">                minNode = queue[i];</span><br><span class="line">                min = queue[i].distance;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        minNode.isVisited = true;</span><br><span class="line">        minNode.forEach(function(node) &#123;</span><br><span class="line">            let minDis = minNode.distance + minNode.link.get(node);</span><br><span class="line">            node.distance = node.distance &lt; minDis ? node.distance : minDis;</span><br><span class="line">            if (!node.isVisited) &#123;</span><br><span class="line">                queue.push(node);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return start;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Floyd-算法"><a href="#Floyd-算法" class="headerlink" title="Floyd 算法"></a>Floyd 算法</h4><p><strong>Floyd 算法可以求出任意两点的最短距离</strong></p>
 <p>Floyd 算法是一个经典的动态规划算法。用通俗的语言来描述的话，首先我们的目标是寻找从点 i 到点 j 的最短路径。</p>
 <p>从任意节点 i 到任意节点 j 的最短路径不外乎 2 种可能：</p>
@@ -502,7 +468,7 @@ Kruskal 算法">
 </ol>
 <p>所以，我们假设 Dis(i,j) 为节点 u 到节点 v 的最短路径的距离，对于每一个节点 k，我们检查Dis(i,k) + Dis(k,j) &lt; Dis(i,j) 是否成立，如果成立，证明从 i 到 k 再到 j 的路径比 i 直接到 j 的路径短，我们便设置 Dis(i,j) = Dis(i,k) + Dis(k,j)，这样一来，当我们遍历完所有节点 k，Dis(i,j) 中记录的便是 i 到 j 的最短路径的距离。</p>
 <p>时间复杂度： O(n^3)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">for(int k=0; k&lt;n; k++) &#123; </div><div class="line">    for(i=0; i&lt;n; i++) &#123;</div><div class="line">         for(j=0; j&lt;n; j++)</div><div class="line">             if(A[i][j]&gt;(A[i][k]+A[k][j])) &#123;</div><div class="line">                  A[i][j]=A[i][k]+A[k][j];</div><div class="line">                  path[i][j]=k;</div><div class="line">             &#125; </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for(int k=0; k&lt;n; k++) &#123; </span><br><span class="line">    for(i=0; i&lt;n; i++) &#123;</span><br><span class="line">         for(j=0; j&lt;n; j++)</span><br><span class="line">             if(A[i][j]&gt;(A[i][k]+A[k][j])) &#123;</span><br><span class="line">                  A[i][j]=A[i][k]+A[k][j];</span><br><span class="line">                  path[i][j]=k;</span><br><span class="line">             &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><p>最小生成树数是由连接图 G 的所有顶点的边构成的树，并且其总价值最低。</p>
 <h3 id="Prim-算法"><a href="#Prim-算法" class="headerlink" title="Prim 算法"></a>Prim 算法</h3><p>算法思想：找到一个顶点 v 在 known 数组中，另一个顶点 u 在 unknown 数组中， 并且权值最小的边，添加到图中。</p>
 <p>使用 Prim 算法也需要遍历 known 数组中顶点的所有边，找到权值最小的边，时间复杂度为 O(n*n)</p>
@@ -645,7 +611,7 @@ Kruskal 算法">
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -663,7 +629,7 @@ Kruskal 算法">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

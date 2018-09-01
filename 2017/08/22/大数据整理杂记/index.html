@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="本文是我在阅读大数据基础时做的笔记。">
+<meta name="keywords" content="数据库">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大数据整理杂记">
 <meta property="og:url" content="https://shiningdan.github.io/2017/08/22/大数据整理杂记/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="本文是我在阅读大数据基础时做的笔记。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/9905096c020f11360a788a0f983456e6.png">
 <meta property="og:updated_time" content="2017-08-22T08:17:59.000Z">
 <meta name="twitter:card" content="summary">
@@ -424,8 +426,8 @@
 <p>列存储的两点改进：1.在计算机上安装多块硬盘，以多线程并行的方式读写它们。多块硬盘并行工作可以减少磁盘读写竞用，这种方式对提高处理效率优势十分明显。缺点是需要更多的硬盘，这会增加投入成本，在大规模数据处理应用中是不小的数目，运营商需要认真考虑这个问题。2.对写过程中的数据完整性问题，可考虑在写入过程中加入类似关系数据库的“回滚”机制，当某一列发生写入失败时，此前写入的数据全部失效，同时加入散列码校验，进一步保证数据完整性。</p>
 <p>频繁的小量的数据写入对磁盘影响很大，更好的解决办法是将数据在内存中暂时保存并整理，达到一定数量后，一次性写入磁盘，这样消耗时间更少一些。</p>
 <ul>
-<li><a href="https://www.ibm.com/developerworks/community/blogs/IBMi/entry/database?lang=en" target="_blank" rel="external">数据库的方向 - 行vs列</a></li>
-<li><a href="https://www.zhihu.com/question/29380943" target="_blank" rel="external">为什么列存储数据库读取速度会比传统的行数据库快？</a></li>
+<li><a href="https://www.ibm.com/developerworks/community/blogs/IBMi/entry/database?lang=en" target="_blank" rel="noopener">数据库的方向 - 行vs列</a></li>
+<li><a href="https://www.zhihu.com/question/29380943" target="_blank" rel="noopener">为什么列存储数据库读取速度会比传统的行数据库快？</a></li>
 </ul>
 <h3 id="hbase"><a href="#hbase" class="headerlink" title="hbase"></a>hbase</h3><p>hbase 是 noSql数据库的一种，最常见的应用场景就是采集的网页数据的存储，由于是key-value型数据库，可以再扩展到各种key-value应用场景，如日志信息的存储，对于内容信息不需要完全结构化出来的类CMS应用等。注意hbase针对的仍然是OLTP应用为主。</p>
 <p>而HBase表是物理表，适合存放非结构化的数据。</p>
@@ -435,7 +437,7 @@
 <p><strong>Hive是基于MapReduce来处理数据,而MapReduce处理数据是基于行的模式；HBase处理数据是基于列的而不是基于行的模式，适合海量数据的随机访问。</strong></p>
 <p>Hbase和Hive在大数据架构中处在不同位置，Hbase主要解决实时数据查询问题，Hive主要解决数据处理和计算问题，一般是配合使用。</p>
 <ul>
-<li><a href="https://www.zhihu.com/question/21677041" target="_blank" rel="external">hbase和hive的差别是什么，各自适用在什么场景中？</a></li>
+<li><a href="https://www.zhihu.com/question/21677041" target="_blank" rel="noopener">hbase和hive的差别是什么，各自适用在什么场景中？</a></li>
 </ul>
 <h4 id="基础-HDFS"><a href="#基础-HDFS" class="headerlink" title="基础-HDFS"></a>基础-HDFS</h4><p>Hadoop分布式文件系统(HDFS)被设计成适合运行在通用硬件(commodity hardware)上的分布式文件系统。它和现有的分布式文件系统有很多共同点。但同时，它和其他的分布式文件系统的区别也是很明显的。HDFS是一个高度容错性的系统，适合部署在廉价的机器上。HDFS能提供高吞吐量的数据访问，非常适合大规模数据集上的应用。HDFS放宽了一部分POSIX约束，来实现流式读取文件系统数据的目的。</p>
 <p>HDFS（Hadoop Distributed FileSystem）的设计本质上是为了大量的数据能横跨成百上千台机器，但是你看到的是一个文件系统而不是很多文件系统。比如你说我要获取/hdfs/tmp/file1的数据，你引用的是一个文件路径，但是实际的数据存放在很多不同的机器上。你作为用户，不需要知道这些，就好比在单机上你不关心文件分散在什么磁道什么扇区一样。HDFS为你管理这些数据。</p>
@@ -447,7 +449,7 @@
 <p>上面的介绍，基本就是一个数据仓库的构架了。底层HDFS，上面跑MapReduce／Tez／Spark，在上面跑Hive，Pig。或者HDFS上直接跑Impala，Drill，Presto。这解决了中低速数据处理的要求。</p>
 <p>如果我是一个类似微博的公司，我希望显示不是24小时热博，我想看一个不断变化的热播榜，更新延迟在一分钟之内，上面的手段都将无法胜任。于是又一种计算模型被开发出来，这就是Streaming（流）计算。Storm是最流行的流计算平台。流计算的思路是，如果要达到更实时的更新，我何不在数据流进来的时候就处理了？比如还是词频统计的例子，我的数据流是一个一个的词，我就让他们一边流过我就一边开始统计了。流计算很牛逼，基本无延迟，但是它的短处是，不灵活，你想要统计的东西必须预先知道，毕竟数据流过就没了，你没算的东西就无法补算了。因此它是个很好的东西，但是无法替代上面数据仓库和批处理系统。</p>
 <ul>
-<li><a href="https://www.zhihu.com/question/27974418" target="_blank" rel="external">如何用形象的比喻描述大数据的技术生态</a></li>
+<li><a href="https://www.zhihu.com/question/27974418" target="_blank" rel="noopener">如何用形象的比喻描述大数据的技术生态</a></li>
 </ul>
 <ol>
 <li>存储，海量的数据怎样有效的存储？主要包括hdfs、Kafka；</li>
@@ -578,7 +580,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -596,7 +598,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

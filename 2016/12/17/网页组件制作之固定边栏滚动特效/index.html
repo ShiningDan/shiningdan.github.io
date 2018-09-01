@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS,JavaScript,HTML,jQuery," />
+  <meta name="keywords" content="JavaScript,CSS,HTML,jQuery," />
 
 
 
@@ -84,24 +84,20 @@
 
 
 
-<meta name="description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果
-本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
+<meta name="description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果 本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。 实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
+<meta name="keywords" content="JavaScript,CSS,HTML,jQuery">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网页组件制作之固定边栏滚动特效">
 <meta property="og:url" content="https://shiningdan.github.io/2016/12/17/网页组件制作之固定边栏滚动特效/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果
-本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
+<meta property="og:description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果 本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。 实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img73.PNG">
 <meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img74.PNG">
 <meta property="og:updated_time" content="2016-12-17T13:39:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网页组件制作之固定边栏滚动特效">
-<meta name="twitter:description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果
-本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。
-实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
+<meta name="twitter:description" content="网页组件制作之固定边栏滚动特效在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果 本系列的是参考慕课网 远人老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。 实现的效果如果页面是多栏布局，并且多个栏的高度不一致，在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空">
 <meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img73.PNG">
 
 
@@ -411,7 +407,7 @@
 
       
         <h1 id="网页组件制作之固定边栏滚动特效"><a href="#网页组件制作之固定边栏滚动特效" class="headerlink" title="网页组件制作之固定边栏滚动特效"></a>网页组件制作之固定边栏滚动特效</h1><p><strong>在该笔记中将学到列表展示中固定边栏滚动特效的方法与展示效果</strong></p>
-<p>本系列的是参考<a href="http://www.imooc.com/u/101686/courses?sort=publish" target="_blank" rel="external">慕课网 远人</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
+<p>本系列的是参考<a href="http://www.imooc.com/u/101686/courses?sort=publish" target="_blank" rel="noopener">慕课网 远人</a>老师的视频，仅供个人查阅使用，具体讲解推荐参考视频。</p>
 <h2 id="实现的效果"><a href="#实现的效果" class="headerlink" title="实现的效果"></a>实现的效果</h2><p>如果页面是多栏布局，并且多个栏的高度不一致，<strong>在滚动的时候，高度高的栏可以继续滚动，高度低的栏在完成滚动后只能显示空白页面。我们要实现的效果是，如果滚动的范围超出高度低的边栏，则高度低的边栏就停在页面的两侧，而不是滚动到空白页面。</strong></p>
 <p>没有设置固定边栏的效果：</p>
 <p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img73.PNG" alt=""></p>
@@ -491,9 +487,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
-          
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
           
             <a href="/tags/HTML/" rel="tag"># HTML</a>
           
@@ -592,7 +588,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -610,7 +606,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

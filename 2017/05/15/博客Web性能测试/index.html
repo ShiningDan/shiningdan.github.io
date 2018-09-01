@@ -84,14 +84,14 @@
 
 
 
-<meta name="description" content="前言我的个人博客已经上线了！很开心这个博客可以成为我个人的试验田，本次盯上的是前端性能优化这一点，所以我准备在接下来的一段时间，用上几篇文章来介绍一下针对我的博客的优化步骤。为了更好的展示性能优化的效果，我在写这个博客系统的时候估计留下来了一些不好的编程风格 XD，其目的一是更加全面地介绍前端性能优化的方方面面，目的二是通过对这些方面更全面地学习，再重新更新一下自己的技能树，温故而知新咯。
-123">
+<meta name="description" content="前言我的个人博客已经上线了！很开心这个博客可以成为我个人的试验田，本次盯上的是前端性能优化这一点，所以我准备在接下来的一段时间，用上几篇文章来介绍一下针对我的博客的优化步骤。为了更好的展示性能优化的效果，我在写这个博客系统的时候估计留下来了一些不好的编程风格 XD，其目的一是更加全面地介绍前端性能优化的方方面面，目的二是通过对这些方面更全面地学习，再重新更新一下自己的技能树，温故而知新咯。 123">
+<meta name="keywords" content="Chrome Timeline,Chrome Network">
 <meta property="og:type" content="article">
 <meta property="og:title" content="博客Web性能测试">
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/15/博客Web性能测试/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="前言我的个人博客已经上线了！很开心这个博客可以成为我个人的试验田，本次盯上的是前端性能优化这一点，所以我准备在接下来的一段时间，用上几篇文章来介绍一下针对我的博客的优化步骤。为了更好的展示性能优化的效果，我在写这个博客系统的时候估计留下来了一些不好的编程风格 XD，其目的一是更加全面地介绍前端性能优化的方方面面，目的二是通过对这些方面更全面地学习，再重新更新一下自己的技能树，温故而知新咯。
-123">
+<meta property="og:description" content="前言我的个人博客已经上线了！很开心这个博客可以成为我个人的试验田，本次盯上的是前端性能优化这一点，所以我准备在接下来的一段时间，用上几篇文章来介绍一下针对我的博客的优化步骤。为了更好的展示性能优化的效果，我在写这个博客系统的时候估计留下来了一些不好的编程风格 XD，其目的一是更加全面地介绍前端性能优化的方方面面，目的二是通过对这些方面更全面地学习，再重新更新一下自己的技能树，温故而知新咯。 123">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/d6afd4dbd686cda3790fbfd27997ca6c.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/36e90b7b12fe4b3f28c30a60cda4ea7d.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/b8fe203e2b1d0e7db787727160f2adf4.png">
@@ -101,8 +101,7 @@
 <meta property="og:updated_time" content="2017-05-16T07:46:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="博客Web性能测试">
-<meta name="twitter:description" content="前言我的个人博客已经上线了！很开心这个博客可以成为我个人的试验田，本次盯上的是前端性能优化这一点，所以我准备在接下来的一段时间，用上几篇文章来介绍一下针对我的博客的优化步骤。为了更好的展示性能优化的效果，我在写这个博客系统的时候估计留下来了一些不好的编程风格 XD，其目的一是更加全面地介绍前端性能优化的方方面面，目的二是通过对这些方面更全面地学习，再重新更新一下自己的技能树，温故而知新咯。
-123">
+<meta name="twitter:description" content="前言我的个人博客已经上线了！很开心这个博客可以成为我个人的试验田，本次盯上的是前端性能优化这一点，所以我准备在接下来的一段时间，用上几篇文章来介绍一下针对我的博客的优化步骤。为了更好的展示性能优化的效果，我在写这个博客系统的时候估计留下来了一些不好的编程风格 XD，其目的一是更加全面地介绍前端性能优化的方方面面，目的二是通过对这些方面更全面地学习，再重新更新一下自己的技能树，温故而知新咯。 123">
 <meta name="twitter:image" content="http://ojt6zsxg2.bkt.clouddn.com/d6afd4dbd686cda3790fbfd27997ca6c.png">
 
 
@@ -412,9 +411,9 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我的个人博客已经上线了！很开心这个博客可以成为我个人的试验田，本次盯上的是前端性能优化这一点，所以我准备在接下来的一段时间，用上几篇文章来介绍一下针对我的博客的优化步骤。为了更好的展示性能优化的效果，我在写这个博客系统的时候估计留下来了一些不好的编程风格 XD，其目的一是更加全面地介绍前端性能优化的方方面面，目的二是通过对这些方面更全面地学习，再重新更新一下自己的技能树，温故而知新咯。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">时间与用户感觉</div><div class="line"></div><div class="line">本页数据来自于《WEB性能权威指南》10.2.1节</div><div class="line"></div><div class="line">时间	                        感觉</div><div class="line">0 ~ 100 ms	                  很快</div><div class="line">100 ~ 300 ms	           有一点点慢</div><div class="line">300 ~ 1000 ms	          机器在工作呢</div><div class="line">&gt; 1000 ms	              先干点别的吧</div><div class="line">&gt; 10000 ms	                不能用了</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">时间与用户感觉</span><br><span class="line"></span><br><span class="line">本页数据来自于《WEB性能权威指南》10.2.1节</span><br><span class="line"></span><br><span class="line">时间	                        感觉</span><br><span class="line">0 ~ 100 ms	                  很快</span><br><span class="line">100 ~ 300 ms	           有一点点慢</span><br><span class="line">300 ~ 1000 ms	          机器在工作呢</span><br><span class="line">&gt; 1000 ms	              先干点别的吧</span><br><span class="line">&gt; 10000 ms	                不能用了</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p><a href="https://developers.google.com/speed/docs/insights/rules?hl=zh-cn" target="_blank" rel="external">PageSpeed Insights规则</a> 提供了一些针对网页进行优化的出发点。我们在对网页速度进行分析了以后，可以从这些出发点进行考虑。</p>
+<p><a href="https://developers.google.com/speed/docs/insights/rules?hl=zh-cn" target="_blank" rel="noopener">PageSpeed Insights规则</a> 提供了一些针对网页进行优化的出发点。我们在对网页速度进行分析了以后，可以从这些出发点进行考虑。</p>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>现在我的博客有很多需要改进的地方，那如何来评价什么是快，什么是慢呢？当然是用数字说话，现在，我们先使用几种常用的前端工具来测试一下博客在各个方面的速度吧~</p>
 <p>首先，在进行测试的时候，要注意以下几点：</p>
 <ol>
@@ -427,11 +426,11 @@
 <li>Chrome Network</li>
 <li>Chrome Timeline</li>
 </ul>
-<h2 id="Chrome-Network"><a href="#Chrome-Network" class="headerlink" title="Chrome Network"></a>Chrome Network</h2><p>我们可以在<a href="https://developers.google.com/web/tools/chrome-devtools/?hl=zh-cn" target="_blank" rel="external">Chrome 开发者工具</a> 查看 Chrome 提供的浏览器工具的使用方法</p>
+<h2 id="Chrome-Network"><a href="#Chrome-Network" class="headerlink" title="Chrome Network"></a>Chrome Network</h2><p>我们可以在<a href="https://developers.google.com/web/tools/chrome-devtools/?hl=zh-cn" target="_blank" rel="noopener">Chrome 开发者工具</a> 查看 Chrome 提供的浏览器工具的使用方法</p>
 <p>Chrome Network 是我们常用的获取浏览器网络操作的相关信息的地方，包括详细的耗时数据、HTTP 请求与响应标头和 Cookie，等等。</p>
-<p>关于 Chrome Network 的各个部分中不同按钮的含义，可以从 <a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/resource-loading?hl=zh-cn" target="_blank" rel="external">测量资源加载时间</a> 这篇文章来获得，在这里就不再赘述各个按钮的含义了。</p>
+<p>关于 Chrome Network 的各个部分中不同按钮的含义，可以从 <a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/resource-loading?hl=zh-cn" target="_blank" rel="noopener">测量资源加载时间</a> 这篇文章来获得，在这里就不再赘述各个按钮的含义了。</p>
 <p>目前我的博客是运行在本地环境上的，用来保证博客的响应速度不受到网络环境不稳定性的影响。</p>
-<p>在使用 Network 进行测试的时候，需要关心两个事件的时间，第一个事件是 <code>DOMContentLoaded</code>，第二个是 <code>load</code>事件。关于 <code>DOMContentLoaded</code> 事件的触发时间，可以参考 <a href="http://www.alloyteam.com/2014/03/effect-js-css-and-img-event-of-domcontentloaded/" target="_blank" rel="external">JS、CSS以及img对DOMContentLoaded事件的影响</a> 这篇文章，其中大致的意思是：</p>
+<p>在使用 Network 进行测试的时候，需要关心两个事件的时间，第一个事件是 <code>DOMContentLoaded</code>，第二个是 <code>load</code>事件。关于 <code>DOMContentLoaded</code> 事件的触发时间，可以参考 <a href="http://www.alloyteam.com/2014/03/effect-js-css-and-img-event-of-domcontentloaded/" target="_blank" rel="noopener">JS、CSS以及img对DOMContentLoaded事件的影响</a> 这篇文章，其中大致的意思是：</p>
 <p><code>DOMContentLoaded</code> 事件本身不会等待CSS文件、图片、iframe加载完成。它的触发时机是：加载完页面，解析完所有标签（不包括执行CSS和JS），并如规范中所说的设置 <code>interactive</code> 和<strong>执行每个静态的script标签中的JS</strong>，然后触发。而JS的执行，需要等待位于它前面的CSS加载（如果是外联的话）、执行完成，因为JS可能会依赖位于它前面的CSS计算出来的样式。</p>
 <ol>
 <li><code>DOMContentLoaded</code> 事件不直接等待CSS文件、图片的加载完成</li>
@@ -439,10 +438,10 @@
 </ol>
 <p>下面我们来看一下如何使用 Chrome Network 来测试一下我的博客的网络速度。</p>
 <h3 id="首页"><a href="#首页" class="headerlink" title="首页"></a>首页</h3><h4 id="Regular-2G"><a href="#Regular-2G" class="headerlink" title="Regular 2G"></a>Regular 2G</h4><p>在测试的时候，我选择的是 <code>disable cache</code>，并且在 Network 上设置网络的状态为 <code>Regular 2G, 300ms, 250kb/s, 50kb/s</code> 来测试网站的速度，结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">DOMContentLoaded: 754 ms</div><div class="line">Load: 1.27s</div><div class="line">// 全网站加载完时间</div><div class="line">Total: 21s</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DOMContentLoaded: 754 ms</span><br><span class="line">Load: 1.27s</span><br><span class="line">// 全网站加载完时间</span><br><span class="line">Total: 21s</span><br></pre></td></tr></table></figure>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/d6afd4dbd686cda3790fbfd27997ca6c.png" alt=""></p>
 <p>在博客的 DOM 结构和文本内容以及 CSS 都加载完的情况下，一共花费了 1.27s，剩下将近 20s 的时间都用来加载图片，由此可见，过大的图片对网页的浏览效果有多么大的影响。所以，在网站部署之前，对网站的静态资源都进行压缩等处理是非常有必要的。并且针对不经常改动的静态资源，可以预先存放在客户端，就不需要再重复下载了。</p>
-<h4 id="线上测试"><a href="#线上测试" class="headerlink" title="线上测试"></a>线上测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">DOMContentLoaded: 160 ms</div><div class="line">Load: 300ms - 600ms</div><div class="line">// 全网站加载完时间</div><div class="line">Total: 4s - 6s</div></pre></td></tr></table></figure>
+<h4 id="线上测试"><a href="#线上测试" class="headerlink" title="线上测试"></a>线上测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DOMContentLoaded: 160 ms</span><br><span class="line">Load: 300ms - 600ms</span><br><span class="line">// 全网站加载完时间</span><br><span class="line">Total: 4s - 6s</span><br></pre></td></tr></table></figure>
 <p>我的博客是预先部署在阿里云上，所以针对线上的环境，我们也可以使用 Network 来测试一下效果。</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/36e90b7b12fe4b3f28c30a60cda4ea7d.png" alt=""></p>
 <p>其中小的文件都需要一个 <code>waiting(TTFB)</code> 时间以后才获得第一个返回的比特，再经过蓝色的 <code>Content Download</code> 时间再获取到资源。虽然浏览器支持并发的下载外部资源，但是整体还是需要花费 <code>100ms</code> 的时间。针对这些时间，我们其实可以将这些 css 资源都以内联模式的形式写在 HTML 中，这样就不需要再经过 <code>waiting(TTFB)</code> 时间。</p>
@@ -453,11 +452,11 @@
 <p>除此以外，Disqus 因为被“墙”的缘故，经常加载不了，导致评论框不能用，所以针对评论框的修改，还是需要判断其 JS 文件是否能加载，如果不能加载，就调用 Disqus API 获得评论的数据。</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/7f60c25e12bd4a879f32bc485de8bc01.png" alt=""></p>
 <p>从这张图可以分析得到，CSS 文件的加载推迟了图片文件的加载，并且网页中图片文件没有设置懒加载，而是一起加载，超过了浏览器同源资源请求的并发数，导致 <code>header-bg.jpg</code> 文件和 <code>avatar.jpg</code> 文件的请求和下载被推迟，影响了侧边栏的显示效果。</p>
-<h2 id="Chrome-Timeline"><a href="#Chrome-Timeline" class="headerlink" title="Chrome Timeline"></a>Chrome Timeline</h2><p>同样，我们可以在<a href="https://developers.google.com/web/tools/chrome-devtools/?hl=zh-cn" target="_blank" rel="external">Chrome 开发者工具</a> 查看 Chrome 提供的浏览器 Timeline 的使用方法</p>
+<h2 id="Chrome-Timeline"><a href="#Chrome-Timeline" class="headerlink" title="Chrome Timeline"></a>Chrome Timeline</h2><p>同样，我们可以在<a href="https://developers.google.com/web/tools/chrome-devtools/?hl=zh-cn" target="_blank" rel="noopener">Chrome 开发者工具</a> 查看 Chrome 提供的浏览器 Timeline 的使用方法</p>
 <p>使用 Chrome DevTools 的 Timeline 面板可以记录和分析您的应用在运行时的所有活动。 这里是开始调查应用中可觉察性能问题的最佳位置。</p>
 <p>火焰图上看到一到三条垂直的虚线。蓝线代表 <code>DOMContentLoaded</code> 事件。 绿线代表首次绘制的时间。 红线代表 <code>load</code> 事件。</p>
 <p>在我的博客中，由于涉及到的 JS 脚本和 CSS 重绘比较少，所以使用 Timeline 查看资源的使用率暂时获得不了太多信息。</p>
-<h2 id="PageSpeed-Insights"><a href="#PageSpeed-Insights" class="headerlink" title="PageSpeed Insights"></a>PageSpeed Insights</h2><p>使用 <a href="https://developers.google.com/speed/pagespeed/insights/?hl=zh-CN" target="_blank" rel="external">PageSpeed Insights</a> 可以对网页进行分析，并且提出针对网页性能的优化方案。使用的时候直接把链接输入即可。下面我使用这个网站对我的首页以及文章页进行分析：</p>
+<h2 id="PageSpeed-Insights"><a href="#PageSpeed-Insights" class="headerlink" title="PageSpeed Insights"></a>PageSpeed Insights</h2><p>使用 <a href="https://developers.google.com/speed/pagespeed/insights/?hl=zh-CN" target="_blank" rel="noopener">PageSpeed Insights</a> 可以对网页进行分析，并且提出针对网页性能的优化方案。使用的时候直接把链接输入即可。下面我使用这个网站对我的首页以及文章页进行分析：</p>
 <h3 id="首页-1"><a href="#首页-1" class="headerlink" title="首页"></a>首页</h3><p><img src="http://ojt6zsxg2.bkt.clouddn.com/638c79bd4bef272386fc054d38ff66db.png" alt=""></p>
 <p>给出的优化策略如下：</p>
 <ol>
@@ -475,10 +474,10 @@
 <li>启用压缩，通过 GZip 对传输文件进行压缩</li>
 <li>缩减 JS 文件的大小，对 JS 文件进行压缩</li>
 </ol>
-<p>除此之外，可以提供网页性能检测的网站还有：<a href="https://gtmetrix.com/" target="_blank" rel="external">GTmetrix</a> 和 <a href="https://www.webpagetest.org/" target="_blank" rel="external">WebPagetest</a>，大家不妨多去尝试一下。</p>
+<p>除此之外，可以提供网页性能检测的网站还有：<a href="https://gtmetrix.com/" target="_blank" rel="noopener">GTmetrix</a> 和 <a href="https://www.webpagetest.org/" target="_blank" rel="noopener">WebPagetest</a>，大家不妨多去尝试一下。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/?hl=zh-cn" target="_blank" rel="external">Measure Network Performance</a></li>
-<li><a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/understanding-resource-timing?hl=zh-cn" target="_blank" rel="external">了解 Resource Timing</a></li>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/?hl=zh-cn" target="_blank" rel="noopener">Measure Network Performance</a></li>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/understanding-resource-timing?hl=zh-cn" target="_blank" rel="noopener">了解 Resource Timing</a></li>
 </ul>
 
       
@@ -600,7 +599,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -618,7 +617,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

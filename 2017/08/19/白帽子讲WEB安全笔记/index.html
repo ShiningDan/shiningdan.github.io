@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="本文是我读《白帽子讲 WEB 安全的笔记》">
+<meta name="keywords" content="WEB,安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="白帽子讲WEB安全笔记">
 <meta property="og:url" content="https://shiningdan.github.io/2017/08/19/白帽子讲WEB安全笔记/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="本文是我读《白帽子讲 WEB 安全的笔记》">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-08-22T07:24:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="白帽子讲WEB安全笔记">
@@ -408,7 +410,7 @@
 <p><strong>即使是相同根域名，不同子域名，也会受到同源策略的限制</strong></p>
 <p>注意：存放文件的域名不重要，重要的是加载文件的域是什么样的。</p>
 <p>如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=&apos;http://b.com/b.js&apos;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&apos;http://b.com/b.js&apos;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 <p>这段代码是加载在 <code>a.com</code> 这个页面下的，则 <code>b.js</code> 的 Origin 应该是 <code>a.com</code> 而不是 <code>b.com</code></p>
 <p>在浏览器中，<code>&lt;script&gt;、&lt;img&gt;、&lt;iframe&gt;、&lt;link&gt;</code> 等标签都可以通过 src 属性加载资源，但是<strong>通过 src 加载的资源，浏览器限制了 JavaScript 的权限，使其不能读写返回的内容</strong>。并且，在通过 src 访问资源的时候，会附带被请求域的 cookie。</p>
 <p><strong>浏览器的策略是，不阻止向另一个域名发送请求（表单，img，iframe，link 等 src 都可以跨域），但是不得读取另一个域名的内容</strong></p>
@@ -454,9 +456,9 @@
 <h5 id="针对-JavaScript-的转义"><a href="#针对-JavaScript-的转义" class="headerlink" title="针对 JavaScript 的转义"></a>针对 JavaScript 的转义</h5><p>JavaScript 中对于特殊字符的转义方法和 HTMLEncode 的方法不同，它需要使用 <code>\</code> 符号进行转义。</p>
 <p>在对抗 XSS 的时候，<strong>还需要输出的变量在引号内部，避免造成安全问题</strong>。</p>
 <p>如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var x = escapeJavaScript($evil);</div><div class="line">var y = &apos;&quot;&apos; + escapeJavaScript($evil) + &apos;&quot;&apos;;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var x = escapeJavaScript($evil);</span><br><span class="line">var y = &apos;&quot;&apos; + escapeJavaScript($evil) + &apos;&quot;&apos;;</span><br></pre></td></tr></table></figure>
 <p>转义后输出就变成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var x = 1;alert(2);</div><div class="line">var y = &quot;1;alert(2);&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var x = 1;alert(2);</span><br><span class="line">var y = &quot;1;alert(2);&quot;</span><br></pre></td></tr></table></figure>
 <p>还有更加严格的 JavaScript 编码方式：除了数字，字母以外的所有字符，都使用十六进制的 <code>\xHH</code> 的方式进行编码。</p>
 <h5 id="结合多种编码方式"><a href="#结合多种编码方式" class="headerlink" title="结合多种编码方式"></a>结合多种编码方式</h5><p>XSS 攻击主要发生在 MVC 中的 View 层，也就是将变量输出到模板的时候。</p>
 <p>使用单一的编码方式也不能完全防御 XSS 攻击，还需要针对不同的情况使用多种编码方式结合的方法来防御。</p>
@@ -511,20 +513,20 @@
 <p>Refer 的值指向请求来自的页面，不过缺点是<strong>服务器并非什么时候都能取得 Referer 的值</strong></p>
 <h4 id="Anti-CSRF-Token"><a href="#Anti-CSRF-Token" class="headerlink" title="Anti CSRF Token"></a>Anti CSRF Token</h4><p>CSRF 攻击的本质是，攻击者发送的请求中包含用户的信息，以及用户的身份认证 Cookie。如果浏览器允许发送本地 Cookie 的值，只能在验证用户的信息中进行设置，如：</p>
 <p>一个删除操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://host/path/delete?username=abc&amp;item=123</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://host/path/delete?username=abc&amp;item=123</span><br></pre></td></tr></table></figure>
 <p>可以把 username 改成哈希值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://host/path/delete?username=md5(salt+abc)&amp;item=123</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://host/path/delete?username=md5(salt+abc)&amp;item=123</span><br></pre></td></tr></table></figure>
 <p>使用 salt 或者随机数来验证请求参数。</p>
 <p>目前最常用的解决 CSRF 的方法是 URL 中新增一个参数 Token，这个 Token 为用户与服务器共同所有，不能被第三者知晓。这个 Token 可以放在用户的 Session 或者浏览器 Cookie 中。并且这个 Token 会在发送一次请求后消耗，然后再重新生成一次 Token。</p>
 <p>并且，Token 的发送最好放在表单中，作为一个隐藏的 Input 进行发送，而不是添加到链接中，否则可能会被发送给攻击者的 Referer 捕获。</p>
 <p><strong>Token 只是用来对抗 CSRF，但如果网站还存在 XSS 或其他漏洞的情况下，Token 就可能被攻击者捕获，这种方案就不可行，这个过程被称为 XSRF</strong></p>
 <h2 id="点击劫持"><a href="#点击劫持" class="headerlink" title="点击劫持"></a>点击劫持</h2><p>点击劫持，是攻击者使用一个透明的，不可见的 iframe，或者图片，或者定义拖拽行为，覆盖在网页上，当用户点击或进行任何操作的时候，就正好将事件传输到 iframe 上。</p>
 <h3 id="点击劫持的防御"><a href="#点击劫持的防御" class="headerlink" title="点击劫持的防御"></a>点击劫持的防御</h3><h4 id="frame-busting"><a href="#frame-busting" class="headerlink" title="frame busting"></a>frame busting</h4><p>可以写一段 JavaScript 代码，用来防止 iframe 的嵌套。但是这种方法很容易被绕过。frame busting 的大意为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (top != self)</div><div class="line">if (top.location != self.location)</div><div class="line">if (top.location != location)</div><div class="line">if (parent.frame.length &gt; 0)</div><div class="line">if (window != top)</div><div class="line">if (window.top != window,self)</div><div class="line">......</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (top != self)</span><br><span class="line">if (top.location != self.location)</span><br><span class="line">if (top.location != location)</span><br><span class="line">if (parent.frame.length &gt; 0)</span><br><span class="line">if (window != top)</span><br><span class="line">if (window.top != window,self)</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
 <h4 id="X-Frame-Options"><a href="#X-Frame-Options" class="headerlink" title="X-Frame-Options"></a>X-Frame-Options</h4><p>使用 X-Frame-Options 头，里面有三个可选值：<code>DENY、SAMEORIGIN、ALLOW_FROM origin</code>，可以选择是否拒绝当前页面下加载任何 frame 页面。</p>
 <h2 id="HTML5-安全"><a href="#HTML5-安全" class="headerlink" title="HTML5 安全"></a>HTML5 安全</h2><h3 id="Cross-Origin-Resource-Sharing"><a href="#Cross-Origin-Resource-Sharing" class="headerlink" title="Cross-Origin Resource Sharing"></a>Cross-Origin Resource Sharing</h3><p>可以在 HTTP Headers 中设置多种跨域安全访问权限，进行精细的控制：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Access-Control-Allow-Origin:指定了允许访问该资源的外域 URI</div><div class="line">Access-Control-Max-Age:preflight请求的结果能够被缓存多久</div><div class="line">Access-Control-Allow-Credentials:当浏览器的credentials设置为 true 时是否允许浏览器读取response的内容。</div><div class="line">Access-Control-Allow-Methods:首部字段用于预检请求的响应。其指明了实际请求所允许使用的 HTTP 方法。</div><div class="line">Access-Control-Allow-Headers:首部字段用于预检请求的响应。其指明了实际请求中允许携带的首部字段。</div><div class="line">Origin:首部字段表明预检请求或实际请求的源站。</div><div class="line">Access-Control-Request-Method:首部字段用于预检请求。其作用是，将实际请求所使用的 HTTP 方法告诉服务器</div><div class="line">Access-Control-Request-Headers:首部字段用于预检请求。其作用是，将实际请求所携带的首部字段告诉服务器。</div></pre></td></tr></table></figure>
-<h4 id="预检请求（preflight-request）"><a href="#预检请求（preflight-request）" class="headerlink" title="预检请求（preflight request）"></a>预检请求（preflight request）</h4><p>当请求的 Method 不是 GET、HEAD、POST 之一，请求的首部不在 <a href="https://fetch.spec.whatwg.org/#cors-safelisted-request-header" target="_blank" rel="external">对 CORS 安全的首部字段集合</a> 之一，或者 Content-Type 不在 <code>application/x-www-form-urlencoded、multipart/form-data、text/plain</code> 中，Client 首先会给 Server 发送一个 Option（类似于 GET、POST）请求，查看 Server 是否允许这些字段被发送到服务器。进行确认了以后，再次发送请求内容。首先发送 Option 请求的过程被称为<strong>预检请求</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin:指定了允许访问该资源的外域 URI</span><br><span class="line">Access-Control-Max-Age:preflight请求的结果能够被缓存多久</span><br><span class="line">Access-Control-Allow-Credentials:当浏览器的credentials设置为 true 时是否允许浏览器读取response的内容。</span><br><span class="line">Access-Control-Allow-Methods:首部字段用于预检请求的响应。其指明了实际请求所允许使用的 HTTP 方法。</span><br><span class="line">Access-Control-Allow-Headers:首部字段用于预检请求的响应。其指明了实际请求中允许携带的首部字段。</span><br><span class="line">Origin:首部字段表明预检请求或实际请求的源站。</span><br><span class="line">Access-Control-Request-Method:首部字段用于预检请求。其作用是，将实际请求所使用的 HTTP 方法告诉服务器</span><br><span class="line">Access-Control-Request-Headers:首部字段用于预检请求。其作用是，将实际请求所携带的首部字段告诉服务器。</span><br></pre></td></tr></table></figure>
+<h4 id="预检请求（preflight-request）"><a href="#预检请求（preflight-request）" class="headerlink" title="预检请求（preflight request）"></a>预检请求（preflight request）</h4><p>当请求的 Method 不是 GET、HEAD、POST 之一，请求的首部不在 <a href="https://fetch.spec.whatwg.org/#cors-safelisted-request-header" target="_blank" rel="noopener">对 CORS 安全的首部字段集合</a> 之一，或者 Content-Type 不在 <code>application/x-www-form-urlencoded、multipart/form-data、text/plain</code> 中，Client 首先会给 Server 发送一个 Option（类似于 GET、POST）请求，查看 Server 是否允许这些字段被发送到服务器。进行确认了以后，再次发送请求内容。首先发送 Option 请求的过程被称为<strong>预检请求</strong></p>
 <h4 id="附带身份凭证的请求"><a href="#附带身份凭证的请求" class="headerlink" title="附带身份凭证的请求"></a>附带身份凭证的请求</h4><p>Fetch 与 CORS 的一个有趣的特性是，可以基于  HTTP cookies 和 HTTP 认证信息发送身份凭证。一般而言，对于跨域 XMLHttpRequest 或 Fetch 请求，浏览器不会发送身份凭证信息。如果要发送凭证信息，需要设置 XMLHttpRequest 的某个特殊标志位。</p>
 <p>将 XMLHttpRequest 的 withCredentials 标志设置为 true，从而向服务器发送 Cookies。</p>
 <p>如果服务器端的响应中未携带 Access-Control-Allow-Credentials: true ，浏览器将不会把响应内容返回给请求的发送者。</p>
@@ -535,7 +537,7 @@
 <li>接收的消息写入 <code>innerHTML</code>，甚至写入 <code>script</code> 中的时候，可能会导致 DOM based XSS 产生。</li>
 </ol>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="external">HTTP访问控制（CORS）</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS" target="_blank" rel="noopener">HTTP访问控制（CORS）</a></li>
 </ul>
 
       
@@ -657,7 +659,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -675,7 +677,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

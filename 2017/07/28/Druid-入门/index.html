@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="本文记录的是我在学习实时 OLAP 数据分析存储系统 Druid 的笔记">
+<meta name="keywords" content="数据库,Druid">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Druid 入门">
 <meta property="og:url" content="https://shiningdan.github.io/2017/07/28/Druid-入门/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="本文记录的是我在学习实时 OLAP 数据分析存储系统 Druid 的笔记">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/a4721de03eeffd09e75180d93e414b77.png">
 <meta property="og:updated_time" content="2017-08-05T08:01:49.000Z">
 <meta name="twitter:card" content="summary">
@@ -415,12 +417,12 @@
 <h2 id="什么是-OLAP"><a href="#什么是-OLAP" class="headerlink" title="什么是 OLAP"></a>什么是 OLAP</h2><p>数据处理大致可以分成两大类：联机事务处理OLTP（on-line transaction processing）、联机分析处理OLAP（On-Line Analytical Processing）。OLTP是传统的关系型数据库的主要应用，主要是基本的、日常的事务处理，例如银行交易。OLAP是数据仓库系统的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。</p>
 <p>OLTP，也叫联机事务处理（Online Transaction Processing），表示事务性非常高的系统，一般都是高可用的在线系统，以小的事务以及小的查询为主，评估其系统的时候，一般看其每秒执行的Transaction以及Execute SQL的数量。在这样的系统中，单个数据库每秒处理的Transaction往往超过几百个，或者是几千个，Select 语句的执行量每秒几千甚至几万个。典型的OLTP系统有电子商务系统、银行、证券等，如美国eBay的业务数据库，就是很典型的OLTP数据库。</p>
 <p>对于OLAP系统，在内存上可优化的余地很小，增加CPU 处理速度和磁盘I/O 速度是最直接的提高数据库性能的方法，当然这也意味着系统成本的增加。比如我们要对几亿条或者几十亿条数据进行聚合处理，这种海量的数据，全部放在内存中操作是很难的，同时也没有必要，因为这些数据快很少重用，缓存起来也没有实际意义，而且还会造成物理I/O相当大。 所以这种系统的瓶颈往往是磁盘I/O上面的。</p>
-<p><a href="http://blog.csdn.net/jiangshouzhuang/article/details/46884707" target="_blank" rel="external">OLAP、OLTP的介绍和比较</a></p>
+<p><a href="http://blog.csdn.net/jiangshouzhuang/article/details/46884707" target="_blank" rel="noopener">OLAP、OLTP的介绍和比较</a></p>
 <h2 id="Druid-大数据实时统计分析数据存储"><a href="#Druid-大数据实时统计分析数据存储" class="headerlink" title="Druid (大数据实时统计分析数据存储)"></a>Druid (大数据实时统计分析数据存储)</h2><p>Druid是一个为在大数据集之上做实时统计分析而设计的开源数据存储。</p>
 <h3 id="Hadoop-的缺点"><a href="#Hadoop-的缺点" class="headerlink" title="Hadoop 的缺点"></a>Hadoop 的缺点</h3><p>Hadoop擅长的是存储和获取大规模数据，但是它并不提供任何性能上的保证它能多快获取到数据。</p>
 <p>此外，虽然Hadoop是一个高可用的系统，但是在高并发负载下性能会下降。</p>
 <p>最后，Hadoop对于存储数据可以工作得很好，但是并没有对数据导入进行优化，使导入的数据立即可读。</p>
-<h3 id="Druid-优点"><a href="#Druid-优点" class="headerlink" title="Druid 优点"></a>Druid 优点</h3><p><a href="https://github.com/QLeelulu/research/blob/master/druid/White_Paper/druid_cn.md" target="_blank" rel="external">Druid (大数据实时统计分析数据存储)</a></p>
+<h3 id="Druid-优点"><a href="#Druid-优点" class="headerlink" title="Druid 优点"></a>Druid 优点</h3><p><a href="https://github.com/QLeelulu/research/blob/master/druid/White_Paper/druid_cn.md" target="_blank" rel="noopener">Druid (大数据实时统计分析数据存储)</a></p>
 <p>Druid 的最初目的是设计来解决导入和分析大规模交易事件（日志数据）。这种时间序列形式的数据通常在OALP类工作流中比较常见，且数据的本质是非常重的<strong>追加写</strong>（实时写入）。</p>
 <p>之所以需要Druid，是因为现实情况是现有的开源关系型数据库(RDBMS)和NoSQL key/value 数据库没办法为一些交互式应用提供低延迟的数据导入和查询。</p>
 <p>从一个事件数据被创建，到这个事件数据可以被查询的时间，决定了利益相关方能够在他们的系统出现潜在灾难性情况时多快做出反应。流行的开源数据仓库系统，例如Hadoop，并不能达到我们所需要的秒级的数据导入和查询的要求。</p>
@@ -455,10 +457,10 @@
 <p>Druid侧重于OLAP工作流程。Druid是高性能（快速聚集和获取）以较低的成本进行了优化，并支持广泛的分析操作。Druid提供了结构化的事件数据的一些基本的搜索支持。</p>
 <h3 id="Druid-vs-Spark"><a href="#Druid-vs-Spark" class="headerlink" title="Druid vs Spark"></a>Druid vs Spark</h3><p>Spark 是围绕弹性分布式数据集（ RDD ）的概念，建立了一个集群计算框架，可以被看作是一个后台分析平台。 RDD启用数据复用保持中间结果存在内存中，给Spark提供快速计算的迭代算法。这对于某些工作流程，如机器学习，相同的操作可应用一遍又一遍，直到有 结果后收敛尤其有益。Spark提供分析师与不同算法各种各样运行查询和分析大量数据的能力。</p>
 <p>Druid重点是数据获取和提供查询数据的服务，如果建立一个web界面，用户可以随意查看数据。</p>
-<h2 id="查询-API"><a href="#查询-API" class="headerlink" title="查询 API"></a>查询 API</h2><p><a href="http://druidio.cn/" target="_blank" rel="external">Druid | 大规模交互式查询</a></p>
-<p><a href="http://druidio.cn/docs/0.9.0/design/index.html" target="_blank" rel="external">说明文档</a></p>
+<h2 id="查询-API"><a href="#查询-API" class="headerlink" title="查询 API"></a>查询 API</h2><p><a href="http://druidio.cn/" target="_blank" rel="noopener">Druid | 大规模交互式查询</a></p>
+<p><a href="http://druidio.cn/docs/0.9.0/design/index.html" target="_blank" rel="noopener">说明文档</a></p>
 <p>我们看看一个数据集的例子 (来源于线上广告):</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">timestamp             publisher          advertiser  gender  country  click  price</div><div class="line">2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA      0      0.65</div><div class="line">2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA      0      0.62</div><div class="line">2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA      1      0.45</div><div class="line">2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.87</div><div class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.99</div><div class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       1      1.53</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">timestamp             publisher          advertiser  gender  country  click  price</span><br><span class="line">2011-01-01T01:01:35Z  bieberfever.com    google.com  Male    USA      0      0.65</span><br><span class="line">2011-01-01T01:03:63Z  bieberfever.com    google.com  Male    USA      0      0.62</span><br><span class="line">2011-01-01T01:04:51Z  bieberfever.com    google.com  Male    USA      1      0.45</span><br><span class="line">2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.87</span><br><span class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       0      0.99</span><br><span class="line">2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Female  UK       1      1.53</span><br></pre></td></tr></table></figure>
 <p>这个数据集有三部分组成。如果你比较熟悉OLAP的术语的话,应该会很熟悉下面的概念。</p>
 <ul>
 <li><strong>Timestamp</strong> 列: 我们将timestamp区别开是因为我们所有的查询都以时间为中心。</li>
@@ -466,11 +468,11 @@
 <li><strong>Metric</strong> 列: Metrics是用于聚合和计算的列。在我们的例子中,click和price就是metrics。 Metrics通常是数字,并且包含支持count、sum、mean等计算操作。 在OLAP的术语中也被叫做measures。</li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="http://blog.csdn.net/jiangshouzhuang/article/details/46884707" target="_blank" rel="external">OLAP、OLTP的介绍和比较</a></li>
-<li><a href="https://github.com/QLeelulu/research/blob/master/druid/White_Paper/druid_cn.md" target="_blank" rel="external">Druid (大数据实时统计分析数据存储)</a></li>
-<li><a href="https://my.oschina.net/betaoo/blog/530088" target="_blank" rel="external">Druid 实时数据分析存储系统</a></li>
-<li><a href="http://druidio.cn/" target="_blank" rel="external">Druid | 大规模交互式查询</a></li>
-<li><a href="http://druidio.cn/docs/0.9.0/design/index.html" target="_blank" rel="external">说明文档</a></li>
+<li><a href="http://blog.csdn.net/jiangshouzhuang/article/details/46884707" target="_blank" rel="noopener">OLAP、OLTP的介绍和比较</a></li>
+<li><a href="https://github.com/QLeelulu/research/blob/master/druid/White_Paper/druid_cn.md" target="_blank" rel="noopener">Druid (大数据实时统计分析数据存储)</a></li>
+<li><a href="https://my.oschina.net/betaoo/blog/530088" target="_blank" rel="noopener">Druid 实时数据分析存储系统</a></li>
+<li><a href="http://druidio.cn/" target="_blank" rel="noopener">Druid | 大规模交互式查询</a></li>
+<li><a href="http://druidio.cn/docs/0.9.0/design/index.html" target="_blank" rel="noopener">说明文档</a></li>
 </ul>
 
       
@@ -592,7 +594,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -610,7 +612,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

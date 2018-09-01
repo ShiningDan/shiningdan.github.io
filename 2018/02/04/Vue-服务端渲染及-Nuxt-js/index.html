@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="本文是 Vue.js 服务端渲染，以及服务端渲染脚手架 Nuxt.js 的学习笔记">
+<meta name="keywords" content="JavaScript,Vue,Nuxt.js,SSR">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue 服务端渲染及 Nuxt.js">
 <meta property="og:url" content="https://shiningdan.github.io/2018/02/04/Vue-服务端渲染及-Nuxt-js/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="本文是 Vue.js 服务端渲染，以及服务端渲染脚手架 Nuxt.js 的学习笔记">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-02-07T10:37:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue 服务端渲染及 Nuxt.js">
@@ -422,7 +424,7 @@
 <li>推荐使用组件作为抽象机制，并运行在「虚拟 DOM 层级(Virtual-DOM level)」（例如，使用渲染函数(render function)）。</li>
 <li>如果你有一个自定义指令，但是不是很容易替换为组件，则可以在创建服务器 renderer 时，使用 directives 选项所提供”服务器端版本(server-side version)”。</li>
 </ul>
-<h3 id="如何构建"><a href="#如何构建" class="headerlink" title="如何构建"></a>如何构建</h3><p><a href="https://ssr.vuejs.org/zh/" target="_blank" rel="external">Vue.js 服务器端渲染指南</a> 这篇文章介绍了，如何构建服务端渲染 + 客户端渲染的混合应用</p>
+<h3 id="如何构建"><a href="#如何构建" class="headerlink" title="如何构建"></a>如何构建</h3><p><a href="https://ssr.vuejs.org/zh/" target="_blank" rel="noopener">Vue.js 服务器端渲染指南</a> 这篇文章介绍了，如何构建服务端渲染 + 客户端渲染的混合应用</p>
 <h2 id="Nuxt-js"><a href="#Nuxt-js" class="headerlink" title="Nuxt.js"></a>Nuxt.js</h2><p>Nuxt.js 预设了利用Vue.js开发服务端渲染的应用所需要的各种配置。</p>
 <p>Nuxt.js 集成了以下组件/框架，用于开发完整而强大的 Web 应用：</p>
 <ul>
@@ -435,16 +437,16 @@
 <h3 id="静态化"><a href="#静态化" class="headerlink" title="静态化"></a>静态化</h3><p>支持 Vue.js 应用的静态化算是 Nuxt.js 的一个创新点，通过 nuxt generate 命令实现。</p>
 <p>该命令依据应用的路由配置将每一个路由静态化成为对应的HTML文件。</p>
 <p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-| pages/</div><div class="line">----| about.vue</div><div class="line">----| index.vue</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-| pages/</span><br><span class="line">----| about.vue</span><br><span class="line">----| index.vue</span><br></pre></td></tr></table></figure>
 <p>静态化后变成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-| dist/</div><div class="line">----| about/</div><div class="line">------| index.html</div><div class="line">----| index.html</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-| dist/</span><br><span class="line">----| about/</span><br><span class="line">------| index.html</span><br><span class="line">----| index.html</span><br></pre></td></tr></table></figure>
 <p>静态化可以让你在任何一个静态站点服务商托管你的Web应用。</p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>注意：Nuxt.js 会监听 pages 目录中的文件变更并自动重启， 当添加新页面时没有必要手工重启应用。</p>
 <h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><h4 id="资源目录"><a href="#资源目录" class="headerlink" title="资源目录"></a>资源目录</h4><p>资源目录 assets 用于组织未编译的静态资源如 LESS、SASS 或 JavaScript。</p>
 <p>默认情况下 Nuxt 使用 vue-loader、file-loader 以及 url-loader 这几个 Webpack 加载器来处理文件的加载和引用。对于不需要通过 Webpack 处理的静态资源文件，可以放置在 static 目录中。</p>
 <p>Nuxt 服务器启动的时候，该目录下的文件会映射至应用的根路径 / 下，像 robots.txt 或 sitemap.xml 这种类型的文件就很适合放到 static 目录中。</p>
 <p>你可以在代码中使用根路径 / 结合资源相对路径来引用静态资源：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 引用 static 目录下的图片 --&gt;</div><div class="line">&lt;img src=&quot;/my-image.png&quot;/&gt;</div><div class="line"></div><div class="line">&lt;!-- 引用 assets 目录下经过 webpack 构建处理后的图片 --&gt;</div><div class="line">&lt;img src=&quot;/assets/my-image-2.png&quot;/&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引用 static 目录下的图片 --&gt;</span><br><span class="line">&lt;img src=&quot;/my-image.png&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 引用 assets 目录下经过 webpack 构建处理后的图片 --&gt;</span><br><span class="line">&lt;img src=&quot;/assets/my-image-2.png&quot;/&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="组件目录"><a href="#组件目录" class="headerlink" title="组件目录"></a>组件目录</h3><p>组件目录 components 用于组织应用的 Vue.js 组件。Nuxt.js 不会扩展增强该目录下 Vue.js 组件，即这些组件不会像页面组件那样有 <code>asyncData</code> 方法的特性。</p>
 <h3 id="布局目录"><a href="#布局目录" class="headerlink" title="布局目录"></a>布局目录</h3><p>布局目录 layouts 用于组织应用的布局组件。</p>
 <p>该目录名为Nuxt.js保留的，不可更改。</p>
@@ -452,25 +454,25 @@
 <p>别忘了在布局文件中添加 <code>&lt;nuxt/&gt;</code> 组件用于显示页面的主体内容。</p>
 <h4 id="错误页面"><a href="#错误页面" class="headerlink" title="错误页面"></a>错误页面</h4><p>你可以通过编辑 layouts/error.vue 文件来定制化错误页面.</p>
 <h4 id="个性化布局"><a href="#个性化布局" class="headerlink" title="个性化布局"></a>个性化布局</h4><p>layouts 根目录下的所有文件都属于个性化布局文件，可以在页面组件中利用 layout 属性来引用。</p>
-<p><a href="https://zh.nuxtjs.org/api/pages-layout" target="_blank" rel="external">layout 属性</a></p>
+<p><a href="https://zh.nuxtjs.org/api/pages-layout" target="_blank" rel="noopener">layout 属性</a></p>
 <h3 id="中间件目录"><a href="#中间件目录" class="headerlink" title="中间件目录"></a>中间件目录</h3><p>middleware 目录用于存放应用的中间件。中间件允许您定义一个自定义函数运行在一个页面或一组页面渲染之前。</p>
-<p>一个使用中间件的真实例子，请参阅在 GitHub 上的<a href="https://github.com/nuxt/example-auth0" target="_blank" rel="external">example-auth0</a>。</p>
+<p>一个使用中间件的真实例子，请参阅在 GitHub 上的<a href="https://github.com/nuxt/example-auth0" target="_blank" rel="noopener">example-auth0</a>。</p>
 <h3 id="页面目录"><a href="#页面目录" class="headerlink" title="页面目录"></a>页面目录</h3><p>页面目录 pages 用于组织应用的路由及视图。Nuxt.js 框架读取该目录下所有的 .vue 文件并自动生成对应的路由配置。</p>
 <p>该目录名为Nuxt.js保留的，不可更改。</p>
 <h4 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h4><p>定制化默认的 html 模板，只需要在应用根目录下创建一个 app.html 的文件。</p>
 <p>默认模板为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html &#123;&#123; HTML_ATTRS &#125;&#125;&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &#123;&#123; HEAD &#125;&#125;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body &#123;&#123; BODY_ATTRS &#125;&#125;&gt;</div><div class="line">    &#123;&#123; APP &#125;&#125;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html &#123;&#123; HTML_ATTRS &#125;&#125;&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &#123;&#123; HEAD &#125;&#125;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body &#123;&#123; BODY_ATTRS &#125;&#125;&gt;</span><br><span class="line">    &#123;&#123; APP &#125;&#125;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 <h4 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h4><p>页面组件实际上是 Vue 组件，只不过 Nuxt.js 为这些组件添加了一些特殊的配置项（对应 Nuxt.js 提供的功能特性）以便你能快速开发通用应用。</p>
-<p>具体页面相对于普通的组件，提供了哪些新的属性，我们可以在 <a href="https://zh.nuxtjs.org/guide/views#%E9%A1%B5%E9%9D%A2" target="_blank" rel="external">视图 - 页面</a> 这个表格里找到</p>
+<p>具体页面相对于普通的组件，提供了哪些新的属性，我们可以在 <a href="https://zh.nuxtjs.org/guide/views#%E9%A1%B5%E9%9D%A2" target="_blank" rel="noopener">视图 - 页面</a> 这个表格里找到</p>
 <h3 id="插件目录"><a href="#插件目录" class="headerlink" title="插件目录"></a>插件目录</h3><p>插件目录 plugins 用于组织那些需要在 根vue.js应用 实例化之前需要运行的 Javascript 插件。</p>
 <p>需要注意的是，在任何 Vue 组件的生命周期内， 只有 beforeCreate 和 created 这两个钩子方法会在 客户端和服务端均被调用。其他钩子方法仅在客户端被调用。</p>
 <h4 id="使用第三方模块"><a href="#使用第三方模块" class="headerlink" title="使用第三方模块"></a>使用第三方模块</h4><p>通过在 nuxt.config.js 里面配置 build.vendor 来解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">module.exports = &#123;</div><div class="line">  build: &#123;</div><div class="line">    vendor: [&apos;axios&apos;]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  build: &#123;</span><br><span class="line">    vendor: [&apos;axios&apos;]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>经过上面的配置后，我们可以在任何页面里面引入 axios 而不用担心它会被重复打包</p>
 <h3 id="静态文件目录"><a href="#静态文件目录" class="headerlink" title="静态文件目录"></a>静态文件目录</h3><p>静态文件目录 static 用于存放应用的静态文件，此类文件不会被 Nuxt.js 调用 Webpack 进行构建编译处理。 服务器启动的时候，该目录下的文件会映射至应用的根路径 <code>/</code> 下。</p>
 <p>举个例子: <code>/static/robots.txt</code> 映射至 <code>/robots.txt</code></p>
 <p>你可以在代码中使用根路径 / 结合资源相对路径来引用静态资源：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 引用 static 目录下的图片 --&gt;</div><div class="line">&lt;img src=&quot;/my-image.png&quot;/&gt;</div><div class="line"></div><div class="line">&lt;!-- 引用 assets 目录下经过 webpack 构建处理后的图片 --&gt;</div><div class="line">&lt;img src=&quot;/assets/my-image-2.png&quot;/&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引用 static 目录下的图片 --&gt;</span><br><span class="line">&lt;img src=&quot;/my-image.png&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 引用 assets 目录下经过 webpack 构建处理后的图片 --&gt;</span><br><span class="line">&lt;img src=&quot;/assets/my-image-2.png&quot;/&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="Store-目录"><a href="#Store-目录" class="headerlink" title="Store 目录"></a>Store 目录</h3><p>store 目录用于组织应用的 Vuex 状态树 文件。 Nuxt.js 框架集成了 Vuex 状态树 的相关功能配置，在 store 目录下创建一个 index.js 文件可激活这些配置。</p>
 <p>该目录名为Nuxt.js保留的，不可更改。</p>
 <p>Nuxt.js 会尝试找到应用根目录下的 store 目录，如果该目录存在，它将做以下的事情：</p>
@@ -483,12 +485,12 @@
 <p>如果页面组件设置了 fetch 方法，它会在组件每次加载前被调用（在服务端或切换至目标路由之前）。</p>
 <h3 id="nuxt-config-js-文件"><a href="#nuxt-config-js-文件" class="headerlink" title="nuxt.config.js 文件"></a>nuxt.config.js 文件</h3><p>nuxt.config.js 文件用于组织Nuxt.js 应用的个性化配置，以便覆盖默认配置。</p>
 <h4 id="build"><a href="#build" class="headerlink" title="build"></a>build</h4><p>Nuxt.js 允许你在自动生成的 vendor.bundle.js 文件中添加一些模块，以减少应用 bundle 的体积。如果你的应用依赖第三方模块，这个配置项是十分实用的。</p>
-<p>关于 build 的配置，可以查看 <a href="https://zh.nuxtjs.org/api/configuration-build" target="_blank" rel="external">构建配置</a></p>
+<p>关于 build 的配置，可以查看 <a href="https://zh.nuxtjs.org/api/configuration-build" target="_blank" rel="noopener">构建配置</a></p>
 <h4 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h4><p>plugins 属性配置的所有插件会在 Nuxt.js 应用初始化之前被加载导入。</p>
 <p>每次你需要使用 Vue.use() 时，你需要在 plugins/ 目录下创建相应的插件文件，并在 nuxt.config.js 中的 plugins 配置项中配置插件的路径。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://ssr.vuejs.org/zh/" target="_blank" rel="external">Vue.js 服务器端渲染指南</a></li>
-<li><a href="https://zh.nuxtjs.org/guide" target="_blank" rel="external">关于 Nuxt.js</a></li>
+<li><a href="https://ssr.vuejs.org/zh/" target="_blank" rel="noopener">Vue.js 服务器端渲染指南</a></li>
+<li><a href="https://zh.nuxtjs.org/guide" target="_blank" rel="noopener">关于 Nuxt.js</a></li>
 </ul>
 
       
@@ -537,6 +539,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/03/Android入门笔记/" rel="prev" title="Android入门笔记">
+                Android入门笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -610,7 +616,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -628,7 +634,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="本文是 RxJS 学习的笔记">
+<meta name="keywords" content="JavaScript,函数式编程,RxJS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RxJS 学习指南">
 <meta property="og:url" content="https://shiningdan.github.io/2018/02/01/RxJS-学习指南/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="本文是 RxJS 学习的笔记">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-02-03T07:11:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJS 学习指南">
@@ -418,7 +420,7 @@
 <p>在处理分发的需求的时候，回调、事件或者类似订阅发布这种模式是比较合适的；而在处理流程性质的需求时，Promise和Generator比较合适。</p>
 <p>RxJS的优势在于结合了两种模式，它的每个Observable上都能够订阅，而Observable之间的关系，则能够体现流程</p>
 <p>例如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">getDataO().subscribe(data =&gt; &#123;</div><div class="line">  // render</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getDataO().subscribe(data =&gt; &#123;</span><br><span class="line">  // render</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>这么一句好像就搞定了我们要求的所有事情。我们可以这么去理解这件事：</p>
 <ul>
 <li>getDataO是一个业务过程</li>
@@ -440,27 +442,27 @@
 </ul>
 <h3 id="Reactive"><a href="#Reactive" class="headerlink" title="Reactive"></a>Reactive</h3><p>什么是Reactive呢，一个比较直观的对比是这样的：</p>
 <p>比如说，abc三个变量之间存在加法关系：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a = b + c</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a = b + c</span><br></pre></td></tr></table></figure>
 <p>在传统方式下，这是一种一次性的赋值过程，调用一次就结束了，后面b和c再改变，a也不会变了。</p>
 <p>而在Reactive的理念中，我们定义的不是一次性赋值过程，而是可重复的赋值过程，或者说是变量之间的关系：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a: = b + c</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a: = b + c</span><br></pre></td></tr></table></figure>
 <p>定义出这种关系之后，每次b或者c产生改变，这个表达式都会被重新计算。</p>
-<h3 id="Stream-based"><a href="#Stream-based" class="headerlink" title="Stream-based"></a>Stream-based</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">data1      data2      data3</div><div class="line">  |          |          |</div><div class="line">  ------------          |</div><div class="line">        |               |</div><div class="line">        -----------------</div><div class="line">                |</div><div class="line">              state</div></pre></td></tr></table></figure>
+<h3 id="Stream-based"><a href="#Stream-based" class="headerlink" title="Stream-based"></a>Stream-based</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">data1      data2      data3</span><br><span class="line">  |          |          |</span><br><span class="line">  ------------          |</span><br><span class="line">        |               |</span><br><span class="line">        -----------------</span><br><span class="line">                |</span><br><span class="line">              state</span><br></pre></td></tr></table></figure>
 <p>一个视图所需要的数据可能是这样的：</p>
 <ul>
 <li>data1跟data2通过某种组合，得到一个结果</li>
 <li>这个结果再去跟data3组合，得到最终结果</li>
 </ul>
 <p>RxJS给我们提供了一堆操作符用于处理这些Observable之间的关系，比如说，我们可以这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const A$ = Observable.interval(1000)</div><div class="line">const B$ = Observable.of(3)</div><div class="line">const C$ = Observable.from([5, 6, 7])</div><div class="line"></div><div class="line">const D$ = C$.toArray()</div><div class="line">  .map(arr =&gt; arr.reduce((a, b) =&gt; a + b), 0)</div><div class="line">const E$ = Observable.combineLatest(A$, B$, D$)</div><div class="line">   .map(arr =&gt; arr.reduce((a, b) =&gt; a + b), 0)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const A$ = Observable.interval(1000)</span><br><span class="line">const B$ = Observable.of(3)</span><br><span class="line">const C$ = Observable.from([5, 6, 7])</span><br><span class="line"></span><br><span class="line">const D$ = C$.toArray()</span><br><span class="line">  .map(arr =&gt; arr.reduce((a, b) =&gt; a + b), 0)</span><br><span class="line">const E$ = Observable.combineLatest(A$, B$, D$)</span><br><span class="line">   .map(arr =&gt; arr.reduce((a, b) =&gt; a + b), 0)</span><br></pre></td></tr></table></figure>
 <p>上述的D就是通过C进行一次转换所得到的数据管道，而E是把A，B，D进行拼装之后得到的数据管道，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">A ------&gt; |</div><div class="line">B ------&gt; | -&gt; E</div><div class="line">C -&gt; D -&gt; |</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A ------&gt; |</span><br><span class="line">B ------&gt; | -&gt; E</span><br><span class="line">C -&gt; D -&gt; |</span><br></pre></td></tr></table></figure>
 <h2 id="视图如何使用数据流"><a href="#视图如何使用数据流" class="headerlink" title="视图如何使用数据流"></a>视图如何使用数据流</h2><p>现在主流的MV*框架都基于一个共同的理念：MDV（模型驱动视图），在这个理念下，一切对于视图的变更，首先都应当是模型的变更，然后通过模型和视图的映射关系，自动同步过去。</p>
 <p>在这些体系中，如果要使用RxJS的Observable，都非常简单：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">data$.subscribe(data =&gt; &#123;</div><div class="line">  // 这里根据所使用的视图库，用不同的方式响应数据</div><div class="line">  // 如果是 React 或者 Vue，手动把这个往 state 或者 data 设置</div><div class="line">  // 如果是 Angular 2，可以不用这步，直接把 Observable 用 async pipe 绑定到视图</div><div class="line">  // 如果是 CycleJS ……</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h2 id="RxJS-详解"><a href="#RxJS-详解" class="headerlink" title="RxJS 详解"></a>RxJS 详解</h2><p>关于 RxJS 的详解以及 API 的使用，可以参考：<a href="http://cn.rx.js.org/manual/overview.html" target="_blank" rel="external">RxJS | 入门</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data$.subscribe(data =&gt; &#123;</span><br><span class="line">  // 这里根据所使用的视图库，用不同的方式响应数据</span><br><span class="line">  // 如果是 React 或者 Vue，手动把这个往 state 或者 data 设置</span><br><span class="line">  // 如果是 Angular 2，可以不用这步，直接把 Observable 用 async pipe 绑定到视图</span><br><span class="line">  // 如果是 CycleJS ……</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="RxJS-详解"><a href="#RxJS-详解" class="headerlink" title="RxJS 详解"></a>RxJS 详解</h2><p>关于 RxJS 的详解以及 API 的使用，可以参考：<a href="http://cn.rx.js.org/manual/overview.html" target="_blank" rel="noopener">RxJS | 入门</a></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/25383159" target="_blank" rel="external">RxJS 入门指引和初步应用</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25383159" target="_blank" rel="noopener">RxJS 入门指引和初步应用</a></li>
 </ul>
 
       
@@ -584,7 +586,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -602,7 +604,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

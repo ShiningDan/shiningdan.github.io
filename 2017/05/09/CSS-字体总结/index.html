@@ -85,11 +85,13 @@
 
 
 <meta name="description" content="本文总结了CSS字体中常见的概念，字体的注意事项。">
+<meta name="keywords" content="CSS,Font">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS 字体总结">
 <meta property="og:url" content="https://shiningdan.github.io/2017/05/09/CSS-字体总结/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
 <meta property="og:description" content="本文总结了CSS字体中常见的概念，字体的注意事项。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/eb66c44ff11117e0b08896b414c8ade5.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/bd102a06040a1a53e39a8009dc22e059.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/fb47aafd02223d0ee65f69de0aee7a72.png">
@@ -450,12 +452,12 @@
 <li>字符宽度相同，通常用于计算机相关书籍中排版代码块</li>
 </ul>
 <h4 id="Consolas"><a href="#Consolas" class="headerlink" title="Consolas"></a>Consolas</h4><p>这是一套等宽的字体，属无衬线字体。这个字体使用了微软的 ClearType 字型平滑技术，主要是设计做为代码的显示字型之用，特别之处是它的“0”字加入了一斜撇，以方便与字母“O”分辨。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ClearType：由微软在其操作系统中提供的屏幕亚像素微调字体平滑工具，让 Windows 字体更加漂亮。在 Windows XP 平台上，这项技术默认是关闭，到了Windows Vista 才默认为开启。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClearType：由微软在其操作系统中提供的屏幕亚像素微调字体平滑工具，让 Windows 字体更加漂亮。在 Windows XP 平台上，这项技术默认是关闭，到了Windows Vista 才默认为开启。</span><br></pre></td></tr></table></figure>
 <h4 id="Courier"><a href="#Courier" class="headerlink" title="Courier"></a>Courier</h4><p>Courier是一种常见的计算机字体，由IBM公司的Bud Ketler设计，应用于IBM和其它打字机。</p>
 <p>以上两种字体的显示效果如下：</p>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/43865a491ee9892f73bbf2d37ad6747e.png" alt=""></p>
 <h3 id="fantasy-、cuisive"><a href="#fantasy-、cuisive" class="headerlink" title="fantasy 、cuisive"></a>fantasy 、cuisive</h3><p>fantasy和 cuisive 字体在浏览器中不常用，在各个浏览器中有明显的差异。</p>
-<h2 id="字体的使用"><a href="#字体的使用" class="headerlink" title="字体的使用"></a>字体的使用</h2><h3 id="字体的引号"><a href="#字体的引号" class="headerlink" title="字体的引号"></a>字体的引号</h3><p>在 <a href="http://jigsaw.w3.org/css-validator/" target="_blank" rel="external">CSS Validation Service (CSS 校验器)</a>，中，提供了一种对网站 CSS 使用格式进行校验的工具，大家不妨将自己的链接贴到校验器中，查看自己的 CSS 语法是否有错误。</p>
+<h2 id="字体的使用"><a href="#字体的使用" class="headerlink" title="字体的使用"></a>字体的使用</h2><h3 id="字体的引号"><a href="#字体的引号" class="headerlink" title="字体的引号"></a>字体的引号</h3><p>在 <a href="http://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener">CSS Validation Service (CSS 校验器)</a>，中，提供了一种对网站 CSS 使用格式进行校验的工具，大家不妨将自己的链接贴到校验器中，查看自己的 CSS 语法是否有错误。</p>
 <p>我们在使用字体的时候，有时会遇到一些困惑的现象，就是在 <code>font-family</code> 中，有的字体需要添加引号，有的字体中的符号需要进行转义，为什么会出现这些情况，我们又应该怎么处理呢？</p>
 <p>首先放出结论，<strong>需要判断空格包裹字体的情况大致有以下几种：</strong></p>
 <ol>
@@ -464,9 +466,9 @@
 </ol>
 <p>下面我们针对以上一点进行分析：</p>
 <p><strong>CSS 中的标识符</strong>：在CSS里，标识符(包括元素名称，类名，选择器里的ID)只能包含字符<code>[a-zA-Z0-9]</code>，ISO 10646里比<code>U+00A0</code>大的字符，还有连字符（<code>-</code>）和下划线（<code>_</code>）</p>
-<h4 id="情况一"><a href="#情况一" class="headerlink" title="情况一"></a>情况一</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">字体族的名字要么作为字符串用引号包含起来，要么作为标识符，不需要引号。</div></pre></td></tr></table></figure>
+<h4 id="情况一"><a href="#情况一" class="headerlink" title="情况一"></a>情况一</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">字体族的名字要么作为字符串用引号包含起来，要么作为标识符，不需要引号。</span><br></pre></td></tr></table></figure>
 <p>上面一句话表示，如果是没有引号包裹的字体族名称，则各个空格分隔的部分都必须满足标识符的定义。如果其中有不满足标识符的部分，则该字体族需要用引号包裹。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">如果font family的名字是一系列标识符。那么计算机识别的最终值是单个空格分隔的标识符转换成字符串后的值。标识符前后的空格会被忽略，内部的其他多个空格会被转成一个空格。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果font family的名字是一系列标识符。那么计算机识别的最终值是单个空格分隔的标识符转换成字符串后的值。标识符前后的空格会被忽略，内部的其他多个空格会被转成一个空格。</span><br></pre></td></tr></table></figure>
 <p>这一句话也表示出，如果一系列标识符都是合法的，则该字体族的含义和用字符串包裹的含义一致，即 <code>font-family: Comic Sans MS</code>是合法的，和<code>font-family: &#39;Comic Sans MS&#39;</code>等价</p>
 <h4 id="情况二"><a href="#情况二" class="headerlink" title="情况二"></a>情况二</h4><p>规范定义了如下的字体族关键字：<code>serif</code>, <code>sans-serif</code>, <code>cursive</code>, <code>fantasy</code>, 和 <code>monospace</code>。这些关键字可以作为普通的回退机制，以防期望的字体不可以用的时候。作者被鼓励在字体定义的最后面加上一种上面这些字体之一作为最后的可选项，来提高代码的鲁棒性。作为关键字，他们不需要引号。</p>
 <p>如果自己设计的字体族的名字和已有的关键字相同，则该字体族的名字需要加上引号。</p>
@@ -481,7 +483,7 @@
 <li>华文黑体：<code>\534E\6587\9ED1\4F53</code></li>
 </ul>
 <h3 id="字体定义的顺序"><a href="#字体定义的顺序" class="headerlink" title="字体定义的顺序"></a>字体定义的顺序</h3><p>字体定义顺序是一门学问，通常而言，我们定义字体的时候，会定义多个字体或字体系列：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font: 12px/1.5 tahoma,arial,&apos;Hiragino Sans GB&apos;,&apos;\5b8b\4f53&apos;,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    font: 12px/1.5 tahoma,arial,&apos;Hiragino Sans GB&apos;,&apos;\5b8b\4f53&apos;,sans-serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>别看短短 5 个字体名，其实其中门道很深。解释一下：</p>
 <ol>
 <li>使用 <code>tahoma</code> 作为首选的西文字体，小字号下结构清晰端整、阅读辨识容易；</li>
@@ -501,19 +503,19 @@
 <p>4、兼顾旧操作系统，以字体族系列 <code>serif</code> 和 <code>sans-serif</code> 结尾</p>
 <p>当使用一些非常新的字体时，要考虑向下兼容，兼顾到一些极旧的操作系统，使用字体族系列 <code>serif</code> 和 <code>sans-serif</code> 结尾总归是不错的选择。</p>
 <h3 id="现有的一些网站字体属性"><a href="#现有的一些网站字体属性" class="headerlink" title="现有的一些网站字体属性"></a>现有的一些网站字体属性</h3><p><strong>淘宝首页</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font: 12px/1.5 tahoma,arial,&apos;Hiragino Sans GB&apos;,&apos;\5b8b\4f53&apos;,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    font: 12px/1.5 tahoma,arial,&apos;Hiragino Sans GB&apos;,&apos;\5b8b\4f53&apos;,sans-serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>知乎首页</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font-family: &apos;Helvetica Neue&apos;,Helvetica,Arial,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    font-family: &apos;Helvetica Neue&apos;,Helvetica,Arial,sans-serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>知乎文章页面</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font-family: -apple-system, &quot;Helvetica Neue&quot;, &quot;Arial&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;</div><div class="line">    font0-weight: 400;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    font-family: -apple-system, &quot;Helvetica Neue&quot;, &quot;Arial&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;</span><br><span class="line">    font0-weight: 400;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>GitHub README 页面</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body &#123;</div><div class="line">    font-family : -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    font-family : -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>GitHub README 页面 <code>&lt;code&gt;</code> 标签</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">code &#123;</div><div class="line">    font-family : &quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">code &#123;</span><br><span class="line">    font-family : &quot;SFMono-Regular&quot;, Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>本文参考的文章有：</p>
 <ul>
-<li><a href="http://www.cnblogs.com/coco1s/p/6253154.html" target="_blank" rel="external">谈谈一些有趣的CSS题目（十二）– 你该知道的字体 font-family</a></li>
-<li><a href="http://www.lixuejiang.me/2017/01/02/css%E7%9A%84font-family%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E5%BC%95%E5%8F%B7/" target="_blank" rel="external">CSS的font family什么时候需要引号</a></li>
+<li><a href="http://www.cnblogs.com/coco1s/p/6253154.html" target="_blank" rel="noopener">谈谈一些有趣的CSS题目（十二）– 你该知道的字体 font-family</a></li>
+<li><a href="http://www.lixuejiang.me/2017/01/02/css%E7%9A%84font-family%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E5%BC%95%E5%8F%B7/" target="_blank" rel="noopener">CSS的font family什么时候需要引号</a></li>
 </ul>
 
       
@@ -635,7 +637,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">110</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -653,7 +655,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">94</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
