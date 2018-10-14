@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript,CSS,HTML," />
+  <meta name="keywords" content="Redis," />
 
 
 
@@ -84,20 +84,18 @@
 
 
 
-<meta name="description" content="在该笔记中将学到一些常用的回到顶部的制作方法与展示效果 可以使用锚链接实现回到顶部，使用锚链接进行跳转到页面的位置上的方法有一下优缺点：  优点：简单快速，没有兼容性问题 缺点：视觉上不够直观，直接就跳转到指定位置，用户视觉体验不够好  主要知识点：  使用 document.documentElement.scrollTop 来读写滚动条数值 使用 window.onscroll 在滚动的时候触">
-<meta name="keywords" content="JavaScript,CSS,HTML">
+<meta name="description" content="本文是我在学习 Redis 的时候做的总结，关于原理以及应用实践相关。 文章很多参考《Redis 深度历险：核心原理与应用实践 | 掘金小册》，对里面的内容作了一些个人的总结。原系列内容丰富，大家可以购买，多多支持正版~">
+<meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网页组件制作之回到顶部">
-<meta property="og:url" content="https://shiningdan.github.io/2016/10/31/网页组件制作之回到顶部/index.html">
+<meta property="og:title" content="Redis原理与应用实践">
+<meta property="og:url" content="https://shiningdan.github.io/2018/10/13/Redis原理与应用实践/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="在该笔记中将学到一些常用的回到顶部的制作方法与展示效果 可以使用锚链接实现回到顶部，使用锚链接进行跳转到页面的位置上的方法有一下优缺点：  优点：简单快速，没有兼容性问题 缺点：视觉上不够直观，直接就跳转到指定位置，用户视觉体验不够好  主要知识点：  使用 document.documentElement.scrollTop 来读写滚动条数值 使用 window.onscroll 在滚动的时候触">
+<meta property="og:description" content="本文是我在学习 Redis 的时候做的总结，关于原理以及应用实践相关。 文章很多参考《Redis 深度历险：核心原理与应用实践 | 掘金小册》，对里面的内容作了一些个人的总结。原系列内容丰富，大家可以购买，多多支持正版~">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img28.PNG">
-<meta property="og:updated_time" content="2016-11-10T03:03:09.000Z">
+<meta property="og:updated_time" content="2018-10-14T15:40:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="网页组件制作之回到顶部">
-<meta name="twitter:description" content="在该笔记中将学到一些常用的回到顶部的制作方法与展示效果 可以使用锚链接实现回到顶部，使用锚链接进行跳转到页面的位置上的方法有一下优缺点：  优点：简单快速，没有兼容性问题 缺点：视觉上不够直观，直接就跳转到指定位置，用户视觉体验不够好  主要知识点：  使用 document.documentElement.scrollTop 来读写滚动条数值 使用 window.onscroll 在滚动的时候触">
-<meta name="twitter:image" content="http://ofjjubwp5.bkt.clouddn.com/image/png/img28.PNG">
+<meta name="twitter:title" content="Redis原理与应用实践">
+<meta name="twitter:description" content="本文是我在学习 Redis 的时候做的总结，关于原理以及应用实践相关。 文章很多参考《Redis 深度历险：核心原理与应用实践 | 掘金小册》，对里面的内容作了一些个人的总结。原系列内容丰富，大家可以购买，多多支持正版~">
 
 
 
@@ -125,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2016/10/31/网页组件制作之回到顶部/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2018/10/13/Redis原理与应用实践/"/>
 
 
 
 
 
-  <title> 网页组件制作之回到顶部 | ShiningDan的博客 </title>
+  <title> Redis原理与应用实践 | ShiningDan的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -287,7 +285,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2016/10/31/网页组件制作之回到顶部/">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2018/10/13/Redis原理与应用实践/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
@@ -311,7 +309,7 @@
             
             
               
-                网页组件制作之回到顶部
+                Redis原理与应用实践
               
             
           </h2>
@@ -326,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-31T22:23:30+08:00">
-                2016-10-31
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-13T23:22:44+08:00">
+                2018-10-13
               </time>
             
 
@@ -367,8 +365,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/10/31/网页组件制作之回到顶部/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/31/网页组件制作之回到顶部/" itemprop="commentCount"></span>
+                <a href="/2018/10/13/Redis原理与应用实践/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/13/Redis原理与应用实践/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -378,7 +376,7 @@
 
           
           
-             <span id="/2016/10/31/网页组件制作之回到顶部/" class="leancloud_visitors" data-flag-title="网页组件制作之回到顶部">
+             <span id="/2018/10/13/Redis原理与应用实践/" class="leancloud_visitors" data-flag-title="Redis原理与应用实践">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -405,140 +403,71 @@
       
 
       
-        <p><strong>在该笔记中将学到一些常用的回到顶部的制作方法与展示效果</strong></p>
-<p><strong>可以使用锚链接实现回到顶部，使用锚链接进行跳转到页面的位置上的方法有一下优缺点：</strong></p>
-<ul>
-<li>优点：简单快速，没有兼容性问题</li>
-<li>缺点：视觉上不够直观，直接就跳转到指定位置，用户视觉体验不够好</li>
-</ul>
-<p><strong>主要知识点：</strong></p>
-<ol>
-<li>使用 document.documentElement.scrollTop 来读写滚动条数值</li>
-<li>使用 window.onscroll 在滚动的时候触发事件</li>
-<li>使用 setInterval() 函数来决定页面滚动的快慢</li>
-</ol>
-<p>使用 btn.onclick，在点击按钮的时候，配合 setInterval 事件，使页面回到顶部，并且可以控制速度来使回去的速度由快变慢。在 window.onscroll 事件中监听用户在回到顶部的动作中是否滑动了滚轮，如果滑动了滚轮，则停止用户回到顶部的动作。</p>
-<p>显示效果如下，可以根据需要修改 CSS 样式：</p>
-<p><img src="http://ofjjubwp5.bkt.clouddn.com/image/png/img28.PNG" alt=""></p>
+        <p>本文是我在学习 Redis 的时候做的总结，关于原理以及应用实践相关。</p>
+<p>文章很多参考《Redis 深度历险：核心原理与应用实践 | 掘金小册》，对里面的内容作了一些个人的总结。原系列内容丰富，大家可以购买，多多支持正版~</p>
 <a id="more"></a>
-<h3 id="使用-position-fixed-和-bottom、right-进行定位"><a href="#使用-position-fixed-和-bottom、right-进行定位" class="headerlink" title="使用 position:fixed 和 bottom、right 进行定位"></a>使用 position:fixed 和 bottom、right 进行定位</h3><p><strong>使用 position:fixed 和 top、left、bottom、right 来进行定位，兼容性不是很好</strong>：当页面的大小发生变化的时候，如果定位的距离是固定值，则定位标签不会随着页面大小的变化而变化。</p>
-<p>代码如下：</p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;JavaScript 回到顶部&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            .wrap{
-                width:500px;
-                height:2000px;
-                margin:0 auto;
-                background-color:#eee;
-            }
-            #btn{
-                position:fixed;
-                bottom: 20px;
-                right:100px;
-                text-decoration:none;
-                color:#888;
-                background-color:#ccc;
-            }
-            #btn img{
-                width:24px;
-                height:26px;
-            }
-        &lt;/style&gt;
-        &lt;script&gt;
-            window.onload = function() {
-                var btn = document.getElementById(&quot;btn&quot;);
-                var isMyRoll = false;
-                var timer = null;
-                //中断滚动
-                window.onscroll = function() {
-                    if(isMyRoll){
-                        clearInterval(timer);
-                    }
-                    isMyRoll = true;
-                };
-                btn.onclick = function() {
-                    timer = setInterval(function(){
-                        var disTop = document.body.scrollTop || document.documentElement.scrollTop,
-                        speed = Math.ceil(disTop/5);
-                        document.body.scrollTop = document.documentElement.scrollTop = disTop - speed;
-                        isMyRoll = false;
-                        if(disTop == 0) {
-                            clearInterval(timer);
-                        }
-                    }, 30);
-                };
-            };
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;wrap&quot;&gt;
-            &lt;a href=&quot;JavaScript:;&quot; id=&quot;btn&quot;&gt;&lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img27.png&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h3 id="使用-position-fixed-和-text-align-进行定位"><a href="#使用-position-fixed-和-text-align-进行定位" class="headerlink" title="使用 position:fixed 和 text-align 进行定位"></a>使用 position:fixed 和 text-align 进行定位</h3><p><strong>使用 text-align 进行定位比较推荐，因为定位标签的位置可以随着页面大小的变化而变化：</strong>使用 position:ficed 的标签放在一个文本之后(例如：$nbsp )，此时使用 text-align 进行定位的时候，会为该文本进行自动的定位，例如使用 text-align: right 时，文本会被定位到页面的右边，此时 position:fixed 的标签也会被文本推到页面的右边，然后在页面右边的位置脱离文档流。</p>
-<p>如果页面的大小发生变化，被 text-align: right 的文本标签也会相对页面的变化而自动改变，则 position:fixed 标签也会相对页面的变化而改变，不需要重新计算绝对定位的距离</p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;JavaScript 回到顶部&lt;/title&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;style type=&quot;text/css&quot;&gt;
-            .wrap{
-                width:500px;
-                height:2000px;
-                margin:0 auto;
-                background-color:#eee;
-                text-align:right;
-                padding-top:400px;
-            }
-            #btn{
-                position:fixed;
-                text-decoration:none;
-                color:#888;
-                background-color:#ccc;
-            }
-            #btn img{
-                width:24px;
-                height:26px;
-            }
-        &lt;/style&gt;
-        &lt;script&gt;
-            window.onload = function() {
-                var btn = document.getElementById(&quot;btn&quot;);
-                var isMyRoll = false;
-                var timer = null;
-                //中断滚动
-                window.onscroll = function() {
-                    if(isMyRoll){
-                        clearInterval(timer);
-                    }
-                    isMyRoll = true;
-                };
-                btn.onclick = function() {
-                    timer = setInterval(function(){
-                        var disTop = document.body.scrollTop || document.documentElement.scrollTop,
-                        speed = Math.ceil(disTop/5);
-                        document.body.scrollTop = document.documentElement.scrollTop = disTop - speed;
-                        isMyRoll = false;
-                        if(disTop == 0) {
-                            clearInterval(timer);
-                        }
-                    }, 30);
-                };
-            };
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;div class=&quot;wrap&quot;&gt;
-            &amp;nbsp;
-            &lt;a href=&quot;JavaScript:;&quot; id=&quot;btn&quot;&gt;&lt;img src=&quot;http://ofjjubwp5.bkt.clouddn.com/image/png/img27.png&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<h2 id="使用-Redis"><a href="#使用-Redis" class="headerlink" title="使用 Redis"></a>使用 Redis</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 拉取 redis 镜像</span><br><span class="line">&gt; docker pull redis</span><br><span class="line"># 运行 redis 容器</span><br><span class="line">&gt; docker run --name myredis -d -p6379:6379 redis</span><br><span class="line"># 执行容器中的 redis-cli，可以直接使用命令行操作 redis</span><br><span class="line">&gt; docker exec -it myredis redis-cli</span><br></pre></td></tr></table></figure>
+<h2 id="基础介绍"><a href="#基础介绍" class="headerlink" title="基础介绍"></a>基础介绍</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>除了一些常用的字符串操作命令（get、set、append、strlen、setrange 等等）以外，还有一些需要注意的命令：</p>
+<ol>
+<li>incr/incrby/decr/decrby：对字符串转换成数值类型进行计算，增加/减少数值</li>
+</ol>
+<h4 id="列表（list）"><a href="#列表（list）" class="headerlink" title="列表（list）"></a>列表（list）</h4><p>本质是链表而不是数组。这意味着 list 的插入和删除操作非常快，时间复杂度为 O(1)，但是索引定位很慢，时间复杂度为 O(n)</p>
+<p>在列表元素较少的情况下会使用一块连续的内存存储，这个结构是 ziplist。当数据量比较多的时候会改成 quicklist。也就是将多个 ziplist 使用双向指针串起来使用。这样既满足了快速的插入删除性能，又不会出现太大的空间冗余。</p>
+<h4 id="字典（hashmap）"><a href="#字典（hashmap）" class="headerlink" title="字典（hashmap）"></a>字典（hashmap）</h4><p>内部实现结构上同 Java 的 HashMap 也是一致的，同样的数组 + 链表二维结构。第一维 hash 的数组位置碰撞时，就会将碰撞的元素使用链表串接起来。</p>
+<p><strong>Redis 的字典的值只能是字符串</strong></p>
+<h4 id="set-集合"><a href="#set-集合" class="headerlink" title="set (集合)"></a>set (集合)</h4><p>Redis 的集合相当于 Java 语言里面的 HashSet，它内部的键值对是无序的唯一的。它的内部实现相当于一个特殊的字典，字典中所有的 value 都是一个值NULL。</p>
+<h4 id="zset-有序集合"><a href="#zset-有序集合" class="headerlink" title="zset (有序集合)"></a>zset (有序集合)</h4><p>类似于 Java 的 SortedSet 和 HashMap 的结合体，一方面它是一个 set，保证了内部 value 的唯一性，另一方面它可以给每个 value 赋予一个 score，代表这个 value 的排序权重。它的内部实现用的是一种叫做「跳跃列表」的数据结构。</p>
+<h4 id="容器型数据结构的通用规则"><a href="#容器型数据结构的通用规则" class="headerlink" title="容器型数据结构的通用规则"></a>容器型数据结构的通用规则</h4><p>list/set/hash/zset 这四种数据结构是容器型数据结构，它们共享下面两条通用规则：</p>
+<ol>
+<li>create if not exists</li>
+<li>drop if no elements</li>
+</ol>
+<h4 id="过期时间"><a href="#过期时间" class="headerlink" title="过期时间"></a>过期时间</h4><p>Redis 所有的数据结构都可以设置过期时间。需要注意的是过期是以对象为单位，比如一个 hash 结构的过期是整个 hash 对象的过期，而不是其中的某个子 key。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p>用 Rabbitmq 和 Kafka 作为消息队列中间件，流程非常复杂，对于那些只有一组消费者的消息队列，使用 Redis 就可以非常轻松的搞定。</p>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>Redis 的 list(列表) 数据结构常用来作为异步消息队列使用，使用 <code>rpush/lpush</code> 操作入队列，使用 <code>lpop</code> 和 <code>rpop</code> 来出队列。</p>
+<p>阻塞读在队列没有数据的时候，会立即进入休眠状态，一旦数据到来，则立刻醒过来。消息的延迟几乎为零。用 <code>blpop/brpop</code> 替代前面的 <code>lpop/rpop</code>，可以用来解决队列空的时候，浪费资源的空轮询。</p>
+<h3 id="延时队列"><a href="#延时队列" class="headerlink" title="延时队列"></a>延时队列</h3><h4 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h4><ul>
+<li>下单之后如果三十分钟之内没有付款就自动取消订单。</li>
+<li>订餐通知:下单成功后60s之后给用户发送短信通知。</li>
+<li>业务执行失败之后隔10分钟重试一次</li>
+<li>业务执行失败之后隔10分钟重试一次</li>
+</ul>
+<p>等，在一定时间后才进行触发的任务。</p>
+<p>延时队列有多种实现方案，可以参考 <a href="https://juejin.im/post/5b5e52ecf265da0f716c3203" target="_blank" rel="noopener">你真的了解延时队列吗(一)</a>，<a href="https://juejin.im/post/5b679f8ae51d4513ee6e0e97" target="_blank" rel="noopener">你真的了解延时队列吗(二)</a> 等。</p>
+<h4 id="实现原理-1"><a href="#实现原理-1" class="headerlink" title="实现原理"></a>实现原理</h4><p>延时队列可以通过 Redis 的 zset(有序列表) 来实现。我们将消息序列化成一个字符串作为 zset 的 <code>value</code>，这个消息的到期处理时间作为 <code>score</code>。因为有多个线程，所以需要考虑并发争抢任务，确保任务不能被多次执行。使用 <code>zrem</code> 方法来获得到期的任务。</p>
+<p><strong>因为使用到期时间作为 score，在有序列表中，所有的信息在存入的时候都按照 score 依据时间顺序排好序。</strong>如果是将所有的消息存放到普通数据库中，则每次获得到期消息都需要遍历一遍数据库中所有的数据，而 Redis zset 方法只需要取出 topN 即可。</p>
+<p>Redis 的 zrem 方法是多线程多进程争抢任务的关键，它的返回值决定了当前实例有没有抢到任务，因为 loop 方法可能会被多个线程、多个进程调用，同一个任务可能会被多个进程线程抢到，通过 zrem 来决定唯一的属主。</p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>时间复杂度低：遍历数据库时间复杂度为 O(N)，zset 时间复杂度为 O(lg(N))</li>
+<li>相比于所有服务器进行轮询，该方法可以保证一个消息只被一个线程程进行处理</li>
+</ol>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><h4 id="实现原理-2"><a href="#实现原理-2" class="headerlink" title="实现原理"></a>实现原理</h4><p><strong>加锁：</strong></p>
+<p>使用 setnx(set if not exists) 指令，只允许被一个客户端占。先来先占，用完了，再调用 del 指令释放。</p>
+<p><strong>如果逻辑执行到中间出现异常了，可能会导致 del 指令没有被调用，这样就会陷入死锁，锁永远得不到释放：</strong></p>
+<p>锁加上一个过期时间，比如 5s</p>
+<p><strong>最终方案：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; set lock:codehole true ex 5 nx</span><br><span class="line">OK</span><br><span class="line">... do something critical ...</span><br><span class="line">&gt; del lock:codehole</span><br></pre></td></tr></table></figure>
+<h4 id="锁冲突处理"><a href="#锁冲突处理" class="headerlink" title="锁冲突处理"></a>锁冲突处理</h4><p>客户端在处理请求时加锁没加成功怎么办。一般有 3 种策略来处理加锁失败：</p>
+<p>直接抛出异常，通知用户稍后重试；<br>sleep 一会再重试；<br>将请求转移至延时队列，过一会再试；</p>
+<h5 id="直接抛出特定类型的异常"><a href="#直接抛出特定类型的异常" class="headerlink" title="直接抛出特定类型的异常"></a>直接抛出特定类型的异常</h5><p>比较适合由用户直接发起的请求，本质上是对当前请求的放弃，由用户决定是否重新发起新的请求。</p>
+<h5 id="sleep"><a href="#sleep" class="headerlink" title="sleep"></a>sleep</h5><p>sleep 会阻塞当前的消息处理线程，会导致队列的后续消息处理出现延迟。如果碰撞的比较频繁或者队列里消息比较多，sleep 可能并不合适。</p>
+<h5 id="消息队列-1"><a href="#消息队列-1" class="headerlink" title="消息队列"></a>消息队列</h5><p>这种方式比较适合异步消息处理，将当前冲突的请求扔到另一个队列延后处理以避开冲突。</p>
+<h3 id="统计-PV-UV"><a href="#统计-PV-UV" class="headerlink" title="统计 PV/UV"></a>统计 PV/UV</h3><p>PV 那非常好办，给每个网页一个独立的 Redis 计数器就可以了，这个计数器的 key 后缀加上当天的日期。这样来一个请求，incrby 一次，最终就可以统计出所有的 PV 数据。</p>
+<p>UV 不一样，它要去重，同一个用户一天之内的多次访问请求只能计数一次。这就要求每一个网页请求都需要带上用户的 ID，无论是登陆用户还是未登陆用户都需要一个唯一 ID 来标识。<strong>可以为每一个页面一个独立的 set 集合</strong>来存储所有当天访问过此页面的用户 ID。如果你的页面访问量非常大，比如一个爆款页面几千万的 UV，你需要一个很大的 set 集合来统计，这就非常<strong>浪费空间</strong>。</p>
+<p>Redis 提供了 HyperLogLog 数据结构就是用来解决这种统计问题的。HyperLogLog 提供不精确的去重计数方案，标准误差是 0.81%</p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>HyperLogLog 实现原理可以自己搜索，大致是：给定一系列的随机整数，我们记录下低位连续零位的最大长度 k，通过这个 k 值可以估算出随机数的数量。</p>
+<h3 id="大量数据去重"><a href="#大量数据去重" class="headerlink" title="大量数据去重"></a>大量数据去重</h3><p>比如我们在使用新闻客户端看新闻时，它会给我们不停地推荐新的内容，它每次推荐时要去重，去掉那些已经看过的内容。如果历史记录存储在关系数据库里，去重就需要频繁地对数据库进行 exists 查询，当系统并发量很高时，数据库是很难扛住压力的。你可能又想到了缓存，但是如此多的历史记录全部缓存起来，那得浪费多大存储空间啊。</p>
+<p>布隆过滤器 (Bloom Filter)专门用来解决这种去重问题的。它在起到去重的同时，在空间上还能节省 90% 以上，只是稍微有那么点不精确，也就是有一定的误判概率。</p>
+<p><strong>布隆过滤器可以理解为一个不怎么精确的 set 结构，当你使用它的 contains 方法判断某个对象是否存在时，它可能会误判。布隆过滤器对于已经见过的元素肯定不会误判，它只会误判那些没见过的元素。</strong></p>
+<h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><p>向布隆过滤器中添加 key 时，会使用多个 hash 函数对 key 进行 hash 算得一个整数索引值然后对位数组长度进行取模运算得到一个位置，每个 hash 函数都会算得一个不同的位置。再把位数组的这几个位置都置为 1 就完成了 add 操作。</p>
+<p>向布隆过滤器询问 key 是否存在时，跟 add 一样，也会把 hash 的几个位置都算出来，看看位数组中这几个位置是否都为 1，只要有一个位为 0，那么说明布隆过滤器中这个 key 不存在。</p>
+<h3 id="存储-Boolean-数据"><a href="#存储-Boolean-数据" class="headerlink" title="存储 Boolean 数据"></a>存储 Boolean 数据</h3><p>开发过程中，会有一些 bool 型数据需要存取，比如用户一年的签到记录，签了是 1，没签是 0，要记录 365 天。如果使用普通的 key/value，每个用户要记录 365 个，当用户上亿的时候，需要的存储空间是惊人的。</p>
+<p>Redis 提供了位图数据结构，这样每天的签到记录只占据一个位，365 天就是 365 个位，46 个字节 (一个稍长一点的字符串) 就可以完全容纳下，这就大大节约了存储空间。</p>
+<p>可以使用普通的 get/set 直接获取和设置整个位图的内容，也可以使用位图操作 getbit/setbit 等将 byte 数组看成「位数组」来处理。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="">《Redis 深度历险：核心原理与应用实践 | 掘金小册》</a></li>
+</ul>
+
       
     </div>
 
@@ -561,11 +490,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
-          
-            <a href="/tags/HTML/" rel="tag"># HTML</a>
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
           
         </div>
       
@@ -574,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/31/网页组件制作笔记之分页码/" rel="next" title="网页组件制作之分页码">
-                <i class="fa fa-chevron-left"></i> 网页组件制作之分页码
+              <a href="/2018/10/13/告警平台方案调研/" rel="next" title="告警平台方案调研">
+                <i class="fa fa-chevron-left"></i> 告警平台方案调研
               </a>
             
           </div>
@@ -583,10 +508,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/02/网页组件制作之表单美化/" rel="prev" title="网页组件制作之表单美化">
-                网页组件制作之表单美化 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -612,8 +533,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/10/31/网页组件制作之回到顶部/"
-           data-title="网页组件制作之回到顶部" data-url="https://shiningdan.github.io/2016/10/31/网页组件制作之回到顶部/">
+      <div class="ds-thread" data-thread-key="2018/10/13/Redis原理与应用实践/"
+           data-title="Redis原理与应用实践" data-url="https://shiningdan.github.io/2018/10/13/Redis原理与应用实践/">
       </div>
     
   </div>
@@ -713,7 +634,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-position-fixed-和-bottom、right-进行定位"><span class="nav-number">1.</span> <span class="nav-text">使用 position:fixed 和 bottom、right 进行定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-position-fixed-和-text-align-进行定位"><span class="nav-number">2.</span> <span class="nav-text">使用 position:fixed 和 text-align 进行定位</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Redis"><span class="nav-number">1.</span> <span class="nav-text">使用 Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础介绍"><span class="nav-number">2.</span> <span class="nav-text">基础介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">2.1.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串"><span class="nav-number">2.1.1.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#列表（list）"><span class="nav-number">2.1.2.</span> <span class="nav-text">列表（list）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字典（hashmap）"><span class="nav-number">2.1.3.</span> <span class="nav-text">字典（hashmap）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-集合"><span class="nav-number">2.1.4.</span> <span class="nav-text">set (集合)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zset-有序集合"><span class="nav-number">2.1.5.</span> <span class="nav-text">zset (有序集合)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#容器型数据结构的通用规则"><span class="nav-number">2.1.6.</span> <span class="nav-text">容器型数据结构的通用规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#过期时间"><span class="nav-number">2.1.7.</span> <span class="nav-text">过期时间</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">3.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#消息队列"><span class="nav-number">3.1.</span> <span class="nav-text">消息队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理"><span class="nav-number">3.1.1.</span> <span class="nav-text">实现原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#延时队列"><span class="nav-number">3.2.</span> <span class="nav-text">延时队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#场景"><span class="nav-number">3.2.1.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-number">3.2.3.</span> <span class="nav-text">优点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式锁"><span class="nav-number">3.3.</span> <span class="nav-text">分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理-2"><span class="nav-number">3.3.1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#锁冲突处理"><span class="nav-number">3.3.2.</span> <span class="nav-text">锁冲突处理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#直接抛出特定类型的异常"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">直接抛出特定类型的异常</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sleep"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">sleep</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#消息队列-1"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">消息队列</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#统计-PV-UV"><span class="nav-number">3.4.</span> <span class="nav-text">统计 PV/UV</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原理"><span class="nav-number">3.4.1.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大量数据去重"><span class="nav-number">3.5.</span> <span class="nav-text">大量数据去重</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原理-1"><span class="nav-number">3.5.1.</span> <span class="nav-text">原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储-Boolean-数据"><span class="nav-number">3.6.</span> <span class="nav-text">存储 Boolean 数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
