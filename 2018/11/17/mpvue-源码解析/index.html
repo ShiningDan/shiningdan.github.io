@@ -1,0 +1,1110 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="小程序,mpvue,vue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文是学习 mpvue 源码的总结">
+<meta name="keywords" content="小程序,mpvue,vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mpvue 源码解析">
+<meta property="og:url" content="https://shiningdan.github.io/2018/11/17/mpvue-源码解析/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文是学习 mpvue 源码的总结">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://image.zyuchen.com/592dff1d1b62e1ce20d2f5827729970c.png">
+<meta property="og:updated_time" content="2018-11-25T16:58:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mpvue 源码解析">
+<meta name="twitter:description" content="本文是学习 mpvue 源码的总结">
+<meta name="twitter:image" content="http://image.zyuchen.com/592dff1d1b62e1ce20d2f5827729970c.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2018/11/17/mpvue-源码解析/"/>
+
+
+
+
+
+  <title> mpvue 源码解析 | ShiningDan的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2018/11/17/mpvue-源码解析/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                mpvue 源码解析
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-17T14:44:47+08:00">
+                2018-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/17/mpvue-源码解析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/11/17/mpvue-源码解析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/11/17/mpvue-源码解析/" class="leancloud_visitors" data-flag-title="mpvue 源码解析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是学习 mpvue 源码的总结</p>
+<a id="more"></a>
+<h2 id="使用-mpvue-模板"><a href="#使用-mpvue-模板" class="headerlink" title="使用 mpvue 模板"></a>使用 mpvue 模板</h2><p>mpvue 有自己的  vue-cli 模板，基于 vue-cli@2.* 版本，具体初始化过程见 <a href="http://mpvue.com/mpvue/quickstart/" target="_blank" rel="noopener">mpvue-docs | quickstart</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue init mpvue/mpvue-quickstart my-mpvue-project</span><br></pre></td></tr></table></figure>
+<p>下面，从 yarn run dev 开始进行分析</p>
+<h2 id="yarn-run-dev"><a href="#yarn-run-dev" class="headerlink" title="yarn run dev"></a>yarn run dev</h2><p><code>yarn run dev</code> 运行的脚本是：<code>node build/dev-server.js wx</code></p>
+<h3 id="dev-server-js-整体流程"><a href="#dev-server-js-整体流程" class="headerlink" title="dev-server.js 整体流程"></a>dev-server.js 整体流程</h3><p><code>dev-server.js</code> 中的 <code>config</code> 是从 <code>../config/index.js</code> 中引入的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123; build:</span><br><span class="line">   &#123; env: &#123; NODE_ENV: &apos;&quot;production&quot;&apos; &#125;,</span><br><span class="line">     index: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/dist/wx/index.html&apos;,</span><br><span class="line">     assetsRoot: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/dist/wx&apos;,</span><br><span class="line">     assetsSubDirectory: &apos;&apos;,</span><br><span class="line">     assetsPublicPath: &apos;/&apos;,</span><br><span class="line">     productionSourceMap: false,</span><br><span class="line">     productionGzip: false,</span><br><span class="line">     productionGzipExtensions: [ &apos;js&apos;, &apos;css&apos; ],</span><br><span class="line">     bundleAnalyzerReport: undefined,</span><br><span class="line">     fileExt: &#123; template: &apos;wxml&apos;, script: &apos;js&apos;, style: &apos;wxss&apos;, platform: &apos;wx&apos; &#125; &#125;,</span><br><span class="line">  dev:</span><br><span class="line">   &#123; env: &#123; NODE_ENV: &apos;&quot;development&quot;&apos; &#125;,</span><br><span class="line">     port: 8080,</span><br><span class="line">     autoOpenBrowser: false,</span><br><span class="line">     assetsSubDirectory: &apos;&apos;,</span><br><span class="line">     assetsPublicPath: &apos;/&apos;,</span><br><span class="line">     proxyTable: &#123;&#125;,</span><br><span class="line">     cssSourceMap: false,</span><br><span class="line">     fileExt: &#123; template: &apos;wxml&apos;, script: &apos;js&apos;, style: &apos;wxss&apos;, platform: &apos;wx&apos; &#125; &#125; &#125;</span><br></pre></td></tr></table></figure>
+<p>Server 使用的是 express，使用 webpack 来进行构建，使用的 webpack 版本为：3.12.0，webpackConfig 来自于 <code>webpack.dev.conf.js</code></p>
+<p>首先，在 express 中使用 <code>http-proxy-middleware</code> 实现一些用户自定义的代理配置。</p>
+<p>在 express 中使用 <code>connect-history-api-fallback</code> 来支持。有什么作用？？？</p>
+<p>在对于路径进行处理的时候，使用的是 <code>path.posix.join</code> 这个方法，是为了在 Windows 操作系统上也支持类 Unix 类型的路径（POSIX 格式）</p>
+<p>最后开启一个 Server，Server 首先找到可用的端口，然后启动 <code>webpack-dev-middleware-hard-disk</code>，这个 <code>webpack-dev-middleware-hard-disk</code>，是在 <code>webpack-dev-middleware</code> 基础上进行开发的。<code>webpack-dev-middleware</code> 这个库，使用在 development 环境下，可以监听文件的变化，然后自动执行编译函数，但是 <code>webpack-dev-middleware</code> 不会将编译后的输出写到硬盘上，而 <code>webpack-dev-middleware-hard-disk</code> 就是在其监听以及构建能力的基础上，将构建的结果输出到 <code>webpackConfig.output.path 下面</code></p>
+<h3 id="dev-server-js-webpackConfig-生成"><a href="#dev-server-js-webpackConfig-生成" class="headerlink" title="dev-server.js webpackConfig 生成"></a>dev-server.js webpackConfig 生成</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&#123; entry:</span><br><span class="line">   &#123; app: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src/main.js&apos;,</span><br><span class="line">     &apos;pages/counter/main&apos;: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src/pages/counter/main.js&apos;,</span><br><span class="line">     &apos;pages/index/main&apos;: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src/pages/index/main.js&apos;,</span><br><span class="line">     &apos;pages/logs/main&apos;: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src/pages/logs/main.js&apos; &#125;,</span><br><span class="line">  target: [Function],</span><br><span class="line">  output:</span><br><span class="line">   &#123; path: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/dist/wx&apos;,</span><br><span class="line">     filename: &apos;[name].js&apos;,</span><br><span class="line">     publicPath: &apos;/&apos;,</span><br><span class="line">     chunkFilename: &apos;[id].js&apos; &#125;,</span><br><span class="line">  resolve:</span><br><span class="line">   &#123; extensions: [ &apos;.js&apos;, &apos;.vue&apos;, &apos;.json&apos; ],</span><br><span class="line">     alias:</span><br><span class="line">      &#123; vue: &apos;mpvue&apos;,</span><br><span class="line">        &apos;@&apos;: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src&apos; &#125;,</span><br><span class="line">     symlinks: false,</span><br><span class="line">     aliasFields: [ &apos;mpvue&apos;, &apos;weapp&apos;, &apos;browser&apos; ],</span><br><span class="line">     mainFields: [ &apos;browser&apos;, &apos;module&apos;, &apos;main&apos; ] &#125;,</span><br><span class="line">  module:</span><br><span class="line">   &#123; rules:</span><br><span class="line">      [ [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object], </span><br><span class="line">        [Object],</span><br><span class="line">        [Object],</span><br><span class="line">        [Object] ] &#125;,</span><br><span class="line">  plugins:</span><br><span class="line">   [ MpvuePlugin &#123;&#125;,</span><br><span class="line">     &#123; apply: [Function: apply] &#125;,</span><br><span class="line">     &#123; apply: [Function: apply] &#125;,</span><br><span class="line">     DefinePlugin &#123; definitions: [Object] &#125;,</span><br><span class="line">     ExtractTextPlugin &#123; filename: &apos;[name].wxss&apos;, id: 1, options: &#123;&#125; &#125;,</span><br><span class="line">     OptimizeCssAssetsPlugin &#123; options: [Object], lastCallInstance: [Object] &#125;,</span><br><span class="line">     CommonsChunkPlugin &#123;</span><br><span class="line">       chunkNames: [Array],</span><br><span class="line">       filenameTemplate: undefined,</span><br><span class="line">       minChunks: [Function: minChunks],</span><br><span class="line">       selectedChunks: undefined,</span><br><span class="line">       children: undefined,</span><br><span class="line">       deepChildren: undefined,</span><br><span class="line">       async: undefined,</span><br><span class="line">       minSize: undefined,</span><br><span class="line">       ident: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/node_modules/webpack/lib/optimize/CommonsChunkPlugin.js0&apos; &#125;,</span><br><span class="line">     CommonsChunkPlugin &#123;</span><br><span class="line">       chunkNames: [Array],</span><br><span class="line">       filenameTemplate: undefined,</span><br><span class="line">       minChunks: undefined,</span><br><span class="line">       selectedChunks: [Array],</span><br><span class="line">       children: undefined,</span><br><span class="line">       deepChildren: undefined,</span><br><span class="line">       async: undefined,</span><br><span class="line">       minSize: undefined,</span><br><span class="line">       ident: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/node_modules/webpack/lib/optimize/CommonsChunkPlugin.js1&apos; &#125;,</span><br><span class="line">     NoEmitOnErrorsPlugin &#123;&#125;,</span><br><span class="line">     FriendlyErrorsWebpackPlugin &#123;</span><br><span class="line">       compilationSuccessInfo: &#123;&#125;,</span><br><span class="line">       onErrors: undefined,</span><br><span class="line">       shouldClearConsole: true,</span><br><span class="line">       formatters: [Array],</span><br><span class="line">       transformers: [Array] &#125; ],</span><br><span class="line">  devtool: &apos;#source-map&apos; &#125;</span><br></pre></td></tr></table></figure>
+<p>下面是几个需要关注的点：</p>
+<h3 id="Entry"><a href="#Entry" class="headerlink" title="Entry"></a>Entry</h3><p>entry 里面分了好几块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	app: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src/main.js&apos;,</span><br><span class="line">	&apos;pages/counter/main&apos;: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src/pages/counter/main.js&apos;,</span><br><span class="line">	&apos;pages/index/main&apos;: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src/pages/index/main.js&apos;,</span><br><span class="line">	&apos;pages/logs/main&apos;: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src/pages/logs/main.js&apos; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>app 是 <code>src/main.js</code>，然后 pages 是 <code>src/pages/**/main.js</code>。</p>
+<p>每一个 entry 里面的内容都是一样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import App from &apos;./index&apos;</span><br><span class="line"></span><br><span class="line">const app = new Vue(App)</span><br><span class="line">app.$mount()</span><br></pre></td></tr></table></figure>
+<p>说明每一个页面都被构建成单独的页面。也就侧面说明，小程序中的 pages 基本上都是独立的页面，而不是单页应用的形式。</p>
+<h3 id="target"><a href="#target" class="headerlink" title="target"></a>target</h3><p><code>target: require(&#39;mpvue-webpack-target&#39;)</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// mpvue webpack-target</span><br><span class="line">const JsonpTemplatePlugin = require(&quot;./JsonpTemplatePlugin&quot;);</span><br><span class="line">const NodeSourcePlugin = require(&quot;webpack/lib/node/NodeSourcePlugin&quot;);</span><br><span class="line">const FunctionModulePlugin = require(&quot;webpack/lib/FunctionModulePlugin&quot;);</span><br><span class="line">const LoaderTargetPlugin = require(&quot;webpack/lib/LoaderTargetPlugin&quot;);</span><br><span class="line"></span><br><span class="line">module.exports = function (compiler) &#123;</span><br><span class="line">  const &#123; options &#125; = compiler</span><br><span class="line">  compiler.apply(</span><br><span class="line">    new JsonpTemplatePlugin(options.output),</span><br><span class="line">    new FunctionModulePlugin(options.output),</span><br><span class="line">    new NodeSourcePlugin(options.node),</span><br><span class="line">    new LoaderTargetPlugin(options.target)</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>具体内容是什么呢，暂时不仔细分析，</p>
+<h3 id="output"><a href="#output" class="headerlink" title="output"></a>output</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123; path: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/dist/wx&apos;,</span><br><span class="line"> filename: &apos;[name].js&apos;,</span><br><span class="line"> // 所有资源指定一个基础路径</span><br><span class="line"> publicPath: &apos;/&apos;,</span><br><span class="line"> // 决定了非入口(non-entry) chunk 文件的名称。从 output.filename 中推断出的值（[name] 会被预先替换为 [id] 或 [id].）</span><br><span class="line"> chunkFilename: &apos;[id].js&apos; &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123; extensions: [ &apos;.js&apos;, &apos;.vue&apos;, &apos;.json&apos; ],</span><br><span class="line">     alias:</span><br><span class="line">     // 将 vue 替换为 mpvue</span><br><span class="line">      &#123; vue: &apos;mpvue&apos;,</span><br><span class="line">        &apos;@&apos;: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/src&apos; &#125;,</span><br><span class="line">     symlinks: false,</span><br><span class="line">     aliasFields: [ &apos;mpvue&apos;, &apos;weapp&apos;, &apos;browser&apos; ],</span><br><span class="line">     // 指定在 package.json 中使用哪个字段导入模块</span><br><span class="line">     mainFields: [ &apos;browser&apos;, &apos;module&apos;, &apos;main&apos; ] &#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="module-rules-mpvue-loader"><a href="#module-rules-mpvue-loader" class="headerlink" title="module.rules.mpvue-loader"></a>module.rules.mpvue-loader</h3><p>主要是在下面的这个 rule 中指定解析 loader：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	test: /\.vue$/,</span><br><span class="line">	loader: &apos;mpvue-loader&apos;,</span><br><span class="line">	options: vueLoaderConfig</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">	test: /\.js$/,</span><br><span class="line">	include: [resolve(&apos;src&apos;), resolve(&apos;test&apos;)],</span><br><span class="line">	use: [</span><br><span class="line">	  &apos;babel-loader&apos;,</span><br><span class="line">	  &#123;</span><br><span class="line">	    loader: &apos;mpvue-loader&apos;,</span><br><span class="line">	    options: Object.assign(&#123;checkMPEntry: true&#125;, vueLoaderConfig)</span><br><span class="line">	  &#125;,</span><br><span class="line">	]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>其中 vueLoaderConfig 的内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123; loaders:</span><br><span class="line">   &#123; css: [ [Object], [Object], [Object], [Object], [Object] ],</span><br><span class="line">     wxss: [ [Object], [Object], [Object], [Object], [Object] ],</span><br><span class="line">     postcss: [ [Object], [Object], [Object], [Object], [Object] ],</span><br><span class="line">     less: [ [Object], [Object], [Object], [Object], [Object], [Object] ],</span><br><span class="line">     // 举例</span><br><span class="line">     sass:</span><br><span class="line">	   [ &#123; loader: &apos;/Users/zhangyuchen/Documents/project/my-mpvue-project/node_modules/extract-text-webpack-plugin/dist/loader.js&apos;,</span><br><span class="line">	       options: [Object] &#125;,</span><br><span class="line">	     &#123; loader: &apos;vue-style-loader&apos; &#125;,</span><br><span class="line">	     &#123; loader: &apos;css-loader&apos;, options: [Object] &#125;,</span><br><span class="line">	     &#123; loader: &apos;px2rpx-loader&apos;, options: [Object] &#125;,</span><br><span class="line">	     &#123; loader: &apos;postcss-loader&apos;, options: [Object] &#125;,</span><br><span class="line">	     &#123; loader: &apos;sass-loader&apos;, options: [Object] &#125; ],</span><br><span class="line">     scss: [ [Object], [Object], [Object], [Object], [Object], [Object] ],</span><br><span class="line">     stylus: [ [Object], [Object], [Object], [Object], [Object], [Object] ],</span><br><span class="line">     styl: [ [Object], [Object], [Object], [Object], [Object], [Object] ] &#125;,</span><br><span class="line">  transformToRequire: &#123; video: &apos;src&apos;, source: &apos;src&apos;, img: &apos;src&apos;, image: &apos;xlink:href&apos; &#125;,</span><br><span class="line">  fileExt: &#123; template: &apos;wxml&apos;, script: &apos;js&apos;, style: &apos;wxss&apos;, platform: &apos;wx&apos; &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在介绍完 plugins 之后，我们再对 mpvue-loader 中的源码进行介绍</p>
+<h3 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">	 // webpack-mpvue-asset-plugin：mpvue 资源路径解析插件，主要是将 js 文件和 wxss 文件通过 require 和 @import 整合成同一个文件</span><br><span class="line">    new MpvuePlugin(),</span><br><span class="line">    new CopyWebpackPlugin([&#123;</span><br><span class="line">      from: &apos;**/*.json&apos;,</span><br><span class="line">      to: &apos;&apos;</span><br><span class="line">    &#125;], &#123;</span><br><span class="line">      context: &apos;src/&apos;</span><br><span class="line">    &#125;),</span><br><span class="line">    new CopyWebpackPlugin([</span><br><span class="line">      &#123;</span><br><span class="line">        from: path.resolve(__dirname, &apos;../static&apos;),</span><br><span class="line">        to: path.resolve(config.build.assetsRoot, &apos;./static&apos;),</span><br><span class="line">        ignore: [&apos;.*&apos;]</span><br><span class="line">      &#125;</span><br><span class="line">    ])</span><br><span class="line">    ,</span><br><span class="line">    new webpack.DefinePlugin(&#123;</span><br><span class="line">      &apos;process.env&apos;: config.dev.env</span><br><span class="line">    &#125;),</span><br><span class="line"></span><br><span class="line">    // copy from ./webpack.prod.conf.js</span><br><span class="line">    // extract css into its own file</span><br><span class="line">    new ExtractTextPlugin(&#123;</span><br><span class="line">      // filename: utils.assetsPath(&apos;[name].[contenthash].css&apos;)</span><br><span class="line">      filename: utils.assetsPath(`[name].$&#123;config.dev.fileExt.style&#125;`)</span><br><span class="line">    &#125;),</span><br><span class="line">    // Compress extracted CSS. We are using this plugin so that possible</span><br><span class="line">    // duplicated CSS from different components can be deduped.</span><br><span class="line">    new OptimizeCSSPlugin(&#123;</span><br><span class="line">      cssProcessorOptions: &#123;</span><br><span class="line">        safe: true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: &apos;common/vendor&apos;,</span><br><span class="line">      minChunks: function (module, count) &#123;</span><br><span class="line">        // any required modules inside node_modules are extracted to vendor</span><br><span class="line">        return (</span><br><span class="line">          module.resource &amp;&amp;</span><br><span class="line">          /\.js$/.test(module.resource) &amp;&amp;</span><br><span class="line">          module.resource.indexOf(&apos;node_modules&apos;) &gt;= 0</span><br><span class="line">        ) || count &gt; 1</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">      name: &apos;common/manifest&apos;,</span><br><span class="line">      chunks: [&apos;common/vendor&apos;]</span><br><span class="line">    &#125;),</span><br><span class="line"></span><br><span class="line">    // https://github.com/glenjamin/webpack-hot-middleware#installation--usage</span><br><span class="line">    // new webpack.HotModuleReplacementPlugin(),</span><br><span class="line">    new webpack.NoEmitOnErrorsPlugin(),</span><br><span class="line">    // https://github.com/ampedandwired/html-webpack-plugin</span><br><span class="line">    // new HtmlWebpackPlugin(&#123;</span><br><span class="line">    //   filename: &apos;index.html&apos;,</span><br><span class="line">    //   template: &apos;index.html&apos;,</span><br><span class="line">    //   inject: true</span><br><span class="line">    // &#125;),</span><br><span class="line">    new FriendlyErrorsPlugin()</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+<h2 id="mpvue-runtime"><a href="#mpvue-runtime" class="headerlink" title="mpvue runtime"></a>mpvue runtime</h2><p><code>mpvue</code> 这个库里面是 mpvue runtime 部分的代码，代码仓库在：<a href="https://github.com/Meituan-Dianping/mpvue" target="_blank" rel="noopener">Meituan-Dianping/mpvue | Github</a></p>
+<p>mpvue 的源码入口文件在 <code>/src/platforms/mpvue/entry-runtime.js</code> 下面，主要做的是运行时将小程序的声明周期以及数据绑定映射到 Vue 本身的机制中。除了 runtime 以外，在 <code>/src/platforms/mpvue/entry-compiler.js</code> 中是编译的入口文件，主要做的是把 Vue 的代码在构建阶段编译成小程序使可以识别的代码。</p>
+<h3 id="entry-runtime-js"><a href="#entry-runtime-js" class="headerlink" title="entry-runtime.js"></a>entry-runtime.js</h3><p>在 <code>entry-runtime.js</code> 中，首先添加一些平台相关的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Vue.config.mustUseProp = mustUseProp   // null，指定一个标签必须配套什么属性</span><br><span class="line">Vue.config.isReservedTag = isReservedTag   // 是不是平台已有的组件，但是现在 isReservedTag 的标签比较奇怪，需要再看看？？？</span><br><span class="line">Vue.config.isReservedAttr = isReservedAttr   // style 和 class 是内建属性，但是实际使用的是 isReservedAttribute，内容是 &apos;key,ref,slot,is&apos;</span><br><span class="line">Vue.config.getTagNamespace = getTagNamespace   // null</span><br><span class="line">Vue.config.isUnknownElement = isUnknownElement   // null</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 更新数据，里面的方法，将新旧vnode使用 diff算法进行比对，找出要替换的地方，这样更新dom的性能会有较大优化。最后会返回一个dom节点。</span><br><span class="line">Vue.prototype.__patch__ = patch</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 挂载节点，将数据以及 vnode 对象挂载到真实的 DOM 上</span><br><span class="line">Vue.prototype.$mount = function() &#123;</span><br><span class="line">	return this._initMP(mpType, () =&gt; &#123;</span><br><span class="line">      return mountComponent(this, undefined, undefined)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">import &#123; initMP &#125; from &apos;./lifecycle&apos;</span><br><span class="line">Vue.prototype._initMP = initMP</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// render 时使用的更新数据的方法，一般为 render =&gt; (vm._render to get/set data)=&gt; vnode =&gt; (vm._update) =&gt; vm.$el</span><br><span class="line">import &#123; updateDataToMP, initDataToMP &#125; from &apos;./render&apos;</span><br><span class="line">Vue.prototype.$updateDataToMP = updateDataToMP</span><br><span class="line">Vue.prototype._initDataToMP = initDataToMP</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 将小程序的事件用 vue 的事件来进行处理</span><br><span class="line">import &#123; handleProxyWithVue &#125; from &apos;./events&apos;</span><br><span class="line">Vue.prototype.$handleProxyWithVue = handleProxyWithVue</span><br></pre></td></tr></table></figure>
+<h3 id="this-initMP"><a href="#this-initMP" class="headerlink" title="this._initMP"></a>this._initMP</h3><p>在挂载节点的时候，会使用 <code>this._initMP</code> 这个方法进行一层包装，我们来看一下这个方法中的内容。</p>
+<p><img src="http://image.zyuchen.com/592dff1d1b62e1ce20d2f5827729970c.png" alt=""></p>
+<p>目前看起来，是在小程序 APP 启动的时候，会进行一次 init 方法。小程序启动后，会对所有的页面都进行加载，现在所有的页面都会运行一次 init 方法。</p>
+<p><code>_initMP</code> 方法的内容是什么呢？很多，分步来看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 在 Vue 的实例基础上，添加 $mp 属性，用来存放小程序相关的方法</span><br><span class="line">const rootVueVM = this.$root</span><br><span class="line">const mp = this.$root.$mp</span><br></pre></td></tr></table></figure>
+<p><strong><code>this.$mp</code> 是在哪里初始化的？？？？</strong></p>
+<p>直接编译默认是 page，识别到启始页就是 app，component 是自定义的。</p>
+<p>首先，当 <code>mpType === &#39;app&#39;</code> 的时候，也就是注册 <code>app</code> 的时候：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">global.App(&#123;</span><br><span class="line">  // 页面的初始数据</span><br><span class="line">  globalData: &#123;</span><br><span class="line">    //</span><br><span class="line">    appOptions: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  // 将小程序的事件交给 Vue 进行处理</span><br><span class="line">  handleProxy (e) &#123;</span><br><span class="line">    return rootVueVM.$handleProxyWithVue(e)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // Do something initial when launch.</span><br><span class="line">  onLaunch (options = &#123;&#125;) &#123;</span><br><span class="line">    mp.app = this</span><br><span class="line">    mp.status = &apos;launch&apos;</span><br><span class="line">    // 接收 onLaunch 传入的参数，放在 app.globalData.appOptions 中</span><br><span class="line">    this.globalData.appOptions = mp.appOptions = options</span><br><span class="line">    // 如果用户在 Vue 文件中定义了 onLaunch 方法，也就是需要使用小程序的生命周期做一些处理，在这里会调用 onLaunch 方法</span><br><span class="line">    callHook(rootVueVM, &apos;onLaunch&apos;, options)</span><br><span class="line">    next()</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // Do something when app show.</span><br><span class="line">  onShow (options = &#123;&#125;) &#123;</span><br><span class="line">    mp.status = &apos;show&apos;</span><br><span class="line">    this.globalData.appOptions = mp.appOptions = options</span><br><span class="line">    callHook(rootVueVM, &apos;onShow&apos;, options)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // Do something when app hide.</span><br><span class="line">  onHide () &#123;</span><br><span class="line">    mp.status = &apos;hide&apos;</span><br><span class="line">    callHook(rootVueVM, &apos;onHide&apos;)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  onError (err) &#123;</span><br><span class="line">    callHook(rootVueVM, &apos;onError&apos;, err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>小程序的声明周期中，<code>global</code> 中包含了五个方法，也就是小程序的五个初始化函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">global: &#123;</span><br><span class="line">	App,</span><br><span class="line">	Component,</span><br><span class="line">	Page,</span><br><span class="line">	getApp,</span><br><span class="line">	process: &#123;</span><br><span class="line">		env: &#123;...&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 小程序的生命周期中调用 Vue 模板中写的事件</span><br><span class="line">export function callHook (vm, hook, params) &#123;</span><br><span class="line">  // 如果是需要使用小程序的生命周期事件，则在 Vue 代码中写对应的小程序生命周期函数，该函数会被放到 vm.$option 中，所以通过 vm.$option 可以拿到小程序的生命周期事件代码</span><br><span class="line">  let handlers = vm.$options[hook]</span><br><span class="line">  if (hook === &apos;onError&apos; &amp;&amp; handlers) &#123;</span><br><span class="line">    handlers = [handlers]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  let ret</span><br><span class="line">  if (handlers) &#123;</span><br><span class="line">    for (let i = 0, j = handlers.length; i &lt; j; i++) &#123;</span><br><span class="line">      try &#123;</span><br><span class="line">        ret = handlers[i].call(vm, params)</span><br><span class="line">      &#125; catch (e) &#123;</span><br><span class="line">        handleError(e, vm, `$&#123;hook&#125; hook`)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  if (vm._hasHookEvent) &#123;</span><br><span class="line">    vm.$emit(&apos;hook:&apos; + hook)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // for child</span><br><span class="line">  if (vm.$children.length) &#123;</span><br><span class="line">    vm.$children.forEach(v =&gt; callHook(v, hook, params))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return ret</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当 <code>mpType === &#39;page&#39;</code> 的时候</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">const app = global.getApp()</span><br><span class="line">global.Page(&#123;</span><br><span class="line">  // 页面的初始数据</span><br><span class="line">  data: &#123;</span><br><span class="line">    $root: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  handleProxy (e) &#123;</span><br><span class="line">    return rootVueVM.$handleProxyWithVue(e)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // mp lifecycle for vue</span><br><span class="line">  // 生命周期函数--监听页面加载</span><br><span class="line">  onLoad (query) &#123;</span><br><span class="line">    mp.page = this</span><br><span class="line">    mp.query = query</span><br><span class="line">    mp.status = &apos;load&apos;</span><br><span class="line">    // 将 app.globalData.appOptions 的值挂载到 this.$root.$mp.appOptions 中。appOptions 中的值是初始化 App 的时候的 onShow() 的函数参数</span><br><span class="line">    getGlobalData(app, rootVueVM)</span><br><span class="line">    // 如果用户在 vue 文件中自定义了 onLoad，则调用用户的 onLoad 方法</span><br><span class="line">    callHook(rootVueVM, &apos;onLoad&apos;, query)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // 生命周期函数--监听页面显示</span><br><span class="line">  onShow () &#123;</span><br><span class="line">    mp.page = this</span><br><span class="line">    mp.status = &apos;show&apos;</span><br><span class="line">    callHook(rootVueVM, &apos;onShow&apos;)</span><br><span class="line"></span><br><span class="line">    // 只有页面需要 setData</span><br><span class="line">    rootVueVM.$nextTick(() =&gt; &#123;</span><br><span class="line">      rootVueVM._initDataToMP()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // 生命周期函数--监听页面初次渲染完成，onReady 的时候，运行 Vue 的 mounted，说明 onReady 和 mounted 是等价的生命周期</span><br><span class="line">  onReady () &#123;</span><br><span class="line">    mp.status = &apos;ready&apos;</span><br><span class="line"></span><br><span class="line">    callHook(rootVueVM, &apos;onReady&apos;)</span><br><span class="line">    // () =&gt; &#123;</span><br><span class="line">    //   return mountComponent(this, undefined, undefined)</span><br><span class="line">    // &#125;)</span><br><span class="line">    // next 就是 mountComponent，也就是在 onReady 的时候，将 Vue 的实例挂载到 Dom 元素上，虽然这里是小程序的运行环境，没有 DOM 元素，mountComponent 的第二个参数是 undifined。但是也可以通过这个方法去触发 Vue mounted 以及之后的声明周期</span><br><span class="line">    next()</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // 生命周期函数--监听页面隐藏</span><br><span class="line">  onHide () &#123;</span><br><span class="line">    mp.status = &apos;hide&apos;</span><br><span class="line">    callHook(rootVueVM, &apos;onHide&apos;)</span><br><span class="line">    mp.page = null</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // 生命周期函数--监听页面卸载</span><br><span class="line">  onUnload () &#123;</span><br><span class="line">    mp.status = &apos;unload&apos;</span><br><span class="line">    callHook(rootVueVM, &apos;onUnload&apos;)</span><br><span class="line">    mp.page = null</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // 页面相关事件处理函数--监听用户下拉动作</span><br><span class="line">  onPullDownRefresh () &#123;</span><br><span class="line">    callHook(rootVueVM, &apos;onPullDownRefresh&apos;)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // 页面上拉触底事件的处理函数</span><br><span class="line">  onReachBottom () &#123;</span><br><span class="line">    callHook(rootVueVM, &apos;onReachBottom&apos;)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // 用户点击右上角分享</span><br><span class="line">  onShareAppMessage: rootVueVM.$options.onShareAppMessage</span><br><span class="line">    ? options =&gt; callHook(rootVueVM, &apos;onShareAppMessage&apos;, options) : null,</span><br><span class="line"></span><br><span class="line">  // Do something when page scroll</span><br><span class="line">  onPageScroll (options) &#123;</span><br><span class="line">    callHook(rootVueVM, &apos;onPageScroll&apos;, options)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // 当前是 tab 页时，点击 tab 时触发</span><br><span class="line">  onTabItemTap (options) &#123;</span><br><span class="line">    callHook(rootVueVM, &apos;onTabItemTap&apos;, options)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>每一次页面初始化的时候，都会调用 <code>rootVueVM._initDataToMP()</code> 进行数据初始化，下面我们来看一下其中的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// rootVueVM._initDataToMP()</span><br><span class="line">// runtime/render.js</span><br><span class="line">export function initDataToMP () &#123;</span><br><span class="line">  // this is vm.$root</span><br><span class="line">  // 获得 this.$mp.page 对象，这个对象只有在 Page 的实例中才有</span><br><span class="line">  const page = getPage(this)</span><br><span class="line">  if (!page) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 使用字符串拼接等方法，将 Vue 中的数据传递给小程序的 data</span><br><span class="line">  // 传递的数据有 vm._data，vm._props，vm._mpProps，vm._computedWatchers</span><br><span class="line">  const data = collectVmData(this.$root)</span><br><span class="line">  page.setData(data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每一次的 data 是会发生改变的，所以每一次在 onShow 的时候都需要调用 <code>initDataToMP</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// data 的例子</span><br><span class="line">&#123;</span><br><span class="line">  $root.0: &#123;motto: &quot;Hello World&quot;, userInfo: &#123;…&#125;, $k: &quot;0&quot;, $kk: &quot;0,&quot;, $p: &quot;&quot;&#125;,</span><br><span class="line">  $root.0,0: &#123;text: &quot;单人舞&quot;, $k: &quot;0,0&quot;, $kk: &quot;0,0,&quot;, $p: &quot;0&quot;&#125;,</span><br><span class="line">  $root.0,1: &#123;text: &quot;Hello World&quot;, $k: &quot;0,1&quot;, $kk: &quot;0,1,&quot;, $p: &quot;0&quot;&#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="updateDataToMP-更新-Vue-对象的-Data"><a href="#updateDataToMP-更新-Vue-对象的-Data" class="headerlink" title="updateDataToMP 更新 Vue 对象的 Data"></a>updateDataToMP 更新 Vue 对象的 Data</h3><p>每一次页面事件，网络事件等对数据进行更新，都是通过 <code>handleProxy</code> 对 Vue 的数据进行更新，然后 Vue 的数据进行更新后，再对小程序页面的数据进行更新。更新小程序页面数据的方法，是通过修改 Vue 本身的 patch 方法，在对自身数据更新后，调用 <code>updateDataToMP</code> 来更新小程序的数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// runtime/patch.js</span><br><span class="line">export function patch () &#123;</span><br><span class="line">  corePatch.apply(this, arguments)</span><br><span class="line">  this.$updateDataToMP()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// runtime/index.js</span><br><span class="line">Vue.prototype.__patch__ = patch</span><br></pre></td></tr></table></figure>
+<p>下面来看一下 updateDataToMP 做了什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 优化每次 setData 都传递大量新数据</span><br><span class="line">export function updateDataToMP () &#123;</span><br><span class="line">  const page = getPage(this)</span><br><span class="line">  if (!page) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const data = formatVmData(this)</span><br><span class="line">  throttleSetData(page.setData.bind(page), data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>data 是如何形成的？？？？</strong></p>
+<h3 id="声明周期"><a href="#声明周期" class="headerlink" title="声明周期"></a>声明周期</h3><p><strong>Vue 的声明周期</strong>：</p>
+<ul>
+<li>beforeCreate</li>
+<li>created</li>
+<li>beforeMount</li>
+<li>mounted</li>
+<li>beforeUpdate</li>
+<li>updated</li>
+<li>activated</li>
+<li>deactivated</li>
+<li>beforeDestroy</li>
+<li>destroyed</li>
+</ul>
+<p>除了 Vue 本身的生命周期外，mpvue 还兼容了小程序生命周期，这部分生命周期钩子的来源于微信小程序的 Page， 除特殊情况外，不建议使用小程序的生命周期钩子。</p>
+<p><strong>app 部分</strong>：</p>
+<ul>
+<li>onLaunch，初始化</li>
+<li>onShow，当小程序启动，或从后台进入前台显示</li>
+<li>onHide，当小程序从前台进入后台</li>
+</ul>
+<p><strong>page 部分</strong>：</p>
+<ul>
+<li>onLoad，监听页面加载</li>
+<li>onShow，监听页面显示</li>
+<li>onReady，监听页面初次渲染完成</li>
+<li>onHide，监听页面隐藏</li>
+<li>onUnload，监听页面卸载</li>
+<li>onPullDownRefresh，监听用户下拉动作</li>
+<li>onReachBottom，页面上拉触底事件的处理函数</li>
+<li>onShareAppMessage，用户点击右上角分享</li>
+<li>onPageScroll，页面滚动</li>
+<li>onTabItemTap, 当前是 tab 页时，点击 tab 时触发 （mpvue 0.0.16 支持）</li>
+<li>onResize，页面尺寸改变时触发</li>
+</ul>
+<p><strong>Component 部分</strong>，目前 mpvue 不支持生成小程序的 Component，而是使用 template：</p>
+<ul>
+<li>created，在组件实例进入页面节点树时执行，注意此时不能调用 setData</li>
+<li>attached，在组件实例进入页面节点树时执行，不能获得节点信息</li>
+<li>ready，在组件布局完成后执行，此时可以获取节点信息</li>
+<li>moved，在组件实例被移动到节点树另一个位置时执行</li>
+<li>detached，在组件实例被从页面节点树移除时执行</li>
+</ul>
+<h2 id="mpvue-compiler"><a href="#mpvue-compiler" class="headerlink" title="mpvue compiler"></a>mpvue compiler</h2><p>在 runtime 的时候，主要处理的一些函数的绑定，以及生命周期的触发。但是小程序组件上定义的函数如何处理，什么时候对小程序的 data 进行更新，小程序的事件又如何处理呢，这些可以在 compiler 里面查看。</p>
+<p>compiler 是被 wepback 在构建的时候调用的，入口文件在 <code>platforms/mp/compiler/index.js</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import &#123; baseOptions &#125; from &apos;./options&apos;</span><br><span class="line">import &#123; createCompiler &#125; from &apos;./create-compiler&apos;</span><br><span class="line"></span><br><span class="line">const &#123; compile, compileToFunctions &#125; = createCompiler(baseOptions)</span><br><span class="line"></span><br><span class="line">import &#123; compileToWxml &#125; from &apos;./codegen/index&apos;</span><br><span class="line"></span><br><span class="line">export &#123; compile, compileToFunctions, compileToWxml &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="compileToWxml"><a href="#compileToWxml" class="headerlink" title="compileToWxml"></a>compileToWxml</h3><p>首先，先从 <code>compileToWxml</code> 开始看起。 <code>compileToWxml</code> 这个方法会接收两个参数，第一个参数是 compiled，这个 compiled 指的是从 Vue 的模板代码，被转化成 createElement 这种 JS 包裹的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// compileToWxml</span><br><span class="line">export function compileToWxml (compiled, options = &#123;&#125;) &#123;</span><br><span class="line">  // TODO, compiled is undefined</span><br><span class="line">  const &#123; components = &#123;&#125;&#125; = options</span><br><span class="line">  const log = utils.log(compiled)</span><br><span class="line"></span><br><span class="line">  const &#123; wxast, deps = &#123;&#125;, slots = &#123;&#125;&#125; = wxmlAst(compiled, options, log)</span><br><span class="line">  let code = generate(wxast, options)</span><br><span class="line"></span><br><span class="line">  // 引用子模版</span><br><span class="line">  const importCode = Object.keys(deps).map(k =&gt; components[k] ? `&lt;import src=&quot;$&#123;components[k].src&#125;&quot; /&gt;` : &apos;&apos;).join(&apos;&apos;)</span><br><span class="line">  code = `$&#123;importCode&#125;&lt;template name=&quot;$&#123;options.name&#125;&quot;&gt;$&#123;code&#125;&lt;/template&gt;`</span><br><span class="line"></span><br><span class="line">  // 生成 slots code</span><br><span class="line">  Object.keys(slots).forEach(k =&gt; &#123;</span><br><span class="line">    const slot = slots[k]</span><br><span class="line">    slot.code = generate(slot.node, options)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  // TODO: 后期优化掉这种暴力全部 import，虽然对性能没啥大影响</span><br><span class="line">  return &#123; code, compiled, slots, importCode &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们先从最简单的例子看起：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// logs.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;ul class=&quot;container log-list&quot;&gt;</span><br><span class="line">      &lt;li v-for=&quot;(log, index) in logs&quot; :class=&quot;&#123; red: aa &#125;&quot; :key=&quot;index&quot; class=&quot;log-item&quot;&gt;</span><br><span class="line">      &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; formatTime &#125; from &apos;@/utils/index&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      logs: []</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  created () &#123;</span><br><span class="line">    const logs = (wx.getStorageSync(&apos;logs&apos;) || [])</span><br><span class="line">    this.logs = logs.map(log =&gt; formatTime(new Date(log)))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">.log-list &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  flex-direction: column;</span><br><span class="line">  padding: 40rpx;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.log-item &#123;</span><br><span class="line">  margin: 10rpx;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>这个例子中，使用的最简单的在 Vue 的模板中绑定 data 中的数据。此时 <code>compiled</code> 参数就是经过 vue-template-compiler 处理后的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123; ast:</span><br><span class="line">   &#123; type: 1,</span><br><span class="line">     tag: &apos;div&apos;,</span><br><span class="line">     attrsList: [],</span><br><span class="line">     attrsMap: &#123;&#125;,</span><br><span class="line">     parent: undefined,</span><br><span class="line">     children: [ [Object] ],</span><br><span class="line">     plain: true,</span><br><span class="line">     static: false,</span><br><span class="line">     staticRoot: false &#125;,</span><br><span class="line">  render: &apos;with(this)&#123;return _c(&apos;div&apos;,[_c(&apos;ul&apos;,&#123;staticClass:&quot;container log-list&quot;&#125;,_l((logs),function(log,index)&#123;return _c(&apos;li&apos;,&#123;key:index,staticClass:&quot;log-item&quot;,class:&#123; red: aa &#125;&#125;)&#125;))],1)&#125;&apos;,</span><br><span class="line">  staticRenderFns: [],</span><br><span class="line">  errors: [],</span><br><span class="line">  tips: [] &#125;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>render</code> 部分被转换之后的代码，使用 <code>_c</code> 是 <code>createElement</code>，<code>_l</code> 用 <code>renderList</code> 进行代替，可以获得 <code>render</code> 为 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// render</span><br><span class="line">// createElement 接收三个参数，第一个参数是标签名：div 等，第二个参数是 props，第三个参数是子节点，最后通过 createElement 生成一个 vnode 对象</span><br><span class="line">with (this) &#123;</span><br><span class="line">  return createElement(</span><br><span class="line">    &apos;div&apos;,</span><br><span class="line">    [createElement(</span><br><span class="line">      &apos;ul&apos;,</span><br><span class="line">      &#123; staticClass: &quot;container log-list&quot; &#125;,</span><br><span class="line">      renderList(</span><br><span class="line">        (logs),</span><br><span class="line">        function (log, index) &#123;</span><br><span class="line">          return createElement(</span><br><span class="line">            &apos;li&apos;,</span><br><span class="line">            &#123;</span><br><span class="line">              key: index,</span><br><span class="line">              staticClass: &quot;log-item&quot;,</span><br><span class="line">              class: &#123;</span><br><span class="line">                red: aa</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          )</span><br><span class="line">        &#125;</span><br><span class="line">      ))</span><br><span class="line">    ],</span><br><span class="line">    1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面，我们一点一点来看代码，首先：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// log 方法，为 compiled 对象添加 mpErrors = [] 以及 mpTips = []，然后返回一个函数，向这两个数组中填充值</span><br><span class="line">const log = utils.log(compiled)</span><br><span class="line"></span><br><span class="line">// log 的内容，在 mpvue-loader 中调用了 mpTips 以及 mpErrors，将构建时的错误丢给 webpack Errors</span><br><span class="line">return (str, type) =&gt; &#123;</span><br><span class="line">  if (type === &apos;waring&apos;) &#123;</span><br><span class="line">    compiled.mpTips.push(str)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    compiled.mpErrors.push(str)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="wxmlAst，将-Vue-解析结果转换成小程序语法树"><a href="#wxmlAst，将-Vue-解析结果转换成小程序语法树" class="headerlink" title="wxmlAst，将 Vue 解析结果转换成小程序语法树"></a>wxmlAst，将 Vue 解析结果转换成小程序语法树</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">// wxmlAst 做的事情，就是将 Vue 编译出来的生成 vnode 的代码，转换成小程序的的语法树</span><br><span class="line">const &#123; wxast, deps = &#123;&#125;, slots = &#123;&#125;&#125; = wxmlAst(compiled, options, log)</span><br><span class="line"></span><br><span class="line">// wxast</span><br><span class="line">&#123; type: 1,</span><br><span class="line">  tag: &apos;view&apos;,</span><br><span class="line">  attrsList: [],</span><br><span class="line">  attrsMap: &#123; class: &apos;_div data-v-319c166a&apos; &#125;,</span><br><span class="line">  parent: undefined,</span><br><span class="line">  children:</span><br><span class="line">    [</span><br><span class="line">      &#123; type: 1,</span><br><span class="line">        tag: &apos;view&apos;,</span><br><span class="line">        attrsList: [],</span><br><span class="line">        attrsMap: &#123; class: &apos;_ul data-v-319c166a container log-list&apos; &#125;,</span><br><span class="line">        parent:</span><br><span class="line">         &#123; type: 1,</span><br><span class="line">           tag: &apos;div&apos;,</span><br><span class="line">           attrsList: [],</span><br><span class="line">           attrsMap: &#123;&#125;,</span><br><span class="line">           parent: undefined,</span><br><span class="line">           children: [ [Object] ],</span><br><span class="line">           plain: true,</span><br><span class="line">           static: false,</span><br><span class="line">           staticRoot: false &#125;,</span><br><span class="line">        children:</span><br><span class="line">         [ &#123; type: 1,</span><br><span class="line">             tag: &apos;view&apos;,</span><br><span class="line">             attrsList: [],</span><br><span class="line">             attrsMap: [Object],</span><br><span class="line">             parent: [Object],</span><br><span class="line">             children: [],</span><br><span class="line">             for: &apos;logs&apos;,</span><br><span class="line">             alias: &apos;log&apos;,</span><br><span class="line">             iterator1: &apos;index&apos;,</span><br><span class="line">             key: &apos;index&apos;,</span><br><span class="line">             plain: false,</span><br><span class="line">             staticClass: &apos;_li data-v-319c166a log-item&apos;,</span><br><span class="line">             classBinding: &apos;&#123; red: aa &#125;&apos;,</span><br><span class="line">             staticRoot: false,</span><br><span class="line">             forProcessed: true,</span><br><span class="line">             slots: &#123;&#125; &#125; ],</span><br><span class="line">        plain: false,</span><br><span class="line">        staticClass: &apos;_ul data-v-319c166a container log-list&apos;,</span><br><span class="line">        static: false,</span><br><span class="line">        staticRoot: false,</span><br><span class="line">        slots: &#123;&#125; &#125;</span><br><span class="line">    ],</span><br><span class="line">  plain: true,</span><br><span class="line">  static: false,</span><br><span class="line">  staticRoot: false,</span><br><span class="line">  staticClass: &apos;_div data-v-319c166a&apos;,</span><br><span class="line">  slots: &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">// deps </span><br><span class="line">&#123;&#125;</span><br><span class="line">// slots</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>我们来看一下将 <code>createElement</code> 解析成小程序的语法树的 <code>wxmlAst</code> 函数的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">// wxmlAst</span><br><span class="line">export default function wxmlAst (compiled, options = &#123;&#125;, log) &#123;</span><br><span class="line">  const &#123; ast &#125; = compiled</span><br><span class="line">  const deps = &#123;</span><br><span class="line">    // slots: &apos;slots&apos;</span><br><span class="line">  &#125;</span><br><span class="line">  const slots = &#123;</span><br><span class="line">    // slotId: nodeAst</span><br><span class="line">  &#125;</span><br><span class="line">  const slotTemplates = &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const wxast = convertAst(ast, options, &#123; log, deps, slots, slotTemplates &#125;)</span><br><span class="line">  const children = Object.keys(slotTemplates).map(k =&gt; convertAst(slotTemplates[k], options, &#123; log, deps, slots, slotTemplates &#125;))</span><br><span class="line">  wxast.children = children.concat(wxast.children)</span><br><span class="line">  return &#123;</span><br><span class="line">    wxast,</span><br><span class="line">    deps,</span><br><span class="line">    slots</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// convertAst</span><br><span class="line">function convertAst (node, options = &#123;&#125;, util) &#123;</span><br><span class="line">  const &#123; children, ifConditions, staticClass = &apos;&apos;, mpcomid &#125; = node</span><br><span class="line">  let &#123; tag: tagName &#125; = node</span><br><span class="line">  const &#123; log, deps, slots, slotTemplates &#125; = util</span><br><span class="line">  </span><br><span class="line">  // wxmlAst 中首先包含 compiled 的全部内容</span><br><span class="line">  let wxmlAst = Object.assign(&#123;&#125;, node)</span><br><span class="line">  const &#123; moduleId, components &#125; = options</span><br><span class="line">  // 将驼峰形式的组件组件或者标签名称转换成连字符形式</span><br><span class="line">  wxmlAst.tag = tagName = tagName ? hyphenate(tagName) : tagName</span><br><span class="line">  // 引入 import, isSlot 是使用 slot 的编译地方，意即 &lt;slot&gt;&lt;/slot&gt; 的地方</span><br><span class="line">  const isSlot = tagName === &apos;slot&apos;</span><br><span class="line">  // 对 slot 进行处理</span><br><span class="line">  if (isSlot) &#123;</span><br><span class="line">    deps.slots = &apos;slots&apos;</span><br><span class="line">    // 把当前 slot 节点包裹 template</span><br><span class="line">    const defSlot = Object.assign(&#123;&#125;, wxmlAst)</span><br><span class="line">    defSlot.tag = &apos;template&apos;</span><br><span class="line">    const templateName = `$&#123;defSlot.attrsMap.name || &apos;default&apos;&#125;`</span><br><span class="line">    defSlot.attrsMap.name = templateName</span><br><span class="line">    wxmlAst.children = []</span><br><span class="line">    defSlot.parent = node.parent.parent</span><br><span class="line">    slotTemplates[templateName] = defSlot</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 判断当前要处理的 tag 是否是一个组件，如何判断是组件呢？在 components 里面有写明当前 tag 的父元素有哪些组件。下面是一个 components 的例子，components 是 mpvue-loader 传入的 options 中的数据，是 mpvue-loader 的解析结果</span><br><span class="line">  </span><br><span class="line">  // options 中的数据示例</span><br><span class="line">  //  &#123; components:</span><br><span class="line">  //   &#123; card: &#123; src: &apos;/components/card.vue.wxml&apos;, name: &apos;64c5b64a&apos; &#125;,</span><br><span class="line">  //     paper: &#123; src: &apos;/components/paper.vue.wxml&apos;, name: &apos;09070551&apos; &#125;,</span><br><span class="line">  //     isCompleted: true,</span><br><span class="line">  //     slots: &#123; src: &apos;/components/slots&apos;, name: &apos;slots&apos; &#125; &#125;,</span><br><span class="line">  //  pageType: &apos;component&apos;,</span><br><span class="line">  //  name: &apos;cccea208&apos;,</span><br><span class="line">  //  moduleId: &apos;data-v-65f59a68&apos; &#125;</span><br><span class="line">  </span><br><span class="line">  const currentIsComponent = component.isComponent(tagName, components)</span><br><span class="line">  // 如果当前元素是父元素的一个组件，在 deps 中记录</span><br><span class="line">  if (currentIsComponent) &#123;</span><br><span class="line">    deps[tagName] = tagName</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (moduleId &amp;&amp; !currentIsComponent &amp;&amp; tagConfig.virtualTag.indexOf(tagName) &lt; 0) &#123;</span><br><span class="line">    // 如果是一个普通的小程序元素，并且不是【虚标签】，这里定义 &apos;slot&apos;, &apos;template&apos;, &apos;block&apos; 这三个在小程序页面中没有显式影响 DOM 的标签为虚标签，则将 moduleId 拼接到当前元素的 class 中</span><br><span class="line">    wxmlAst.staticClass = staticClass ? `$&#123;moduleId&#125; $&#123;staticClass&#125;`.replace(/\&quot;/g, &apos;&apos;) : moduleId</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    // 如果是一个组件，则在这个组件的 class 里面拼接 moduleId</span><br><span class="line">    wxmlAst.staticClass = staticClass.replace(/\&quot;/g, &apos;&apos;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  wxmlAst.slots = &#123;&#125;</span><br><span class="line">  // 如果一个元素是组件，则该元素和该元素的子元素都被丢到 slot.wxml 中</span><br><span class="line">  if (currentIsComponent &amp;&amp; children &amp;&amp; children.length) &#123;</span><br><span class="line">    // 只检查组件下的子节点（不检查孙子节点）是不是具名 slot，不然就是 default slot</span><br><span class="line">    children</span><br><span class="line">      .reduce((res, n) =&gt; &#123;</span><br><span class="line">        const &#123; slot &#125; = n.attrsMap || &#123;&#125;</span><br><span class="line">        // 不是具名的，全部放在第一个数组元素中</span><br><span class="line">        // 关于具名 slot，可以参考 https://cn.vuejs.org/v2/guide/components-slots.html#%E5%85%B7%E5%90%8D%E6%8F%92%E6%A7%BD</span><br><span class="line">        // 也就是使用 slot 属性把节点插到不同的 slot 上，具体可以参考小程序的文档：https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html?search-key=slot</span><br><span class="line">        const arr = slot ? res : res[0]</span><br><span class="line">        arr.push(n)</span><br><span class="line">        return res</span><br><span class="line">      &#125;, [[]])</span><br><span class="line">      .forEach(n =&gt; &#123;</span><br><span class="line">        // 将组件的子元素都放到 slots 里面，然后从这个组件的 template 中删掉所有的子元素。slots 里面的子元素都设置一个 name，以供组件进行调用</span><br><span class="line">        const isDefault = Array.isArray(n)</span><br><span class="line">        const slotName = isDefault ? &apos;default&apos; : n.attrsMap.slot</span><br><span class="line">        const slotId = `$&#123;moduleId&#125;-$&#123;slotName&#125;-$&#123;mpcomid.replace(/\&apos;/g, &apos;&apos;)&#125;`</span><br><span class="line">        const node = isDefault ? &#123; tag: &apos;slot&apos;, attrsMap: &#123;&#125;, children: n &#125; : n</span><br><span class="line"></span><br><span class="line">        node.tag = &apos;template&apos;</span><br><span class="line">        node.attrsMap.name = slotId</span><br><span class="line">        delete node.attrsMap.slot</span><br><span class="line">        // 缓存，会集中生成一个 slots 文件</span><br><span class="line">        slots[slotId] = &#123; node: convertAst(node, options, util), name: slotName, slotId &#125;</span><br><span class="line">        // 将生成的 name 提供给父组件，父组件就可以通过 name 对 slots 中的子元素进行引用</span><br><span class="line">        wxmlAst.slots[slotName] = slotId</span><br><span class="line">      &#125;)</span><br><span class="line">    // 清理当前组件下的节点信息，因为 slot 都被转移了</span><br><span class="line">    children.length = 0</span><br><span class="line">    wxmlAst.children.length = 0</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 为了方便之后的处理，将 @ 转换成 v-on，将 : 转换成 v-bind</span><br><span class="line">  wxmlAst.attrsMap = attrs.format(wxmlAst.attrsMap)</span><br><span class="line">  // 进行 tag 转换</span><br><span class="line">  wxmlAst = tag(wxmlAst, options)</span><br><span class="line">  // 对于 v-for 进行转换，修改为 wx:for，wx:for-item，wx:for-index，wx:key</span><br><span class="line">  wxmlAst = convertFor(wxmlAst, options)</span><br><span class="line">  // 对于属性进行转换，比如 Vue 中定义的事件 v-on，v-bind 等，以及其他的自定义属性</span><br><span class="line">  wxmlAst = attrs.convertAttr(wxmlAst, log)</span><br><span class="line">  if (children &amp;&amp; !isSlot) &#123;</span><br><span class="line">    // 对于 children 也进行语法树转换，由于 slot 直接被提取成 template，所以 slot 就不用转换</span><br><span class="line">    wxmlAst.children = children.map((k) =&gt; convertAst(k, options, util))</span><br><span class="line">  &#125;</span><br><span class="line">  // 处理 if，但是 没搞懂</span><br><span class="line">  if (ifConditions) &#123;</span><br><span class="line">    const length = ifConditions.length</span><br><span class="line">    for (let i = 1; i &lt; length; i++) &#123;</span><br><span class="line">      wxmlAst.ifConditions[i].block = convertAst(ifConditions[i].block, options, util)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return wxmlAst</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="tag-转换部分"><a href="#tag-转换部分" class="headerlink" title="tag 转换部分"></a>tag 转换部分</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">// tag 方法，进行 tag 的转换</span><br><span class="line">export default function (ast, options) &#123;</span><br><span class="line">  // 从语法树中获得转换该节点的必备属性</span><br><span class="line">  const &#123; tag, elseif, else: elseText, for: forText, staticClass = &apos;&apos;, attrsMap = &#123;&#125;&#125; = ast</span><br><span class="line">  // 获得该节点的父节点里面的所有子组件，在 components 中</span><br><span class="line">  const &#123; components &#125; = options</span><br><span class="line">  // 获得属性</span><br><span class="line">  const &#123; &apos;v-if&apos;: ifText, href, &apos;v-bind:href&apos;: bindHref, name &#125; = attrsMap</span><br><span class="line"></span><br><span class="line">  if (!tag) &#123;</span><br><span class="line">    return ast</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  // 如果是父节点的直接子组件</span><br><span class="line">  const isComponent = component.isComponent(tag, components)</span><br><span class="line">  // 如果不是一个子组件，也不是小程序中内置的一些虚拟标签</span><br><span class="line">  if (tag !== &apos;template&apos; &amp;&amp; tag !== &apos;block&apos; &amp;&amp; tag !== &apos;slot&apos; &amp;&amp; !isComponent) &#123;</span><br><span class="line">    // 在这个节点的 class 上面，添加 `_$&#123;tag&#125;` 这个类名</span><br><span class="line">    ast.staticClass = staticClass ? `_$&#123;tag&#125; $&#123;staticClass&#125;` : `_$&#123;tag&#125;`</span><br><span class="line">  &#125;</span><br><span class="line">  // tagMap 中记录了前端的标签对应小程序标签的转换规则</span><br><span class="line">  ast.tag = tagMap[tag] || tag</span><br><span class="line"></span><br><span class="line">  const isSlot = tag === &apos;slot&apos;</span><br><span class="line"></span><br><span class="line">  // 处理 tag 为 template 以及节点上使用了 if/esle/for 属性的情况</span><br><span class="line">  if ((ifText || elseif || elseText || forText) &amp;&amp; tag === &apos;template&apos;) &#123;</span><br><span class="line">    ast.tag = &apos;block&apos;</span><br><span class="line">  &#125; else if (isComponent || isSlot) &#123;</span><br><span class="line">    // 将组件和 slot 都作为转换为小程序的 template</span><br><span class="line">    const originSlotName = name || &apos;default&apos;</span><br><span class="line">    const slotName = isSlot ? `$slot$&#123;originSlotName&#125; || &apos;$&#123;originSlotName&#125;&apos;` : undefined</span><br><span class="line"></span><br><span class="line">    // 用完必须删除，不然会被编译成 &lt;template name=&quot;xxx&quot;&gt; 在小程序中就会表示这是一个模版申明而不是使用，小程序中不能同时申明和使用模版</span><br><span class="line">    delete ast.attrsMap.name</span><br><span class="line">    // 组件或 slot 转换成小程序的逻辑，主要是处理 data 和 is 属性</span><br><span class="line">    ast = component.convertComponent(ast, components, slotName)</span><br><span class="line">    ast.tag = &apos;template&apos;</span><br><span class="line">  &#125; else if (tag === &apos;a&apos; &amp;&amp; !(href || bindHref)) &#123;</span><br><span class="line">    // 剩下都是一些其他的标签转换逻辑</span><br><span class="line">    ast.tag = &apos;view&apos;</span><br><span class="line">  &#125; else if (ast.events &amp;&amp; ast.events.scroll) &#123;</span><br><span class="line">    ast.tag = &apos;scroll-view&apos;</span><br><span class="line">  &#125; else if (tag === &apos;input&apos;) &#123;</span><br><span class="line">    const type = attrsMap.type</span><br><span class="line">    if (type &amp;&amp; [&apos;button&apos;, &apos;checkbox&apos;, &apos;radio&apos;].indexOf(type) &gt; -1) &#123;</span><br><span class="line">      delete ast.attrsMap.type</span><br><span class="line">      ast.tag = type</span><br><span class="line">    &#125;</span><br><span class="line">    if (type === &apos;button&apos;) &#123;</span><br><span class="line">      ast.children.push(&#123;</span><br><span class="line">        text: attrsMap.value || &apos;&apos;,</span><br><span class="line">        type: 3</span><br><span class="line">      &#125;)</span><br><span class="line">      delete ast.attrsMap.value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return ast</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="attr-转换部分"><a href="#attr-转换部分" class="headerlink" title="attr 转换部分"></a>attr 转换部分</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">convertAttr (ast, log) &#123;</span><br><span class="line">  const &#123; attrsMap = &#123;&#125;, tag, staticClass &#125; = ast</span><br><span class="line">  let attrs = &#123;&#125;</span><br><span class="line">  // 处理 class name，这里的 class name 可能是静态的 class，也可能是 v-bind:class 这种动态绑定的 class</span><br><span class="line">  const wxClass = this.classObj(attrsMap[&apos;v-bind:class&apos;], staticClass)</span><br><span class="line">  // 处理后的 class 再赋值给 attrsMap[&apos;class&apos;]</span><br><span class="line">  wxClass.length ? attrsMap[&apos;class&apos;] = wxClass : &apos;&apos;</span><br><span class="line">  // 处理 style，这里的 style 同理可能是静态的 Style 以及动态的 style</span><br><span class="line">  const wxStyle = this.styleObj(attrsMap[&apos;v-bind:style&apos;], attrsMap[&apos;style&apos;])</span><br><span class="line">  // 处理后的 style 再赋值给 attrsMap[&apos;style&apos;]</span><br><span class="line">  wxStyle.length ? attrsMap[&apos;style&apos;] = wxStyle : &apos;&apos;</span><br><span class="line"></span><br><span class="line">  Object.keys(attrsMap).map(key =&gt; &#123;</span><br><span class="line">    const val = attrsMap[key]</span><br><span class="line">    if (key === &apos;v-bind:class&apos; || key === &apos;v-bind:style&apos;) &#123;</span><br><span class="line">      return</span><br><span class="line">    &#125;</span><br><span class="line">    // 支持 v-text 属性：https://cn.vuejs.org/v2/api/#v-text</span><br><span class="line">    if (key === &apos;v-text&apos;) &#123;</span><br><span class="line">      ast.children.unshift(&#123;</span><br><span class="line">        text: `&#123;&#123;$&#123;val&#125;&#125;&#125;`,</span><br><span class="line">        type: 3</span><br><span class="line">      &#125;)</span><br><span class="line">    // 使用 rich-text 支持 v-html</span><br><span class="line">    &#125; else if (key === &apos;v-html&apos;) &#123;</span><br><span class="line">      ast.tag = &apos;rich-text&apos;</span><br><span class="line">      attrs[&apos;nodes&apos;] = `&#123;&#123;$&#123;val&#125;&#125;&#125;`</span><br><span class="line">    // 支持 v-show</span><br><span class="line">    &#125; else if (key === &apos;v-show&apos;) &#123;</span><br><span class="line">      attrs[&apos;hidden&apos;] = `&#123;&#123;!($&#123;val&#125;)&#125;&#125;`</span><br><span class="line">    // 支持 v-on，对事件进行处理，事件处理分析见下面</span><br><span class="line">    &#125; else if (/^v\-on\:/i.test(key)) &#123;</span><br><span class="line">      attrs = this.event(key, val, attrs, tag)</span><br><span class="line">    // 支持 v-bind，处理对于属性的传值</span><br><span class="line">    &#125; else if (/^v\-bind\:/i.test(key)) &#123;</span><br><span class="line">      attrs = this.bind(key, val, attrs, tag, attrsMap[&apos;wx:key&apos;])</span><br><span class="line">    // 支持 v-model。v-model 其实是由两个基础的事件组成的，所以这里需要将 v-model 转换成 Vue 的基础事件，然后再转换成小程序的基础事件，最后使用 handleProxy 进行处理</span><br><span class="line">    &#125; else if (/^v\-model/.test(key)) &#123;</span><br><span class="line">      attrs = this.model(key, val, attrs, tag, log)</span><br><span class="line">    &#125; else if (wxmlDirectiveMap[key]) &#123;</span><br><span class="line">      // 在这里处理一些之前没有处理到的标签，比如 v-if，v-else-if，v-else，v-html 等</span><br><span class="line">      const &#123; name = &apos;&apos;, type, map = &#123;&#125;, check &#125; = wxmlDirectiveMap[key] || &#123;&#125;</span><br><span class="line">      if (!(check &amp;&amp; !check(key, val, log)) &amp;&amp; !(!name || typeof type !== &apos;number&apos;)) &#123;</span><br><span class="line">        // 见 ./wxmlDirectiveMap.js 注释</span><br><span class="line">        if (type === 0) &#123;</span><br><span class="line">          attrs[name] = `&#123;&#123;$&#123;val&#125;&#125;&#125;`</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (type === 1) &#123;</span><br><span class="line">          attrs[name] = undefined</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (type === 2) &#123;</span><br><span class="line">          attrs[name] = val</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (type === 3) &#123;</span><br><span class="line">          attrs[map[name] || name] = `&#123;&#123;$&#123;val&#125;&#125;&#125;`</span><br><span class="line">          return</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else if (/^v\-/.test(key)) &#123;</span><br><span class="line">      log(`不支持此属性-&gt; $&#123;key&#125;=&quot;$&#123;val&#125;&quot;`, &apos;waring&apos;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      // [&apos;slot&apos;, &apos;template&apos;, &apos;block&apos;] 不支持 class、style 和 data-mpcomid 属性</span><br><span class="line">      if ((tagConfig.virtualTag.indexOf(tag) &gt; -1) &amp;&amp; (key === &apos;class&apos; || key === &apos;style&apos; || key === &apos;data-mpcomid&apos;)) &#123;</span><br><span class="line">        if (key !== &apos;data-mpcomid&apos;) &#123;</span><br><span class="line">          log(`template 不支持此属性-&gt; $&#123;key&#125;=&quot;$&#123;val&#125;&quot;`, &apos;waring&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        attrs[key] = val</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  ast.attrsMap = attrs</span><br><span class="line">  return ast</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="event，处理-vue-的事件转换到小程序的事件"><a href="#event，处理-vue-的事件转换到小程序的事件" class="headerlink" title="event，处理 vue 的事件转换到小程序的事件"></a>event，处理 vue 的事件转换到小程序的事件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">// key 是事件的名称，如 v-on:click，val 是赋给该事件的处理函数，如：bindViewTap，attr 是该节点的属性，tag 是该节点的标签名，这里的 tag 已经转换为小程序的标签名</span><br><span class="line">event (key, val, attrs, tag) &#123;</span><br><span class="line">  // 小程序能力所致，bind 和 catch 事件同时绑定时候，只会触发 bind ,catch 不会被触发。</span><br><span class="line">  // .stop 的使用会阻止冒泡，但是同时绑定了一个非冒泡事件，会导致该元素上的 catchEventName 失效！</span><br><span class="line">  // .prevent 可以直接干掉，因为小程序里没有什么默认事件，比如submit并不会跳转页面</span><br><span class="line">  // .capture 不能做，因为小程序没有捕获类型的事件</span><br><span class="line">  // .self 没有可以判断的标识</span><br><span class="line">  // .once 也不能做，因为小程序没有 removeEventListener, 虽然可以直接在 handleProxy 中处理，但非常的不优雅，违背了原意，暂不考虑</span><br><span class="line">  const name = key.replace(/^v\-on\:/i, &apos;&apos;).replace(/\.prevent/i, &apos;&apos;)</span><br><span class="line">  // 将事件名称赋值给 eventName</span><br><span class="line">  const [eventName, ...eventNameMap] = name.split(&apos;.&apos;)</span><br><span class="line">  // 获得 Vue 的事件在小程序事件上的映射关系，在 evnetMap 里</span><br><span class="line">  const &#123; &apos;v-on&apos;: eventMap, check &#125; = wxmlDirectiveMap</span><br><span class="line"></span><br><span class="line">  if (check) &#123;</span><br><span class="line">    check(key, val)</span><br><span class="line">  &#125;</span><br><span class="line">  // 获得小程序的事件名称</span><br><span class="line">  let wxmlEventName = &apos;&apos;</span><br><span class="line">  if (eventName === &apos;change&apos; &amp;&amp; (tag === &apos;input&apos; || tag === &apos;textarea&apos;)) &#123;</span><br><span class="line">    wxmlEventName = &apos;blur&apos;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    wxmlEventName = eventMap.map[eventName]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 小程序有四种处理事件方案：bind事件绑定不会阻止冒泡事件向上冒泡，catch事件绑定可以阻止冒泡事件向上冒泡。</span><br><span class="line">  // 在捕获阶段处理：capture-bind、capture-catch关键字，后者将中断捕获阶段和取消冒泡阶段。</span><br><span class="line">  let eventType = &apos;bind&apos;</span><br><span class="line">  const isStop = eventNameMap.includes(&apos;stop&apos;)</span><br><span class="line">  if (eventNameMap.includes(&apos;capture&apos;)) &#123;</span><br><span class="line">    eventType = isStop ? &apos;capture-catch:&apos; : &apos;capture-bind:&apos;</span><br><span class="line">  &#125; else if (isStop) &#123;</span><br><span class="line">    eventType = &apos;catch&apos;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 所有的事件都交给 handleProxy 进行处理</span><br><span class="line">  wxmlEventName = eventType + (wxmlEventName || eventName)</span><br><span class="line">  attrs[wxmlEventName] = &apos;handleProxy&apos;</span><br><span class="line"></span><br><span class="line">  return attrs</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>handleProxy 的部分在 runtime 里面，在 <code>runtime/lifecycle.js</code> 有定义 <code>handleProxy</code> 这个方法，调用的是 <code>handleProxyWithVue</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">// runtime/lifecycle.js</span><br><span class="line">handleProxy (e) &#123;</span><br><span class="line">  return rootVueVM.$handleProxyWithVue(e)</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">// runtime/event.js</span><br><span class="line">export function handleProxyWithVue (e) &#123;</span><br><span class="line">  const rootVueVM = this.$root</span><br><span class="line">  // target 是当前事件发生的节点</span><br><span class="line">  // currentTarget 是 event 对象绑定的节点</span><br><span class="line">  const &#123; type, target = &#123;&#125;, currentTarget &#125; = e</span><br><span class="line">  const &#123; dataset = &#123;&#125;&#125; = currentTarget || target</span><br><span class="line">  const &#123; comkey = &apos;&apos;, eventid &#125; = dataset</span><br><span class="line">  // 通过 comkey，从 root 节点遍历 children，找到事件处理函数的节点</span><br><span class="line">  const vm = getVM(rootVueVM, comkey.split(&apos;,&apos;))</span><br><span class="line"></span><br><span class="line">  if (!vm) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 在小程序中，使用的是小程序是事件，但是处理事件的处理函数是 Vue 写的，所以需要转换成 Vue 的事件</span><br><span class="line">  const webEventTypes = eventTypeMap[type] || [type]</span><br><span class="line">  // 通过 vm._vnode 来找到该事件的处理函数，以数组的形式进行返回</span><br><span class="line">  const handles = getHandle(vm._vnode, eventid, webEventTypes)</span><br><span class="line"></span><br><span class="line">  // TODO, enevt 还需要处理更多</span><br><span class="line">  // https://developer.mozilla.org/zh-CN/docs/Web/API/Event</span><br><span class="line">  if (handles.length) &#123;</span><br><span class="line">    // 事件的内容是小程序的事件内容，还需要转换成 Web 事件内容的格式</span><br><span class="line">    const event = getWebEventByMP(e)</span><br><span class="line">    if (handles.length === 1) &#123;</span><br><span class="line">      const result = handles[0](event)</span><br><span class="line">      return result</span><br><span class="line">    &#125;</span><br><span class="line">    handles.forEach(h =&gt; h(event))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="generate，将转换成的小程序语法树转换成小程序的代码"><a href="#generate，将转换成的小程序语法树转换成小程序的代码" class="headerlink" title="generate，将转换成的小程序语法树转换成小程序的代码"></a>generate，将转换成的小程序语法树转换成小程序的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//compiler/index.js</span><br><span class="line">let code = generate(wxast, options)</span><br><span class="line"></span><br><span class="line">// compiler/generate.js</span><br><span class="line">export default function generate (obj, options = &#123;&#125;) &#123;</span><br><span class="line">  const &#123; tag, attrsMap = &#123;&#125;, children, text, ifConditions &#125; = obj</span><br><span class="line">  if (!tag) return text</span><br><span class="line">  let child = &apos;&apos;</span><br><span class="line">  if (children &amp;&amp; children.length) &#123;</span><br><span class="line">    // 递归子节点</span><br><span class="line">    child = children.map(v =&gt; generate(v, options)).join(&apos;&apos;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // v-if 指令</span><br><span class="line">  const ifConditionsArr = []</span><br><span class="line">  if (ifConditions) &#123;</span><br><span class="line">    const length = ifConditions.length</span><br><span class="line">    for (let i = 1; i &lt; length; i++) &#123;</span><br><span class="line">      ifConditionsArr.push(generate(ifConditions[i].block, options))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const attrs = Object.keys(attrsMap).map(k =&gt; convertAttr(k, attrsMap[k])).join(&apos; &apos;)</span><br><span class="line"></span><br><span class="line">  // 处理小程序代码的拼接，有一些比较特殊的标签代码需要特殊处理</span><br><span class="line">  const tags = [&apos;progress&apos;, &apos;checkbox&apos;, &apos;switch&apos;, &apos;input&apos;, &apos;radio&apos;, &apos;slider&apos;, &apos;textarea&apos;]</span><br><span class="line">  if (tags.indexOf(tag) &gt; -1 &amp;&amp; !(children &amp;&amp; children.length)) &#123;</span><br><span class="line">    return `&lt;$&#123;tag&#125;$&#123;attrs ? &apos; &apos; + attrs : &apos;&apos;&#125; /&gt;$&#123;ifConditionsArr.join(&apos;&apos;)&#125;`</span><br><span class="line">  &#125;</span><br><span class="line">  return `&lt;$&#123;tag&#125;$&#123;attrs ? &apos; &apos; + attrs : &apos;&apos;&#125;&gt;$&#123;child || &apos;&apos;&#125;&lt;/$&#123;tag&#125;&gt;$&#123;ifConditionsArr.join(&apos;&apos;)&#125;`</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 将属性转换成 key=value 的形式 或者 key 的形式</span><br><span class="line">function convertAttr (key, val) &#123;</span><br><span class="line">  return (val === &apos;&apos; || typeof val === &apos;undefined&apos;) ? key : `$&#123;key&#125;=&quot;$&#123;val&#125;&quot;`</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="compileToWxml-剩下的操作"><a href="#compileToWxml-剩下的操作" class="headerlink" title="compileToWxml 剩下的操作"></a>compileToWxml 剩下的操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">export function compileToWxml (compiled, options = &#123;&#125;) &#123;</span><br><span class="line">  // TODO, compiled is undefined</span><br><span class="line">  const &#123; components = &#123;&#125;&#125; = options</span><br><span class="line">  const log = utils.log(compiled)</span><br><span class="line"></span><br><span class="line">  // 解析 vue 的语法树</span><br><span class="line">  const &#123; wxast, deps = &#123;&#125;, slots = &#123;&#125;&#125; = wxmlAst(compiled, options, log)</span><br><span class="line">  // 生成小程序的语法树</span><br><span class="line">  let code = generate(wxast, options)</span><br><span class="line"></span><br><span class="line">  // 引用子模版，处理 Vue 中的组件在小程序中的引用</span><br><span class="line">  const importCode = Object.keys(deps).map(k =&gt; components[k] ? `&lt;import src=&quot;$&#123;components[k].src&#125;&quot; /&gt;` : &apos;&apos;).join(&apos;&apos;)</span><br><span class="line">  code = `$&#123;importCode&#125;&lt;template name=&quot;$&#123;options.name&#125;&quot;&gt;$&#123;code&#125;&lt;/template&gt;`</span><br><span class="line"></span><br><span class="line">  // 生成 slots code</span><br><span class="line">  Object.keys(slots).forEach(k =&gt; &#123;</span><br><span class="line">    const slot = slots[k]</span><br><span class="line">    slot.code = generate(slot.node, options)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  // TODO: 后期优化掉这种暴力全部 import，虽然对性能没啥大影响</span><br><span class="line">  return &#123; code, compiled, slots, importCode &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里会导出三个函数，但是这三个函数是怎么被调用的？又是在什么时候被调用的？从 mpvue compiler 中找不到，因为 mpvue-template-compiler 是通过 mpvue-loader 被引入到 webpack 中，所以这些问题都需要在 mpvue-loader 中找答案。</p>
+<h2 id="mpvue-loader"><a href="#mpvue-loader" class="headerlink" title="mpvue-loader"></a>mpvue-loader</h2><p>mpvue loader 的源码在 <a href="https://github.com/mpvue/mpvue-loader" target="_blank" rel="noopener">mpvue/mpvue-loader | Github</a> 上</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://mpvue.com/mpvue/quickstart/" target="_blank" rel="noopener">mpvue-docs | quickstart</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/小程序/" rel="tag"># 小程序</a>
+          
+            <a href="/tags/mpvue/" rel="tag"># mpvue</a>
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/13/Redis原理与应用实践/" rel="next" title="Redis原理与应用实践">
+                <i class="fa fa-chevron-left"></i> Redis原理与应用实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/11/17/mpvue-源码解析/"
+           data-title="mpvue 源码解析" data-url="https://shiningdan.github.io/2018/11/17/mpvue-源码解析/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
+               alt="ShiningDan" />
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">114</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-mpvue-模板"><span class="nav-number">1.</span> <span class="nav-text">使用 mpvue 模板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yarn-run-dev"><span class="nav-number">2.</span> <span class="nav-text">yarn run dev</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dev-server-js-整体流程"><span class="nav-number">2.1.</span> <span class="nav-text">dev-server.js 整体流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dev-server-js-webpackConfig-生成"><span class="nav-number">2.2.</span> <span class="nav-text">dev-server.js webpackConfig 生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Entry"><span class="nav-number">2.3.</span> <span class="nav-text">Entry</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#target"><span class="nav-number">2.4.</span> <span class="nav-text">target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#output"><span class="nav-number">2.5.</span> <span class="nav-text">output</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolve"><span class="nav-number">2.6.</span> <span class="nav-text">resolve</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#module-rules-mpvue-loader"><span class="nav-number">2.7.</span> <span class="nav-text">module.rules.mpvue-loader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#plugins"><span class="nav-number">2.8.</span> <span class="nav-text">plugins</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mpvue-runtime"><span class="nav-number">3.</span> <span class="nav-text">mpvue runtime</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#entry-runtime-js"><span class="nav-number">3.1.</span> <span class="nav-text">entry-runtime.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this-initMP"><span class="nav-number">3.2.</span> <span class="nav-text">this._initMP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#updateDataToMP-更新-Vue-对象的-Data"><span class="nav-number">3.3.</span> <span class="nav-text">updateDataToMP 更新 Vue 对象的 Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#声明周期"><span class="nav-number">3.4.</span> <span class="nav-text">声明周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mpvue-compiler"><span class="nav-number">4.</span> <span class="nav-text">mpvue compiler</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#compileToWxml"><span class="nav-number">4.1.</span> <span class="nav-text">compileToWxml</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#wxmlAst，将-Vue-解析结果转换成小程序语法树"><span class="nav-number">4.1.1.</span> <span class="nav-text">wxmlAst，将 Vue 解析结果转换成小程序语法树</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#tag-转换部分"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">tag 转换部分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#attr-转换部分"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">attr 转换部分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#event，处理-vue-的事件转换到小程序的事件"><span class="nav-number">4.1.1.3.</span> <span class="nav-text">event，处理 vue 的事件转换到小程序的事件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#generate，将转换成的小程序语法树转换成小程序的代码"><span class="nav-number">4.1.2.</span> <span class="nav-text">generate，将转换成的小程序语法树转换成小程序的代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#compileToWxml-剩下的操作"><span class="nav-number">4.1.3.</span> <span class="nav-text">compileToWxml 剩下的操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mpvue-loader"><span class="nav-number">5.</span> <span class="nav-text">mpvue-loader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
