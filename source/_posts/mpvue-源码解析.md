@@ -611,6 +611,13 @@ export function initDataToMP () {
 }
 ```
 
+其中，`data` 中数据的编号是如下定义的：
+
+1. `$root` 后面的标签是从 0 开始表示最外层的根组件或者页面的数据。如果是该页面的子组件，则 `0,0` 中后面的这个 `0` 表示它的第一个子组件
+2. `$k` 指的是 `$root` 本身的标识符
+3. `$kk` 指的是该组件或页面的子组件的标识符前缀
+4. `$p` 指的是该组件的父组件或页面的标识符
+
 ### updateDataToMP 更新 Vue 对象的 Data
 
 每一次页面事件，网络事件等对数据进行更新，都是通过 `handleProxy` 对 Vue 的数据进行更新，然后 Vue 的数据进行更新后，再对小程序页面的数据进行更新。更新小程序页面数据的方法，是通过修改 Vue 本身的 patch 方法，在对自身数据更新后，调用 `updateDataToMP` 来更新小程序的数据：
@@ -637,14 +644,26 @@ export function updateDataToMP () {
   }
 
   const data = formatVmData(this)
+  // 过快 setData 会对小程序的性能造成影响
   throttleSetData(page.setData.bind(page), data)
 }
+
+
+const throttleSetData = throttle((handle, data) => {
+  handle(data)
+}, 50)
+
+function getPage (vm) {
+  const rootVueVM = vm.$root
+  const { mpType = '', page } = rootVueVM.$mp || {}
+
+  // 优化后台态页面进行 setData: https://mp.weixin.qq.com/debug/wxadoc/dev/framework/performance/tips.html
+  if (mpType === 'app' || !page || typeof page.setData !== 'function') {
+    return
+  }
+  return page
+}
 ```
-
-
-**data 是如何形成的？？？？**
-
-
 
 ### 声明周期
 
