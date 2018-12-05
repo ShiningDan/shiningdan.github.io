@@ -93,7 +93,7 @@
 <meta property="og:description" content="本文是学习 mpvue 源码的总结">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://image.zyuchen.com/592dff1d1b62e1ce20d2f5827729970c.png">
-<meta property="og:updated_time" content="2018-11-25T16:58:27.000Z">
+<meta property="og:updated_time" content="2018-12-05T16:06:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mpvue 源码解析">
 <meta name="twitter:description" content="本文是学习 mpvue 源码的总结">
@@ -463,11 +463,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// rootVueVM._initDataToMP()</span><br><span class="line">// runtime/render.js</span><br><span class="line">export function initDataToMP () &#123;</span><br><span class="line">  // this is vm.$root</span><br><span class="line">  // 获得 this.$mp.page 对象，这个对象只有在 Page 的实例中才有</span><br><span class="line">  const page = getPage(this)</span><br><span class="line">  if (!page) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 使用字符串拼接等方法，将 Vue 中的数据传递给小程序的 data</span><br><span class="line">  // 传递的数据有 vm._data，vm._props，vm._mpProps，vm._computedWatchers</span><br><span class="line">  const data = collectVmData(this.$root)</span><br><span class="line">  page.setData(data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>每一次的 data 是会发生改变的，所以每一次在 onShow 的时候都需要调用 <code>initDataToMP</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// data 的例子</span><br><span class="line">&#123;</span><br><span class="line">  $root.0: &#123;motto: &quot;Hello World&quot;, userInfo: &#123;…&#125;, $k: &quot;0&quot;, $kk: &quot;0,&quot;, $p: &quot;&quot;&#125;,</span><br><span class="line">  $root.0,0: &#123;text: &quot;单人舞&quot;, $k: &quot;0,0&quot;, $kk: &quot;0,0,&quot;, $p: &quot;0&quot;&#125;,</span><br><span class="line">  $root.0,1: &#123;text: &quot;Hello World&quot;, $k: &quot;0,1&quot;, $kk: &quot;0,1,&quot;, $p: &quot;0&quot;&#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>data</code> 中数据的编号是如下定义的：</p>
+<ol>
+<li><code>$root</code> 后面的标签是从 0 开始表示最外层的根组件或者页面的数据。如果是该页面的子组件，则 <code>0,0</code> 中后面的这个 <code>0</code> 表示它的第一个子组件</li>
+<li><code>$k</code> 指的是 <code>$root</code> 本身的标识符</li>
+<li><code>$kk</code> 指的是该组件或页面的子组件的标识符前缀</li>
+<li><code>$p</code> 指的是该组件的父组件或页面的标识符</li>
+</ol>
 <h3 id="updateDataToMP-更新-Vue-对象的-Data"><a href="#updateDataToMP-更新-Vue-对象的-Data" class="headerlink" title="updateDataToMP 更新 Vue 对象的 Data"></a>updateDataToMP 更新 Vue 对象的 Data</h3><p>每一次页面事件，网络事件等对数据进行更新，都是通过 <code>handleProxy</code> 对 Vue 的数据进行更新，然后 Vue 的数据进行更新后，再对小程序页面的数据进行更新。更新小程序页面数据的方法，是通过修改 Vue 本身的 patch 方法，在对自身数据更新后，调用 <code>updateDataToMP</code> 来更新小程序的数据：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// runtime/patch.js</span><br><span class="line">export function patch () &#123;</span><br><span class="line">  corePatch.apply(this, arguments)</span><br><span class="line">  this.$updateDataToMP()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// runtime/index.js</span><br><span class="line">Vue.prototype.__patch__ = patch</span><br></pre></td></tr></table></figure>
 <p>下面来看一下 updateDataToMP 做了什么：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 优化每次 setData 都传递大量新数据</span><br><span class="line">export function updateDataToMP () &#123;</span><br><span class="line">  const page = getPage(this)</span><br><span class="line">  if (!page) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const data = formatVmData(this)</span><br><span class="line">  throttleSetData(page.setData.bind(page), data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>data 是如何形成的？？？？</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// 优化每次 setData 都传递大量新数据</span><br><span class="line">export function updateDataToMP () &#123;</span><br><span class="line">  const page = getPage(this)</span><br><span class="line">  if (!page) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const data = formatVmData(this)</span><br><span class="line">  // 过快 setData 会对小程序的性能造成影响</span><br><span class="line">  throttleSetData(page.setData.bind(page), data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const throttleSetData = throttle((handle, data) =&gt; &#123;</span><br><span class="line">  handle(data)</span><br><span class="line">&#125;, 50)</span><br><span class="line"></span><br><span class="line">function getPage (vm) &#123;</span><br><span class="line">  const rootVueVM = vm.$root</span><br><span class="line">  const &#123; mpType = &apos;&apos;, page &#125; = rootVueVM.$mp || &#123;&#125;</span><br><span class="line"></span><br><span class="line">  // 优化后台态页面进行 setData: https://mp.weixin.qq.com/debug/wxadoc/dev/framework/performance/tips.html</span><br><span class="line">  if (mpType === &apos;app&apos; || !page || typeof page.setData !== &apos;function&apos;) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  return page</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="声明周期"><a href="#声明周期" class="headerlink" title="声明周期"></a>声明周期</h3><p><strong>Vue 的声明周期</strong>：</p>
 <ul>
 <li>beforeCreate</li>
@@ -584,6 +590,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/12/06/鉴权认证方案总结/" rel="prev" title="鉴权认证方案总结">
+                鉴权认证方案总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -656,7 +666,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">114</span>
+                <span class="site-state-item-count">115</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
