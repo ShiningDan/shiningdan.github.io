@@ -6,15 +6,15 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -29,7 +29,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -63,42 +63,43 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Hexo, NexT" />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
 
 
 
 
 
 
-<meta name="description" content="本文是鉴权认证相关知识点的方案总结  Basic Auth OAuth 2.0 bearer Token &amp;amp;&amp;amp; MAC Token JWT PKCE：移动应用程序建议使用的扩展   SAML OpenID SSO CAS">
+<meta name="description" content="本文是鉴权认证相关知识点的方案总结  Basic Auth OAuth 2.0 bearer Token &amp;amp;&amp;amp; MAC Token JWT PKCE：移动应用程序建议使用的扩展   SAML OpenID CAS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="鉴权认证方案总结">
 <meta property="og:url" content="https://shiningdan.github.io/2018/12/06/鉴权认证方案总结/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="本文是鉴权认证相关知识点的方案总结  Basic Auth OAuth 2.0 bearer Token &amp;amp;&amp;amp; MAC Token JWT PKCE：移动应用程序建议使用的扩展   SAML OpenID SSO CAS">
+<meta property="og:description" content="本文是鉴权认证相关知识点的方案总结  Basic Auth OAuth 2.0 bearer Token &amp;amp;&amp;amp; MAC Token JWT PKCE：移动应用程序建议使用的扩展   SAML OpenID CAS">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://pic2.zhimg.com/v2-ed3e354747522c4cecb085cf1e9be299_b.jpg">
 <meta property="og:image" content="https://pic1.zhimg.com/v2-4f7bed9443b48356b1cf5ddb7abfbca8_b.jpg">
 <meta property="og:image" content="http://image.zyuchen.com/739dae35197bee1e55b2faa6ccea6d1e.png">
 <meta property="og:image" content="http://image.zyuchen.com/9e5f3838ad1061621f15a69f5159ff09.png">
-<meta property="og:updated_time" content="2018-12-15T16:01:12.000Z">
+<meta property="og:image" content="https://www.biaodianfu.com/wp-content/uploads/2011/08/openid.jpg">
+<meta property="og:updated_time" content="2019-09-10T17:09:02.681Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="鉴权认证方案总结">
-<meta name="twitter:description" content="本文是鉴权认证相关知识点的方案总结  Basic Auth OAuth 2.0 bearer Token &amp;amp;&amp;amp; MAC Token JWT PKCE：移动应用程序建议使用的扩展   SAML OpenID SSO CAS">
+<meta name="twitter:description" content="本文是鉴权认证相关知识点的方案总结  Basic Auth OAuth 2.0 bearer Token &amp;amp;&amp;amp; MAC Token JWT PKCE：移动应用程序建议使用的扩展   SAML OpenID CAS">
 <meta name="twitter:image" content="https://pic2.zhimg.com/v2-ed3e354747522c4cecb085cf1e9be299_b.jpg">
 
 
@@ -127,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="https://shiningdan.github.io/2018/12/06/鉴权认证方案总结/"/>
+  <link rel="canonical" href="https://shiningdan.github.io/2018/12/06/鉴权认证方案总结/">
 
 
 
@@ -136,7 +137,7 @@
   <title> 鉴权认证方案总结 | ShiningDan的博客 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
@@ -167,12 +168,12 @@
   <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-meta ">
   
 
   <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <span class="site-title">ShiningDan的博客</span>
       <span class="logo-line-after"><i></i></span>
@@ -201,7 +202,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             首页
           </a>
@@ -211,7 +212,7 @@
         <li class="menu-item menu-item-photography">
           <a href="/categories/photography" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
             
             摄影
           </a>
@@ -221,7 +222,7 @@
         <li class="menu-item menu-item-coding">
           <a href="/categories/coding" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
             
             编程
           </a>
@@ -231,7 +232,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             标签
           </a>
@@ -244,7 +245,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
             
             搜索
           </a>
@@ -288,18 +289,18 @@
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2018/12/06/鉴权认证方案总结/">
 
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <span style="display:none" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
     <meta itemprop="name" content="ShiningDan">
     <meta itemprop="description" content="">
     <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
   </span>
 
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+  <span style="display:none" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
     <meta itemprop="name" content="ShiningDan的博客">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+    <span style="display:none" itemprop="logo" itemscope="" itemtype="http://schema.org/ImageObject">
       <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
     </span>
   </span>
@@ -339,7 +340,7 @@
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -350,7 +351,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
                   <a href="/categories/coding/" itemprop="url" rel="index">
                     <span itemprop="name">coding</span>
                   </a>
@@ -408,7 +409,7 @@
 
       
         <p>本文是鉴权认证相关知识点的方案总结</p>
-<ol start="6">
+<ol>
 <li>Basic Auth</li>
 <li>OAuth 2.0<ol>
 <li>bearer Token &amp;&amp; MAC Token</li>
@@ -418,7 +419,6 @@
 </li>
 <li>SAML</li>
 <li>OpenID</li>
-<li>SSO</li>
 <li>CAS</li>
 </ol>
 <a id="more"></a>
@@ -428,7 +428,7 @@
 <li>authentication：认证，鉴定：确认访问网络的用户身份，判断访问者是否合法</li>
 <li>authorization：授权，批准：对通过认证的用户，授权其可以使用哪些服</li>
 </ol>
-<h2 id="HTTP-基本认证"><a href="#HTTP-基本认证" class="headerlink" title="HTTP 基本认证"></a>HTTP 基本认证</h2><p>每次请求API时都提供用户的 username 和 password，用 base64 处理特殊字符，进行 URL 安全转换</p>
+<h2 id="Basic-Auth（HTTP-基本认证）"><a href="#Basic-Auth（HTTP-基本认证）" class="headerlink" title="Basic Auth（HTTP 基本认证）"></a>Basic Auth（HTTP 基本认证）</h2><p>每次请求API时都提供用户的 username 和 password，用 base64 处理特殊字符，进行 URL 安全转换</p>
 <h2 id="基于-Session-的认证"><a href="#基于-Session-的认证" class="headerlink" title="基于 Session 的认证"></a>基于 Session 的认证</h2><p>Session 对应的是认证的流程，authentication</p>
 <p>常见的服务端认证方法有基于 Cookie 的认证，如 session；以及 Token （令牌）认证，如 JWT。</p>
 <h2 id="OAuth-2-0，基于-Token-的认证和授权"><a href="#OAuth-2-0，基于-Token-的认证和授权" class="headerlink" title="OAuth 2.0，基于 Token 的认证和授权"></a>OAuth 2.0，基于 Token 的认证和授权</h2><p>官方网站：<a href="https://oauth.net/2/" target="_blank" rel="noopener">OAuth 2.0</a></p>
@@ -509,15 +509,148 @@
 <li>第二种是使用 HTTP POST 进行跳转，附带上用户的信息，但是使用这种方法在移动端的支持不好</li>
 </ol>
 <p>为了实现比较好的获取用户信息的流程，OAuth 的方案是，Service Provider 会去在用户访问的时候，使用 Access-Token 换用户信息。</p>
+<p>还有一个原因，因为这个 token 有可能被黑客截获，如果黑客截获了这个token，那用户的资源也就暴露在这个黑客之下了。</p>
 <h2 id="OpenID"><a href="#OpenID" class="headerlink" title="OpenID"></a>OpenID</h2><p>openID 希望帮用户提供一个身份ID，可以在多个网站用来登录。</p>
 <p>可以理解为 Oauth 的前置流程，跳转到其他的登录系统进行登录。但是登录之后，不会返回 code 码，而是告诉说这个账户是否是合法账户，该站点无权访问你的在被登录系统上的数据</p>
 <p>所以，OpenID 只用于身份认证（Authentication）。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<ol>
+<li>用户希望访问其在<a href="http://example.com的账户" target="_blank" rel="noopener">http://example.com的账户</a></li>
+<li><a href="http://example.com" target="_blank" rel="noopener">http://example.com</a> (在OpenID的黑话里面被称为“Relying Party”) 提示用户输入他/她/它的OpenID</li>
+<li>用户给出了他的OpenID，比如说”<a href="http://user.myopenid.com”" target="_blank" rel="noopener">http://user.myopenid.com”</a></li>
+<li><a href="http://example.com" target="_blank" rel="noopener">http://example.com</a> 跳转到了用户的OpenID提供商“mypopenid.com”</li>
+<li>用户在”myopenid.com”(OpenID provider)提示的界面上输入用户名密码登录</li>
+<li>“myopenid.com” (OpenID provider) 问用户是否要登录到<a href="http://example.com" target="_blank" rel="noopener">http://example.com</a></li>
+<li>用户同意后，”myopenid.com” (OpenID provider) 跳转回<a href="http://example.com" target="_blank" rel="noopener">http://example.com</a></li>
+</ol>
+<p><strong>鉴权流程</strong></p>
+<p><img src="https://www.biaodianfu.com/wp-content/uploads/2011/08/openid.jpg" alt=""></p>
+<ol>
+<li>终端用户请求登录RP网站，用户选择了以OpenID方式来登录</li>
+<li>RP将OpenId的登录界面返回给终端用户</li>
+<li>终端用户以OpenID登陆RP网站</li>
+<li>RP网站对用户的OpenID进行标准化，此过程非常负责。由于OpenID可能是URI，也可能是XRI，所以标准化方式各不相同。具体标准化过程是：如果OpenID以xri://、xri://$ip或者xri://$dns开头，先去掉这些符号；然后对如下的字符串进行判断，如果第一个字符是=、@、+、$、!，则视为标准的XRI，否则视为HTTP URL（若没有http,为其增加http://）。</li>
+<li>RP发现OP，如果OpenId是XRI，就采用XRI解析，如果是URL，则用Yadis协议解析，若Yadis解析失败，则用Http发现。</li>
+<li>RP跟OP建立一个关联。两者之间可以建立一个安全通道，用于传输信息并降低交互次数。</li>
+<li>OP处理RP的关联请求</li>
+<li>RP请求OP对用户身份进行鉴权</li>
+<li>OP对用户鉴权，请求用户进行登录认证</li>
+<li>用户登录OP</li>
+<li>OP将鉴权结果返回给RP</li>
+<li>RP对OP的结果进行分析</li>
+</ol>
+<ul>
+<li><a href="https://www.biaodianfu.com/learn-openid.html" target="_blank" rel="noopener">OpenID学习笔记</a></li>
+<li><a href="https://www.zhihu.com/question/19628327" target="_blank" rel="noopener">OpenID 和 OAuth 有什么区别？</a></li>
+</ul>
+<h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><p><a href="https://apereo.github.io/cas/5.1.x/protocol/CAS-Protocol.html" target="_blank" rel="noopener">CAS Protocol</a></p>
+<p>SSO 仅仅是一种架构，一种设计，而 CAS 则是实现 SSO 的一种手段。两者是抽象与具体的关系。当然，除了 CAS 之外，实现 SSO 还有其他手段，比如简单的 cookie。</p>
+<p>OAuth，SAML，OpenId，OpenId Connect 都可以作为 CAS 的实现方案</p>
+<h2 id="HTTPS-SSL"><a href="#HTTPS-SSL" class="headerlink" title="HTTPS/SSL"></a>HTTPS/SSL</h2><h3 id="HTTPS-的作用"><a href="#HTTPS-的作用" class="headerlink" title="HTTPS 的作用"></a>HTTPS 的作用</h3><ul>
+<li>内容加密 建立一个信息安全通道，来保证数据传输的安全；</li>
+<li>身份认证 确认网站的真实性</li>
+<li>数据完整性 防止内容被第三方冒充或者篡改</li>
+</ul>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>访问一个网站，不是直接到网站的，需要中间有很多的服务器路由器的转发。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">traceroute www.baidu.com</span><br><span class="line">traceroute: Warning: www.baidu.com has multiple addresses; using 61.135.169.125</span><br><span class="line">traceroute to www.a.shifen.com (61.135.169.125), 64 hops max, 52 byte packets</span><br><span class="line"> 1  * 192.168.1.1 (192.168.1.1)  204.744 ms  11.478 ms</span><br><span class="line"> 2  111.196.8.1 (111.196.8.1)  14.976 ms  2.857 ms  3.399 ms</span><br><span class="line"> 3  114.244.94.209 (114.244.94.209)  3.753 ms  12.121 ms  6.658 ms</span><br><span class="line"> 4  124.65.59.29 (124.65.59.29)  6.509 ms</span><br><span class="line">    123.126.9.85 (123.126.9.85)  4.823 ms</span><br><span class="line">    125.33.187.153 (125.33.187.153)  11.348 ms</span><br><span class="line"> 5  202.106.37.46 (202.106.37.46)  4.595 ms</span><br><span class="line">    61.51.117.6 (61.51.117.6)  12.987 ms</span><br><span class="line">    124.65.59.214 (124.65.59.214)  6.392 ms</span><br><span class="line"> 6  123.125.248.46 (123.125.248.46)  4.384 ms</span><br><span class="line">    123.125.248.42 (123.125.248.42)  5.135 ms</span><br><span class="line">    123.125.248.98 (123.125.248.98)  6.298 ms</span><br><span class="line"> 7  * * *</span><br><span class="line"> 8  * * *</span><br></pre></td></tr></table></figure>
+<p>这些个节点，任何一个都可以串改你的信息和发给你的信息。所以需要对传输的内容进行加密，防止中间节点注入、或替换内容</p>
+<p>所以为了安全起见，建议使用 https。</p>
+<h3 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h3><ul>
+<li>HTTPS 协议（HyperText Transfer Protocol over Secure Socket Layer）：可以理解为HTTP+SSL/TLS， 即 HTTP 下加入 SSL 层。应用层生成的内容，加密后，才交给传输层</li>
+<li>SSL（Secure Socket Layer，安全套接字层）：1994年为 Netscape 所研发，SSL 协议位于 TCP/IP 协议与各种应用层协议之间。</li>
+<li>TLS（Transport Layer Security，传输层安全）：其前身是 SSL，它最初的几个版本（SSL 1.0、SSL 2.0、SSL 3.0）。1999年从 3.1 开始被 IETF 标准化并改名，发展至今已经有 TLS 1.0、TLS 1.1、TLS 1.2 三个版本。SSL3.0和TLS1.0由于存在安全漏洞，已经很少被使用到。TLS 1.3 改动会比较大，目前还在草案阶段，目前使用最广泛的是TLS 1.1、TLS 1.2</li>
+</ul>
+<h3 id="加密解密"><a href="#加密解密" class="headerlink" title="加密解密"></a>加密解密</h3><ol>
+<li>首先客户端通过URL访问服务器建立SSL连接。</li>
+<li>服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。</li>
+<li>客户端验证证书，开始协商SSL连接的安全等级，也就是信息加密的等级。</li>
+<li>客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话堆成加密密钥进行加密，并传送给网站。</li>
+<li>服务器利用自己的私钥解密出会话对称加密密钥。（只有私钥能解开）</li>
+<li>服务器利用会话对称加密密钥加密与客户端之间的通信。</li>
+</ol>
+<h4 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h4><p>优点：加密解密速度快</p>
+<p>缺点：</p>
+<ol>
+<li>不同的客户端、服务器数量庞大，所以双方都需要维护大量的密钥，维护成本很高</li>
+<li>因每个客户端、服务器的安全级别不同，密钥极易泄露</li>
+</ol>
+<h4 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h4><p>使用场景：</p>
+<ol>
+<li>公钥加密后只能该用户的私钥才能解密。这种情况下，公钥是用来加密信息的，确保只有特定的人（用谁的公钥就是谁）才能解密该信息。</li>
+<li>公钥是用来解密信息的，确保让别人知道这条信息是真的由我发布的，是完整正确的。接收者由此可知这条信息确实来自于拥有私钥的某人，这被称作数字签名，公钥的形式就是数字证书。谁要证明自己的身份，谁就有私钥（比如给 Github 配置 SSH Key，就是把公钥证书给 Github，然后用户用私钥证明自己的身份）</li>
+</ol>
+<p>私钥加密的消息</p>
+<p>缺点：</p>
+<ol>
+<li>加密解密速度慢</li>
+<li>公钥是公开的（也就是黑客也会有公钥），所以私钥加密的信息，如果被黑客截获，其可以使用公钥进行解密，获取其中的内容</li>
+</ol>
+<p>优点：</p>
+<ol>
+<li>服务端维护一个私钥，成本小</li>
+</ol>
+<h4 id="获得公钥"><a href="#获得公钥" class="headerlink" title="获得公钥"></a>获得公钥</h4><p>遇到的问题：</p>
+<ol>
+<li>客户端如何获得公钥</li>
+<li>如何确认服务器是真实的而不是黑客</li>
+</ol>
+<p>这里就会用到 SSL 证书：</p>
+<p>客户端如何获得公钥：在第 2 步，服务端收到客户端请求后，会将网站支持的证书信息传送一份给客户端，证书中包含公钥。</p>
+<p>证书：</p>
+<ol>
+<li>证书的发布机构CA</li>
+<li>证书的有效期</li>
+<li>公钥</li>
+<li>证书所有者</li>
+<li>签名</li>
+</ol>
+<p>客户验证证书：</p>
+<ol>
+<li>首先浏览器读取证书中的证书所有者、有效期等信息进行一一校验</li>
+<li>浏览器开始查找<strong>操作系统</strong>中已内置的受信任的证书发布机构CA，与服务器发来的证书中的颁发者CA比对，用于校验证书是否为合法机构颁发</li>
+<li>如果找不到，浏览器就会报错，说明服务器发来的证书是不可信任的。</li>
+<li>如果找到，那么浏览器就会从操作系统中取出 颁发者CA 的公钥，然后对服务器发来的证书里面的签名进行解密</li>
+<li>浏览器使用相同的hash算法计算出服务器发来的证书的hash值，将这个计算的hash值与证书中签名做对比</li>
+<li>对比结果一致，则证明服务器发来的证书合法，没有被冒充</li>
+<li>此时浏览器就可以读取证书中的公钥，用于后续加密了</li>
+</ol>
+<h3 id="ATS"><a href="#ATS" class="headerlink" title="ATS"></a>ATS</h3><p>苹果(Apple)公司一向有着对安全性要求极高的著称，如果你申请了SSL证书并且部署到服务器中，但这并不意味SSL部署符合Apple ATS的检测要求，Apple对证书算法、有效期、加密套件、SSL安全漏洞都有极严格的要求。</p>
+<ol>
+<li>允许自签（本地计算机信任），或者受信任的 CA</li>
+<li>TLS 至少 1.2</li>
+<li>对称加密算法要求</li>
+<li>Key 的长度要求</li>
+<li>签发证书的通用名称证书与域名匹配</li>
+</ol>
+<h4 id="详细"><a href="#详细" class="headerlink" title="详细"></a>详细</h4><p>Requirements for Connecting Using ATS<br>With App Transport Security (ATS) fully enabled, the system requires that your app’s HTTP connections use HTTPS and that they satisfy the following security requirements:</p>
+<ol>
+<li><p>The X.509 digital server certificate must meet at least one of the following trust requirements:</p>
+<ol>
+<li><p>Issued by a certificate authority (CA) whose root certificate is incorporated into the operating system</p>
+</li>
+<li><p>Issued by a trusted root CA and installed by the user or a system administrator</p>
+</li>
+</ol>
+</li>
+<li>The negotiated Transport Layer Security (TLS) version must be TLS 1.2. Attempts to connect without TLS/SSL protection, or with an older version of TLS/SSL, are denied by default.</li>
+<li>The connection must use either the AES-128 or AES-256 symmetric cipher. The negotiated TLS connection cipher suite must support perfect forward secrecy (PFS) through Elliptic Curve Diffie-Hellman Ephemeral (ECDHE) key exchange, and must be one of the following:<ol>
+<li>TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</li>
+<li>TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256</li>
+<li>TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384</li>
+<li>…</li>
+</ol>
+</li>
+<li>The leaf server certificate must be signed with one of the following types of keys:<br>Rivest-Shamir-Adleman (RSA) key with a length of at least 2048 bits<br>Elliptic-Curve Cryptography (ECC) key with a size of at least 256 bits</li>
+</ol>
+<h3 id="如何自签"><a href="#如何自签" class="headerlink" title="如何自签"></a>如何自签</h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://tools.ietf.org/html/rfc6749" target="_blank" rel="noopener">The OAuth 2.0 Authorization Framework | IETF</a></li>
 <li><a href="https://oauth.net/2/" target="_blank" rel="noopener">OAuth 2.0</a></li>
 <li><a href="https://www.cnblogs.com/Wddpct/p/8976480.html" target="_blank" rel="noopener">OAuth 2 深入介绍</a></li>
 <li><a href="https://www.ubisecure.com/uncategorized/difference-between-saml-and-oauth/" target="_blank" rel="noopener">The Difference Between SAML 2.0 and OAuth 2.0</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/38942172" target="_blank" rel="noopener">全面了解Token,JWT,OAuth,SAML,SSO</a></li>
+<li><a href="https://apereo.github.io/cas/5.1.x/protocol/CAS-Protocol.html" target="_blank" rel="noopener">CAS Protocol</a></li>
+<li><a href="https://www.biaodianfu.com/learn-openid.html" target="_blank" rel="noopener">OpenID学习笔记</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/27395037" target="_blank" rel="noopener">HTTPS系列干货（一）：HTTPS 原理详解</a></li>
+<li><a href="https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW35" target="_blank" rel="noopener">苹果 ATS 要求</a></li>
 </ul>
 
       
@@ -555,6 +688,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/04/14/初探-React-Native/" rel="prev" title="初探 React Native">
+                初探 React Native <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -579,8 +716,7 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2018/12/06/鉴权认证方案总结/"
-           data-title="鉴权认证方案总结" data-url="https://shiningdan.github.io/2018/12/06/鉴权认证方案总结/">
+      <div class="ds-thread" data-thread-key="2018/12/06/鉴权认证方案总结/" data-title="鉴权认证方案总结" data-url="https://shiningdan.github.io/2018/12/06/鉴权认证方案总结/">
       </div>
     
   </div>
@@ -605,7 +741,7 @@
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -615,10 +751,8 @@
       
 
       <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg"
-               alt="ShiningDan" />
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg" alt="ShiningDan">
           <p class="site-author-name" itemprop="name">ShiningDan</p>
           <p class="site-description motion-element" itemprop="description"></p>
         </div>
@@ -627,7 +761,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">115</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -645,7 +779,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">98</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -680,7 +814,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-基本认证"><span class="nav-number">1.</span> <span class="nav-text">HTTP 基本认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于-Session-的认证"><span class="nav-number">2.</span> <span class="nav-text">基于 Session 的认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-2-0，基于-Token-的认证和授权"><span class="nav-number">3.</span> <span class="nav-text">OAuth 2.0，基于 Token 的认证和授权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OAuth2-角色"><span class="nav-number">3.1.</span> <span class="nav-text">OAuth2 角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OAuth-2-的授权流程"><span class="nav-number">3.2.</span> <span class="nav-text">OAuth 2 的授权流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Client-应用注册"><span class="nav-number">3.2.1.</span> <span class="nav-text">Client 应用注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端的授权模式"><span class="nav-number">3.2.2.</span> <span class="nav-text">客户端的授权模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bearer-Token"><span class="nav-number">3.3.</span> <span class="nav-text">Bearer Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC-Token"><span class="nav-number">3.4.</span> <span class="nav-text">MAC Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT"><span class="nav-number">3.5.</span> <span class="nav-text">JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#应用场景"><span class="nav-number">3.5.1.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PKCE：Proof-Key-for-Code-Exchange-better-security-for-native-apps"><span class="nav-number">3.6.</span> <span class="nav-text">PKCE：Proof Key for Code Exchange, better security for native apps</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SAML"><span class="nav-number">4.</span> <span class="nav-text">SAML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenID"><span class="nav-number">5.</span> <span class="nav-text">OpenID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-Auth（HTTP-基本认证）"><span class="nav-number">1.</span> <span class="nav-text">Basic Auth（HTTP 基本认证）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于-Session-的认证"><span class="nav-number">2.</span> <span class="nav-text">基于 Session 的认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-2-0，基于-Token-的认证和授权"><span class="nav-number">3.</span> <span class="nav-text">OAuth 2.0，基于 Token 的认证和授权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OAuth2-角色"><span class="nav-number">3.1.</span> <span class="nav-text">OAuth2 角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OAuth-2-的授权流程"><span class="nav-number">3.2.</span> <span class="nav-text">OAuth 2 的授权流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Client-应用注册"><span class="nav-number">3.2.1.</span> <span class="nav-text">Client 应用注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端的授权模式"><span class="nav-number">3.2.2.</span> <span class="nav-text">客户端的授权模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bearer-Token"><span class="nav-number">3.3.</span> <span class="nav-text">Bearer Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC-Token"><span class="nav-number">3.4.</span> <span class="nav-text">MAC Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JWT"><span class="nav-number">3.5.</span> <span class="nav-text">JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#应用场景"><span class="nav-number">3.5.1.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PKCE：Proof-Key-for-Code-Exchange-better-security-for-native-apps"><span class="nav-number">3.6.</span> <span class="nav-text">PKCE：Proof Key for Code Exchange, better security for native apps</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SAML"><span class="nav-number">4.</span> <span class="nav-text">SAML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenID"><span class="nav-number">5.</span> <span class="nav-text">OpenID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS"><span class="nav-number">6.</span> <span class="nav-text">CAS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS-SSL"><span class="nav-number">7.</span> <span class="nav-text">HTTPS/SSL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS-的作用"><span class="nav-number">7.1.</span> <span class="nav-text">HTTPS 的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">7.2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协议"><span class="nav-number">7.3.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加密解密"><span class="nav-number">7.4.</span> <span class="nav-text">加密解密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对称加密"><span class="nav-number">7.4.1.</span> <span class="nav-text">对称加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非对称加密"><span class="nav-number">7.4.2.</span> <span class="nav-text">非对称加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获得公钥"><span class="nav-number">7.4.3.</span> <span class="nav-text">获得公钥</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ATS"><span class="nav-number">7.5.</span> <span class="nav-text">ATS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#详细"><span class="nav-number">7.5.1.</span> <span class="nav-text">详细</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何自签"><span class="nav-number">7.6.</span> <span class="nav-text">如何自签</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -698,10 +832,10 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-"></i>
   </span>
