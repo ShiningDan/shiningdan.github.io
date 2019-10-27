@@ -84,18 +84,22 @@
 
 
 
-<meta name="description" content="参考 https://zhuanlan.zhihu.com/p/73414693">
+<meta name="description" content="RBAC 模型 操作系统（Linux 为例）">
 <meta name="keywords" content="权限">
 <meta property="og:type" content="article">
 <meta property="og:title" content="权限系统设计调研文档">
 <meta property="og:url" content="https://shiningdan.github.io/2019/10/20/权限系统设计调研文档/index.html">
 <meta property="og:site_name" content="ShiningDan的博客">
-<meta property="og:description" content="参考 https://zhuanlan.zhihu.com/p/73414693">
+<meta property="og:description" content="RBAC 模型 操作系统（Linux 为例）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-20T16:09:59.909Z">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-f8b10edf44e802639784e68925fab31f_hd.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-849b1bc8476e6f28353800a4cdf5b289_hd.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-454a01f62f5707232d13736f4e88ca28_hd.jpg">
+<meta property="og:updated_time" content="2019-10-27T13:37:18.415Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="权限系统设计调研文档">
-<meta name="twitter:description" content="参考 https://zhuanlan.zhihu.com/p/73414693">
+<meta name="twitter:description" content="RBAC 模型 操作系统（Linux 为例）">
+<meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-f8b10edf44e802639784e68925fab31f_hd.jpg">
 
 
 
@@ -403,7 +407,80 @@
       
 
       
-        <a id="more"></a>
+        <ol>
+<li>RBAC 模型</li>
+<li>操作系统（Linux 为例）</li>
+</ol>
+<a id="more"></a>
+<h2 id="RBAC-模型"><a href="#RBAC-模型" class="headerlink" title="RBAC 模型"></a>RBAC 模型</h2><p>迄今为止最为普及的权限设计模型是RBAC模型,基于角色的访问控制（Role-Based Access Control)</p>
+<h3 id="RBAC0-模型"><a href="#RBAC0-模型" class="headerlink" title="RBAC0 模型"></a>RBAC0 模型</h3><p>最基础也是最核心的模型，包括用户/角色/权限</p>
+<ul>
+<li>用户：发起操作的主体</li>
+<li>角色：连接了用户和权限的关系</li>
+<li>权限：用户可以访问的资源，包括页面权限、操作权限、数据权限</li>
+</ul>
+<p>除此以外，还有两个必不可少的概念，就是操作和资源</p>
+<ul>
+<li>资源：被操作的对象</li>
+<li>操作：对资源的动作。权限代表的即为是否可以对资源进行操作</li>
+</ul>
+<p>基于核心概念之上、RBAC还提供了扩展模式。包括RBAC1、RBAC2、RBAC3模型</p>
+<h3 id="RBAC1-模型"><a href="#RBAC1-模型" class="headerlink" title="RBAC1 模型"></a>RBAC1 模型</h3><p>此模型引入了角色继承(Hierarchical Role)概念，即角色具有上下级的关系</p>
+<p><img src="https://pic4.zhimg.com/80/v2-f8b10edf44e802639784e68925fab31f_hd.jpg" alt=""></p>
+<p>这种设计可以给角色分组和分层，一定程度简化了权限管理工作。</p>
+<h3 id="RBAC2-模型"><a href="#RBAC2-模型" class="headerlink" title="RBAC2 模型"></a>RBAC2 模型</h3><p>基于核心模型的基础上，进行了角色的约束控制,RBAC2模型中添加了责任分离关系：</p>
+<ul>
+<li>互斥角色: 同一用户只能分配到一组互斥角色集合中至多一个角色，支持责任分离的原则。互斥角色是指各自权限互相制约的两个角色。比如财务部有会计和审核员两个角色,他们是互斥角色,那么用户不能同时拥有这两个角色,体现了职责分离原则</li>
+<li>基数约束: 一个角色被分配的用户数量受限；一个用户可拥有的角色数目受限；同样一个角色对应的访问权限数目也应受限，以控制高级权限在系统中的分配</li>
+<li>先决条件角色: 即用户想获得某上级角色,必须先获得其下一级的角色</li>
+</ul>
+<h3 id="RBAC3-模型"><a href="#RBAC3-模型" class="headerlink" title="RBAC3 模型"></a>RBAC3 模型</h3><p>即最全面的权限管理,它是基于 RBAC0，将 RBAC1 和 RBAC2 进行了整合</p>
+<h3 id="包含-组织-职位-用户组-的模型"><a href="#包含-组织-职位-用户组-的模型" class="headerlink" title="包含 组织/职位/用户组 的模型"></a>包含 组织/职位/用户组 的模型</h3><p>用户组一般和组织绑定。有一部分人具有相同的属性，比如财务部的所有员工。如果直接给用户分配角色，管理员的工作量就会很大。如果把相同属性的用户归类到某用户组，那么管理员直接给用户组分配角色，用户组里的每个用户即可拥有该角色，以后其他用户加入用户组后，即可自动获取用户组的所有角色，退出用户组，同时也撤销了用户组下的角色。</p>
+<p>根据用户组是否有上下级关系，可以分为有上下级的用户组和普通用户组：</p>
+<ol>
+<li>具有上下级关系的用户组: 最典型的例子就是组织和职位</li>
+<li>普通用户组: 即没有上下级关系，和组织架构，职位都没有关系。也就是说可以跨部门，跨职位。我们可以设置一个拼团用户组，该组可以包括研发部的后台开发人员，运营部的运营人员，采购部的人员等等。</li>
+</ol>
+<h4 id="组织"><a href="#组织" class="headerlink" title="组织"></a>组织</h4><p>把组织与角色进行关联，用户加入组织后，就会自动获得该组织的全部角色，无须管理员手动授予</p>
+<h4 id="职位"><a href="#职位" class="headerlink" title="职位"></a>职位</h4><p>每个组织部门下都会有多个职位，比如财务部有总监，会计，出纳等职位，虽然都在同一部门，但是每个职位的权限是不同的。职位高的拥有更多的权限。一个人可能身兼多职</p>
+<h4 id="含有组织-职位-用户组的模型"><a href="#含有组织-职位-用户组的模型" class="headerlink" title="含有组织/职位/用户组的模型"></a>含有组织/职位/用户组的模型</h4><p><img src="https://pic2.zhimg.com/80/v2-849b1bc8476e6f28353800a4cdf5b289_hd.jpg" alt=""></p>
+<h4 id="授权流程"><a href="#授权流程" class="headerlink" title="授权流程"></a>授权流程</h4><ol>
+<li>手动授权: 管理员登录权限中心为用户授权,根据在哪个页面授权分为两种方式:给用户添加角色,给角色添加用户。给用户添加角色就是在用户管理页面；给角色添加用户就是在角色管理页面,实现了给批量用户授予角色的目的。</li>
+<li>审批授权: 即用户申请某个职位角色，那么用户通过OA流程申请该角色，然后由上级审批。</li>
+</ol>
+<h4 id="表结构"><a href="#表结构" class="headerlink" title="表结构"></a>表结构</h4><p><img src="https://pic1.zhimg.com/80/v2-454a01f62f5707232d13736f4e88ca28_hd.jpg" alt=""></p>
+<h2 id="操作系统（Linux-为例）"><a href="#操作系统（Linux-为例）" class="headerlink" title="操作系统（Linux 为例）"></a>操作系统（Linux 为例）</h2><p>Linux 操作系统，没有组织架构等维度，所以权限设计相对比较简单。</p>
+<p>在linux中一切都是文件（文件夹和硬件外设是特殊的文件)</p>
+<p>由于一切皆为文件。所以Linux 引入了2个文件来管理用户（组）， <code>/etc/passwd</code> 存放用户，<code>/etc/group</code> 存放组， 然后在文件系统中的每个文件的文件头里面添加了用户和文件之间的关系信息。</p>
+<ol>
+<li>用户和文件的关系只有2种， 拥有和不拥有。</li>
+<li>组和文件的关系只有2种，拥有和不拥有</li>
+<li>用户和组的关系只有2种， 属于和不属于</li>
+</ol>
+<p>将这三种关系叠加，用户和文件的最终关系可以归纳为3类：</p>
+<ol>
+<li>用户拥有该文件</li>
+<li>用户属于某个组， 某个组拥有该文件（即用户通过属于某组来拥有该文件）</li>
+<li>用户不拥有该文件</li>
+</ol>
+<p><strong>在文件的文件头里，则存储了3组信息分别对应上面3类关系</strong></p>
+<ol>
+<li>第一组存放拥有该文件的用户的的权限</li>
+<li>第二组存放拥有该文件的组的权限，（所有属于该组的所有成员都获得此权限）</li>
+<li>第三组存放所有不拥有该文件的用户（等于所有用户减去以上2类用户）所获得权限。</li>
+</ol>
+<p>权限一共有三种读（缩写为r)，写（缩写为w)，执行（缩写为x)</p>
+<h3 id="下面是一个例子"><a href="#下面是一个例子" class="headerlink" title="下面是一个例子"></a>下面是一个例子</h3><p>显示readme.txt的权限信息</p>
+<p><code>r-x-w-rw- tom admin readme.txt</code></p>
+<p>上面的 <code>r-x-w-rw-</code>，每3个字符为一组，分别对应用户，组，其他用户，<code>-</code> 表示无此权限</p>
+<ol>
+<li>用户（缩写为u)的权限：是读(r)和执行(x)</li>
+<li>组（缩写为g)的权限：是写(w)</li>
+<li>其他用户（缩写为o)的权限：是读(r)和写(w)</li>
+</ol>
+<p>用户tom 拥有该文件。组admin拥有该文件</p>
+<p>在实际的应用当中， 我们一般会用应用程序的名字来设置组名</p>
+<p>比如在我的系统中就有mysql组，mongdb组</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://zhuanlan.zhihu.com/p/73414693" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/73414693</a></li>
 </ul>
@@ -571,7 +648,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RBAC-模型"><span class="nav-number">1.</span> <span class="nav-text">RBAC 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC0-模型"><span class="nav-number">1.1.</span> <span class="nav-text">RBAC0 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC1-模型"><span class="nav-number">1.2.</span> <span class="nav-text">RBAC1 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC2-模型"><span class="nav-number">1.3.</span> <span class="nav-text">RBAC2 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC3-模型"><span class="nav-number">1.4.</span> <span class="nav-text">RBAC3 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含-组织-职位-用户组-的模型"><span class="nav-number">1.5.</span> <span class="nav-text">包含 组织/职位/用户组 的模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#组织"><span class="nav-number">1.5.1.</span> <span class="nav-text">组织</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#职位"><span class="nav-number">1.5.2.</span> <span class="nav-text">职位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#含有组织-职位-用户组的模型"><span class="nav-number">1.5.3.</span> <span class="nav-text">含有组织/职位/用户组的模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授权流程"><span class="nav-number">1.5.4.</span> <span class="nav-text">授权流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表结构"><span class="nav-number">1.5.5.</span> <span class="nav-text">表结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统（Linux-为例）"><span class="nav-number">2.</span> <span class="nav-text">操作系统（Linux 为例）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下面是一个例子"><span class="nav-number">2.1.</span> <span class="nav-text">下面是一个例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
