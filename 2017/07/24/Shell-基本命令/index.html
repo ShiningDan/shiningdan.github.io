@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/c505746b69951a6a7f7f55c1d223161d.png">
 <meta property="og:image" content="http://ojt6zsxg2.bkt.clouddn.com/35730fac98a30beafbb705618109bde2.png">
-<meta property="og:updated_time" content="2017-07-25T16:17:01.000Z">
+<meta property="og:updated_time" content="2019-11-03T07:31:34.869Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shell 基本命令">
 <meta name="twitter:description" content="本文记录的是一些基本的 Shell 命令，仅供自己参考">
@@ -416,10 +416,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps aux # 查看系统所有的进程数据  </span><br><span class="line">ps ax # 查看不与terminal有关的所有进程  </span><br><span class="line">ps -lA # 查看系统所有的进程数据  </span><br><span class="line">ps axjf # 查看连同一部分进程树状态</span><br></pre></td></tr></table></figure>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/c505746b69951a6a7f7f55c1d223161d.png" alt=""></p>
 <p>其中显示了：</p>
-<p>USER 哪个用户启动了这个命令<br>PID 进程ID<br>CPU CPU占用率<br>MEM 内存使用量<br>VSZ 如果一个程序完全驻留在内存的话需要占用多少内存空间<br>RSS 当前实际占用了多少内存<br>TTY: 终端的次要装置号码 (minor device number of tty)<br>STAT 进程当前的状态(“S”:中断 sleeping,进程处在睡眠状态,表明这些进程在等待某些事件发生–可能是用户输入或者系统资源的可用性;”D”:不可中断 uninterruptible sleep;”R”:运行 runnable;”T”:停止 traced or stopped;”Z”:僵死 a defunct zombie process)<br>START 启动命令的时间点<br>TIME 进程执行起到现在总的CPU暂用时间<br>COMMAND 启动这个进程的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">USER 哪个用户启动了这个命令</span><br><span class="line">PID 进程ID</span><br><span class="line">CPU CPU占用率</span><br><span class="line">MEM 内存使用量</span><br><span class="line">VSZ 如果一个程序完全驻留在内存的话需要占用多少内存空间</span><br><span class="line">RSS 当前实际占用了多少内存</span><br><span class="line">TTY: 终端的次要装置号码 (minor device number of tty)</span><br><span class="line">STAT 进程当前的状态(&quot;S&quot;:中断 sleeping,进程处在睡眠状态,表明这些进程在等待某些事件发生--可能是用户输入或者系统资源的可用性;&quot;D&quot;:不可中断 uninterruptible sleep;&quot;R&quot;:运行 runnable;&quot;T&quot;:停止 traced or stopped;&quot;Z&quot;:僵死 a defunct zombie process)</span><br><span class="line">START 启动命令的时间点</span><br><span class="line">TIME 进程执行起到现在总的CPU暂用时间</span><br><span class="line">COMMAND 启动这个进程的命令</span><br></pre></td></tr></table></figure>
 <p><img src="http://ojt6zsxg2.bkt.clouddn.com/35730fac98a30beafbb705618109bde2.png" alt=""></p>
 <p>其中显示了：</p>
-<p>UID 用户号<br>PID 进程ID<br>PPID 父进程号<br>C CPU占用率<br>TTY 终端的次要装置号码 (minor device number of tty)<br>TIME 进程执行起到现在总的CPU暂用时间<br>COMMAND 启动这个进程的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">UID 用户号</span><br><span class="line">PID 进程ID</span><br><span class="line">PPID 父进程号</span><br><span class="line">C CPU占用率</span><br><span class="line">TTY 终端的次要装置号码 (minor device number of tty)</span><br><span class="line">TIME 进程执行起到现在总的CPU暂用时间</span><br><span class="line">COMMAND 启动这个进程的命令</span><br></pre></td></tr></table></figure>
 <h3 id="jps-命令"><a href="#jps-命令" class="headerlink" title="jps 命令"></a>jps 命令</h3><p>jps位于jdk的bin目录下，其作用是显示当前系统的java进程情况，及其id号。 jps相当于Solaris进程工具ps。</p>
 <h3 id="kill命令"><a href="#kill命令" class="headerlink" title="kill命令"></a>kill命令</h3><p>该命令用于向某个工作（%jobnumber）或者是某个PID（数字）传送一个信号</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">kill -signal PID  </span><br><span class="line"></span><br><span class="line">1：SIGHUP，启动被终止的进程  </span><br><span class="line">2：SIGINT，相当于输入ctrl+c，中断一个程序的进行  </span><br><span class="line">9：SIGKILL，强制中断一个进程的进行  </span><br><span class="line">15：SIGTERM，以正常的结束进程方式来终止进程  </span><br><span class="line">17：SIGSTOP，相当于输入ctrl+z，暂停一个进程的进行</span><br></pre></td></tr></table></figure>
@@ -565,7 +565,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">119</span>
+                <span class="site-state-item-count">120</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -583,7 +583,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">103</span>
+                <span class="site-state-item-count">105</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
