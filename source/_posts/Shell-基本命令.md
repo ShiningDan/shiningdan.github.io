@@ -1,4 +1,4 @@
-﻿---
+---
 title: Shell 基本命令
 date: 2017-07-24 17:47:26
 categories: coding
@@ -72,7 +72,8 @@ ps axjf # 查看连同一部分进程树状态
 ![](http://ojt6zsxg2.bkt.clouddn.com/c505746b69951a6a7f7f55c1d223161d.png)
 
 其中显示了：
- 
+
+``` 
 USER 哪个用户启动了这个命令
 PID 进程ID
 CPU CPU占用率
@@ -84,11 +85,13 @@ STAT 进程当前的状态("S":中断 sleeping,进程处在睡眠状态,表明�
 START 启动命令的时间点
 TIME 进程执行起到现在总的CPU暂用时间
 COMMAND 启动这个进程的命令
+```
 
 ![](http://ojt6zsxg2.bkt.clouddn.com/35730fac98a30beafbb705618109bde2.png)
 
 其中显示了：
 
+```
 UID 用户号
 PID 进程ID
 PPID 父进程号
@@ -96,6 +99,7 @@ C CPU占用率
 TTY 终端的次要装置号码 (minor device number of tty)
 TIME 进程执行起到现在总的CPU暂用时间
 COMMAND 启动这个进程的命令
+```
 
 ### jps 命令
 
