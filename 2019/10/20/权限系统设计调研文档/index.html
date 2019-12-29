@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-f8b10edf44e802639784e68925fab31f_hd.jpg">
 <meta property="og:image" content="https://pic2.zhimg.com/80/v2-849b1bc8476e6f28353800a4cdf5b289_hd.jpg">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-454a01f62f5707232d13736f4e88ca28_hd.jpg">
-<meta property="og:updated_time" content="2019-10-27T13:37:18.415Z">
+<meta property="og:updated_time" content="2019-11-30T16:42:17.011Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="权限系统设计调研文档">
 <meta name="twitter:description" content="RBAC 模型 操作系统（Linux 为例）">
@@ -413,6 +413,7 @@
 </ol>
 <a id="more"></a>
 <h2 id="RBAC-模型"><a href="#RBAC-模型" class="headerlink" title="RBAC 模型"></a>RBAC 模型</h2><p>迄今为止最为普及的权限设计模型是RBAC模型,基于角色的访问控制（Role-Based Access Control)</p>
+<p><strong>RBAC支持三个著名的安全原则：最小权限原则，责任分离原则和数据抽象原则。 </strong></p>
 <h3 id="RBAC0-模型"><a href="#RBAC0-模型" class="headerlink" title="RBAC0 模型"></a>RBAC0 模型</h3><p>最基础也是最核心的模型，包括用户/角色/权限</p>
 <ul>
 <li>用户：发起操作的主体</li>
@@ -449,6 +450,28 @@
 <li>审批授权: 即用户申请某个职位角色，那么用户通过OA流程申请该角色，然后由上级审批。</li>
 </ol>
 <h4 id="表结构"><a href="#表结构" class="headerlink" title="表结构"></a>表结构</h4><p><img src="https://pic1.zhimg.com/80/v2-454a01f62f5707232d13736f4e88ca28_hd.jpg" alt=""></p>
+<p><strong>根据这个表结构，我们可以看到，一个完整的 RBAC3 模型，用户可以绑定三个关联：</strong></p>
+<ol>
+<li>用户 - 组织 - 权限关联</li>
+<li>用户 - 身份 - 权限关联</li>
+<li>用户 - 用户组 - 权限关联</li>
+</ol>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>RBAC 解决方案，主要分为两部分</p>
+<h4 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h4><p>主要是为相关 API 添加权限相关的代码。权限控制一般分为以下几种情况：</p>
+<ol>
+<li>URL鉴权</li>
+<li>API鉴权（主要是系统间的调用）</li>
+<li>前端模板控制（根据权限渲染不同的前端界面）</li>
+<li>菜单树控制（根据权限生成页面的树状结构）</li>
+<li>SQL查询（行/列 级权限）</li>
+</ol>
+<h4 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h4><p>约70%的工作量，处理权限的分配、管理问题。目前常用的权限分配有以下几种：</p>
+<ol>
+<li>手动授权（管理后台手动授予某人某角色，或进行摘除）</li>
+<li>动态组授权（通过 人/部门/职级/岗位/员工类型/岗位 等数十种条件自由组合，根据员工入转调离的动作，自动进行授权）</li>
+<li>API授权（通过API进行角色的授予，摘除）</li>
+<li>审批流授权</li>
+</ol>
 <h2 id="操作系统（Linux-为例）"><a href="#操作系统（Linux-为例）" class="headerlink" title="操作系统（Linux 为例）"></a>操作系统（Linux 为例）</h2><p>Linux 操作系统，没有组织架构等维度，所以权限设计相对比较简单。</p>
 <p>在linux中一切都是文件（文件夹和硬件外设是特殊的文件)</p>
 <p>由于一切皆为文件。所以Linux 引入了2个文件来管理用户（组）， <code>/etc/passwd</code> 存放用户，<code>/etc/group</code> 存放组， 然后在文件系统中的每个文件的文件头里面添加了用户和文件之间的关系信息。</p>
@@ -599,7 +622,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">121</span>
+                <span class="site-state-item-count">122</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -617,7 +640,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">109</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -652,7 +675,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RBAC-模型"><span class="nav-number">1.</span> <span class="nav-text">RBAC 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC0-模型"><span class="nav-number">1.1.</span> <span class="nav-text">RBAC0 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC1-模型"><span class="nav-number">1.2.</span> <span class="nav-text">RBAC1 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC2-模型"><span class="nav-number">1.3.</span> <span class="nav-text">RBAC2 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC3-模型"><span class="nav-number">1.4.</span> <span class="nav-text">RBAC3 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含-组织-职位-用户组-的模型"><span class="nav-number">1.5.</span> <span class="nav-text">包含 组织/职位/用户组 的模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#组织"><span class="nav-number">1.5.1.</span> <span class="nav-text">组织</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#职位"><span class="nav-number">1.5.2.</span> <span class="nav-text">职位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#含有组织-职位-用户组的模型"><span class="nav-number">1.5.3.</span> <span class="nav-text">含有组织/职位/用户组的模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授权流程"><span class="nav-number">1.5.4.</span> <span class="nav-text">授权流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表结构"><span class="nav-number">1.5.5.</span> <span class="nav-text">表结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统（Linux-为例）"><span class="nav-number">2.</span> <span class="nav-text">操作系统（Linux 为例）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下面是一个例子"><span class="nav-number">2.1.</span> <span class="nav-text">下面是一个例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RBAC-模型"><span class="nav-number">1.</span> <span class="nav-text">RBAC 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC0-模型"><span class="nav-number">1.1.</span> <span class="nav-text">RBAC0 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC1-模型"><span class="nav-number">1.2.</span> <span class="nav-text">RBAC1 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC2-模型"><span class="nav-number">1.3.</span> <span class="nav-text">RBAC2 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC3-模型"><span class="nav-number">1.4.</span> <span class="nav-text">RBAC3 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含-组织-职位-用户组-的模型"><span class="nav-number">1.5.</span> <span class="nav-text">包含 组织/职位/用户组 的模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#组织"><span class="nav-number">1.5.1.</span> <span class="nav-text">组织</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#职位"><span class="nav-number">1.5.2.</span> <span class="nav-text">职位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#含有组织-职位-用户组的模型"><span class="nav-number">1.5.3.</span> <span class="nav-text">含有组织/职位/用户组的模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#授权流程"><span class="nav-number">1.5.4.</span> <span class="nav-text">授权流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表结构"><span class="nav-number">1.5.5.</span> <span class="nav-text">表结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案"><span class="nav-number">1.6.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#权限控制"><span class="nav-number">1.6.1.</span> <span class="nav-text">权限控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#权限管理"><span class="nav-number">1.6.2.</span> <span class="nav-text">权限管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统（Linux-为例）"><span class="nav-number">2.</span> <span class="nav-text">操作系统（Linux 为例）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下面是一个例子"><span class="nav-number">2.1.</span> <span class="nav-text">下面是一个例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
