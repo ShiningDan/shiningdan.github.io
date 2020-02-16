@@ -1,0 +1,1028 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Element-ui,源码学习,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="本文是 Element 的组件源码学习系列。 项目源码：ElemeFE/element | GitHub，Tag：v2.13.0 Row &amp;amp; Col 组件使用文档：Layout 布局 .vue 文件：/packages/col .vue 文件：/packages/row .scss 文件：/packages/theme-chalk/col.scss .scss 文件：/packages/t">
+<meta name="keywords" content="Element-ui,源码学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一天一个 Element 组件 - Row &amp; Col">
+<meta property="og:url" content="https://shiningdan.github.io/2020/01/12/一天一个-Element-组件-Row-Col/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文是 Element 的组件源码学习系列。 项目源码：ElemeFE/element | GitHub，Tag：v2.13.0 Row &amp;amp; Col 组件使用文档：Layout 布局 .vue 文件：/packages/col .vue 文件：/packages/row .scss 文件：/packages/theme-chalk/col.scss .scss 文件：/packages/t">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-01-25T16:14:52.294Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一天一个 Element 组件 - Row &amp; Col">
+<meta name="twitter:description" content="本文是 Element 的组件源码学习系列。 项目源码：ElemeFE/element | GitHub，Tag：v2.13.0 Row &amp;amp; Col 组件使用文档：Layout 布局 .vue 文件：/packages/col .vue 文件：/packages/row .scss 文件：/packages/theme-chalk/col.scss .scss 文件：/packages/t">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2020/01/12/一天一个-Element-组件-Row-Col/">
+
+
+
+
+
+  <title> 一天一个 Element 组件 - Row & Col | ShiningDan的博客 </title>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2020/01/12/一天一个-Element-组件-Row-Col/">
+
+  <span style="display:none" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope="" itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                一天一个 Element 组件 - Row & Col
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-12T16:27:15+08:00">
+                2020-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/01/12/一天一个-Element-组件-Row-Col/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/01/12/一天一个-Element-组件-Row-Col/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2020/01/12/一天一个-Element-组件-Row-Col/" class="leancloud_visitors" data-flag-title="一天一个 Element 组件 - Row & Col">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是 Element 的组件源码学习系列。</p>
+<p>项目源码：<a href="https://github.com/ElemeFE/element/tree/v2.13.0" target="_blank" rel="noopener">ElemeFE/element | GitHub</a>，Tag：v2.13.0</p>
+<p>Row &amp; Col 组件使用文档：<a href="https://element.eleme.io/2.13/#/zh-CN/component/layout" target="_blank" rel="noopener">Layout 布局</a></p>
+<p>.vue 文件：<a href="https://github.com/ElemeFE/element/tree/dev/packages/col" target="_blank" rel="noopener"><code>/packages/col</code></a></p>
+<p>.vue 文件：<a href="https://github.com/ElemeFE/element/tree/dev/packages/row" target="_blank" rel="noopener"><code>/packages/row</code></a></p>
+<p>.scss 文件：<a href="https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/col.scss" target="_blank" rel="noopener"><code>/packages/theme-chalk/col.scss</code></a></p>
+<p>.scss 文件：<a href="https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/row.scss" target="_blank" rel="noopener"><code>/packages/theme-chalk/row.scss</code></a></p>
+<p>.d.ts 文件：<a href="https://github.com/ElemeFE/element/blob/dev/types/col.d.ts" target="_blank" rel="noopener"><code>/types/col.d.ts</code></a></p>
+<p>.d.ts 文件：<a href="https://github.com/ElemeFE/element/blob/dev/types/row.d.ts" target="_blank" rel="noopener"><code>/types/row.d.ts</code></a></p>
+<a id="more"></a>
+<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><p>首先我们来看一下 <code>el-row</code> 的 Props，了解使用这个组件的入参：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	render(h) &#123;</span><br><span class="line">		return h(this.tag, &#123;</span><br><span class="line">		  class: [</span><br><span class="line">		    &apos;el-row&apos;,</span><br><span class="line">		    this.justify !== &apos;start&apos; ? `is-justify-$&#123;this.justify&#125;` : &apos;&apos;,</span><br><span class="line">		    this.align !== &apos;top&apos; ? `is-align-$&#123;this.align&#125;` : &apos;&apos;,</span><br><span class="line">		    &#123; &apos;el-row--flex&apos;: this.type === &apos;flex&apos; &#125;</span><br><span class="line">		  ],</span><br><span class="line">		  style: this.style</span><br><span class="line">		&#125;, this.$slots.default);</span><br><span class="line">	&#125;,</span><br><span class="line">	props: &#123;</span><br><span class="line">		tag: &#123;</span><br><span class="line">		  type: String,</span><br><span class="line">		  default: &apos;div&apos;</span><br><span class="line">		&#125;,</span><br><span class="line">		gutter: Number,</span><br><span class="line">		type: String,</span><br><span class="line">		justify: &#123;</span><br><span class="line">		  type: String,</span><br><span class="line">		  default: &apos;start&apos;</span><br><span class="line">		&#125;,</span><br><span class="line">		align: &#123;</span><br><span class="line">		  type: String,</span><br><span class="line">		  default: &apos;top&apos;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先，看这个组件使用的是 <code>render</code> 方法，还是之前比较流行的写法，现在的模板大部分都使用 <code>template</code> 标签了。</p>
+<h3 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h3><p><code>tag</code> 是用来自定义元素标签的，默认情况下使用的是 <code>&lt;div&gt;</code> 元素。</p>
+<p><code>el-row</code> 和 <code>el-col</code> 本质上是 CSS <code>flexbox</code> 的属性封装，所以能使用 <code>flexbox</code> 的标签，都可以作为 <code>tag</code> 属性传入，来替换 <code>&lt;div&gt;</code> 元素。常见的场景，是 C 端 SEO，要提供语义化的 HTML 标签，这个使用就可以使用 <code>tag</code></p>
+<h3 id="gutter"><a href="#gutter" class="headerlink" title="gutter"></a>gutter</h3><p><code>gutter</code> 用来指定每一栏之间的间隔，默认是 0。</p>
+<p>在 <code>el-row</code> 上设置了 <code>gutter</code> 属性后，会影响该 <code>row</code> 下面所有 <code>el-col</code> 元素，我们来看一下怎么实现的：</p>
+<p>首先，我们来看一下 <code>el-col</code> 的相关代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">	gutter() &#123;</span><br><span class="line">	  let parent = this.$parent;</span><br><span class="line">	  while (parent &amp;&amp; parent.$options.componentName !== &apos;ElRow&apos;) &#123;</span><br><span class="line">	    parent = parent.$parent;</span><br><span class="line">	  &#125;</span><br><span class="line">	  return parent ? parent.gutter : 0;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br><span class="line">render(h) &#123;</span><br><span class="line">    let style = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    if (this.gutter) &#123;</span><br><span class="line">      style.paddingLeft = this.gutter / 2 + &apos;px&apos;;</span><br><span class="line">      style.paddingRight = style.paddingLeft;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个 <code>el-row</code> 组件的 <code>gutter</code> 属性，是通过它的父元素，或者祖先元素中最近的一个 <code>el-row</code> 组件决定的。首先，拿到最近的 <code>el-row</code> 组件，然后获得该组件的 <code>gutter</code> 配置。</p>
+<p>在渲染的时候，由于 <code>gutter</code> 指的是两个 <code>col</code> 组件之间的总距离，所以映射到每一个 <code>el-col</code> 上，设置为 <code>padding-left</code> 和 <code>padding-right</code> 分为为二分之一。</p>
+<p><strong>注意！！如果第一个 el-col 的左侧也有二分之一 gutter 的长度，是不符合我们的预期的。</strong>因为第一个 <code>el-col</code> 应该是最左边没有边距的。</p>
+<p>所以我们需要在 <code>el-row</code> 上面做文章，将第一个 <code>el-col</code> 的 <code>paddingLeft</code> 抵消掉。由于 <code>padding</code> 的值，不能设置为负数，参考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding" target="_blank" rel="noopener">padding | MDN</a>，所以我们只能将 <code>el-row</code> 的外边距设置为负数，来抵消第一个 <code>el-col</code> 的 <code>paddingLeft</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">	style() &#123;</span><br><span class="line">	  const ret = &#123;&#125;;</span><br><span class="line">	  if (this.gutter) &#123;</span><br><span class="line">	    ret.marginLeft = `-$&#123;this.gutter / 2&#125;px`;</span><br><span class="line">	    ret.marginRight = ret.marginLeft;</span><br><span class="line">	  &#125;</span><br><span class="line">	  return ret;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>(PS：</p>
+<p>我本人对于 <code>gutter</code> 在 <code>el-col</code> 上的实现方案，有一些疑问。我觉得 <code>gutter</code> 的实现方案，在 <code>el-col</code> 上，应该使用 <code>marginLeft</code> 和 <code>marginRight</code>。因为如果对 <code>el-col</code> 设置了背景颜色的话，使用 <code>padding</code> 的实现方法，间隔栏也会被染色，这个是不符合预期的。</p>
+<p>当然这个问题也很好解决。需要我们对 <code>el-col</code> 的定位，是负责布局控制。而业务相关的设置，比如背景颜色，不应该直接设置在 <code>el-col</code> 上，而是在 <code>el-col</code> 中再包裹 <code>div</code> 元素，设置在 <code>div</code> 元素上，则间隔栏就不会被染色了。</p>
+<h3 id="span-amp-offset-amp-pull-amp-push"><a href="#span-amp-offset-amp-pull-amp-push" class="headerlink" title="span &amp; offset &amp; pull &amp; push"></a>span &amp; offset &amp; pull &amp; push</h3><p><code>span</code> 属性是用来控制一个 <code>el-col</code> 栅格的宽度的。我们来看一下实现方案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[&apos;span&apos;, &apos;offset&apos;, &apos;pull&apos;, &apos;push&apos;].forEach(prop =&gt; &#123;</span><br><span class="line">  if (this[prop] || this[prop] === 0) &#123;</span><br><span class="line">    classList.push(</span><br><span class="line">      prop !== &apos;span&apos;</span><br><span class="line">        ? `el-col-$&#123;prop&#125;-$&#123;this[prop]&#125;`</span><br><span class="line">        : `el-col-$&#123;this[prop]&#125;`</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里把 <code>span &amp; offset &amp; pull &amp; push</code> 放在一起写，是因为这几个属性，背后的原理都是一样的，控制 HTML 元素的 CSS 属性。下面我们来一起看一下相关的 SCSS 实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[class*=&quot;el-col-&quot;] &#123;</span><br><span class="line">  float: left;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.el-col-0 &#123;</span><br><span class="line">  display: none;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@for $i from 0 through 24 &#123;</span><br><span class="line">  .el-col-#&#123;$i&#125; &#123;</span><br><span class="line">    width: (1 / 24 * $i * 100) * 1%;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .el-col-offset-#&#123;$i&#125; &#123;</span><br><span class="line">    margin-left: (1 / 24 * $i * 100) * 1%;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .el-col-pull-#&#123;$i&#125; &#123;</span><br><span class="line">    position: relative;</span><br><span class="line">    right: (1 / 24 * $i * 100) * 1%;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  .el-col-push-#&#123;$i&#125; &#123;</span><br><span class="line">    position: relative;</span><br><span class="line">    left: (1 / 24 * $i * 100) * 1%;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们来依次看下：</p>
+<ol>
+<li>所有的 <code>el-col</code> 都设置了 <code>float: left</code>，来实现在一个 <code>el-row</code> 中从左到右的顺序排列。并且设置了 <code>box-sizing: border-box</code>，这样方便对于宽度进行较为精确的控制，不会受到 <code>padding</code> 和 <code>border</code> 的宽度影响。</li>
+<li><code>span</code> 值的实现，当等于 <code>0</code> 的时候，实现方案是 <code>display: none</code>。当不等于 0 的时候，通过 <code>width</code> 设置的百分比。</li>
+<li><code>offset</code> 是通过 margin 来实现的偏移量。</li>
+</ol>
+<h3 id="type-flex"><a href="#type-flex" class="headerlink" title="type=flex"></a>type=flex</h3><p>通过在 <code>el-row</code> 上设置 <code>type=flex</code>，可以使用 flexbox 的布局能力。我们来看一下具体的实现方案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">render(h) &#123;</span><br><span class="line">	return h(this.tag, &#123;</span><br><span class="line">	  class: [</span><br><span class="line">	    &apos;el-row&apos;,</span><br><span class="line">	    this.justify !== &apos;start&apos; ? `is-justify-$&#123;this.justify&#125;` : &apos;&apos;,</span><br><span class="line">	    this.align !== &apos;top&apos; ? `is-align-$&#123;this.align&#125;` : &apos;&apos;,</span><br><span class="line">	    &#123; &apos;el-row--flex&apos;: this.type === &apos;flex&apos; &#125;</span><br><span class="line">	  ],</span><br><span class="line">	  style: this.style</span><br><span class="line">	&#125;, this.$slots.default);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即，通过设置 <code>type=flex</code> 来开启 <code>flexbox</code> 布局，然后设置 <code>justify</code> 来配置 CSS <code>justify-content</code> 属性，以及 设置 <code>align</code> 来配置 <code>align-items</code> 属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">@include m(flex) &#123;</span><br><span class="line">	display: flex;</span><br><span class="line">	&amp;:before,</span><br><span class="line">	&amp;:after &#123;</span><br><span class="line">	  display: none;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@include when(justify-center) &#123;</span><br><span class="line">	  justify-content: center;</span><br><span class="line">	&#125;</span><br><span class="line">	@include when(justify-end) &#123;</span><br><span class="line">	  justify-content: flex-end;</span><br><span class="line">	&#125;</span><br><span class="line">	@include when(justify-space-between) &#123;</span><br><span class="line">	  justify-content: space-between;</span><br><span class="line">	&#125;</span><br><span class="line">	@include when(justify-space-around) &#123;</span><br><span class="line">	  justify-content: space-around;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@include when(align-middle) &#123;</span><br><span class="line">	  align-items: center;</span><br><span class="line">	&#125;</span><br><span class="line">	@include when(align-bottom) &#123;</span><br><span class="line">	  align-items: flex-end;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>参照了 Bootstrap 的 响应式设计，预设了五个响应尺寸：<code>xs</code>、<code>sm</code>、<code>md</code>、<code>lg</code> 和 <code>xl</code>。</p>
+<p>我们来看一下怎么实现的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[&apos;xs&apos;, &apos;sm&apos;, &apos;md&apos;, &apos;lg&apos;, &apos;xl&apos;].forEach(size =&gt; &#123;</span><br><span class="line">  if (typeof this[size] === &apos;number&apos;) &#123;</span><br><span class="line">    classList.push(`el-col-$&#123;size&#125;-$&#123;this[size]&#125;`);</span><br><span class="line">  &#125; else if (typeof this[size] === &apos;object&apos;) &#123;</span><br><span class="line">    let props = this[size];</span><br><span class="line">    Object.keys(props).forEach(prop =&gt; &#123;</span><br><span class="line">      classList.push(</span><br><span class="line">        prop !== &apos;span&apos;</span><br><span class="line">          ? `el-col-$&#123;size&#125;-$&#123;prop&#125;-$&#123;props[prop]&#125;`</span><br><span class="line">          : `el-col-$&#123;size&#125;-$&#123;props[prop]&#125;`</span><br><span class="line">      );</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们用 <code>xs</code> 属性来举例。</p>
+<p>xs：<code>&lt;768px</code> 响应式栅格数或者栅格属性对象</p>
+<p>首先，当 <code>el-col</code> 设置了 <code>xs</code> 属性后，通过上面的 JS 代码，给 <code>el-col</code> 添加了相关的 CSS 类。我们来看一下这个类是怎么实现的呢。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@include res(xs) &#123;</span><br><span class="line">  .el-col-xs-0 &#123;</span><br><span class="line">    display: none;</span><br><span class="line">  &#125;</span><br><span class="line">  @for $i from 0 through 24 &#123;</span><br><span class="line">    .el-col-xs-#&#123;$i&#125; &#123;</span><br><span class="line">      width: (1 / 24 * $i * 100) * 1%;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .el-col-xs-offset-#&#123;$i&#125; &#123;</span><br><span class="line">      margin-left: (1 / 24 * $i * 100) * 1%;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .el-col-xs-pull-#&#123;$i&#125; &#123;</span><br><span class="line">      position: relative;</span><br><span class="line">      right: (1 / 24 * $i * 100) * 1%;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .el-col-xs-push-#&#123;$i&#125; &#123;</span><br><span class="line">      position: relative;</span><br><span class="line">      left: (1 / 24 * $i * 100) * 1%;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个 <code>@include</code> 里面，好像和 <code>span</code> 的设置没有什么不同，都是对于 <code>el-col</code> 的宽度进行修改。那 <code>xs</code> 的设置，如何触发祥响应式相关的设置呢？关键在 <code>res(xs)</code> 的 <code>res</code> 这个函数上。</p>
+<p>在 <code>col.scss</code> 中，一开始引入了两个文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@import &quot;./common/var.scss&quot;;</span><br><span class="line">@import &quot;./mixins/mixins.scss&quot;;</span><br></pre></td></tr></table></figure>
+<p><code>res</code> 函数的定义就可以在这两个文件中找到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// ./mixins/mixins.scss</span><br><span class="line">@mixin res($key, $map: $--breakpoints) &#123;</span><br><span class="line">  // 循环断点Map，如果存在则返回</span><br><span class="line">  @if map-has-key($map, $key) &#123;</span><br><span class="line">    @media only screen and #&#123;inspect(map-get($map, $key))&#125; &#123;</span><br><span class="line">      @content;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; @else &#123;</span><br><span class="line">    @warn &quot;Undefeined points: `#&#123;$map&#125;`&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ./common/var.scss</span><br><span class="line">$--breakpoints: (</span><br><span class="line">  &apos;xs&apos; : (max-width: $--sm - 1),</span><br><span class="line">  &apos;sm&apos; : (min-width: $--sm),</span><br><span class="line">  &apos;md&apos; : (min-width: $--md),</span><br><span class="line">  &apos;lg&apos; : (min-width: $--lg),</span><br><span class="line">  &apos;xl&apos; : (min-width: $--xl)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">$--sm: 768px !default;</span><br><span class="line">$--md: 992px !default;</span><br><span class="line">$--lg: 1200px !default;</span><br><span class="line">$--xl: 1920px !default;</span><br></pre></td></tr></table></figure>
+<p>当调用 <code>res(xs)</code> 的时候，<code>$key</code> 就是 <code>xs</code>，<code>$map</code> 使用的是默认值 <code>$--breakpoints</code>，也就是 <code>./common/var.scss</code> 中预先定义的响应式布局中常用的几种宽度。然后 <code>res</code> 函数会通过设置 <code>@media only screen</code> 的 CSS 属性，来实现响应式的能力。所以，<code>el-col</code> 的实现，本质上也是通过设置 <code>@media</code> 属性来实现的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Element-ui/" rel="tag"># Element-ui</a>
+          
+            <a href="/tags/源码学习/" rel="tag"># 源码学习</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/09/一天一个-Element-组件-Link/" rel="next" title="一天一个 Element 组件 - Link">
+                <i class="fa fa-chevron-left"></i> 一天一个 Element 组件 - Link
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/30/一天一个-Element-组件-Tag/" rel="prev" title="一天一个 Element 组件 - Tag">
+                一天一个 Element 组件 - Tag <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/01/12/一天一个-Element-组件-Row-Col/" data-title="一天一个 Element 组件 - Row & Col" data-url="https://shiningdan.github.io/2020/01/12/一天一个-Element-组件-Row-Col/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg" alt="ShiningDan">
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">128</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">111</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Props"><span class="nav-number">1.</span> <span class="nav-text">Props</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tag"><span class="nav-number">1.1.</span> <span class="nav-text">tag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gutter"><span class="nav-number">1.2.</span> <span class="nav-text">gutter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#span-amp-offset-amp-pull-amp-push"><span class="nav-number">1.3.</span> <span class="nav-text">span &amp; offset &amp; pull &amp; push</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type-flex"><span class="nav-number">1.4.</span> <span class="nav-text">type=flex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应式布局"><span class="nav-number">1.5.</span> <span class="nav-text">响应式布局</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
