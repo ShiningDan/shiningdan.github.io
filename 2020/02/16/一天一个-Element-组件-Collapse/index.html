@@ -1,0 +1,1016 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Element-ui,源码学习,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="本文是 Element 的组件源码学习系列。 项目源码：ElemeFE/element | GitHub，Tag：v2.13.0 Collapse 组件使用文档：Tag 标签 .vue 文件：/packages/collapse .scss 文件：/packages/theme-chalk/collapse.scss .d.ts 文件：/types/collapse.d.ts">
+<meta name="keywords" content="Element-ui,源码学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一天一个 Element 组件 - Collapse">
+<meta property="og:url" content="https://shiningdan.github.io/2020/02/16/一天一个-Element-组件-Collapse/index.html">
+<meta property="og:site_name" content="ShiningDan的博客">
+<meta property="og:description" content="本文是 Element 的组件源码学习系列。 项目源码：ElemeFE/element | GitHub，Tag：v2.13.0 Collapse 组件使用文档：Tag 标签 .vue 文件：/packages/collapse .scss 文件：/packages/theme-chalk/collapse.scss .d.ts 文件：/types/collapse.d.ts">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-02-23T10:01:03.062Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一天一个 Element 组件 - Collapse">
+<meta name="twitter:description" content="本文是 Element 的组件源码学习系列。 项目源码：ElemeFE/element | GitHub，Tag：v2.13.0 Collapse 组件使用文档：Tag 标签 .vue 文件：/packages/collapse .scss 文件：/packages/theme-chalk/collapse.scss .d.ts 文件：/types/collapse.d.ts">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6345612185049236000',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://shiningdan.github.io/2020/02/16/一天一个-Element-组件-Collapse/">
+
+
+
+
+
+  <title> 一天一个 Element 组件 - Collapse | ShiningDan的博客 </title>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?65f098889042a1740b5cfede967d34b2";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ShiningDan的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description"></h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photography">
+          <a href="/categories/photography" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-coding">
+          <a href="/categories/coding" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            编程
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://shiningdan.github.io/2020/02/16/一天一个-Element-组件-Collapse/">
+
+  <span style="display:none" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="ShiningDan">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ShiningDan的博客">
+    <span style="display:none" itemprop="logo" itemscope="" itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ShiningDan的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                一天一个 Element 组件 - Collapse
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-16T16:15:26+08:00">
+                2020-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/coding/" itemprop="url" rel="index">
+                    <span itemprop="name">coding</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/16/一天一个-Element-组件-Collapse/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/16/一天一个-Element-组件-Collapse/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2020/02/16/一天一个-Element-组件-Collapse/" class="leancloud_visitors" data-flag-title="一天一个 Element 组件 - Collapse">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是 Element 的组件源码学习系列。</p>
+<p>项目源码：<a href="https://github.com/ElemeFE/element/tree/v2.13.0" target="_blank" rel="noopener">ElemeFE/element | GitHub</a>，Tag：v2.13.0</p>
+<p>Collapse 组件使用文档：<a href="https://element.eleme.io/#/zh-CN/component/collapse" target="_blank" rel="noopener">Tag 标签</a></p>
+<p>.vue 文件：<a href="https://github.com/ElemeFE/element/tree/dev/packages/collapse" target="_blank" rel="noopener"><code>/packages/collapse</code></a></p>
+<p>.scss 文件：<a href="https://github.com/ElemeFE/element/blob/dev/packages/theme-chalk/src/collapse.scss" target="_blank" rel="noopener"><code>/packages/theme-chalk/collapse.scss</code></a></p>
+<p>.d.ts 文件：<a href="https://github.com/ElemeFE/element/blob/dev/types/collapse.d.ts" target="_blank" rel="noopener"><code>/types/collapse.d.ts</code></a></p>
+<a id="more"></a>
+<p>折叠面板，是前端入门的同学，经常手写的入门 Demo，我们现在也来学习一下，Element 是怎么做折叠面板这个组件的实现的。</p>
+<h2 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h2><p>一样的，咱们先来了解一下 <code>el-collapse</code> 组件的入参，看看用户是如何使用这个组件的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  accordion: Boolean,</span><br><span class="line">  value: &#123;</span><br><span class="line">    type: [Array, String, Number],</span><br><span class="line">    default() &#123;</span><br><span class="line">      return [];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p><code>accordion</code> 属性，表示的是，当前折叠面板，是否使用手风琴模式。</p>
+<p><code>value</code> 属性，当前激活的面板(如果是手风琴模式，绑定值类型需要为 <code>string</code>，否则为<code>array</code>)。表示的是用户页面上，被激活的面板是哪一个。手风琴模式，只有一个唯一的被激活面板，所以绑定值类型就是一个 <code>string</code> 了。</p>
+<p>但是，我们并不是直接给 <code>value</code> 属性赋值，而是使用的 <code>v-model</code> 来利用 <code>value</code> 属性。<code>组件上的 v-model 默认会利用名为 value 的 prop 和名为 input 的事件</code>。</p>
+<p>我们来看一下具体实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// collapse.vue</span><br><span class="line">data() &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    activeNames: [].concat(this.value)</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line">watch: &#123;</span><br><span class="line">  value(value) &#123;</span><br><span class="line">    this.activeNames = [].concat(value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>首先，当我们给 <code>value</code> 属性赋值，或者给 <code>v-model</code> 赋值的时候，都会改变 <code>activeNames</code> 的值。这里比较巧妙的是使用 <code>Array.prototype.concat</code> 方法，因为 <code>value</code> 的类型可能是一个数组，也可能是一个元素，所以直接用 <code>concat</code> 方法统一处理成一个元素。</p>
+<p>首先，用户在点击折叠面板的时候，点击的是里层 <code>el-collapse-item</code> 元素，所以我们来看一下，用户在点击打开或关闭一个面板，会有什么相关的逻辑：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// collpase-item.vue</span><br><span class="line">handleHeaderClick() &#123;</span><br><span class="line">	if (this.disabled) return;</span><br><span class="line">	this.dispatch(&apos;ElCollapse&apos;, &apos;item-click&apos;, this);</span><br><span class="line">	this.focusing = false;</span><br><span class="line">	this.isClick = true;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>当这个组件没有设置不可点击的时候，首先会通过 <code>this.dispatch</code> 方法，给父 <code>ElCollapse</code> 组件发出一个 <code>item-click</code> 事件。然后设置两个属性的值。</p>
+<p>等等，<code>this.dispatch</code> 是个啥？好像不是原生的 <code>dispatchEvent</code> 属性啊，但是看起来差不多。也没有见到 Vue 提供 <code>dispatch</code> 方法呀。最后，我们在 <a href="https://github.com/ElemeFE/element/blob/dev/src/mixins/emitter.js" target="_blank" rel="noopener">src/mixins/emitter.js</a> 中找到了该方法的实现，原来是是注册到全局的一个<a href="https://cn.vuejs.org/v2/guide/mixins.html" target="_blank" rel="noopener">混入</a>方法。我们来看一下具体的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// src/mixins/emitter.js</span><br><span class="line">dispatch(componentName, eventName, params) &#123;</span><br><span class="line">  var parent = this.$parent || this.$root;</span><br><span class="line">  var name = parent.$options.componentName;</span><br><span class="line"></span><br><span class="line">  while (parent &amp;&amp; (!name || name !== componentName)) &#123;</span><br><span class="line">    parent = parent.$parent;</span><br><span class="line"></span><br><span class="line">    if (parent) &#123;</span><br><span class="line">      name = parent.$options.componentName;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  if (parent) &#123;</span><br><span class="line">    parent.$emit.apply(parent, [eventName].concat(params));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>其本质方法，就是通过 <code>this.$parent</code>，层层向上，找对应的组件，然后调用该组件的 <code>$emit</code> 方法，产生一个事件。</p>
+<p>在咱们这里，是找到祖先的 <code>ElCollapse</code> 组件，因为 Element 的推荐使用方案里面，<code>el-collapse-item</code> 组件是要被包裹在 <code>el-collpase</code> 组件内部的。然后产生一个 <code>item-click</code> 事件。我们来看看 <code>item-click</code> 事件做了什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// collpase.vue</span><br><span class="line">methos: &#123;</span><br><span class="line">  setActiveNames(activeNames) &#123;</span><br><span class="line">    activeNames = [].concat(activeNames);</span><br><span class="line">    let value = this.accordion ? activeNames[0] : activeNames;</span><br><span class="line">    this.activeNames = activeNames;</span><br><span class="line">    this.$emit(&apos;input&apos;, value);</span><br><span class="line">    this.$emit(&apos;change&apos;, value);</span><br><span class="line">  &#125;,</span><br><span class="line">  handleItemClick(item) &#123;</span><br><span class="line">    if (this.accordion) &#123;</span><br><span class="line">      this.setActiveNames(</span><br><span class="line">        (this.activeNames[0] || this.activeNames[0] === 0) &amp;&amp;</span><br><span class="line">        this.activeNames[0] === item.name</span><br><span class="line">          ? &apos;&apos; : item.name</span><br><span class="line">      );</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      let activeNames = this.activeNames.slice(0);</span><br><span class="line">      let index = activeNames.indexOf(item.name);</span><br><span class="line"></span><br><span class="line">      if (index &gt; -1) &#123;</span><br><span class="line">        activeNames.splice(index, 1);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        activeNames.push(item.name);</span><br><span class="line">      &#125;</span><br><span class="line">      this.setActiveNames(activeNames);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">created() &#123;</span><br><span class="line">  this.$on(&apos;item-click&apos;, this.handleItemClick);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>el-collpase</code> 的 <code>created</code> 方法中，设置了组件需要监听 <code>item-click</code> 事件，并且调用 <code>handleItemClick</code> 方法。</p>
+<p><code>handleItemClick</code> 方法，主要是处理 <code>el-collpase-item</code> 事件的入参。大致的逻辑是，将 <code>this.activeNames</code> 设置为正确的值。什么是正确的值呢？</p>
+<ol>
+<li>对于手风琴模式：如果当前 item 已经是 <code>this.activeNames[0]</code>（说明已经打开了），则设置为 <code>&#39;&#39;</code>（关上），否则将 <code>this.activeNames[0]</code> 设置为被点击 item（打开）。</li>
+<li>对于非手风琴模式：如果当前 item 已经在 <code>this.activeNames</code> 数组中存在了（说明已经打开了），则从数组中过滤（关上）；否则添加到数组中（打开）</li>
+</ol>
+<p>最后再触发 <code>input</code> 事件 和 <code>change</code> 事件。<code>input</code> 事件是 <code>v-model</code> 要求触发的事件；<code>change</code> 事件是 <code>el-collapse</code> 对外提供的监听事件。</p>
+<p><strong>所以，我们对于 <code>el-collpase</code> 组件负责的事情，有一个总结：</strong></p>
+<ol>
+<li>维护一个折叠面板的总体面板开关状态</li>
+<li>监听每一个面板的点击事件，计算出最新的总体面板开关状态</li>
+<li>提供对外的 <code>change</code> 事件</li>
+</ol>
+<p>而每个面板 <code>el-collpase-item</code>，是否显示，在面板组件中自己实现。</p>
+<h3 id="el-collpase-item-控制显示效果"><a href="#el-collpase-item-控制显示效果" class="headerlink" title="el-collpase-item 控制显示效果"></a>el-collpase-item 控制显示效果</h3><p>下面，我们来看看，<code>el-collpase-item</code> 如何控制自己是否要显示的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// el-collpase-item</span><br><span class="line">props: &#123;</span><br><span class="line">  name: &#123;</span><br><span class="line">    type: [String, Number],</span><br><span class="line">    default() &#123;</span><br><span class="line">      return this._uid;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br><span class="line">inject: [&apos;collapse&apos;],</span><br><span class="line">computed: &#123;</span><br><span class="line">  isActive() &#123;</span><br><span class="line">    return this.collapse.activeNames.indexOf(this.name) &gt; -1;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>每一个 <code>el-collpase-item</code>，都会注入父 <code>el-collpase</code> 组件，然后监听 <code>this.collapse.activeNames</code> 数组，来判断自己是否要显示。所有的 <code>el-collpase-item</code> 组件，都需要提供一个唯一的 <code>name</code> 属性，来表明自己是谁，这样才能计算出哪个面板需要展开。如果没有提供 <code>name</code> 属性，Element 会使用 <code>this._uid</code> 属性来表明每一个组件。<code>this._uid</code> 是 Vue 的一个内置属性，每个 Vue 实例都会有一个递增的id。</p>
+<p>现在，<code>el-collpase-item</code> 已经有了 <code>isActive</code> 属性来表示该组件是否应该展示了，下面来看看展示、消失的效果是如何实现的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// el-collpase-item 的 &lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;el-collapse-item&quot;</span><br><span class="line">    :class=&quot;&#123;&apos;is-active&apos;: isActive, &apos;is-disabled&apos;: disabled &#125;&quot;&gt;</span><br><span class="line">    &lt;div</span><br><span class="line">    &gt;</span><br><span class="line">      &lt;div</span><br><span class="line">        @click=&quot;handleHeaderClick&quot;</span><br><span class="line">        @keyup.space.enter.stop=&quot;handleEnterClick&quot;</span><br><span class="line">        :class=&quot;&#123;</span><br><span class="line">          &apos;focusing&apos;: focusing,</span><br><span class="line">          &apos;is-active&apos;: isActive</span><br><span class="line">        &#125;&quot;</span><br><span class="line">        @focus=&quot;handleFocus&quot;</span><br><span class="line">        @blur=&quot;focusing = false&quot;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;slot name=&quot;title&quot;&gt;&#123;&#123;title&#125;&#125;&lt;/slot&gt;</span><br><span class="line">        &lt;i</span><br><span class="line">          class=&quot;el-collapse-item__arrow el-icon-arrow-right&quot;</span><br><span class="line">          :class=&quot;&#123;&apos;is-active&apos;: isActive&#125;&quot;&gt;</span><br><span class="line">        &lt;/i&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;el-collapse-transition&gt;</span><br><span class="line">      &lt;div</span><br><span class="line">        class=&quot;el-collapse-item__wrap&quot;</span><br><span class="line">        v-show=&quot;isActive&quot;</span><br><span class="line">        :id=&quot;`el-collapse-content-$&#123;id&#125;`&quot;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;div class=&quot;el-collapse-item__content&quot;&gt;</span><br><span class="line">          &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/el-collapse-transition&gt;</span><br><span class="line">  &lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>整个 <code>el-collpase-item</code> 主要分两部分，第一部分是 Header，第二部分是会被折叠的主要内容。</p>
+<p>Header 部分我就不仔细介绍了，主要是使用 flex 布局，然后最右边的箭头初始化的时候是一个向右的箭头，如果有 <code>is-active</code> 类，箭头就会通过 CSS 旋转能力转为向下 <code>transform: rotate(90deg);</code></p>
+<p>Content 部分，要展示的内容，通过一个 <code>&lt;slot&gt;</code> 被包裹在一个 <code>el-collapse-transition</code> 中。这个 <code>el-collapse-transition</code> 是什么呢？我们可以在 <a href="https://github.com/ElemeFE/element/blob/dev/src/transition/collapse-transition.js" target="_blank" rel="noopener">src/transition/collapse-transition.js</a> 中找到。具体的实现多，但主要是实现各个动画接口的效果。所有的动画接口，是复用的 Vue <code>transition</code> 组件的接口，参考 <a href="https://cn.vuejs.org/v2/guide/transitions.html#JavaScript-%E9%92%A9%E5%AD%90" target="_blank" rel="noopener">过渡 &amp; 动画 | JavaScript 钩子</a>，也不一一细讲了，</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Element-ui/" rel="tag"># Element-ui</a>
+          
+            <a href="/tags/源码学习/" rel="tag"># 源码学习</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/31/一天一个-Element-组件-Badge/" rel="next" title="一天一个 Element 组件 - Badge">
+                <i class="fa fa-chevron-left"></i> 一天一个 Element 组件 - Badge
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/02/16/一天一个-Element-组件-Collapse/" data-title="一天一个 Element 组件 - Collapse" data-url="https://shiningdan.github.io/2020/02/16/一天一个-Element-组件-Collapse/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="http://ofjjubwp5.bkt.clouddn.com/image/jpg/avatar.jpg" alt="ShiningDan">
+          <p class="site-author-name" itemprop="name">ShiningDan</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">129</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">111</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Props"><span class="nav-number">1.</span> <span class="nav-text">Props</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#el-collpase-item-控制显示效果"><span class="nav-number">1.1.</span> <span class="nav-text">el-collpase-item 控制显示效果</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiningDan</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"shiningdan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("nr3cyUXVpbTxQQRcqfMp5cHa-gzGzoHsz", "B1SG80mnbseYxv4C0vAjig8s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
